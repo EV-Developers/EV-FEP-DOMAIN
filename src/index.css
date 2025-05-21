@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+body {
+  background: #F0F4F9;
+  margin: 0;
+  color: #212121;
+}
+
+.primary {
+  color: #FD9800;
+}
+
+.secandery {
+  background: #FFEFB4;
+}
+
+.bg-color {
+  background: #e4e4e4;
+}
+
+.bg-primary {
+  background: #FD9800;
+}
+
+.primary-text {
+  color: #212121;
+}
+
+.text-color {
+  color: #757575;
+}
+
+.border-color {
+  color: #707070;
+}
