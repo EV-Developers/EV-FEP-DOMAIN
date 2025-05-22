@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom'
 import api from '../config/api'
 import ThemeContainer from './parts/ThemeContainer'
 
-export default function Materials() {
+export default function Games() {
     const list = [
         {
-            id: 'mat-1',
-            title: 'Material One'
+            id: 'game-1',
+            title: 'Game One'
         },
         {
-            id: 'mat-2',
-            title: 'Material Two'
+            id: 'game-2',
+            title: 'Game Two'
         }
     ]
 
@@ -30,10 +30,10 @@ export default function Materials() {
             <div className="block mx-auto w-[75%]">
                 <div className="flex justify-between">
                     <div></div>
-                    <Link to="/add-material" className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">Create</Link>
+                    <Link to="/add-game" className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">Create</Link>
                 </div>
 
-                {list && list.map(item => <Link to={'/materials/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
+                {list && list.map(item => <Link to={'/games/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
             </div>
         </ThemeContainer>
     )

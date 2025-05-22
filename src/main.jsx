@@ -6,7 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import AddSection from './compenents/AddSection';
+import AddLesson from './compenents/AddLesson';
 import AddMaterial from './compenents/AddMaterial';
 import AddAssesement from './compenents/AddAssesement';
 import Categories from './compenents/Categories';
@@ -20,7 +20,7 @@ import NewQuiz from './compenents/quizzes/NewQuiz';
 import Search from './compenents/Search';
 import NewCategory from './compenents/NewCategory';
 import CategoryDetails from './compenents/CategoryDetails';
-import EditSection from './compenents/EditSection';
+import EditLesson from './compenents/EditLesson';
 import EditQuiz from './compenents/quizzes/EditQuiz';
 import AddResourses from './compenents/AddResourses';
 import EditCourse from './compenents/courses/EditCourse';
@@ -28,11 +28,14 @@ import EditAssesement from './compenents/EditAssesement';
 import Material from './compenents/Material';
 import Login from './compenents/login';
 import Profile from './compenents/Profile';
+import Games from './compenents/Games';
+import GameDetails from './compenents/GameDetails';
+import AddGame from './compenents/AddGame';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Courses />,
   },
   {
     path: "/login",
@@ -79,15 +82,15 @@ const router = createBrowserRouter([
     element: <AddMaterial />
   },
   {
-    path: "/add-section/:coursesId",
-    element: <AddSection />,
+    path: "/add-lesson/:coursesId",
+    element: <AddLesson />,
   },
   {
-    path: "/sections/:sectionId",
-    element: <EditSection />,
+    path: "/lessons/:lessonId",
+    element: <EditLesson />,
   },
   {
-    path: "/quizzes/:lessonId",
+    path: "/lessons/quizzes/:courseId/:lessonId",
     element: <Quizzes />,
   },
   {
@@ -121,6 +124,18 @@ const router = createBrowserRouter([
   {
     path: "new-resource",
     element: <AddResourses />
+  },
+  {
+    path: "games",
+    element: <Games />
+  },
+  {
+    path: "games/:gameId",
+    element: <GameDetails />
+  },
+  {
+    path: "add-game",
+    element: <AddGame />
   }
 ]);
 

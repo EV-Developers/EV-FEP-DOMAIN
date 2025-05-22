@@ -16,6 +16,7 @@ export default function AddCourse() {
     const [createdBy, setCreatedBy] = useState("1");
     const [featuredImage, setFeaturedImage] = useState(null);
     const [levelNewName, setLevelNewName] = useState('');
+    const [categoryName, setCategoryName] = useState("");
     const [msg, setMsg] = useState(null);
     const navigate = useNavigate();
 
@@ -29,11 +30,10 @@ export default function AddCourse() {
         formData.append("level", level)
         formData.append("difficulty_level", 1);
         formData.append("max_students", 0);
-        formData.append("featured_image_url", featuredImage);
-        //formData.append("intro_video_url", '');
+        formData.append("featured_image", featuredImage[0]);
         formData.append("createdBy", "2");
 
-        console.log(featuredImage);
+        console.log(featuredImage[0], featuredImage[0].name);
         //navigate('/courses');
 
         //return false;
@@ -70,7 +70,7 @@ export default function AddCourse() {
     }
 
     React.useEffect(() => {
-        loadCategoriesData()
+        loadCategoriesData();
     }, [])
 
     const loadCategoriesData = async () => {
@@ -81,12 +81,39 @@ export default function AddCourse() {
         }
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.target);
+        formData.append("title", "title");
+        formData.append("description", "description");
+        formData.append("category_id", "2");
+        formData.append("is_public", "true")
+        formData.append("level", '1')
+        formData.append("difficulty_level", '1');
+        formData.append("max_students", '0');
+        formData.append("createdBy", "2");
+
+        const response = await api.post("/courses", formData);
+        console.log(response);
+        
+        if(response.status == 200 || response.status == 201){
+            //navigate('/courses');
+        } else {
+            //setMsg("Something went wrong");
+        }
+    }
+    
     return (
         <ThemeContainer>
+            {/* <form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+                <input type="file" name="featured_image" />
+                
+                <button type="submit">Add</button>
+            </form> */}
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
-                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} />}
-                {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />}
-                {step == 3 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} />}
+                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} />}
+                {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />} */}
+                {step == 2 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} />}
             </div>
         </ThemeContainer>
     )

@@ -6,8 +6,8 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
   const ref = React.useRef();
 
   React.useEffect(() => {
-    if(featuredImage && featuredImage != ''){
-      const imgUrl = window.URL.createObjectURL(featuredImage);
+    if(featuredImage && featuredImage[0] && featuredImage != ''){
+      const imgUrl = window.URL.createObjectURL(featuredImage[0]);
       ref.current.style.backgroundSize = 'contain';
       ref.current.style.background = `url(${imgUrl}) no-repeat`;
 
@@ -19,7 +19,7 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
     ref.current.style.backgroundSize = 'contain';
     ref.current.style.background = `url(${imgUrl}) no-repeat`;
 
-    setFeaturedImage(e.target.files[0])
+    setFeaturedImage(e.target.files)
   }
 
   return (

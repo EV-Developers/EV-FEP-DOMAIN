@@ -5,7 +5,7 @@ import api from '../config/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
-export default function Material() {
+export default function GameDetails() {
     const [data, setData] = React.useState(null);
     const [msg, setMsg] = React.useState(null);
     const { catId } = useParams();
@@ -16,7 +16,7 @@ export default function Material() {
     }, [])
 
     const loadData = async () => {
-        const response = await api.get('/materials/' + catId);
+        const response = await api.get('/games/' + catId);
         console.log(response);
         if (response.status == 200) {
             setData(response.data);
@@ -29,19 +29,14 @@ export default function Material() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         setMsg(null);
-        console.log(e.target);
-
 
         const formData = new FormData(e.target);
 
-        if (e.target.description.value != "" && e.target.name.value != "") {
-            const response = await api.put("/materials/" + catId, formData);
-
-            console.log(response);
-
+        if (e.target.description.value != "" && e.target.title.value != "") {
+            const response = await api.put("/games/" + catId, formData);
 
             if (response.status == 200) {
-                navigate('/materials');
+                navigate('/games');
             } else {
                 setMsg("Something went wrong");
             }
@@ -55,10 +50,10 @@ export default function Material() {
         const r = window.confirm("Are you sure?");
 
         if (r) {
-            const response = await api.delete('/materials/' + catId);
+            const response = await api.delete('/games/' + catId);
             console.log(response);
             if (response.status == 200) {
-                navigate('/materials')
+                navigate('/games')
             } else {
                 console.log('error');
             }
@@ -67,18 +62,18 @@ export default function Material() {
 
     return (
         <ThemeContainer>
-            {data}<form method="post" onSubmit={handleUpdate} className="block mx-auto w-[75%] bg-white rounded-xl p-4">
-                <label htmlFor="courseOverview">
-                    <p className="my-3 font-bold">Material title</p>
-                    <textarea id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder="Write here" ></textarea>
+            {data }<form method="post" onSubmit={handleUpdate} className="block mx-auto w-[75%] bg-white rounded-xl p-4">
+                <label htmlFor="title">
+                    <p className="my-3 font-bold">Title</p>
+                    <input id="title" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder="Write here" />
                 </label>
-                <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-color">
-                    <div className="text-center">
-                        <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-                        <p className="text-l font-bold">Upload Material</p>
-                        <p className="text-sm text-gray-400">Drag and drop</p>
-                    </div>
-                    <input type="file" accept="image/jpg,image/png" id="file" name="file" className="hidden " />
+                <label htmlFor="title">
+                    <p className="my-3 font-bold">Description</p>
+                    <textarea id="description" name="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder="Write here" ></textarea>
+                </label>
+                <label htmlFor="content">
+                    <p className="my-3 font-bold">Content</p>
+                    <textarea id="content" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder="Write here" ></textarea>
                 </label>
 
                 {msg && <div className="p-4 m-2">{msg}</div>}

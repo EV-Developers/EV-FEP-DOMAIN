@@ -21,7 +21,7 @@ export default function Comments() {
     }
   ]
   return (<div>
-    {comments_list.map(item => <div className="bg-[#00000014] rounded-2xl m-3 p-3">
+    {comments_list.map(item => <div className="bg-[#00000014] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
           <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />
@@ -43,13 +43,13 @@ export default function Comments() {
           <div></div>
           <div className="relative w-[75%]">
             <div className="flex">
-              <button className='p-3 mx-2 cursor-pointer'>Delete <FontAwesomeIcon icon={faTrash} className="primary" /></button>
-              <button className='p-3 mx-2 cursor-pointer'>Like <FontAwesomeIcon icon={faThumbsUp} className="primary" /></button>
-              <button className='p-3 mx-2 cursor-pointer' onClick={() => setShow(!show)}>Reply <FontAwesomeIcon icon={faCaretDown} className="primary" /></button>
+              <button className='p-3 mx-2 cursor-pointer hover:bg-white rounded-2xl'>Delete <FontAwesomeIcon icon={faTrash} className="primary" /></button>
+              <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl'>Like <FontAwesomeIcon icon={faThumbsUp} className="primary" /></button>
+              <button className='p-3 mx-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShow(!show)}>Reply <FontAwesomeIcon icon={faCaretDown} className="primary" /></button>
             </div>
             {show && <div>
               <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 right-0 absolute z-10">Add</button>
-              <textarea className="bg-white rounded-2xl w-full p-2 pr-20" placeholder='write your reply here..'></textarea>
+              <textarea className="bg-white rounded-2xl w-full p-2 px-4 pr-20" placeholder='write your reply here..'></textarea>
             </div>}
           </div>
         </div>

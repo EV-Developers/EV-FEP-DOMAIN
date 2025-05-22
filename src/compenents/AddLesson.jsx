@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../config/api';
 
-export default function AddSection() {
+export default function AddLesson() {
     const navigate = useNavigate();
     const [msg, setMsg] = React.useState(null);
     const { coursesId } = useParams();

@@ -6,23 +6,34 @@ import Overview from './tabs/Overview';
 import Comments from './tabs/Comments';
 import Resources from './tabs/Resources';
 import api from '../../config/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 export default function Course() {
     const [tabs, setTabs] = React.useState('content');
     const [data, setData] = React.useState(null);
-    const [sectionsData, setSectionsData] = React.useState(null);
+    const [lessonsData, setLessonData] = React.useState(null);
     const [assestmentsData, setAssestmentsData] = React.useState(null);
     const { coursesId } = useParams();
     const navigate = useNavigate();
 
-    const sections = [
+    const lessons = [
         {
             id: '3',
-            title: 'section 1',
+            title: 'lesson 1',
             video: '',
+            level: 1,
             cover: 'vid-3.webp',
             desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
-        }
+        },
+        {
+            id: '4',
+            title: 'lesson 2',
+            video: '',
+            level: 2,
+            cover: 'vid-3.webp',
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
+        },
     ]
 
     const assesments = [
@@ -56,7 +67,7 @@ export default function Course() {
         }
 
         if (tmpLessonsData.status == 200) {
-            setSectionsData(tmpLessonsData.data)
+            setLessonData(tmpLessonsData.data)
             console.log(tmpLessonsData.data);
         }
 
@@ -84,6 +95,15 @@ export default function Course() {
         <ThemeContainer>
             <h2 className="mt-4 text-3xl p-2 font-bold">Arduino pack: Design, Manage and Launch Arduino</h2>
             <p className="text-color p-2">A course by <strong className="text-bold primary-text">mohammed razi</strong>, electronic trainer and developer</p>
+            <div className="flex">
+                <Link to="/courses">
+                    <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
+                </Link>
+                <FontAwesomeIcon icon={faAngleRight} className="my-4 m-3 text-color" />
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>Courses</Link>
+                <FontAwesomeIcon icon={faAngleRight} className="my-4 m-3 text-color" />
+                <p className="m-3 my-3 text-color">Course Details</p>
+            </div>
             <div className="flex justify-between">
                 <div></div>
                 <div className="flex">
@@ -103,7 +123,21 @@ export default function Course() {
                 <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
             </div>
 
-            {tabs == 'content' && <Lessons courseId={coursesId} sections={sections} assesments={assesments} />}
+            {tabs == 'content' && <div className="flex">
+                <div className="w-[75%]">
+                    <Lessons courseId={coursesId} lessons={lessons} assesments={assesments} />
+                </div>
+                <div className="w-[25%]">
+                    <h2 className="text-xl py-7">COURSE SUMMARY</h2>
+                    {lessons && lessons.map(item => <a href={"#lesson-"+item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
+                        <div className="relative group hover:border-none">
+                            <div className="inline-block text-xs bg-amber-500 p-2 rounded-full">U{item.level}</div><p className="inline-block py-4 mx-3">{item.title}</p>
+                            <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span>
+                        </div>
+                        <FontAwesomeIcon icon={faCheck} className="text-amber-500 p-4" />
+                    </a>)}
+                </div>
+            </div>}
             {tabs == 'overview' && <Overview />}
             {tabs == 'comments' && <Comments />}
             {tabs == 'resources' && <Resources resources_list={resources_list} />}

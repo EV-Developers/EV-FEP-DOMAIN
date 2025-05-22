@@ -1,9 +1,11 @@
 import React from 'react'
 import ThemeContainer from '../parts/ThemeContainer'
 import { Link, useParams } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function Quizzes() {
-  const { lessonId } = useParams();
+  const { courseId, lessonId } = useParams();
 
   const quzzes_list = [
     {
@@ -66,6 +68,13 @@ export default function Quizzes() {
       <div className="flex justify-between">
         <div></div>
         <Link to={`/quizzes/${lessonId}/new-quiz`} className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ">Create</Link>
+      </div>
+      <div className="flex">
+        <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={faAngleRight} className="my-4 m-3 text-color" />
+        <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>Courses</Link><FontAwesomeIcon icon={faAngleRight} className="my-4 m-3 text-color" />
+        <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/"+courseId}>Course</Link>
+        <FontAwesomeIcon icon={faAngleRight} className="my-4 m-3 text-color" />
+        <p className="m-3 my-3 text-color">Lessons Quizzes</p>
       </div>
       {quzzes_list && quzzes_list.map(item => <div key={item.id} className="border-t border-t-gray-200 py-5">
         <p className="text-xl p-3 m-2 font-bold">{item.question}</p>
