@@ -6,36 +6,39 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import AddLesson from './compenents/AddLesson';
-import AddMaterial from './compenents/AddMaterial';
-import AddAssesement from './compenents/AddAssesement';
-import Categories from './compenents/Categories';
-import Materials from './compenents/Materials';
-import Home from './compenents/Home';
-import Courses from './compenents/courses/Courses';
-import Course from './compenents/courses/Course';
-import AddCourse from './compenents/courses/AddCourse';
-import Quizzes from './compenents/quizzes/Quizzes';
-import NewQuiz from './compenents/quizzes/NewQuiz';
-import Search from './compenents/Search';
-import NewCategory from './compenents/NewCategory';
-import CategoryDetails from './compenents/CategoryDetails';
-import EditLesson from './compenents/EditLesson';
-import EditQuiz from './compenents/quizzes/EditQuiz';
-import AddResourses from './compenents/AddResourses';
-import EditCourse from './compenents/courses/EditCourse';
-import EditAssesement from './compenents/EditAssesement';
-import Material from './compenents/Material';
-import Login from './compenents/login';
-import Profile from './compenents/Profile';
-import Games from './compenents/Games';
-import GameDetails from './compenents/GameDetails';
-import AddGame from './compenents/AddGame';
+import Courses from './pages/creator/courses/Courses';
+import Profile from './pages/creator/Profile/Profile';
+import NotFound from './pages/NotFound';
+import Login from './pages/Login';
+import Course from './pages/creator/courses/Course';
+import AddCourse from './pages/creator/courses/AddCourse';
+import AddAssesement from './pages/creator/courses/AddAssesement';
+import EditAssesement from './pages/creator/courses/EditAssesement';
+import EditCourse from './pages/creator/courses/EditCourse';
+import Quizzes from './pages/creator/courses/quizzes/Quizzes';
+import NewQuiz from './pages/creator/courses/quizzes/NewQuiz';
+import EditQuiz from './pages/creator/courses/quizzes/EditQuiz';
+import AddLesson from './pages/creator/courses/AddLesson';
+import EditLesson from './pages/creator/courses/EditLesson';
+import Materials from './pages/creator/Materials/Materials';
+import Material from './pages/creator/Materials/Material';
+import AddMaterial from './pages/creator/Materials/AddMaterial';
+import Categories from './pages/creator/Categories/Categories';
+import CategoryDetails from './pages/creator/Categories/CategoryDetails';
+import NewCategory from './pages/creator/Categories/NewCategory';
+import Search from './pages/creator/Search';
+import Games from './pages/creator/Games/Games';
+import AddGame from './pages/creator/Games/AddGame';
+import GameDetails from './pages/creator/Games/GameDetails';
+import AddResourses from './pages/creator/courses/AddResourses';
+import PagesContent from './pages/PagesContent';
 
 const router = createBrowserRouter([
+  // Creators
   {
     path: "/",
     element: <Courses />,
+    errorElement: <NotFound />
   },
   {
     path: "/login",
@@ -82,7 +85,7 @@ const router = createBrowserRouter([
     element: <AddMaterial />
   },
   {
-    path: "/add-lesson/:coursesId",
+    path: "/add-lessons/:coursesId",
     element: <AddLesson />,
   },
   {
@@ -136,11 +139,24 @@ const router = createBrowserRouter([
   {
     path: "add-game",
     element: <AddGame />
-  }
+  },
+  // gernal
+  
+  {
+    path: "pages/:pageName",
+    element: <PagesContent />
+  },
+
+  // Admins
+  
+  // Teachers
+
+  // Studetns
+
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>,
-)
+);

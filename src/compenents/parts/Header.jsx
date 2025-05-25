@@ -1,16 +1,46 @@
-import { faBell, faEnvelope, faPhone, faSearch, faUser } from '@fortawesome/free-solid-svg-icons'
+import React from 'react'
+import { faBell, faComment, faEnvelope, faGlobe, faPhone, faPhoneAlt, faSearch, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import api from '../../config/api';
 import Loading from './Loading';
+import { translation } from '../../config/translations';
 
 export default function Header() {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = React.useState(true);
     const navigate = useNavigate();
     const location = useLocation();
     const { pathname } = location;
-    const ref = useRef();    
+    const ref = React.useRef();
+    const [language, setLanguage] = React.useState(null);
+    const notifications_list = [
+        {   
+            id: "notification_1",
+            message: "New comment from Adam for Ardurno Course.",
+            date: new Date().toLocaleString("en-GB"),
+            course_id: 10,
+            type: "comment",
+        }
+    ];
+
+    React.useEffect(() => {
+        const lang = window.localStorage.getItem("language");
+
+        if (lang && lang != '' && lang != null) {
+            if (lang == 'english') {
+                setLanguage(translation[0]);
+                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+            } else {
+                setLanguage(translation[1]);
+                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+            }
+        } else {
+            setLanguage(translation[0]);
+            window.localStorage.setItem("language", 'english');
+            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+        }
+
+    }, []);
 
     const handleSearch = () => {
         if (ref.current.value != "") {
@@ -19,7 +49,7 @@ export default function Header() {
     }
 
     const getCurrentPath = (name) => {
-        if(pathname && pathname.includes(name)){
+        if (pathname && pathname.includes(name)) {
             console.log(name, pathname);
             return true;
         } else {
@@ -37,9 +67,9 @@ export default function Header() {
     }, []);
 
     React.useEffect(() => {
-        const listen = document.getElementById("query").addEventListener('keydown', (ev) => {
-            if (ev.key == 'Enter') {
-                handleSearch()
+        const listen = document.getElementById("query").addEventListener('keydown', (ev) => {            
+            if (ev.key == 'Enter' || ev.keyCode == 13) {
+                handleSearch();
             }
         });
 
@@ -58,73 +88,119 @@ export default function Header() {
         }
     }
 
-    return (<div className="w-full 2xl:mx-auto 2xl:w-[75%]">
-        <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl  rounded-br-2xl">
-            <p className='mx-2'><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-sm" /> <span>evcentersinfo@gmail.com</span></p>
-            <p className='mx-2 text-sm'>
-                <FontAwesomeIcon icon={faPhone} className="xm-2" /> <span>123456789</span>
-            </p>
+    const handleChangeLanguage = () => {
+        const lang = window.localStorage.getItem("language");
+
+        if (lang && lang != '' && lang != null) {
+            if (lang == 'english') {
+                setLanguage(translation[1]);
+                window.localStorage.setItem("language", 'arabic');
+                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+            } else {
+                setLanguage(translation[0]);
+                window.localStorage.setItem("language", 'english');
+                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+            }
+        } else {
+            setLanguage(translation[0]);
+            window.localStorage.setItem("language", 'english');
+            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+        }
+
+        window.location.reload();
+    }
+
+    return (<div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF]">
+        <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between">
+            <div className="flex">
+                <p className='mx-2'><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-sm" /> <span><a className="hover:underline" href="mailto:evcentersinfo@gmail.com">evcentersinfo@gmail.com</a></span></p>
+                <p className='mx-2 text-sm'>
+                    <FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faPhoneAlt : faPhone} className="mx-2" /> <span><a className="hover:underline" href="tel:123456789">123456789</a></span>
+                </p>
+            </div>
+
+            <div className="flex">
+                <p className="mx-2 transition-all hover:scale-125"><a href="https://instagram.com" target="_blank"><img src="/instagram.svg" className="rounded-2xl w-4" alt="" /></a></p>
+                <p className="mx-2 transition-all hover:scale-125"><a href="https://x.com" target="_blank"><img src="/x.jpg" className="rounded-l w-4" alt="" /></a></p>
+                <button onClick={handleChangeLanguage} className="block px-5 cursor-pointer font-bold text-xs transition-all hover:scale-125">
+                    <span>{language && language['change_langauge']}</span>
+                </button>
+            </div>
         </div>
-        <div className="flex justify-between ml-10">
-            <div className="flex my-2">
-                <Link to="/" className="border-r border-r-gray-400 w-[9%]">
+        <div className="block md:flex justify-between ml-10">
+            <div className="flex my-2 mx-0 w-full md:w-[25%] lg:w-[35%]">
+                <Link to="/" className="border-r border-r-gray-400 w-[100px] md:w-[9%] lg:w-[15%]">
                     <img src="/logo/Logo-bp.png" className="w-full" alt="" />
                 </Link>
-                <Link className="w-[25%]" to="/">
+                <Link className="w-[300px] md:w-[45%]" to="/">
                     <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                 </Link>
-                <div>
-                    <Link to="/explore" className="block p-3 text-[#fa9600] font-bold">Explore</Link>
+                <div className="block">
+                    <Link to="/explore" className="block p-3 text-[#fa9600] font-bold transition-all hover:scale-110 hover:text-[#FD9800]">{language && language['explore']}</Link>
                 </div>
             </div>
-            <div className="flex">
+            <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0">
                 <nav className="flex mr-14">
                     <Link to="/courses" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('courses') && 'border-b-2 border-b-[#fa9600]'}`}>
-                        Courses
-                        <span className={`"absolute bottom-0 left-0 h-0.5 bg-[#fa9600] ${getCurrentPath('courses') ? 'w-full border-b-4 border-b-[#fa9600]':'w-0 transition-all duration-300 group-hover:w-full'}"`}></span>
+                        {language && language['courses']}
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                     </Link>
                     <Link to="/categories" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('categories') && 'border-b-2 border-b-[#fa9600]'}`}>
-                        Categories
-                        <span className={`"absolute bottom-0 left-0 h-0.5 bg-[#fa9600] ${getCurrentPath('categories') ? 'w-full border-b-4 border-b-[#fa9600]':'w-0 transition-all duration-300 group-hover:w-full'}"`}></span>
+                        {language && language['categories']}
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                     </Link>
                     <Link to="/materials" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('materials') && 'border-b-2 border-b-[#fa9600]'}`}>
-                        Materials
-                        <span className={`"absolute bottom-0 left-0 h-0.5 bg-[#fa9600] ${getCurrentPath('materials') ? 'w-full border-b-4 border-b-[#fa9600]':'w-0 transition-all duration-300 group-hover:w-full'}"`}></span>
+                        {language && language['materials']}
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('materials') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                     </Link>
                     <Link to="/games" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('games') && 'border-b-2 border-b-[#fa9600]'}`}>
-                        Games
-                        <span className={`"absolute bottom-0 left-0 h-0.5 bg-[#fa9600] ${getCurrentPath('games') ? 'w-full border-b-4 border-b-[#fa9600]':'w-0 transition-all duration-300 group-hover:w-full'}"`}></span>
+                        {language && language['games']}
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('games') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                     </Link>
                 </nav>
-                <div className="relative m-0">
-                    <button onClick={handleSearch} className="absolute z-10 right-2 m-4">
-                        <FontAwesomeIcon icon={faSearch} className="text-xl" />
-                    </button>
-                    <input type="text" placeholder="search" id="query" name="query" className="rounded-2xl py-2 my-2 p-4 mx-3 bg-white text-sm" ref={ref} />
-                </div>
-                <div className="group">
-                    <button className="relative rounded-full mx-2 my-2 w-10 h-10 cursor-pointer  group-hover:bg-white">
-                        <div className="w-2 h-2 rounded-full absolute z-10 bg-amber-400  right-3 border border-amber-600"></div>
-                        <FontAwesomeIcon icon={faBell} className="text-xl primary-text" />
-                    </button>
-                    <div className="hidden group-hover:block bg-white rounded-xl w-[15%] p-2 absolute right-0 z-10 h-[300px] mx-5 shadow-sm">
-                        <div className="flex items-center justify-center h-[300px]">
-                            <p className="text-xs text-color text-center">No notifications avaiable..</p>
-                        </div>
-                        
-                    </div>
-                </div>
-                <div className="group">
-                    <button className="rounded-full mx-2 my-2 w-10 h-10 bg-primary cursor-pointer">
-                        <FontAwesomeIcon icon={faUser} className="text-xl text-white" />
-                    </button>
-                    <div className="hidden group-hover:block bg-white rounded-xl w-[15%] p-2 absolute right-0 z-10 mx-3 shadow-sm">
-                        <a href="/profile" className="block text-left font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm">
-                            Profile
-                        </a>
-                        <button onClick={handleLogout} className="block text-left font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm cursor-pointer">
-                            Logout
+
+                <div className={`hidden md:flex absolute ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'}`}>
+                    <div className="relative m-0">
+                        <button onClick={handleSearch} className={`absolute z-10 m-4 ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'} `}>
+                            <FontAwesomeIcon icon={faSearch} className="text-xl" />
                         </button>
+                        <input type="text" placeholder={language && language['search']} id="query" name="query" className="rounded-2xl py-2 my-2 p-4 mx-3 bg-white text-sm" ref={ref} />
+                    </div>
+
+                    <div className="group">
+                        <button className="relative rounded-full mx-2 my-2 w-10 h-10 cursor-pointer  group-hover:bg-white transition-all hover:scale-110" title={language && language['notifications']}>
+                            {notifications_list && notifications_list.length != 0 && <div className={`w-2 h-2 rounded-full absolute z-10 bg-amber-400  ${language && language['dir'] == 'ltr' ? 'left-3' : 'right-3'} border border-amber-600`}></div>}
+                            <FontAwesomeIcon icon={faBell} className="text-xl primary-text" />
+                        </button>
+                        <div className={`hidden group-hover:block bg-white rounded-xl w-[75%] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 h-[300px] mx-5 shadow-sm`}>
+                            <h2 className="text-l border-b border-b-gray-200 p-3 font-bold">{language && language['notifications']}</h2>
+                            {notifications_list && notifications_list.map(item => <div key={item.id} className="block hover:bg-gray-100 hover:border hover:border-gray-200 bg-white p-3 my-2 border-b border-b-gray-200 cursor-pointer" onClick={() => {
+                                if(item.type == 'comment'){
+                                    navigate("/courses/"+item.course_id)
+                                }
+                            }}>
+                                <p className="text-xs">{item.date}</p>
+                                <p className="text-xs text-color">{item.message}</p>
+                            </div>)}
+
+                            {notifications_list && notifications_list.length == 0 && <div className="flex flex-col items-center justify-center">
+                                <FontAwesomeIcon icon={faComment} className="text-6xl text-center text-gray-300 mt-14 mb-5" />
+                                <p className="text-xs text-color text-center">{language && language['no_notifications']}</p>
+                            </div>}
+                        </div>
+                    </div>
+                    <div className="group">
+                        <button className="rounded-full mx-2 my-2 w-10 h-10 bg-primary cursor-pointer transition-all hover:scale-110" title={language && language['my_profile']}>
+                            <FontAwesomeIcon icon={faUser} className="text-xl text-white" />
+                        </button>
+                        <div className={`hidden group-hover:block bg-white rounded-xl w-[55%] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 mx-3 shadow-sm`}>
+                            <a href="/profile" className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
+                                {language && language['my_profile']}
+                            </a>
+                            <button onClick={handleLogout} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm cursor-pointer`}>
+                                {language && language['logout']}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
