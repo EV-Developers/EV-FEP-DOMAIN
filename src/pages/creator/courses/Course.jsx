@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import React from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,11 +17,31 @@ export default function Course() {
     const [showModal, setShowModal] = React.useState(false);
     const [data, setData] = React.useState(null);
     const [lessonsData, setLessonData] = React.useState(null);
+    const [lessons, setLessons] = React.useState(null);
     const [assestmentsData, setAssestmentsData] = React.useState(null);
     const { coursesId } = useParams();
     const navigate = useNavigate();
 
     const [language, setLanguage] = React.useState(null);
+
+    const lessonsList = [
+        {
+            id: '3',
+            title: 'lesson 1',
+            video: '',
+            level: 1,
+            cover: 'vid-3.webp',
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
+        },
+        {
+            id: '4',
+            title: 'lesson 2',
+            video: '',
+            level: 2,
+            cover: 'vid-3.webp',
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
+        },
+    ]
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -40,26 +60,8 @@ export default function Course() {
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
 
+        setLessons(lessonsList);
     }, []);
-
-    const lessons = [
-        {
-            id: '3',
-            title: 'lesson 1',
-            video: '',
-            level: 1,
-            cover: 'vid-3.webp',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
-        },
-        {
-            id: '4',
-            title: 'lesson 2',
-            video: '',
-            level: 2,
-            cover: 'vid-3.webp',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
-        },
-    ]
 
     const assesments = [
         {
@@ -84,21 +86,23 @@ export default function Course() {
     }, [])
 
     async function getData() {
-        const tmpData = await api.get('/courses');
+        const tmpData = await api.get('/courses/'+coursesId);
         const tmpLessonsData = await api.get('/lessons');
         const tmpAssestmentsData = await api.get('/assignments');
+
         if (tmpData.status == 200) {
-            console.log(tmpData.data.data);
+            setData(tmpData.data)
+            console.log(tmpData.data);
         }
 
         if (tmpLessonsData.status == 200) {
-            setLessonData(tmpLessonsData.data)
+            setLessonData(tmpLessonsData.data);
             console.log(tmpLessonsData.data);
         }
 
         if (tmpAssestmentsData.status == 200) {
-
-            setAssestmentsData(tmpAssestmentsData.data)
+            setAssestmentsData(tmpAssestmentsData.data);
+            console.log(tmpAssestmentsData);
         }
     }
 
@@ -152,7 +156,7 @@ export default function Course() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <Lessons courseId={coursesId} lessons={lessons} assesments={assesments} />
+                    <Lessons courseId={coursesId} lessons={lessons} setLessons={setLessons} assesments={assesments} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>

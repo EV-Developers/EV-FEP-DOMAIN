@@ -32,6 +32,8 @@ import AddGame from './pages/creator/Games/AddGame';
 import GameDetails from './pages/creator/Games/GameDetails';
 import AddResourses from './pages/creator/courses/AddResourses';
 import PagesContent from './pages/PagesContent';
+import THome from './pages/teacher/THome';
+import SignUp from './pages/SignUp';
 
 const router = createBrowserRouter([
   // Creators
@@ -43,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
   },
   {
     path: "/profile",
@@ -113,7 +119,7 @@ const router = createBrowserRouter([
     element: <EditAssesement />,
   },
   {
-    path: "new-category",
+    path: "/new-category",
     element: <NewCategory />
   },
   {
@@ -125,32 +131,35 @@ const router = createBrowserRouter([
     element: <Search />
   },
   {
-    path: "new-resource",
+    path: "/new-resource",
     element: <AddResourses />
   },
   {
-    path: "games",
+    path: "/games",
     element: <Games />
   },
   {
-    path: "games/:gameId",
+    path: "/games/:gameId",
     element: <GameDetails />
   },
   {
-    path: "add-game",
+    path: "/add-game",
     element: <AddGame />
   },
   // gernal
   
   {
-    path: "pages/:pageName",
+    path: "/pages/:pageName",
     element: <PagesContent />
   },
 
   // Admins
   
   // Teachers
-
+  {
+    path: "/teachers",
+    element: <THome />
+  },
   // Studetns
 
 ]);

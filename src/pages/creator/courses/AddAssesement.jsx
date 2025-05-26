@@ -32,25 +32,28 @@ export default function AddAssesement() {
     }, []);
 
     const [attchmentType, setAttchmentType] = React.useState({
-        id: 'file',
-        title: 'Zip File',
+        id: 'Oral',
+        title: 'Oral',
     });
 
     const attachments_types = [
         {
-            id: 'file',
-            title: 'Zip File',
+            id: 'oral',
+            title: 'Oral Assesewment',
+        },
+        {
+            id: 'document',
+            title: 'Uploading a Document',
         },
         {
             id: 'git',
             title: 'Public Git Reposastory',
         },
         {
-            id: 'other',
-            title: 'Other',
+            id: 'file',
+            title: 'ZIP file',
         },
     ]
-
 
     const handleAddAssesement = async (e) => {
         e.preventDefault();

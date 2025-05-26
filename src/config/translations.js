@@ -20,7 +20,7 @@ export const translation = [
         logout: "Logout",
         email: "E-mail",
         Password: "Password",
-        login: "Login",
+        login: "Sign in",
         choose_category: "Choose Category",
         category: "Category",
         new_level: "New Level",
@@ -116,6 +116,12 @@ export const translation = [
         not_found: "Not Found.",
         category_sort: "Category Courses Sortation",
         level: "Level",
+        get_started: "Get Started",
+        signup: "Sign Up",
+        signup_login_note: "Already have an account?",
+        signin_signup_note: "Don't have an account?",
+        signup_aqree: "By Sign Up I agree to ",
+
     },
     {
         dir: "rtl",
@@ -234,6 +240,11 @@ export const translation = [
         not_found: "هذه الصفحة غير موجودة",
         category_sort: "ترتيب الدورات داخل القسم",
         level: "المستوي",
+        get_started: "إبدأ التسجيل",
+        signup: "تسجيل",
+        signup_login_note: "لديك حساب؟",
+        signin_signup_note: "ليس لديك حساب؟",
+        signup_aqree: "بالتسجيل انت توافق على ",
 
     }
 ]

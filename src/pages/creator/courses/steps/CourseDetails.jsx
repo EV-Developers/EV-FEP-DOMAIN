@@ -105,7 +105,7 @@ export default function CourseDetails({ categories, handleSteps, title, setTitle
             <div className="w-[35%]">
                 {coursesData && <ReactSortable list={coursesData} setList={setCoursesData}>
                 {coursesData.map((item, index) => (
-                    <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-pointer">{(index + 1)} - {item.title}</div>
+                    <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
                 ))}
                 </ReactSortable>}
             

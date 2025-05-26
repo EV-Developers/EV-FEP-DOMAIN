@@ -11,7 +11,6 @@ export default function Lesson({ courseId, item }) {
     const [show, setShow] = React.useState(false);
     const tmp_vid_url = "https://www.w3schools.com/html/mov_bbb.mp4";
     const [showModal, setShowModal] = React.useState(false);
-
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
@@ -43,7 +42,7 @@ export default function Lesson({ courseId, item }) {
         }
     }
 
-    return (<div id={"lesson-"+item.id} className="bg-white px-3 py-5 m-4 shadow-sm rounded-xl cursor-pointer transition-all">
+    return (<div id={"lesson-"+item.id} className="bg-white px-3 py-5 m-4 shadow-sm rounded-xl cursor-grab transition-all">
         {showModal && <ConfrimModal message={language && language['confirm']} action={handleDeleteLesson} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
         <button className="flex justify-between transition-all cursor-pointer w-full pb-3" onClick={() => setShow(!show)}>
             <p className="text-l font-bold flex">

@@ -14,7 +14,7 @@ export default function Header() {
     const ref = React.useRef();
     const [language, setLanguage] = React.useState(null);
     const notifications_list = [
-        {   
+        {
             id: "notification_1",
             message: "New comment from Adam for Ardurno Course.",
             date: new Date().toLocaleString("en-GB"),
@@ -39,7 +39,6 @@ export default function Header() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
     }, []);
 
     const handleSearch = () => {
@@ -74,7 +73,7 @@ export default function Header() {
         });
 
         //return listen.removeEventListener()
-    }, [ref])
+    }, [ref]);
 
     const handleLogout = async () => {
         try {

@@ -138,8 +138,8 @@ export default function CategoryDetails() {
                 <h3 className="text-l font-bold my-4">{language && language['category_sort']}</h3>
 
                 <ReactSortable list={coursesData} setList={setCoursesData}>
-                {coursesData.map((item, index) => (
-                    <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-pointer">{(index + 1)} - {item.title}</div>
+                {coursesData.map(item => (
+                    <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
                 ))}
                 </ReactSortable>
             </div>}
