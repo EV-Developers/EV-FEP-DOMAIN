@@ -20,6 +20,7 @@ import NewQuiz from './pages/creator/courses/quizzes/NewQuiz';
 import EditQuiz from './pages/creator/courses/quizzes/EditQuiz';
 import AddLesson from './pages/creator/courses/AddLesson';
 import EditLesson from './pages/creator/courses/EditLesson';
+import AddResourses from './pages/creator/courses/AddResourses';
 import Materials from './pages/creator/Materials/Materials';
 import Material from './pages/creator/Materials/Material';
 import AddMaterial from './pages/creator/Materials/AddMaterial';
@@ -30,10 +31,18 @@ import Search from './pages/creator/Search';
 import Games from './pages/creator/Games/Games';
 import AddGame from './pages/creator/Games/AddGame';
 import GameDetails from './pages/creator/Games/GameDetails';
-import AddResourses from './pages/creator/courses/AddResourses';
 import PagesContent from './pages/PagesContent';
 import THome from './pages/teacher/THome';
 import SignUp from './pages/SignUp';
+//Teachers
+import TCourses from './pages/teacher/courses/TCourses';
+import TCourse from './pages/teacher/courses/TCourse';
+import Exam from './pages/teacher/courses/quizzes/Exam';
+import TLessonDetails from './pages/teacher/courses/TLessonDetails';
+import TCategories from './pages/teacher/categories/Tcategories';
+import TCategoryDetails from './pages/teacher/categories/TCategoryDetails';
+import TMaterials from './pages/teacher/Materials/TMaterials';
+import TGames from './pages/teacher/Games/TGames';
 
 const router = createBrowserRouter([
   // Creators
@@ -159,6 +168,38 @@ const router = createBrowserRouter([
   {
     path: "/teachers",
     element: <THome />
+  },
+  {
+    path: "/teachers/courses",
+    element: <TCourses />
+  },
+  {
+    path: "/teachers/courses/:coursesId",
+    element: <TCourse />
+  },
+  {
+    path: "/teachers/courses/lesson/:lessonId",
+    element: <TLessonDetails />,
+  },
+  {
+    path: "/teachers/courses/quiz/:lessonId",
+    element: <Exam />,
+  },
+  {
+    path: "/teachers/categories",
+    element: <TCategories />,
+  },
+  {
+    path: "/teachers/categories/:catId",
+    element: <TCategoryDetails />,
+  },
+  {
+    path: "/teachers/materials",
+    element: <TMaterials />,
+  },
+  {
+    path: "/teachers/games",
+    element: <TGames />,
   },
   // Studetns
 

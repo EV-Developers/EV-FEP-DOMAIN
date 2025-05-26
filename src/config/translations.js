@@ -121,6 +121,8 @@ export const translation = [
         signup_login_note: "Already have an account?",
         signin_signup_note: "Don't have an account?",
         signup_aqree: "By Sign Up I agree to ",
+        submit: "Submit",
+        details: "Details",
 
     },
     {
@@ -245,6 +247,7 @@ export const translation = [
         signup_login_note: "لديك حساب؟",
         signin_signup_note: "ليس لديك حساب؟",
         signup_aqree: "بالتسجيل انت توافق على ",
-
+        submit: "تسليم",
+        details: "التفاصيل",
     }
 ]

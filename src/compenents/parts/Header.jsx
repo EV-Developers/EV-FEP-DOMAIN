@@ -6,13 +6,14 @@ import api from '../../config/api';
 import Loading from './Loading';
 import { translation } from '../../config/translations';
 
-export default function Header() {
+export default function Header({role}) {
     const [loading, setLoading] = React.useState(true);
     const navigate = useNavigate();
     const location = useLocation();
     const { pathname } = location;
     const ref = React.useRef();
     const [language, setLanguage] = React.useState(null);
+    let slug = "";
     const notifications_list = [
         {
             id: "notification_1",
@@ -22,6 +23,11 @@ export default function Header() {
             type: "comment",
         }
     ];
+
+    if(role){
+        slug = '/'+role;
+    }
+
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -140,19 +146,19 @@ export default function Header() {
             </div>
             <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0">
                 <nav className="flex mr-14">
-                    <Link to="/courses" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('courses') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    <Link to={slug+"/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('courses') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['courses']}
                         <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                     </Link>
-                    <Link to="/categories" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('categories') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    <Link to={slug+"/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('categories') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['categories']}
                         <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                     </Link>
-                    <Link to="/materials" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('materials') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    <Link to={slug+"/materials"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('materials') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['materials']}
                         <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('materials') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                     </Link>
-                    <Link to="/games" className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('games') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    <Link to={slug+"/games"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('games') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['games']}
                         <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('games') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                     </Link>
