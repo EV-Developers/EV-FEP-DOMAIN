@@ -6,27 +6,27 @@ import api from '../../../config/api';
 
 export default function TCategories() {
     const [data, setData] = React.useState(null);
-        const [language, setLanguage] = React.useState(null);
+    const [language, setLanguage] = React.useState(null);
 
-        React.useEffect(() => {
-            const lang = window.localStorage.getItem("language");
-    
-            if (lang && lang != '' && lang != null) {
-                if (lang == 'english') {
-                    setLanguage(translation[0]);
-                    window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-                } else {
-                    setLanguage(translation[1]);
-                    window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-                }
-            } else {
+    React.useEffect(() => {
+        const lang = window.localStorage.getItem("language");
+
+        if (lang && lang != '' && lang != null) {
+            if (lang == 'english') {
                 setLanguage(translation[0]);
-                window.localStorage.setItem("language", 'english');
                 window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+            } else {
+                setLanguage(translation[1]);
+                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
             }
-    
-        }, []);
-    
+        } else {
+            setLanguage(translation[0]);
+            window.localStorage.setItem("language", 'english');
+            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+        }
+
+    }, []);
+
 
     React.useEffect(() => {
         loadData()

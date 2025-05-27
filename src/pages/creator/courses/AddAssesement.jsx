@@ -7,10 +7,9 @@ import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import api from '../../../config/api';
 
 export default function AddAssesement() {
+    const [language, setLanguage] = React.useState(null);
     const [show, setShow] = React.useState(false);
     const { coursesId } = useParams();
-
-    const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -28,12 +27,11 @@ export default function AddAssesement() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
     }, []);
 
     const [attchmentType, setAttchmentType] = React.useState({
         id: 'Oral',
-        title: 'Oral',
+        title: 'Oral Assesewment',
     });
 
     const attachments_types = [
@@ -53,7 +51,7 @@ export default function AddAssesement() {
             id: 'file',
             title: 'ZIP file',
         },
-    ]
+    ];
 
     const handleAddAssesement = async (e) => {
         e.preventDefault();

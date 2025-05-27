@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import ThemeContainer from '../../../compenents/parts/ThemeContainer'
 import { Link, useParams } from 'react-router-dom'
 import { translation } from '../../../config/translations';
@@ -7,6 +7,8 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function TLessonDetails() {
     const [language, setLanguage] = React.useState(null);
+    const [progress, setProgress] = React.useState(0);
+    const video = useRef();
     const { lessonId } = useParams();
     const tmp_vid_url = "https://www.w3schools.com/html/mov_bbb.mp4";
 
@@ -29,6 +31,17 @@ export default function TLessonDetails() {
 
     }, []);
 
+    React.useEffect(() => {
+        if (video && video.current) {
+            const stop = video.current.addEventListener('pause', ev => {
+                console.log(ev.target, ev.target.currentTime);
+
+            });
+            //console.log(video.current);
+            //return  unsubscribe.removeEventListener();
+        }
+    }, [video])
+
     return (<ThemeContainer role="teachers">
 
         <div className="block mx-auto w-[75%]">
@@ -44,7 +57,7 @@ export default function TLessonDetails() {
             <div className="transition-all px-0">
                 <h3 className="text-l font-bold m-3">Lesson 1</h3>
                 <p className="p-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perspiciatis, nam rerum facere unde expedita voluptate.</p>
-                <video height="440" className="w-[65%] my-7 px-0 overflow-x-hidden rounded-2xl" poster="/data/vid-1.webp" controls>
+                <video ref={video} height="440" className="w-[65%] my-7 px-0 overflow-x-hidden rounded-2xl" poster="/data/vid-1.webp" controls>
                     <source src={tmp_vid_url} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>

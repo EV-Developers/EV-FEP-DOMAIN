@@ -3,9 +3,14 @@ import { translation } from '../../config/translations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faMapMarkerAlt, faPhone, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 
-export default function Footer() {
+export default function Footer({role}) {
     const [language, setLanguage] = React.useState(null);
-    
+    let slug = "";
+
+    if(role){
+        slug = '/'+role;
+    }
+
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
 
@@ -36,10 +41,10 @@ export default function Footer() {
             <div className="flex mt-7 text-xs">
                 <div className="mx-14">
                     <p className="font-bold my-4">{language && language['main_title']}</p>
-                    <p><a href="/courses" className="hover:underline">{language && language['courses']}</a></p>
-                    <p><a href="/categories" className="hover:underline">{language && language['categories']}</a></p> 
-                    <p><a href="/materials" className="hover:underline">{language && language['materials']}</a></p> 
-                    <p><a href="/games" className="hover:underline">{language && language['games']}</a></p> 
+                    <p><a href={slug + "/courses"} className="hover:underline">{language && language['courses']}</a></p>
+                    <p><a href={slug + "/categories"} className="hover:underline">{language && language['categories']}</a></p> 
+                    <p><a href={slug + "/materials"} className="hover:underline">{language && language['materials']}</a></p> 
+                    <p><a href={slug + "/games"} className="hover:underline">{language && language['games']}</a></p> 
                 </div>
                 <div className="mx-14">
                     <p className="font-bold my-4">{language && language['informations']}</p>
@@ -55,6 +60,7 @@ export default function Footer() {
                 </div>
             </div>
         </div>
+
         <div className="bg-[#FDC800] p-4">
             <div className="w-[75%] mx-auto">
                 <div className="flex">

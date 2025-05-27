@@ -20,7 +20,6 @@ export default function TCourse() {
     const [language, setLanguage] = React.useState(null);
     const { coursesId } = useParams();
 
-
     const lessonsList = [
         {
             id: '3',
@@ -28,22 +27,25 @@ export default function TCourse() {
             video: '',
             level: 1,
             cover: 'vid-3.webp',
+            progress: 100,
             desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti."
         },
         {
-            id: '3',
+            id: '23423',
             title: 'Lesson 2',
             video: '',
             level: 2,
             cover: 'vid-3.webp',
+            progress: 10,
             desc: "Mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum."
         },
         {
-            id: '4',
+            id: '23424',
             title: 'Lesson 3',
             video: '',
             level: 3,
             cover: 'vid-3.webp',
+            progress: 75,
             desc: "Repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
         },
     ]
@@ -91,7 +93,7 @@ export default function TCourse() {
     }, [])
 
     async function getData() {
-        const tmpData = await api.get('/courses/'+coursesId);
+        const tmpData = await api.get('/courses/' + coursesId);
         const tmpLessonsData = await api.get('/lessons');
         const tmpAssestmentsData = await api.get('/assignments');
 
@@ -113,18 +115,18 @@ export default function TCourse() {
     return (
         <ThemeContainer role="teachers">
             <h2 className="mt-4 text-3xl p-2 font-bold">Arduino pack: Design, Manage and Launch Arduino</h2>
-            <p className="text-color py-2 flex">
+            <div className="text-color py-2 flex">
                 <span className="mx-2">{language && language["course_by"]} </span>
-                    <strong className="text-bold primary-text">mohammed razi </strong>
-                <span>, electronic trainer and developer</span> 
-            </p>
+                <strong className="text-bold primary-text">mohammed razi </strong>
+                <span>, electronic trainer and developer</span>
+            </div>
             <div className="flex">
                 <Link to="/courses">
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                 </Link>
-                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight:faAngleLeft} className="my-4 m-3 text-color" />
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/teachers/courses"}>{language && language["courses"]}</Link>
-                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight:faAngleLeft} className="my-4 m-3 text-color" />
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <p className="m-3 my-3 text-color">{language && language["course_details"]}</p>
             </div>
             <div className="flex mt-4 border-b-1 border-b-[#cccccc] py-1 p-4">
@@ -147,7 +149,7 @@ export default function TCourse() {
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
                     {lessons && lessons.map((item, index) => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
                         <div className="relative group hover:border-none">
-                            <div className={`inline-block text-xs p-2 rounded-full ${index == 1 ? 'bg-amber-500':'bg-color'}`}>U{item.level}</div><p className="inline-block py-4 mx-3">{item.title}</p>
+                            <div className={`inline-block text-xs p-2 rounded-full ${index == 1 ? 'bg-amber-500' : 'bg-color'}`}>U{item.level}</div><p className="inline-block py-4 mx-3">{item.title}</p>
                             <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span>
                         </div>
                         <FontAwesomeIcon icon={faCheck} className="text-amber-500 p-4" />

@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 @import "tailwindcss";
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: #F0F4F9;
@@ -23,7 +25,7 @@ body {
 }
 
 .bg-color {
-  background: #e4e4e4;
+  background: #E4E4E4;
 }
 
 .bg-primary {

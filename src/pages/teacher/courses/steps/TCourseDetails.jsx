@@ -69,7 +69,7 @@ export default function TCourseDetails({ categories, handleSteps, title, setTitl
         const tmpData = await api.get('/courses');
 
         console.log(tmpData);
-        
+
         if (tmpData.status == 200) {
             setCoursesData(tmpData.data.data);
         }
@@ -82,10 +82,10 @@ export default function TCourseDetails({ categories, handleSteps, title, setTitl
                     <p id="lessonTitle=" className="my-3 font-bold">{language && language["title"]}</p>
                     <input type="text" id="lessonTitle=" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shadow-sm bg-color w-full placeholder-gray-400" value={title} onChange={val => setTitle(val.target.value)} />
                 </label>
-                
+
                 <label htmlFor="courseLevel">
                     <p className="my-3 font-bold">{language && language["level"]}</p>
-                    <input type="text" className="py-2 px-14 rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]}  value={level} onChange={val => setLevel(val.target.value)}/>
+                    <input type="text" className="py-2 px-14 rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} value={level} onChange={val => setLevel(val.target.value)} />
                 </label>
                 <p className="my-3 font-bold">{language && language["choose_category"]}</p>
                 <div className="relative">
@@ -104,7 +104,7 @@ export default function TCourseDetails({ categories, handleSteps, title, setTitl
                 {coursesData && coursesData.map((item, index) => (
                     <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
                 ))}
-            
+
             </div>
         </div>
 

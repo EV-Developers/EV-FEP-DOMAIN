@@ -3,18 +3,25 @@ import { faBell, faComment, faEnvelope, faGlobe, faPhone, faPhoneAlt, faSearch, 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import api from '../../config/api';
-import Loading from './Loading';
 import { translation } from '../../config/translations';
+import UserProfile from './UserProfile';
+import Loading from './Loading';
+import ChangPassword from './ChangPassword';
 
 export default function Header({role}) {
     const [loading, setLoading] = React.useState(true);
+    const [showProfile, setShowProfile] = React.useState(false);
+    const [show, setShow] = React.useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { pathname } = location;
     const ref = React.useRef();
     const [language, setLanguage] = React.useState(null);
+    const userRole = window.localStorage.getItem("auth_user_role");
     let slug = "";
-    const notifications_list = [
+    if(role){
+        slug = '/'+role;
+    }
+    const notifications_list = []; /*[
         {
             id: "notification_1",
             message: "New comment from Adam for Ardurno Course.",
@@ -22,15 +29,27 @@ export default function Header({role}) {
             course_id: 10,
             type: "comment",
         }
-    ];
-
-    if(role){
-        slug = '/'+role;
-    }
+    ];*/
 
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
+
+        if(role){
+            if(userRole !== ""){
+                if(userRole == 'teacher'){
+                    slug = '/teachers';
+                }
+            } else {
+                slug = '/'+role;
+            }
+        } else {
+            if(userRole !== ""){
+                if(userRole == 'teacher'){
+                    slug = '/teachers';
+                }
+            }
+        }
 
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {
@@ -53,9 +72,10 @@ export default function Header({role}) {
         }
     }
 
-    const getCurrentPath = (name) => {
-        if (pathname && pathname.includes(name)) {
-            console.log(name, pathname);
+    const getCurrentPath = (name) => {         
+        const { pathname } = location; 
+
+        if (pathname && pathname == name) {
             return true;
         } else {
             return false;
@@ -64,6 +84,7 @@ export default function Header({role}) {
 
     React.useEffect(() => {
         let auth_check = window.localStorage.getItem("auth_token");
+        
         if (auth_check == "" || auth_check == null) {
             navigate("/login");
         } else {
@@ -115,7 +136,12 @@ export default function Header({role}) {
         window.location.reload();
     }
 
-    return (<div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF]">
+    return (<>
+    {show && <ChangPassword open={show} setOpen={setShow} language={language} />}
+
+    {showProfile && <UserProfile open={showProfile} setOpen={setShowProfile} language={language} />}
+
+    <div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF]">
         <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between">
             <div className="flex">
                 <p className='mx-2'><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-sm" /> <span><a className="hover:underline" href="mailto:evcentersinfo@gmail.com">evcentersinfo@gmail.com</a></span></p>
@@ -141,26 +167,30 @@ export default function Header({role}) {
                     <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                 </Link>
                 <div className="block">
-                    <Link to="/explore" className="block p-3 text-[#fa9600] font-bold transition-all hover:scale-110 hover:text-[#FD9800]">{language && language['explore']}</Link>
+                    <Link to={slug+"/explore"} className="block p-3 text-[#fa9600] font-bold transition-all hover:scale-110 hover:text-[#FD9800]">{language && language['explore']}</Link>
                 </div>
             </div>
             <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0">
                 <nav className="flex mr-14">
-                    <Link to={slug+"/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('courses') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    {role == "teachers" && <Link to={slug+"/"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('/teachers/') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        {language && language['home']}
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('/teachers/') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
+                    </Link>}
+                    <Link to={slug+"/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug+'/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['courses']}
-                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug+'/courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                     </Link>
-                    <Link to={slug+"/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('categories') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    <Link to={slug+"/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug+'/categories') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['categories']}
-                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug+'/categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                     </Link>
-                    <Link to={slug+"/materials"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('materials') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    <Link to={slug+"/materials"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug+'/materials') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['materials']}
-                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('materials') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug+'/materials') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                     </Link>
-                    <Link to={slug+"/games"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('games') && 'border-b-2 border-b-[#fa9600]'}`}>
+                    <Link to={slug+"/games"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug+'/games') && 'border-b-2 border-b-[#fa9600]'}`}>
                         {language && language['games']}
-                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('games') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug+'/games') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                     </Link>
                 </nav>
 
@@ -181,7 +211,7 @@ export default function Header({role}) {
                             <h2 className="text-l border-b border-b-gray-200 p-3 font-bold">{language && language['notifications']}</h2>
                             {notifications_list && notifications_list.map(item => <div key={item.id} className="block hover:bg-gray-100 hover:border hover:border-gray-200 bg-white p-3 my-2 border-b border-b-gray-200 cursor-pointer" onClick={() => {
                                 if(item.type == 'comment'){
-                                    navigate("/courses/"+item.course_id)
+                                    navigate(slug+"/courses/"+item.course_id)
                                 }
                             }}>
                                 <p className="text-xs">{item.date}</p>
@@ -199,9 +229,14 @@ export default function Header({role}) {
                             <FontAwesomeIcon icon={faUser} className="text-xl text-white" />
                         </button>
                         <div className={`hidden group-hover:block bg-white rounded-xl w-[55%] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 mx-3 shadow-sm`}>
-                            <a href="/profile" className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
+                            {/* to={slug+"/profile"}  */}
+                            
+                            <button onClick={() => setShowProfile(true)} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
                                 {language && language['my_profile']}
-                            </a>
+                            </button>
+                            <button onClick={() => setShow(true)} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
+                                {language && language['change_password']}
+                            </button>
                             <button onClick={handleLogout} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm cursor-pointer`}>
                                 {language && language['logout']}
                             </button>
@@ -210,5 +245,6 @@ export default function Header({role}) {
                 </div>
             </div>
         </div>
-    </div>)
+    </div>
+    </>)
 }

@@ -20,6 +20,8 @@ export default function AddCourse() {
     const [levelNewName, setLevelNewName] = React.useState('');
     const [categoryName, setCategoryName] = React.useState("");
     const [loading, setLoading] = React.useState(false);
+    const [data, setData] = React.useState(null);
+    const [coursesData, setCoursesData] = React.useState(null);
     const [msg, setMsg] = React.useState(null);
     const navigate = useNavigate();
 
@@ -148,6 +150,29 @@ export default function AddCourse() {
     }
     */
 
+    React.useEffect(() => {
+        loadCoursesData();
+    }, []);
+
+    const loadCoursesData = async () => {
+        const tmpData = await api.get('/courses');
+
+        console.log(tmpData);
+        
+        if (tmpData.status == 200) {
+            setCoursesData(tmpData.data.data);
+            setData(tmpData.data.data);
+        }
+    }
+    
+    React.useEffect(() => {
+        if(title != "" && data){
+            const tmpArr = [];
+            tmpArr = [...data, {id: 'test-1', title: title}]
+            setCoursesData(tmpArr);
+        }
+    }, []);
+
     return (
         <ThemeContainer>
             {/* <form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -166,7 +191,7 @@ export default function AddCourse() {
                     <p className="m-3 my-3 text-color">{language && language["new"]}</p>
                 </div>
                 <hr className="text-gray-200 my-5" />
-                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} />}
+                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} />}
                 {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />} */}
                 {step == 2 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
             </div>

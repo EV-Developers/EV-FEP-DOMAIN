@@ -55,11 +55,7 @@ export default function TComments() {
   }
 
   return (<div>
-    <div className="relative m-4">
-      <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10`}>{language && language["add"]}</button>
-      <textarea className="bg-white rounded-2xl w-full p-2 px-4 pr-20" placeholder={language && language["write_here"]}></textarea>
-    </div>
-    {comments_list.map(item => <div className="bg-[#00000014] my-5 rounded-2xl m-3 p-3">
+    {comments_list.map(item => <div className="bg-[#E4E4E4] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
           <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />
@@ -84,9 +80,9 @@ export default function TComments() {
               <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl'>{language && language["like"]} <FontAwesomeIcon icon={faThumbsUp} className="primary" /></button>
               <button className='p-3 mx-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShow(!show)}>{language && language["reply"]} <FontAwesomeIcon icon={faCaretDown} className="primary" /></button>
             </div>
-            {show && <div>
+            {show && <div className="mt-3">
               <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10`}>{language && language["add"]}</button>
-              <textarea className="bg-white rounded-2xl w-full p-2 px-4 pr-20" placeholder={language && language["write_here"]}></textarea>
+              <textarea className="bg-white rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]}></textarea>
             </div>}
           </div>
         </div>
@@ -94,6 +90,10 @@ export default function TComments() {
 
     </div>)}
 
+    <div className="relative m-4 mt-14">
+      <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10 bottom-0 m-4`}>{language && language["publish"]}</button>
+      <textarea className="bg-color rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]}  rows="7"></textarea>
+    </div>
 
   </div>
   )

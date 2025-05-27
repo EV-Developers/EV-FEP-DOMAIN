@@ -37,7 +37,9 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
 
   const handleSetImage = (e) => {
     const imgUrl = window.URL.createObjectURL(e.target.files[0]);
-    ref.current.style.backgroundSize = 'contain';
+    ref.current.style.display = 'block';
+    ref.current.style.backgroundSize = '35%';
+    ref.current.style.backgroundPosition = 'center';
     ref.current.style.background = `url(${imgUrl}) no-repeat`;
 
     setFeaturedImage(e.target.files)

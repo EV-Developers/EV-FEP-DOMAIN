@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 
 import Courses from './pages/creator/courses/Courses';
-import Profile from './pages/creator/Profile/Profile';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Course from './pages/creator/courses/Course';
@@ -43,6 +42,12 @@ import TCategories from './pages/teacher/categories/Tcategories';
 import TCategoryDetails from './pages/teacher/categories/TCategoryDetails';
 import TMaterials from './pages/teacher/Materials/TMaterials';
 import TGames from './pages/teacher/Games/TGames';
+import SHome from './pages/students/SHome';
+import AHome from './pages/admin/AHome';
+
+// Students
+
+// Admins
 
 const router = createBrowserRouter([
   // Creators
@@ -58,10 +63,6 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
   },
   {
     path: "/courses",
@@ -112,11 +113,11 @@ const router = createBrowserRouter([
     element: <Quizzes />,
   },
   {
-    path: "/quizzes/:lessonId/new-quiz",
+    path: "/quizzes/:courseId/:lessonId/new-quiz",
     element: <NewQuiz />,
   },
   {
-    path: "/quizzes/:lessonId/:quizzId",
+    path: "/quizzes/:courseId/:lessonId/:quizzId",
     element: <EditQuiz />,
   },
   {
@@ -156,14 +157,11 @@ const router = createBrowserRouter([
     element: <AddGame />
   },
   // gernal
-  
+
   {
     path: "/pages/:pageName",
     element: <PagesContent />
   },
-
-  // Admins
-  
   // Teachers
   {
     path: "/teachers",
@@ -202,6 +200,17 @@ const router = createBrowserRouter([
     element: <TGames />,
   },
   // Studetns
+  {
+    path: "/students",
+    element: <SHome />,
+  },
+
+
+  // Admins
+  {
+    path: "/dashboard",
+    element: <AHome />,
+  },
 
 ]);
 

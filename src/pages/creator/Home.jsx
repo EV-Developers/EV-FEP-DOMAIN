@@ -6,7 +6,6 @@ import ThemeContainer from '../../compenents/parts/ThemeContainer';
 import api from '../../config/api';
 
 export default function Home() {
-
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {

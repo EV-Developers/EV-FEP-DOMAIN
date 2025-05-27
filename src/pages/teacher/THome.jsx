@@ -1,9 +1,83 @@
 import React from 'react'
 import ThemeContainer from '../../compenents/parts/ThemeContainer'
+import api from '../../config/api';
+import { Link } from 'react-router-dom';
+import { translation } from '../../config/translations';
 
 export default function THome() {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [language, setLanguage] = React.useState(null);
+  const [username, setUsername] = React.useState("");
+
+  React.useEffect(() => {
+    const lang = window.localStorage.getItem("language");
+    const user_name = window.localStorage.getItem("auth_user_name");
+    setUsername(user_name);
+
+    if (lang && lang != '' && lang != null) {
+      if (lang == 'english') {
+        setLanguage(translation[0]);
+        window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+      } else {
+        setLanguage(translation[1]);
+        window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+      }
+    } else {
+      setLanguage(translation[0]);
+      window.localStorage.setItem("language", 'english');
+      window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+    }
+  }, []);
+
+  React.useEffect(() => {
+    loadCourses();
+  }, []);
+
+  const loadCourses = async () => {
+    const list = await api.get('/courses');
+
+    if (list.status == 200) {
+      if (list.data.data) {
+        setData(list.data.data);
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    }
+  }
+
   return (<ThemeContainer role="teachers">
-    <div>Teaher</div>
-    
+    <div className="block w-[75%] mx-auto">
+      <h2 className="py-5 my-5 text-2xl font-bold border-b border-b-gray-200">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
+      <div className="flex">
+        {data && data.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
+          <div className="relative p-0 mx-0">
+            <div style={{ width: '75%' }} className={`text-amber-600 bg-amber-500 absolute bottom-0 z-10 mx-0 left-1 my-0 h-2 transition-all ${parseInt(75) == 100 ? 'rounded-b-2xl' : language && language['dir'] == 'ril' ? 'rounded-br-2xl' : 'rounded-bl-2xl'}`}></div>
+            <img src="/data/vid-1.webp" className="w-full rounded" />
+          </div>
+          <h3 className="text-l mx-2 my-4 font-bold">{item.title}</h3>
+          <div className="rounded w-full pointer m-1 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br  hover:from-amber-700 group-hover:to-amber-400 text-center ">{language && language["continue"]}</div>
+        </Link>)}
+      </div>
+      {!data && loading && <div className="flex animate-pulse">
+          <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+            <div className="w-full h-24 bg-gray-300"></div>
+            <div className="w-full h-2 bg-gray-300 my-4"></div>
+            <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+          </div>
+          <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+            <div className="w-full h-24 bg-gray-300"></div>
+            <div className="w-full h-2 bg-gray-300 my-4"></div>
+            <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+          </div>
+          <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+            <div className="w-full h-24 bg-gray-300"></div>
+            <div className="w-full h-2 bg-gray-300 my-4"></div>
+            <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+          </div>
+      </div>}
+    </div>
+
   </ThemeContainer>)
 }

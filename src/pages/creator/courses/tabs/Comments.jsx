@@ -57,7 +57,7 @@ export default function Comments() {
 
   return (<div>
     {showModal && <ConfrimModal message={language && language['confirm']} action={handleDeleteComment} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
-    {comments_list.map(item => <div className="bg-[#00000014] my-5 rounded-2xl m-3 p-3">
+    {comments_list.map(item => <div className="bg-[#E4E4E4] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
           <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />
@@ -90,10 +90,7 @@ export default function Comments() {
           </div>
         </div>
       </div>
-
     </div>)}
-
-
   </div>
   )
 }

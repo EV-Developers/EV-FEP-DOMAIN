@@ -5,7 +5,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 import { translation } from '../config/translations';
 import api from '../config/api';
@@ -41,13 +41,16 @@ export default function SignUp() {
         setMsg(null);
         const formData = new FormData(e.target);
         formData.append("role", "teacher");
-        
+
         setLoading(true);
         if (e.target.name.value == "" || e.target.email.value == "" || e.target.password.value == "") {
             setMsg(language["error_validation_password_msg"]);
             setLoading(false);
-        } else if(e.target.password.value !== e.target.password_confirmation.value){
+        } else if (e.target.password.value !== e.target.password_confirmation.value) {
             setMsg(language["error_validation_password_match_msg"]);
+            setLoading(false);
+        } else if (e.target.password.value.length < 6) {
+            setMsg(language["error_validation_password_length_msg"]);
             setLoading(false);
         } else if (!e.target.email.value.includes("@") || !e.target.email.value.includes(".")) {
             setMsg(language["error_validation_email_msg"]);
@@ -66,7 +69,7 @@ export default function SignUp() {
             } catch (error) {
                 console.log("test", error.response.data);
                 setLoading(false);
-                if(error.response && error.response.data){
+                if (error.response && error.response.data) {
                     setMsg(error.response.data.message);
                 }
             }
@@ -82,7 +85,7 @@ export default function SignUp() {
                 <p className="text-sm text-gray-400 text-center my-5">
                     <span>{language && language['signup_login_note']} <span className="mx-4"><Link to="/login" className="hover:underline text-amber-400">{language && language['login']}</Link></span> </span>
                 </p>
-                
+
                 <form method="post" onSubmit={handleRegister}>
                     <div className="relative h-11 mx-auto w-[45%] mb-7">
                         <input

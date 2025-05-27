@@ -8,13 +8,14 @@ import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
 export default function NewQuiz() {
     const [msg, setMsg] = React.useState(false);
     const [show, setShow] = React.useState(false);
-    const [quizType, setQuizType] = React.useState('Multi choice');
+    const [quizType, setQuizType] = React.useState('Single choice');
     const [answerText, setAnswerText] = React.useState('');
     const [question, setQuestion] = React.useState('');
+    const [mark, setMark] = React.useState(0);
     const [answers, setAnswers] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
-    const { lessonId } = useParams();
+    const { courseId, lessonId } = useParams();
     const navigate = useNavigate();
     
     React.useEffect(() => {
@@ -38,15 +39,15 @@ export default function NewQuiz() {
 
     const quizTypes = [
         {
+            id: 'single',
+            label: 'Single choice',
+            label_arabic: 'اجابة منفردة'
+        },
+        {
             id: 'multi',
             label: 'Multi choice',
             label_arabic: 'اجابة متعددة',
 
-        },
-        {
-            id: 'single',
-            label: 'Single choice',
-            label_arabic: 'اجابة منفردة'
         },
         {
             id: 'text',
@@ -116,7 +117,7 @@ export default function NewQuiz() {
 
         if(ok){
             setLoading(false);
-            navigate('/quizzes/'+lessonId)
+            navigate('/lessons/quizzes/'+courseId+'/'+lessonId);
         } else {
             setLoading(false);
             setMsg(language["error_validation_msg"])
@@ -127,11 +128,16 @@ export default function NewQuiz() {
         <div className="w-[75%] bg-white mx-auto block p-5 rounded-xl">
             <p className="my-5 font-bold">{language && language["new_question"]}</p>
             <div className="flex my-4">
-                <label htmlFor="question" className="block w-[70%]">
-                    <input type="text" onChange={val => setQuestion(val.target.value)} id="question" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
-                </label>
+                <div className="w-[70%]">
+                    <label htmlFor="question" className="block my-4">
+                        <input type="text" onChange={val => setQuestion(val.target.value)} id="question" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    </label>
+                    <label htmlFor="mark" className="block my-4">
+                        <input type="number" onChange={val => setMark(val.target.value)} id="mark" placeholder={language && language["mark"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    </label>
+                </div>
                 <div className="block relative w-[30%]">
-                    <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm w-[55%]" onClick={() => setShow(!show)}><span>{quizType}</span> <FontAwesomeIcon icon={faCaretDown} /></button>
+                    <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm w-[55%] my-4" onClick={() => setShow(!show)}><span>{quizType}</span> <FontAwesomeIcon icon={faCaretDown} /></button>
                     {show && <div className="bg-color block rounded-xl p-3 absolute z-10">
                         {quizTypes && quizTypes.map(item => <button onClick={() => setQuizType(item.label)} key={item.id} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-3 p-3 ${quizType == item.label ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
                             {language && language['dir'] == 'ltr' ? item.label : item.label_arabic}

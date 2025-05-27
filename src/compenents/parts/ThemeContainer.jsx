@@ -15,6 +15,6 @@ export default function ThemeContainer({ children, role }) {
     <div className="block md:w-[90%] mx-auto">
         {children}
     </div>
-    <Footer />
+    <Footer role={role} />
   </>)
 }

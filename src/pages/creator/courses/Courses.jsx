@@ -116,9 +116,9 @@ export default function Courses() {
                                 <input type="text" onChange={val => filterCategoryByName(val.target.value)} ref={ref} className="px-5 py-2 rounded-xl my-2 bg-white border border-gray-200 placeholder:text-gray-300 w-full" placeholder={language && language['search']} />
                             </div>
                             <div className="max-h-[30vh] overflow-auto">
-                                {categoriesData.map(item => <button key={item.id} className={`py-2 px-4 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-2 text-sm ${category == item.id
-                                        ? "bg-[#ffe696] border border-amber-300"
-                                        : "bg-white"
+                                {categoriesData.map(item => <button key={item.id} className={`py-2 px-4 rounded-xl w-full placeholder-gray-400 flex justify-between my-2 text-sm ${category == item.id
+                                        ? "bg-[#ffe696]"
+                                        : ""
                                     }`}
                                     onClick={() => setCategory(item.id)}>
                                     <p>{item.name}</p>
@@ -126,8 +126,9 @@ export default function Courses() {
                             </div>
                         </>}
                     </div>
+
                     <div className="w-[75%]">
-                        <div className='animate-pulse'>
+                        <div className="*:animate-pulse">
                             {(!data && loading) && <>
                                 <div className="flex border-b border-b-gray-300">
                                     <div className="bg-gray-300 block rounded-xl p-5 py-2 my-2 mr-2 w-[25%] h-[15vh]"></div>

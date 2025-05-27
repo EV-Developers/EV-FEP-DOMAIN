@@ -5,11 +5,10 @@ import { translation } from '../../../../config/translations';
 import api from '../../../../config/api';
 import { ReactSortable } from 'react-sortablejs';
 
-export default function CourseDetails({ categories, handleSteps, title, setTitle, categoryId, setCategoryId, categoryName, setCategoryName, level, setLevel, levelNewName, setLevelNewName }) {
+export default function CourseDetails({ categories, handleSteps, title, setTitle, categoryId, setCategoryId, categoryName, setCategoryName, level, setLevel, coursesData,
+setCoursesData }) {
     const [show, setShow] = useState(false);
-    const [showNewLevel, setShowNewLevel] = useState(false);
     const [language, setLanguage] = useState(null);
-    const [coursesData, setCoursesData] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -27,7 +26,6 @@ export default function CourseDetails({ categories, handleSteps, title, setTitle
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
     }, []);
 
     const levels_list = [
@@ -63,19 +61,7 @@ export default function CourseDetails({ categories, handleSteps, title, setTitle
         },
     ]
 
-    React.useEffect(() => {
-        loadCoursesData();
-    }, []);
 
-    const loadCoursesData = async () => {
-        const tmpData = await api.get('/courses');
-
-        console.log(tmpData);
-        
-        if (tmpData.status == 200) {
-            setCoursesData(tmpData.data.data);
-        }
-    }
 
     return (<div>
         <div className="flex">
@@ -105,7 +91,7 @@ export default function CourseDetails({ categories, handleSteps, title, setTitle
             <div className="w-[35%]">
                 {coursesData && <ReactSortable list={coursesData} setList={setCoursesData}>
                 {coursesData.map((item, index) => (
-                    <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
+                    <div key={item.id} className="py-2 px-3 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
                 ))}
                 </ReactSortable>}
             

@@ -51,8 +51,7 @@ export default function TCategoryDetails() {
 
     React.useEffect(() => {
         loadData();
-    }, [])
-
+    }, []);
 
     return (
         <ThemeContainer role="teachers">
@@ -95,11 +94,11 @@ export default function TCategoryDetails() {
                     <img src="/data/vid-1.webp" alt="" className="w-[25%] rounded-xl group-hover:scale-105 transition-all" />
                     <div className="mx-4">
                         <h2 className="text-2xl">{item.title}</h2>
-                        <p className="text-color py-2 flex">
+                        <div className="text-color py-2 flex">
                             <span className="mx-2">{language && language["course_by"]} </span>
                             <strong className="text-bold primary-text">mohammed razi </strong>
                             <span>, electronic trainer and developer</span>
-                        </p>
+                        </div>
 
                     </div>
                 </Link>)}

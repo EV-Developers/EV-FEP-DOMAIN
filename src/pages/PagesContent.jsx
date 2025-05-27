@@ -27,13 +27,13 @@ export default function PagesContent() {
         }
     }, []);
 
-  return (<ThemeContainer>
+    return (<ThemeContainer>
         <div className="block mx-auto w-[75%]">
             <div className="flex">
                 <Link to={"/categories"}>
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                 </Link>
-                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight: faAngleLeft} className="my-4 m-3 text-color" />
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/categories/"}>{language && language["categories"]}</Link>
                 <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
@@ -42,5 +42,5 @@ export default function PagesContent() {
             <h2 className="p-5 m-5 text-2xl">{pageName.toUpperCase()}</h2>
             <div className="p-5 m-5">Pages Content</div>
         </div>
-  </ThemeContainer>)
+    </ThemeContainer>)
 }

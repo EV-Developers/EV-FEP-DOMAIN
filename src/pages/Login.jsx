@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 import { translation } from '../config/translations';
 import api from '../config/api';
@@ -56,8 +54,20 @@ export default function Login() {
                     if (response.data.user.status == "active") {
                         localStorage.setItem("auth_token", response.data.token);
                         localStorage.setItem("auth_user", response.data.user.id);
+                        localStorage.setItem("auth_user_name", response.data.user.name);
+                        localStorage.setItem("auth_user_email", e.target.email.value);
+                        
+                        if(response.data && response.data.user.roles && response.data.user.roles[0]){
+                            localStorage.setItem("auth_user_role", response.data.user.roles[0].name);
+                        }
+
                         setLoading(false);
-                        navigate('/');
+
+                        if (response.data.user.roles[0].name == 'teacher') {
+                            navigate('/teachers');
+                        } else {
+                            navigate('/');
+                        }
                     } else {
                         setLoading(false);
                         setMsg(language["wrong_email_password"]);
@@ -73,7 +83,7 @@ export default function Login() {
             }
         }
     }
-    return (
+    return (<>
         <div className="flex w-[90%] mx-auto">
             <div className="block w-[50%] h-[100vh] bg-white">
                 <img src="/logo/Logo.png" alt="" className="block mx-auto w-[45%] mt-14 " />
@@ -122,5 +132,5 @@ export default function Login() {
                 <img src="/banner/banner.webp" className="w-full h-[100vh]" />
             </div>
         </div>
-    )
+    </>)
 }
