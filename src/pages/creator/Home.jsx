@@ -7,7 +7,14 @@ import api from '../../config/api';
 
 export default function Home() {
     const [language, setLanguage] = React.useState(null);
-
+    const role = window.localStorage.getItem("auth_user_role");
+    
+    if(role && role != "" && role != null){
+        if(role == 'teacher'){
+            window.location.href = '/teachers';
+        }
+    }
+    
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
 

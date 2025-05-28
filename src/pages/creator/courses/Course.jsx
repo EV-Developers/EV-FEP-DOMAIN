@@ -45,6 +45,13 @@ export default function Course() {
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
+        const role = window.localStorage.getItem("auth_user_role");
+                
+        if(role && role != "" && role != null){
+            if(role == 'teacher'){
+                window.location.href = '/teachers';
+            }
+        }
 
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {

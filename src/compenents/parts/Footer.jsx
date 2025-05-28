@@ -13,6 +13,13 @@ export default function Footer({role}) {
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
+        const userRole = window.localStorage.getItem("auth_user_role");
+        
+        if(userRole && userRole != "" && userRole != null){
+            if(userRole == 'teacher'){
+                slug = '/teachers';
+            }
+        }
 
         if(lang && lang != '' && lang != null){
             if(lang == 'english'){

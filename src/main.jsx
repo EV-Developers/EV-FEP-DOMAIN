@@ -44,6 +44,7 @@ import TMaterials from './pages/teacher/Materials/TMaterials';
 import TGames from './pages/teacher/Games/TGames';
 import SHome from './pages/students/SHome';
 import AHome from './pages/admin/AHome';
+import CertificatesGenerator from './pages/teacher/studetns/CertificatesGenerator';
 
 // Students
 
@@ -198,6 +199,10 @@ const router = createBrowserRouter([
   {
     path: "/teachers/games",
     element: <TGames />,
+  },
+  {
+    path: "/teachers/generator",
+    element: <CertificatesGenerator />,
   },
   // Studetns
   {

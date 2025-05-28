@@ -7,6 +7,7 @@ export const translation = [
         language: "Language",
         main_title: "Future Engineers Program",
         title: "Title",
+        date: "Date",
         slogin: "",
         subtitle: "FEP Dashboard",
         dashboard: "Dashboard",
@@ -46,6 +47,7 @@ export const translation = [
         time: "Time",
         skill_level: "Skill Level",
         download: "Download",
+        download_all: "Download All",
         upload_new: "New Upload",
         assesment_type: "Assessment Type",
         edit: "Edit",
@@ -133,6 +135,12 @@ export const translation = [
         exam_note: "Answers all questions, some question may have multiple answers.",
         result: "Result",
         mark: "Mark",
+        certificates_generator: "Certificates Generator",
+        certificates_generator_note: "Upload students names list as a CSV Exel file and click on generate button.",
+        download_template: "Download CSV file template",
+        generate: "Generate",
+        found: "Found",
+        names: "names",
 
     },
     {
@@ -143,6 +151,7 @@ export const translation = [
         language: "اللغة",
         main_title: "برنامج مهندسي المستقبل",
         title: "العنوان" ,
+        date: "التاريخ",
         slogin: "",
         subtitle: "لوحة التحكم",
         dashboard: "لوحة التحكم",
@@ -269,6 +278,12 @@ export const translation = [
         exam_note: "أجب على جميع الأسئلة، بعض الأسئلة قد تحتوى على اجابات متعددة.",
         result: "النتيجة",
         mark: "الدرجة",
-
+        certificates_generator: "منشأ الشهادات",
+        certificates_generator_note: "قم برفع ملف اكسل CSV به قائمة أسماء الطلاب واضغط زر الانشاء.",
+        download_template: "تحميل قالب ملف CSV",
+        generate: "أنشأ",
+        download_all: "تحميل الكل",
+        found: "تم الحصول على",
+        names: "اسم",
     }
 ]

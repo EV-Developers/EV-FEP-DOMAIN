@@ -4,6 +4,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 import { translation } from '../../../config/translations';
 import api from '../../../config/api';
+import { Link } from 'react-router-dom';
 
 export default function TAssesment({ item }) {
     const [show, setShow] = React.useState(false);
@@ -42,6 +43,8 @@ export default function TAssesment({ item }) {
                         <img src="/data/vid-1.webp" className="w-[65%]" alt="" />
                     </div>
                     <p className="p-2">{language && language["assesment_type"]}: {item.assesment_type}</p>
+
+                    <Link to="/teachers/submit-assesment" className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 " onClick={() => handleDownloadCertificate(item)}>{language && language['submit']}</Link>
                 </div>
             </div>
 
