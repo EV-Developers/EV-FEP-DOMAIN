@@ -56,8 +56,8 @@ export default function Login() {
                         localStorage.setItem("auth_user", response.data.user.id);
                         localStorage.setItem("auth_user_name", response.data.user.name);
                         localStorage.setItem("auth_user_email", e.target.email.value);
-                        
-                        if(response.data && response.data.user.roles && response.data.user.roles[0]){
+
+                        if (response.data && response.data.user.roles && response.data.user.roles[0]) {
                             localStorage.setItem("auth_user_role", response.data.user.roles[0].name);
                         }
 
