@@ -3,14 +3,17 @@ import ThemeContainer from '../../../compenents/parts/ThemeContainer'
 import { translation } from '../../../config/translations';
 import { jsPDF } from "jspdf";
 import './Amiri-Regular-normal';
+import { useParams } from 'react-router-dom';
 
 export default function CertificatesGenerator() {
-  const [title, setTitle] = React.useState(null);
+  const [title, setTitle] = React.useState("Arduino pack: Design, Manage and Launch Arduino");
   const [date, setDate] = React.useState(null);
   const [csv, setCsv] = React.useState(null);
   const [language, setLanguage] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [msg, setMsg] = React.useState(null);
+  const { coursesId } = useParams();
+
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -49,7 +52,6 @@ export default function CertificatesGenerator() {
     reader.onload = function () {
       cvArr = reader.result.replaceAll(",", "").split('\n');
       setCsv(cvArr);
-      setTitle(e.target.title.value);
       setDate(e.target.date.value);
       setLoading(false);
     };
@@ -74,12 +76,16 @@ export default function CertificatesGenerator() {
       doc.addImage(bgcer, 'png', 0, 0, 850, 600);
       doc.addImage(logo, 'png', centerX - 70, 180, 142, 54);
       doc.setFontSize(32);
-      doc.text(student_name, centerX, 310, { align: 'center' });
+      doc.text(student_name, centerX, 310, { align: 'center', dir: language['dir'] });
       doc.setFontSize(18);
-      doc.text("في برنامج " + title + " بتاريخ " + date, centerX, 350, { align: 'center' });
+
+      if(language['dir'] == 'ltr'){
+        doc.text("In " + title + " on " + date, centerX, 350, { align: 'center', dir: language['dir'] });
+      } else {
+        doc.text("في برنامج " + title + " بتاريخ " + date, centerX, 350, { align: 'center', dir: language['dir'] });
+      }
 
       doc.save(file_name);
-
     } catch (error) {
       console.log(error);
 
@@ -92,10 +98,7 @@ export default function CertificatesGenerator() {
         <h2 className="text-2xl font-bold border-b border-b-gray-200">{language && language['certificates_generator']}</h2>
         <p className="text-l text-color my-7">{language && language['certificates_generator_note']} (<a className="mx-2 underline" href="/students-names-template.csv" download>{language && language['download_template']}</a>)</p>
         <form onSubmit={handleGenerate} method="post">
-          <label htmlFor="title">
-            <p className="my-3 font-bold">{language && language["title"]}</p>
-            <input id="title" name="title" className="py-2 px-4 rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} />
-          </label>
+          <h3 className="py-4 my-3 text-2xl font-bold">{title}</h3>
 
           <label htmlFor="date">
             <p className="my-3 font-bold">{language && language["date"]}</p>

@@ -114,31 +114,13 @@ export default function AddCourse() {
         }
     }
 
-    /*
-    const handleSubmit = async () => {
-        //e.preventDefault();
-        const auth_user = window.localStorage.getItem("auth_user");
-        
-        if(title == "" || description == ""){
-            setMsg(language["error_validation_msg"]);
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        //const auth_user = window.localStorage.getItem("auth_user");
+        const formData = new FormData(e.target);
 
-            return false;
-        }
-
-        const formData = new FormData();
-        formData.append("title", title);
-        formData.append("description", description);
-        formData.append("category_id", categoryId);
-        formData.append("is_public", "true")
-        formData.append("level", level)
-        formData.append("difficulty_level", level);
-        formData.append("max_students", '0');
-        if(featuredImage && featuredImage[0]){
-            formData.append("featured_image", featuredImage[0]);
-        }
-        formData.append("createdBy", auth_user);
-
-        const response = await api.post("/courses", formData);
+        const response = await api.post("/courses/10/upload-image", formData);
 
         console.log(response);
 
@@ -148,7 +130,7 @@ export default function AddCourse() {
             setMsg(language["error_msg"]);
         }
     }
-    */
+    
 
     React.useEffect(() => {
         loadCoursesData();

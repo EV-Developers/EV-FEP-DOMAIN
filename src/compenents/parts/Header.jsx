@@ -220,7 +220,6 @@ export default function Header({role}) {
                         </button>
                         <div className={`hidden group-hover:block bg-white rounded-xl w-[65%] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 mx-3 shadow-sm`}>
                             {/* to={slug+"/profile"}  */}
-                            {role && role == 'teachers' && <Link to="/teachers/generator" className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>{language && language['certificates_generator']}</Link>}
                             <button onClick={() => setShowProfile(true)} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
                                 {language && language['my_profile']}
                             </button>

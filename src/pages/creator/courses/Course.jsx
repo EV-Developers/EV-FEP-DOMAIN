@@ -90,7 +90,7 @@ export default function Course() {
 
     React.useEffect(() => {
         getData();
-    }, [])
+    }, []);
 
     async function getData() {
         const tmpData = await api.get('/courses/'+coursesId);

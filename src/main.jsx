@@ -197,7 +197,7 @@ const router = createBrowserRouter([
     element: <TGames />,
   },
   {
-    path: "/teachers/generator",
+    path: "/teachers/generator/:coursesId",
     element: <CertificatesGenerator />,
   },
   // Studetns

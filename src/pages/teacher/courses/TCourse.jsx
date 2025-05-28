@@ -120,6 +120,11 @@ export default function TCourse() {
                 <strong className="text-bold primary-text">mohammed razi </strong>
                 <span>, electronic trainer and developer</span>
             </div>
+
+            <div className="flex justify-between">
+                <div></div>
+                <Link to={'/teachers/generator/' + coursesId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 ">{language && language["certificates_generator"]}</Link>
+            </div>
             <div className="flex">
                 <Link to="/courses">
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
