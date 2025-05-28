@@ -44,11 +44,7 @@ import TMaterials from './pages/teacher/Materials/TMaterials';
 import TGames from './pages/teacher/Games/TGames';
 import SHome from './pages/students/SHome';
 import AHome from './pages/admin/AHome';
-import CertificatesGenerator from './pages/teacher/studetns/CertificatesGenerator';
-
-// Students
-
-// Admins
+import CertificatesGenerator from './pages/teacher/Certificates/CertificatesGenerator';
 
 const router = createBrowserRouter([
   // Creators

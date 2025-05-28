@@ -28,12 +28,12 @@ export default function CertificatesGenerator() {
       window.localStorage.setItem("language", 'english');
       window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
-
   }, []);
 
   const handleGenerate = (e) => {
     e.preventDefault();
     setMsg(null);
+    setCsv(null);
 
     if (e.target.title.value == "") {
       setMsg(language['error_validation_msg']);
@@ -69,11 +69,11 @@ export default function CertificatesGenerator() {
       const doc = new jsPDF('landscape', 'pt', 'a4');
       const centerX = doc.internal.pageSize.getWidth() / 2;
       doc.setFont('Amiri-Regular');
-      doc.setTextColor('#272727');
+      doc.setTextColor('#212121');
       doc.setFontSize(26);
       doc.addImage(bgcer, 'png', 0, 0, 850, 600);
       doc.addImage(logo, 'png', centerX - 70, 180, 142, 54);
-      doc.setFontSize(34);
+      doc.setFontSize(32);
       doc.text(student_name, centerX, 310, { align: 'center' });
       doc.setFontSize(18);
       doc.text("في برنامج " + title + " بتاريخ " + date, centerX, 350, { align: 'center' });
@@ -82,7 +82,7 @@ export default function CertificatesGenerator() {
 
     } catch (error) {
       console.log(error);
-      
+
       setMsg(language['error_msg']);
     }
   }
@@ -101,21 +101,22 @@ export default function CertificatesGenerator() {
             <p className="my-3 font-bold">{language && language["date"]}</p>
             <input id="date" name="date" className="py-2 px-4 rounded shodow-sm bg-color w-full placeholder-gray-400" placeholder={language && language["write_here"]} />
           </label>
-          
+
           <p className="my-3 font-bold">{language && language["upload"]}</p>
           <label htmlFor="date" className="block my-3 rounded-2xl bg-color py-7 p-5">
             <input type="file" name="csv" id="csv" accept=".csv" />
           </label>
 
-          {msg && <div className="p-4 m-2">{msg}</div>}
+          {msg && <div className="p-4 m-2 text-color">{msg}</div>}
 
           <div className="flex flex-row justify-between mt-2">
             <button className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400" type="submit">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["generate"]}</span></button>
           </div>
         </form>
 
-        <div>
-          {csv && <p className="text-sm my-4">{language && language['found']} {csv.length} {language && language['names']}.</p>}
+        <div className="p-4">
+          {csv && <p className="text-sm my-7 text-color border-b border-b-gray-200 py-4">{language && language['found']} {csv.length} {language && language['names']}.</p>}
+
           {csv && csv.map((item, index) => <div className="p-3 my-3 bg-white rounded-2xl flex justify-between hover:bg-gray-50" key={item + "-" + index}>
             <p>{(index + 1)} - {item}</p>
             <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 " onClick={() => handleDownloadCertificate(item)}>{language && language['download']}</button>
@@ -123,5 +124,5 @@ export default function CertificatesGenerator() {
         </div>
       </div>
     </div>
-  </ThemeContainer>)
+  </ThemeContainer>);
 }

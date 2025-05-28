@@ -225,7 +225,7 @@ export default function Exam() {
             {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">
                 <h3 className="text-2xl">{language && language['result']}</h3>
                 <p className="text-4xl font-bold my-4">{totalResult + "/" + result}</p>
-                <p className="p-4 text-l text-center underline">{language && language['submitted']}</p>
+                <p className="p-4 text-l text-center italic">{language && language['submitted']}</p>
             </div>}
 
             {inprogress && <button className="flex rounded pointer mx-3 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 my-5">

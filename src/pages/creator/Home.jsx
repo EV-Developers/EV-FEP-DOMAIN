@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { translation } from '../../config/translations';
 import ThemeContainer from '../../compenents/parts/ThemeContainer';
@@ -7,11 +7,12 @@ import api from '../../config/api';
 
 export default function Home() {
     const [language, setLanguage] = React.useState(null);
+    const navigate = useNavigate();
     const role = window.localStorage.getItem("auth_user_role");
     
     if(role && role != "" && role != null){
         if(role == 'teacher'){
-            window.location.href = '/teachers';
+            navigate('/teachers');
         }
     }
     

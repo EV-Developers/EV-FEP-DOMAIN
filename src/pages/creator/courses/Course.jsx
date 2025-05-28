@@ -49,7 +49,7 @@ export default function Course() {
                 
         if(role && role != "" && role != null){
             if(role == 'teacher'){
-                window.location.href = '/teachers';
+                navigate('/teachers');
             }
         }
 

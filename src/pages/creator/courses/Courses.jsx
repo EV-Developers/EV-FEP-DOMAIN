@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
@@ -15,6 +15,8 @@ export default function Courses() {
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [loadingCats, setLoadingCats] = React.useState(true);
+
+    const navigate = useNavigate();
     const ref = useRef();
 
     React.useEffect(() => {
@@ -23,7 +25,7 @@ export default function Courses() {
                 
         if(role && role != "" && role != null){
             if(role == 'teacher'){
-                window.location.href = '/teachers';
+                navigate('/teachers');
             }
         }
 
