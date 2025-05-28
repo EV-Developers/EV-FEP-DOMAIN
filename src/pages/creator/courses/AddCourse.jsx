@@ -120,7 +120,7 @@ export default function AddCourse() {
         //const auth_user = window.localStorage.getItem("auth_user");
         const formData = new FormData(e.target);
 
-        const response = await api.post("/courses/10/upload-image", formData);
+        const response = await api.post("/courses/9/upload-image", formData);
 
         console.log(response);
 
