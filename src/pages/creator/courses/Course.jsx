@@ -41,7 +41,7 @@ export default function Course() {
             cover: 'vid-3.webp',
             desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
         },
-    ]
+    ];
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
