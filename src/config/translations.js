@@ -137,10 +137,11 @@ export const translation = [
         mark: "Mark",
         certificates_generator: "Certificates Generator",
         certificates_generator_note: "Upload students names list as a CSV Exel file and click on generate button.",
-        download_template: "Download CSV file template",
+        download_template: "Download CSV template file",
         generate: "Generate",
         found: "Found",
         names: "names",
+
     },
     {
         dir: "rtl",
@@ -284,5 +285,6 @@ export const translation = [
         download_all: "تحميل الكل",
         found: "تم الحصول على",
         names: "اسم",
+        
     }
 ]

@@ -4,7 +4,7 @@ import { translation } from '../../../config/translations';
 import { jsPDF } from "jspdf";
 import { useParams } from 'react-router-dom';
 import { QRCode } from '@liquid-js/qrcode-generator';
-//import JSZip from "jszip";
+import JSZip from "jszip";
 import './Amiri-Regular-normal';
 
 export default function CertificatesGenerator() {
@@ -13,10 +13,11 @@ export default function CertificatesGenerator() {
   const [csv, setCsv] = React.useState(null);
   const [language, setLanguage] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const [loadingDownloadAll, setLoadingDownloadAll] = React.useState(false);
   const [msg, setMsg] = React.useState(null);
   const filesList = [];
   const { coursesId } = useParams();
-  //const zip = new JSZip();
+  const zip = new JSZip();
 
   // handle loading language strings..
   React.useEffect(() => {
@@ -62,7 +63,7 @@ export default function CertificatesGenerator() {
     setMsg(null);
     setCsv(null);
 
-    if (e.target.title.value == "") {
+    if (e.target.date.value == "" || e.target.csv.files.length == 0) {
       setMsg(language['error_validation_msg']);
 
       return false;
@@ -86,7 +87,7 @@ export default function CertificatesGenerator() {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      setMsg(language['error_validation_msg']);
+      setMsg(language['error_msg']);
     }
   }
 
@@ -105,60 +106,66 @@ export default function CertificatesGenerator() {
     }
   }
 
-
   /**
-   * 
+   * function to compree all PDF files and download them as a zip file.
    * @param {number} current index number of current file in files array
    * @param {Array} array files array
-   */
-  /*
+  */
   const handleZipfile = (current, array) => {
-    setTimeout(() => {
-      zip.file(array[current]);
+    console.log(array[current]);
+    let name = Date.now() * Math.random();
+    zip.file(name + '.pdf', array[current]);
 
-      if (current == array.length) {
-        console.log(current);
-
-        zip.generateAsync({ type: "blob" })
-          .then(function (content) {
-            console.log(content);
-
-            const zipFileName = title.replaceAll(' ', '-') + '.zip';
-            const file_url = window.URL.createObjectURL(content);
-            let a = document.createElement('a');
-            a.href = file_url;
-            a.download = zipFileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-          });
-      } else {
-        handleNext(current + 1, array);
-      }
-    }, 2000);
+    if (current == (array.length - 1)) {
+      zip.generateAsync({ type: "blob" })
+        .then(function (content) {
+          const zipFileName = title.replaceAll(' ', '-') + '.zip';
+          const file_url = window.URL.createObjectURL(content);
+          let a = document.createElement('a');
+          a.href = file_url;
+          a.download = zipFileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setLoadingDownloadAll(false)
+        })
+        .catch(err => {
+          console.log(err);
+          setLoadingDownloadAll(false);
+        });
+    } else {
+      handleZipfile(current + 1, array);
+    }
   }
 
+  /**
+   * function to to download all PDF files.
+   */
   const downloadAll = async () => {
+    setLoadingDownloadAll(true);
     if (csv) {
       csv.map(async (item, index) => {
         await handleMakePdf(item, 'compress');
-        if (index == csv.length) {
+        if (index == (csv.length - 1)) {
+
           handleZipfile(0, filesList);
         }
       });
     }
   }
-  */
+
 
   /**
-   * function to generate PDF files for each student
+   * Function to generate PDF files for each student
    * @param {string} student_name name of the current student
    * @param {string} output output type: download | compress
-   */
+  */
   const handleMakePdf = async (student_name, output) => {
     const cr_ref = String(Date.now());
-    // replace file name spaces with dash
-    const file_name = title.replaceAll(' ', '-') + '-certificate.pdf'
+    // Replace file name spaces with dash
+    const file_name = title.replaceAll(' ', '-') + '-certificate.pdf';
+
+    // add certificate URL as QR Code.
     const qr = new QRCode(4, 'L');
     qr.addData('https://fep.misk-donate.com/?c=' + cr_ref);
     qr.make();
@@ -210,21 +217,21 @@ export default function CertificatesGenerator() {
 
           <label htmlFor="date">
             <p className="my-3 font-bold">{language && language["date"]}</p>
-            <input id="date" name="date" className="py-2 px-4 rounded shodow-sm bg-color w-full placeholder-gray-400" placeholder={language && language["write_here"]} />
+            <input type="date" id="date" name="date" className="py-2 px-4 rounded-xl shodow-sm bg-color w-full placeholder-gray-400" placeholder={language && language["write_here"]} />
           </label>
 
           <p className="my-3 font-bold">{language && language["upload"]}</p>
-          <label htmlFor="date" className="block my-3 rounded-2xl bg-color py-7 p-5">
+          <label htmlFor="csv" className="block my-3 rounded-xl bg-color py-7 p-5">
             <input type="file" name="csv" id="csv" accept=".csv" />
           </label>
 
-          {msg && <div className="p-4 m-2 text-color">{msg}</div>}
+          {msg && <div className="py-4 my-2 text-color">{msg}</div>}
 
           <div className="flex flex-row justify-between mt-2">
-            <button className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400" type="submit">
+            <button type="submit" className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">
               {loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["generate"]}</span>
             </button>
-            {/* {csv && <button type="button" onClick={downloadAll} className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language['download_all']}</button>} */}
+            {csv && <button type="button" onClick={downloadAll} className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{loadingDownloadAll && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language['download_all']}</span></button>}
           </div>
         </form>
 
