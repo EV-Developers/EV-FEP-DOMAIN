@@ -93,33 +93,41 @@ export default function Course() {
     }, []);
 
     async function getData() {
-        const tmpData = await api.get('/courses/'+coursesId);
-        const tmpLessonsData = await api.get('/lessons');
-        const tmpAssestmentsData = await api.get('/assignments');
-
-        if (tmpData.status == 200) {
-            setData(tmpData.data)
-            console.log(tmpData.data);
-        }
-
-        if (tmpLessonsData.status == 200) {
-            setLessonData(tmpLessonsData.data);
-            console.log(tmpLessonsData.data);
-        }
-
-        if (tmpAssestmentsData.status == 200) {
-            setAssestmentsData(tmpAssestmentsData.data);
-            console.log(tmpAssestmentsData);
+        try {
+            const tmpData = await api.get('/courses/'+coursesId);
+            const tmpLessonsData = await api.get('/lessons');
+            const tmpAssestmentsData = await api.get('/assignments');
+    
+            if (tmpData.status == 200) {
+                setData(tmpData.data)
+                console.log(tmpData.data);
+            }
+    
+            if (tmpLessonsData.status == 200) {
+                setLessonData(tmpLessonsData.data);
+                console.log(tmpLessonsData.data);
+            }
+    
+            if (tmpAssestmentsData.status == 200) {
+                setAssestmentsData(tmpAssestmentsData.data);
+                console.log(tmpAssestmentsData);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     const handleDelete = async () => {
-        const response = await api.delete('/courses/' + coursesId);
-        console.log(response);
-        if (response.status == 200) {
-            navigate("/courses")
-        } else {
-            console.log('error');
+        try {
+            const response = await api.delete('/courses/' + coursesId);
+            console.log(response);
+            if (response.status == 200) {
+                navigate("/courses")
+            } else {
+                console.log('error');
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 

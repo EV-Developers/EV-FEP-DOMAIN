@@ -43,16 +43,20 @@ export default function AddGame() {
         const formData = new FormData(e.target);
 
         if (e.target.description.value != "" && e.target.title.value != "") {
-            const response = await api.post("/games/" + catId, formData);
-
-            console.log(response);
-
-            if (response.status == 200) {
-                setLoading(false);
-                navigate('/games');
-            } else {
-                setMsg(language["error_msg"]);
-                setLoading(false);
+            try {
+                const response = await api.post("/games/" + catId, formData);
+    
+                console.log(response);
+    
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/games');
+                } else {
+                    setMsg(language["error_msg"]);
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.log(error);
             }
         } else {
             setMsg(language["error_validation_msg"])

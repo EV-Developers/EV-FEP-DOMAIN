@@ -38,17 +38,24 @@ export default function CategoryDetails() {
     }, []);
 
     React.useEffect(() => {
-        loadData()
-    }, [])
+        loadData();
+    }, []);
 
     const loadData = async () => {
-        const response = await api.get('/course-categories/'+catId);
-        console.log(response);
-        if (response.status == 200) {
-            setData(response.data);
-            loadCoursesData();
-        } else {
-            console.log('error');
+        try {
+            const response = await api.get('/course-categories/'+catId);
+
+            console.log(response);
+            
+            if (response.status == 200) {
+                setData(response.data);
+                loadCoursesData();
+            } else {
+                console.log('error');
+                loadCoursesData();
+            }
+        } catch (error) {
+            console.log(error);
             loadCoursesData();
         }
     }
@@ -62,15 +69,20 @@ export default function CategoryDetails() {
         const formData = new FormData(e.target);
 
         if (e.target.description.value != "" && e.target.name.value != "" ) {
-            const response = await api.put("/course-categories/"+catId, formData);
-
-            console.log(response);
-            
-
-            if (response.status == 200) {
-                setLoading(false);
-                navigate('/categories');
-            } else {
+            try {
+                const response = await api.put("/course-categories/"+catId, formData);
+    
+                console.log(response);
+    
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/categories');
+                } else {
+                    setLoading(false);
+                    setMsg(language['error_msg']);
+                }
+            } catch (error) {
+                console.log(error);
                 setLoading(false);
                 setMsg(language['error_msg']);
             }
@@ -81,23 +93,30 @@ export default function CategoryDetails() {
     }
 
     const handleDelete = async () => {
-        const response = await api.delete('/course-categories/'+catId);
-        console.log(response);
-        if (response.status == 200) {
-            navigate('/categories')
-        } else {
-            console.log('error');
+        try {
+            const response = await api.delete('/course-categories/'+catId);
+            console.log(response);
+            if (response.status == 200) {
+                navigate('/categories')
+            } else {
+                console.log('error');
+            }
+        } catch (error) {
+            console.log(error);
         }
-    
     }
 
     const loadCoursesData = async () => {
-        const tmpData = await api.get('/courses');
-
-        console.log(tmpData);
-        
-        if (tmpData.status == 200) {
-            setCoursesData(tmpData.data.data);
+        try {
+            const tmpData = await api.get('/courses');
+    
+            console.log(tmpData);
+            
+            if (tmpData.status == 200) {
+                setCoursesData(tmpData.data.data);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 

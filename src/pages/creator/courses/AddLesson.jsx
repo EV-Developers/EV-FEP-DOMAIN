@@ -48,16 +48,22 @@ export default function AddLesson() {
         //return false;
 
         if (e.target.title.value != "" && e.target.description.value != "") {
-            const response = await api.post("/lessons", formData);
-
-            console.log(response);
-            
-            if (response.status == 200) {
-                setLoading(false);
-                navigate('/courses/'+coursesId);
-            } else {
+            try {
+                const response = await api.post("/lessons", formData);
+    
+                console.log(response);
+                
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/courses/'+coursesId);
+                } else {
+                    setLoading(false);
+                    setMsg(language["error_msg"]);
+                }
+            } catch (error) {
                 setLoading(false);
                 setMsg(language["error_msg"]);
+                console.log(error);
             }
         } else {
             setLoading(false);

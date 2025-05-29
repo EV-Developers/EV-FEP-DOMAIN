@@ -59,14 +59,18 @@ export default function GameDetails() {
         const formData = new FormData(e.target);
 
         if (e.target.description.value != "" && e.target.title.value != "") {
-            const response = await api.put("/games/" + catId, formData);
-
-            if (response.status == 200) {
-                setLoading(false);
-                navigate('/games');
-            } else {
-                setLoading(false);
-                setMsg(language["error_msg"]);
+            try {
+                const response = await api.put("/games/" + catId, formData);
+    
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/games');
+                } else {
+                    setLoading(false);
+                    setMsg(language["error_msg"]);
+                }
+            } catch (error) {
+                console.log(error);
             }
         } else {
             setMsg(language["error_validation_msg"])
@@ -78,12 +82,16 @@ export default function GameDetails() {
         const r = window.confirm("Are you sure?");
 
         if (r) {
-            const response = await api.delete('/games/' + catId);
-            console.log(response);
-            if (response.status == 200) {
-                navigate('/games')
-            } else {
-                console.log('error');
+            try {
+                const response = await api.delete('/games/' + catId);
+                console.log(response);
+                if (response.status == 200) {
+                    navigate('/games')
+                } else {
+                    console.log('error');
+                }
+            } catch (error) {
+                console.log(error);
             }
         }
     }

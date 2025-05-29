@@ -46,16 +46,20 @@ export default function Courses() {
     }, []);
     
     const loadData = async () => {
-        const tmpData = await api.get('/courses');
-        console.log(tmpData);
-
-        if (tmpData.status == 200) {
-            setLoading(false);
-            setData(tmpData.data.data);
-            loadCategoriesData();
-        } else {
-            setLoading(false);
-            loadCategoriesData();
+        try {
+            const tmpData = await api.get('/courses');
+            console.log(tmpData);
+    
+            if (tmpData.status == 200) {
+                setLoading(false);
+                setData(tmpData.data.data);
+                loadCategoriesData();
+            } else {
+                setLoading(false);
+                loadCategoriesData();
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -64,16 +68,21 @@ export default function Courses() {
     }, [])
 
     const loadCategoriesData = async () => {
-        const response = await api.get('/course-categories');
-        console.log(response);
-        if (response.status == 200) {
+        try {
+            const response = await api.get('/course-categories');
+            console.log(response);
+            if (response.status == 200) {
+                setLoadingCats(false);
+                let tmpArr = response.data;
+                setCategoriesData(tmpArr);
+                setCategoriesShadowData(tmpArr);
+            } else {
+                setLoadingCats(false);
+                console.log('error');
+            }
+        } catch (error) {
             setLoadingCats(false);
-            let tmpArr = response.data;
-            setCategoriesData(tmpArr);
-            setCategoriesShadowData(tmpArr);
-        } else {
-            setLoadingCats(false);
-            console.log('error');
+            console.log(error);
         }
     }
 

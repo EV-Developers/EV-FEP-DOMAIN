@@ -6,7 +6,6 @@ import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import api from '../../../config/api';
 
 export default function Materials() {
-
         const [language, setLanguage] = React.useState(null);
     
         React.useEffect(() => {
@@ -25,7 +24,6 @@ export default function Materials() {
                 window.localStorage.setItem("language", 'english');
                 window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
             }
-    
         }, []);
 
     const list = [

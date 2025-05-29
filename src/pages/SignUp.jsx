@@ -36,13 +36,18 @@ export default function SignUp() {
 
     }, []);
 
+    /**
+     * handle register new users
+     * @param {Event} e register form submit event
+     */
     const handleRegister = async (e) => {
         e.preventDefault();
         setMsg(null);
         const formData = new FormData(e.target);
-        formData.append("role", "teacher");
+        formData.append("role", "student");
 
         setLoading(true);
+
         if (e.target.name.value == "" || e.target.email.value == "" || e.target.password.value == "") {
             setMsg(language["error_validation_password_msg"]);
             setLoading(false);

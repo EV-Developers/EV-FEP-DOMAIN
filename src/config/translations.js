@@ -141,7 +141,6 @@ export const translation = [
         generate: "Generate",
         found: "Found",
         names: "names",
-
     },
     {
         dir: "rtl",

@@ -1,17 +1,10 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 import { translation } from '../../../config/translations';
-import api from '../../../config/api';
 import { Link } from 'react-router-dom';
 
 export default function TAssesment({ item }) {
-    const [show, setShow] = React.useState(false);
-    const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
-    const [courseId, setCourseId] = React.useState(null);
-    const [assesmentId, setAssesmentId] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");

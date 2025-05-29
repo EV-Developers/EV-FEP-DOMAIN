@@ -41,16 +41,20 @@ export default function NewCategory() {
         const formData = new FormData(e.target);
 
         if (e.target.description.value != "" && e.target.name.value != "" ) {
-            const response = await api.post("/course-categories", formData);
-
-            console.log(response);
-
-            if (response.status == 200) {
-                setLoading(false);
-                navigate('/categories');
-            } else {
-                setLoading(false);
-                setMsg(language["error_msg"]);
+            try {
+                const response = await api.post("/course-categories", formData);
+    
+                console.log(response);
+    
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/categories');
+                } else {
+                    setLoading(false);
+                    setMsg(language["error_msg"]);
+                }
+            } catch (error) {
+                console.log(error);
             }
         } else {
             setLoading(false);

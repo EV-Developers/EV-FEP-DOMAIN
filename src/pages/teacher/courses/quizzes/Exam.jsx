@@ -122,7 +122,9 @@ export default function Exam() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setInprogress(false);
-
+        /**
+         * @constant {string} user_id get user ID from localstorage
+         */
         const user_id = window.localStorage.getItem("auth_user");
         const user_results = [];
         let user_total_marks = 0;
@@ -134,12 +136,21 @@ export default function Exam() {
 
         if (questions) {
             questions.map((item) => {
+                /**
+                 * @constant {HTMLElement} elements get elements that their name start with 'question-'
+                 */
                 const elements = document.getElementsByName("question-" + item.id);
                 const checkboxList = [];
                 let answerOptionText = "";
                 let user_mark = 0;
                 item.answers.map((answer) => {
+                    /**
+                     * @constant {HTMLElement} element get current answer
+                     */
                     const element = document.getElementById("answer-" + answer.id);
+                    /**
+                     * @constant {Array} total_is_correct_answers get all correct answers number
+                    */
                     const total_is_correct_answers = item.answers.filter(ans => ans.is_correct == true);
 
                     if (element.type == 'radio' || element.type == 'checkbox') {
@@ -151,7 +162,7 @@ export default function Exam() {
                                     user_mark -= user_mark != 0 ? (item.mark / total_is_correct_answers.length) : user_mark;
                                 }
                             }
-
+                            // assgin new property userAnswer to answer Object.
                             answer.userAnswer = true;
 
                             if (element.type == 'checkbox') {
@@ -172,6 +183,8 @@ export default function Exam() {
 
                     answerOptionText = textElement.value;
                 }
+
+                // assign marks for final result and each question
 
                 item.user_mark = parseInt(item.mark / user_mark);
                 tmp_total_marks += item.mark;
@@ -199,8 +212,8 @@ export default function Exam() {
             setResult(user_total_marks);
             setTotalResult(tmp_total_marks);
         }
-
-        //navigate('/teachers/courses/lesson' + lessonId);
+        // after saving to database
+        // navigate('/teachers/courses/lesson' + lessonId);
     }
 
     return (<ThemeContainer role="teachers">

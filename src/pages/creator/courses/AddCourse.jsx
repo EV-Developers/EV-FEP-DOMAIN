@@ -64,7 +64,6 @@ export default function AddCourse() {
             formData.append("featured_image", featuredImage[0], featuredImage[0].name);
         }
 
-
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
                 const response = await api.post("/courses", formData);
@@ -89,6 +88,10 @@ export default function AddCourse() {
         }
     }
 
+    /**
+     * handleSteps is used to navigate between sectins
+     * @param {string} selected_step step to the next section
+     */
     const handleSteps = (selected_step) => {
         let tmpStep = step;
 
@@ -107,49 +110,59 @@ export default function AddCourse() {
 
     const loadCategoriesData = async () => {
         console.log(categoryId);
-        
-        const tmpCategoriesData = await api.get('/course-categories');
-        if (tmpCategoriesData.status == 200) {
-            setCategories(tmpCategoriesData.data);
+        try {
+            const tmpCategoriesData = await api.get('/course-categories');
+            if (tmpCategoriesData.status == 200) {
+                setCategories(tmpCategoriesData.data);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //const auth_user = window.localStorage.getItem("auth_user");
+        const auth_user = window.localStorage.getItem("auth_user");
         const formData = new FormData(e.target);
 
-        const response = await api.post("/courses/9/upload-image", formData);
-
-        console.log(response);
-
-        if (response.status == 200 || response.status == 201) {
-            navigate('/courses');
-        } else {
+        try {
+            const response = await api.post("/courses/9/upload-image", formData);
+            console.log(response);
+    
+            if (response.status == 200 || response.status == 201) {
+                navigate('/courses');
+            } else {
+                setMsg(language["error_msg"]);
+            }
+        } catch (error) {
             setMsg(language["error_msg"]);
+            console.log(error);
         }
     }
-    
 
     React.useEffect(() => {
         loadCoursesData();
     }, []);
 
     const loadCoursesData = async () => {
-        const tmpData = await api.get('/courses');
-
-        console.log(tmpData);
-        
-        if (tmpData.status == 200) {
-            setCoursesData(tmpData.data.data);
-            setData(tmpData.data.data);
+        try {
+            const tmpData = await api.get('/courses');
+    
+            console.log(tmpData);
+            
+            if (tmpData.status == 200) {
+                setCoursesData(tmpData.data.data);
+                setData(tmpData.data.data);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
     
     React.useEffect(() => {
         if(title != "" && data){
-            const tmpArr = [];
+            let tmpArr = [];
             tmpArr = [...data, {id: 'test-1', title: title}]
             setCoursesData(tmpArr);
         }
@@ -157,11 +170,11 @@ export default function AddCourse() {
 
     return (
         <ThemeContainer>
-            {/* <form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+            {/*<form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <input type="file" name="featured_image" />
-                
+
                 <button type="submit">Add</button>
-            </form> */}
+            </form>*/}
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
                 <div className="flex">
                     <Link to="/courses">

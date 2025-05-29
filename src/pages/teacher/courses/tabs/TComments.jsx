@@ -6,6 +6,7 @@ import { translation } from '../../../../config/translations';
 export default function TComments() {
   const [show, setShow] = React.useState(false)
   const stars = [1, 2, 3, 4, 5];
+  const [ratting, setRatting] = React.useState(0);
   const [language, setLanguage] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
 
@@ -25,7 +26,6 @@ export default function TComments() {
       window.localStorage.setItem("language", 'english');
       window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
-
   }, []);
 
   const comments_list = [
@@ -91,7 +91,12 @@ export default function TComments() {
     </div>)}
 
     <div className="relative m-4 mt-14">
-      <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10 bottom-0 m-4`}>{language && language["publish"]}</button>
+      <div className={`flex justify-between ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10 bottom-0 w-full m-0 p-4`}>
+        <div className="flex">
+          {stars && stars.map(star => <FontAwesomeIcon onClick={() => setRatting(star)}  icon={faStar} className={`${star <= ratting ? 'primary' : 'text-gray-500'} mx-1 hover:text-[#FD9800]`} />)}
+        </div>
+        <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400`}>{language && language["publish"]}</button>
+      </div>
       <textarea className="bg-color rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]}  rows="7"></textarea>
     </div>
 

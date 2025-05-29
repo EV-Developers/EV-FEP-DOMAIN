@@ -76,12 +76,16 @@ export default function Quizzes() {
     const r = window.confirm("Are you sure?");
 
     if (r) {
-      const response = await api.delete('/quizzes/' + quizzId);
-      console.log(response);
-      if (response.status == 200) {
-        navigate("/quizzes/" + lessonId)
-      } else {
-        console.log('error');
+      try {
+        const response = await api.delete('/quizzes/' + quizzId);
+        console.log(response);
+        if (response.status == 200) {
+          navigate("/quizzes/" + lessonId)
+        } else {
+          console.log('error');
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   }

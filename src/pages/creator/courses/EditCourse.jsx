@@ -43,6 +43,7 @@ export default function EditCourse() {
         }
 
     }, []);
+
     const handleCreateCourse = async () => {
         setMsg(null);
         setLoading(true);
@@ -74,6 +75,10 @@ export default function EditCourse() {
         }
     }
 
+    /**
+     * handleSteps is used to navigate between sectins
+     * @param {string} selected_step step to the next section
+     */
     const handleSteps = (selected_step) => {
         let tmpStep = step;
 
@@ -92,28 +97,35 @@ export default function EditCourse() {
     }, [])
 
     const loadData = async () => {
-        const tmpData = await api.get('/courses/' + coursesId);
-
-        console.log(tmpData);
-
-        if (tmpData.status == 200) {
-            setTitle(tmpData.data.title);
-            setDescription(tmpData.data.description)
-            setCategoryId(tmpData.data.categoryId)
-            setLevel(tmpData.data.level)
-            //setFeaturedImage(tmpData.data)
+        try {
+            const tmpData = await api.get('/courses/' + coursesId);
+    
+            console.log(tmpData);
+    
+            if (tmpData.status == 200) {
+                setTitle(tmpData.data.title);
+                setDescription(tmpData.data.description)
+                setCategoryId(tmpData.data.categoryId)
+                setLevel(tmpData.data.level)
+                //setFeaturedImage(tmpData.data)
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     const loadCategoriesData = async () => {
-        const tmpCategoriesData = await api.get('/course-categories');
-        if (tmpCategoriesData.status == 200) {
-            console.log(tmpCategoriesData.data);
-
-            setCategories(tmpCategoriesData.data);
+        try {
+            const tmpCategoriesData = await api.get('/course-categories');
+            if (tmpCategoriesData.status == 200) {
+                console.log(tmpCategoriesData.data);
+    
+                setCategories(tmpCategoriesData.data);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
-
 
     return (
         <ThemeContainer>

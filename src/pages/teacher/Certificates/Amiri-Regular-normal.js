@@ -6,4 +6,5 @@ const callAddFont = function () {
     this.addFileToVFS('Amiri-Regular-normal.ttf', AmiriFont);
     this.addFont('Amiri-Regular-normal.ttf', 'Amiri-Regular', 'normal');
 };
-jsPDF.API.events.push(['addFonts', callAddFont])
+
+jsPDF.API.events.push(['addFonts', callAddFont]);

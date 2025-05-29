@@ -1,22 +1,17 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import api from '../../../config/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function TCategoryDetails() {
     const [data, setData] = React.useState(null);
-    const [categoriesData, setCategoriesData] = React.useState(null);
-    const [categoriesShadowData, setCategoriesShadowData] = React.useState(null);
-    const [category, setCategory] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const [loadingCats, setLoadingCats] = React.useState(true);
     const { catId } = useParams();
-    const ref = useRef();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");

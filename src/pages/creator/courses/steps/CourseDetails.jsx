@@ -61,8 +61,6 @@ setCoursesData }) {
         },
     ]
 
-
-
     return (<div>
         <div className="flex">
             <div className="w-[60%] px-4 border-r border-r-[#ccccccc1] mx-5">

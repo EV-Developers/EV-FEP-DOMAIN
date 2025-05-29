@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 import ConfrimModal from '../../../compenents/parts/ConfrimModal';
@@ -33,13 +33,21 @@ export default function Assesment({ item }) {
 
     }, []);
 
+    /**
+     * delete assignments by id
+     * @param {string} item_id assignments ID
+     */
     const handleDelete = async (item_id) => {
-        const response = await api.delete('/assignments/' + item_id);
-        console.log(response);
-        if (response.status == 200) {
-            navigate("/courses/" + coursesId)
-        } else {
-            console.log('error');
+        try {
+            const response = await api.delete('/assignments/' + item_id);
+            console.log(response);
+            if (response.status == 200) {
+                navigate("/courses/" + courseId)
+            } else {
+                console.log('error');
+            }
+        } catch (error) {
+            console.log(error);
         }
         
     }

@@ -27,16 +27,17 @@ export default function TCategories() {
 
     }, []);
 
-
     React.useEffect(() => {
         loadData()
-    }, [])
+    }, []);
 
+    /**
+     * @async
+     * load all courses categories data
+     */
     const loadData = async () => {
         const response = await api.get('/course-categories');
         if (response.status == 200) {
-            console.log(response.data);
-
             setData(response.data);
         }
     }

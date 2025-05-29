@@ -7,7 +7,6 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function TLessonDetails() {
     const [language, setLanguage] = React.useState(null);
-    const [progress, setProgress] = React.useState(0);
     const video = useRef();
     const { lessonId } = useParams();
     const tmp_vid_url = "https://www.w3schools.com/html/mov_bbb.mp4";
@@ -32,6 +31,7 @@ export default function TLessonDetails() {
     }, []);
 
     React.useEffect(() => {
+        // get current video play time to save user progress
         if (video && video.current) {
             const stop = video.current.addEventListener('pause', ev => {
                 console.log(ev.target, ev.target.currentTime);

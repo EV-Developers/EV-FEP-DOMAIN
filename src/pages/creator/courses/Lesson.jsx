@@ -32,13 +32,21 @@ export default function Lesson({ courseId, item }) {
 
     }, []);
 
+    /**
+     * delete lessons by lesson ID
+     * @param {string} lessonId lesson ID
+     */
     const handleDeleteLesson = async (lessonId) => {
-        const response = await api.delete('/lessons/'+lessonId);
-        console.log(response);
-        if (response.status == 200) {
-            window.location.reload()
-        } else {
-            console.log('error');
+        try {
+            const response = await api.delete('/lessons/'+lessonId);
+            console.log(response);
+            if (response.status == 200) {
+                window.location.reload()
+            } else {
+                console.log('error');
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 

@@ -35,21 +35,29 @@ export default function Material() {
         }
 
     }, []);
+
     React.useEffect(() => {
         loadData()
     }, [])
 
     const loadData = async () => {
-        const response = await api.get('/materials/' + catId);
-        console.log(response);
-        if (response.status == 200) {
-            setData(response.data);
-        } else {
-            console.log('error');
-
+        try {
+            const response = await api.get('/materials/' + catId);
+            console.log(response);
+            if (response.status == 200) {
+                setData(response.data);
+            } else {
+                console.log('error');
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
+    /**
+     * handle edit and update materials
+     * @param {Event} e form submit event
+     */
     const handleUpdate = async (e) => {
         e.preventDefault();
         setMsg(null);
@@ -57,15 +65,19 @@ export default function Material() {
         const formData = new FormData(e.target);
 
         if (e.target.description.value != "" && e.target.name.value != "") {
-            const response = await api.put("/materials/" + catId, formData);
-
-            console.log(response);
-
-
-            if (response.status == 200) {
-                navigate('/materials');
-            } else {
-                setMsg(language["error_msg"]);
+            try {
+                const response = await api.put("/materials/" + catId, formData);
+    
+                console.log(response);
+    
+    
+                if (response.status == 200) {
+                    navigate('/materials');
+                } else {
+                    setMsg(language["error_msg"]);
+                }
+            } catch (error) {
+                console.log(error);
             }
         } else {
             setMsg(language["error_validation_msg"])
@@ -74,14 +86,19 @@ export default function Material() {
     }
 
     const handleDelete = async () => {
-        setLoading(true)
-        const response = await api.delete('/materials/' + catId);
-        console.log(response);
-        if (response.status == 200) {
-            setLoading(false);
-            navigate('/materials');
-        } else {
-            console.log('error');
+        setLoading(true);
+        try {
+            const response = await api.delete('/materials/' + catId);
+            console.log(response);
+            if (response.status == 200) {
+                setLoading(false);
+                navigate('/materials');
+            } else {
+                console.log('error');
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
             setLoading(false);
         }
     }

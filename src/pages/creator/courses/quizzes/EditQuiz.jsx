@@ -4,6 +4,7 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
+import api from '../../../../config/api';
 
 export default function EditQuiz() {
     const [data, setData] = React.useState(false);
@@ -64,13 +65,17 @@ export default function EditQuiz() {
     }, [quizzId]);
 
     async function getData() {
-        const tmpData = await api.get('/quizzes/' + quizzId);
-        const answers = await api.get('/answers/' + quizzId);
-        console.log(tmpData, answers);
-
-        if (tmpData.status == 200) {
-            setData(tmpData.data);
-            setAnswers(answers.data)
+        try {
+            const tmpData = await api.get('/quizzes/' + quizzId);
+            const answers = await api.get('/answers/' + quizzId);
+            console.log(tmpData, answers);
+    
+            if (tmpData.status == 200) {
+                setData(tmpData.data);
+                setAnswers(answers.data)
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 

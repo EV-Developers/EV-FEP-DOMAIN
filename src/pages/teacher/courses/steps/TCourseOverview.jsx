@@ -28,19 +28,32 @@ export default function TCourseOverview({ handleSteps, description, setDescripti
 
   React.useEffect(() => {
     if (featuredImage && featuredImage[0] && featuredImage != '') {
-      const imgUrl = window.URL.createObjectURL(featuredImage[0]);
-      ref.current.style.backgroundSize = 'contain';
-      ref.current.style.background = `url(${imgUrl}) no-repeat`;
+      /**
+       * @constant {string} imgUrl create a URL form the HTMLElement image file.
+       */
+      try {
+        const imgUrl = window.URL.createObjectURL(featuredImage[0]);
+        ref.current.style.backgroundSize = 'contain';
+        ref.current.style.background = `url(${imgUrl}) no-repeat`;
+      } catch (error) {
+        console.log(error);
+      }
 
     }
   })
 
   const handleSetImage = (e) => {
-    const imgUrl = window.URL.createObjectURL(e.target.files[0]);
-    ref.current.style.backgroundSize = 'contain';
-    ref.current.style.background = `url(${imgUrl}) no-repeat`;
+    /**
+    * @constant {string} imgUrl create a URL form the HTMLElement image file.
+    */
 
-    setFeaturedImage(e.target.files)
+    if(e.target && e.target.files.length != 0){
+      const imgUrl = window.URL.createObjectURL(e.target.files[0]);
+      ref.current.style.backgroundSize = 'contain';
+      ref.current.style.background = `url(${imgUrl}) no-repeat`;
+  
+      setFeaturedImage(e.target.files);
+    }
   }
 
   return (

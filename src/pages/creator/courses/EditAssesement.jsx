@@ -37,13 +37,17 @@ export default function EditAssesement() {
     }, [])
 
     const loadData = async () => {
-        const response = await api.get('/assignments/' + coursesId);
-        console.log(response);
-        if (response.status == 200) {
-            setData(response.data);
-        } else {
-            console.log('error');
-
+        try {
+            const response = await api.get('/assignments/' + coursesId);
+            console.log(response);
+            if (response.status == 200) {
+                setData(response.data);
+            } else {
+                console.log('error');
+    
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -78,14 +82,18 @@ export default function EditAssesement() {
         //return false;
 
         if (e.target.title.value != "" && e.target.description.value != "") {
-            const response = await api.put("/assignments/" + coursesId, formData);
-
-            if (response.status == 200) {
-                setLoading(false);
-                navigate('/courses/' + coursesId);
-            } else {
-                setLoading(false);
-                setMsg(language['error_msg']);
+            try {
+                const response = await api.put("/assignments/" + coursesId, formData);
+    
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/courses/' + coursesId);
+                } else {
+                    setLoading(false);
+                    setMsg(language['error_msg']);
+                }
+            } catch (error) {
+                console.log(error);
             }
         } else {
             setLoading(false);

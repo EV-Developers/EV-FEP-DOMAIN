@@ -48,6 +48,7 @@ export default function Login() {
         } else {
             try {
                 const response = await api.post("/login", formData);
+                
                 console.log(response);
 
                 if (response.status == 200 || response.status == 201) {
@@ -83,6 +84,7 @@ export default function Login() {
             }
         }
     }
+
     return (<>
         <div className="flex w-[90%] mx-auto">
             <div className="block w-[50%] h-[100vh] bg-white">

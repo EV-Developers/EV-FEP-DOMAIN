@@ -12,6 +12,8 @@ export default function EditLesson() {
     const [msg, setMsg] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
+    const navigate = useNavigate();
+    const { courseId, lessonId } = useParams();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -33,21 +35,18 @@ export default function EditLesson() {
     }, []);
 
 
-    const navigate = useNavigate();
-    const { courseId, lessonId } = useParams();
 
     React.useEffect(() => {
-        loadData()
-    }, [])
+        loadData();
+    }, []);
 
     const loadData = async () => {
         const response = await api.get('/lessons/' + lessonId);
-        console.log(response);
+
         if (response.status == 200) {
             setData(response.data);
         } else {
             console.log('error');
-
         }
     }
 
@@ -59,16 +58,20 @@ export default function EditLesson() {
         formData.append("lesson_cover_image", "2");
 
         if (e.target.name.value != "" && e.target.description.value != "") {
-            const response = await api.put("/lessons/" + lessonId, formData);
-
-            console.log(response);
-
-            if (response.status == 200) {
-                setLoading(false);
-                navigate('/courses/' + courseId);
-            } else {
-                setLoading(false);
-                setMsg(language["error_msg"]);
+            try {
+                const response = await api.put("/lessons/" + lessonId, formData);
+    
+                console.log(response);
+    
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/courses/' + courseId);
+                } else {
+                    setLoading(false);
+                    setMsg(language["error_msg"]);
+                }
+            } catch (error) {
+                console.log(error);
             }
         } else {
             setLoading(false);

@@ -64,12 +64,16 @@ export default function AddAssesement() {
         //return false;
 
         if (e.target.title.value != "" && e.target.description.value != "") {
-            const response = await api.post("/assignments", formData);
-
-            if (response.status == 200) {
-                navigate('/courses/' + coursesId);
-            } else {
-                setMsg(language["error_msg"]);
+            try {
+                const response = await api.post("/assignments", formData);
+    
+                if (response.status == 200) {
+                    navigate('/courses/' + coursesId);
+                } else {
+                    setMsg(language["error_msg"]);
+                }
+            } catch (error) {
+               console.log(error);
             }
         } else {
             setMsg(language["error_validation_msg"])
