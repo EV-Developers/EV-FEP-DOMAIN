@@ -125,7 +125,7 @@ export default function Exam() {
         /**
          * @constant {string} user_id get user ID from localstorage
          */
-        const user_id = window.localStorage.getItem("auth_user");
+        const user_id = window.localStorage.getItem("DDOj9KHr51qW1xi");
         const user_results = [];
         let user_total_marks = 0;
         let tmp_total_marks = 0;

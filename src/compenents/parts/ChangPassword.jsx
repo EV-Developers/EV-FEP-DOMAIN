@@ -2,15 +2,28 @@ import React from 'react'
 
 export default function ChangPassword({ open, setOpen, language }) {
     const [loading, setLoading] = React.useState(false);
+    const [msg, setMsg] = React.useState(null);
 
     const handleUpdatePassword = (e) => {
         e.preventDefault();
-        console.log(e.target);
+        setLoading(true);
 
-        if (e.target.files && e.target.files[0]) {
-            const image = window.URL.createObjectURL(e.target.files[0])
+        const authUser = window.localStorage.getItem("DDOj9KHr51qW1xi");
+        const password = e.target.password.value;
+        const repeat_password = e.target.repeat_password.value;
+
+        if(password != repeat_password){
+            setMsg(language['error_validation_password_match_msg']);
             setLoading(false);
+            return false;
         }
+
+        if(password.length < 6){
+            setMsg(language['error_validation_password_length_msg']);
+            setLoading(false);
+            return false;
+        }
+
     }
 
     return (<div open={open} onClose={setOpen} className="relative z-50">
@@ -21,12 +34,16 @@ export default function ChangPassword({ open, setOpen, language }) {
                     <h2 className="py-4 text-xl font-bold border-b border-b-gray-200 mt-4">{language && language["change_password"]}:</h2>
                     <label htmlFor="password">
                         <p id="password" className="my-3 font-bold">{language && language["password"]}</p>
-                        <input type="text" id="password" name="password" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
+                        <input type="password" id="password" name="password" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
                     </label>
-                    <label htmlFor="repeat-password">
-                        <p id="repeat-password" className="my-3 font-bold">{language && language["repeat_password"]}</p>
-                        <input type="text" id="repeat-password" name="repeat-password" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
+                    <label htmlFor="repeat_password">
+                        <p id="repeat_password" className="my-3 font-bold">{language && language["repeat_password"]}</p>
+                        <input type="password" id="repeat_password" name="repeat_password" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
                     </label>
+
+                    {msg && <div className="p-4 m-2 text-center">
+                        {msg}
+                    </div>}
 
                     <div className="flex justify-between w-full">
                         <button type="button" onClick={() => setOpen(false)} className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto mt-5">{language && language["cancel"]}</button>

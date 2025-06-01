@@ -8,7 +8,7 @@ import api from '../../config/api';
 export default function Home() {
     const [language, setLanguage] = React.useState(null);
     const navigate = useNavigate();
-    const role = window.localStorage.getItem("auth_user_role");
+    const role = window.localStorage.getItem("z8C2XXEo52uJQj7");
     /*
     if(role && role != "" && role != null){
         if(role == 'teacher'){

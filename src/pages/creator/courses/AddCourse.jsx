@@ -49,7 +49,7 @@ export default function AddCourse() {
     const handleCreateCourse = async () => {
         setMsg(null);
         setLoading(true);
-        const auth_user = window.localStorage.getItem("auth_user");
+        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
 
         const formData = new FormData();
         formData.append("title", title);
@@ -123,7 +123,7 @@ export default function AddCourse() {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const auth_user = window.localStorage.getItem("auth_user");
+        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
         const formData = new FormData(e.target);
         formData.append("createdBy", auth_user);
 

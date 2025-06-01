@@ -45,7 +45,7 @@ export default function Course() {
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
-        const role = window.localStorage.getItem("auth_user_role");
+        const role = window.localStorage.getItem("z8C2XXEo52uJQj7");
                 
         if(role && role != "" && role != null){
             if(role == 'teacher'){

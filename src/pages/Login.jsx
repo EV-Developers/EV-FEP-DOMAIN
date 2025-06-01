@@ -52,19 +52,25 @@ export default function Login() {
                 console.log(response);
 
                 if (response.status == 200 || response.status == 201) {
-                    if (response.data.user.status == "active") {
-                        localStorage.setItem("auth_token", response.data.token);
-                        localStorage.setItem("auth_user", response.data.user.id);
-                        localStorage.setItem("auth_user_name", response.data.user.name);
-                        localStorage.setItem("auth_user_email", e.target.email.value);
+                    if (response?.data?.user?.status == "active") {
+                        // Token: rJp7E3Qi7r172VD
+                        // UserId: DDOj9KHr51qW1xi
+                        // Name: VPHl3hMFGI8w9kq
+                        // Email: L5HiP7ZpOyuVnO4
+                        // Role: z8C2XXEo52uJQj7
 
-                        if (response.data && response.data.user.roles && response.data.user.roles[0]) {
-                            localStorage.setItem("auth_user_role", response.data.user.roles[0].name);
+                        localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
+                        localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
+                        localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);
+                        localStorage.setItem("L5HiP7ZpOyuVnO4", e.target.email.value);
+
+                        if (response?.data?.user?.roles[0]) {
+                            localStorage.setItem("z8C2XXEo52uJQj7", response.data.user.roles[0].name);
                         }
 
                         setLoading(false);
 
-                        if (response.data.user.roles[0].name == 'teacher') {
+                        if (response?.data?.user?.roles[0]?.name == 'teacher') {
                             navigate('/teachers');
                         } else {
                             navigate('/');

@@ -12,7 +12,7 @@ export default function THome() {
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
-    const user_name = window.localStorage.getItem("auth_user_name");
+    const user_name = window.localStorage.getItem("VPHl3hMFGI8w9kq");
     setUsername(user_name);
 
     if (lang && lang != '' && lang != null) {

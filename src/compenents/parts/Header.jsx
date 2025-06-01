@@ -16,10 +16,12 @@ export default function Header({role}) {
     const location = useLocation();
     const ref = React.useRef();
     const [language, setLanguage] = React.useState(null);
+
     let slug = "";
     if(role){
         slug = '/'+role;
     }
+
     const notifications_list = []; /*[
         {
             id: "notification_1",
@@ -33,7 +35,7 @@ export default function Header({role}) {
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
-        const userRole = window.localStorage.getItem("auth_user_role");
+        const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
         
         if(userRole && userRole != "" && userRole != null){
             if(userRole == 'teacher'){
@@ -73,7 +75,7 @@ export default function Header({role}) {
     }
 
     React.useEffect(() => {
-        let auth_check = window.localStorage.getItem("auth_token");
+        let auth_check = window.localStorage.getItem("rJp7E3Qi7r172VD");
         
         if (auth_check == "" || auth_check == null) {
             navigate("/login");

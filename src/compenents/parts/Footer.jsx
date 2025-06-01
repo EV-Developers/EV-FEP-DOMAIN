@@ -14,7 +14,7 @@ export default function Footer({role}) {
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
-        const userRole = window.localStorage.getItem("auth_user_role");
+        const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
         
         if(userRole && userRole != "" && userRole != null){
             if(userRole == 'teacher'){
