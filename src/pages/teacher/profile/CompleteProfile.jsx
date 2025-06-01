@@ -1,7 +1,8 @@
 import React from 'react'
-import { translation } from '../../../../config/translations';
+import ThemeContainer from '../../../compenents/parts/ThemeContainer'
+import { translation } from '../../../config/translations';
 
-export default function TResources({ resources_list }) {
+export default function CompleteProfile() {
   const [language, setLanguage] = React.useState(null);
 
   React.useEffect(() => {
@@ -20,14 +21,9 @@ export default function TResources({ resources_list }) {
       window.localStorage.setItem("language", 'english');
       window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
-
   }, []);
 
-
-  return (<div>
-      {resources_list && resources_list.map(item => <div className="border-b border-b-gray-200 p-4 ">
-        <p>{item.description}</p>
-      </div>)}
-    </div>
-  )
+  return (<ThemeContainer role="teacher">
+      <div>CompleteProfile</div>
+  </ThemeContainer>)
 }
