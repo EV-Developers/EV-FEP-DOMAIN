@@ -37,9 +37,10 @@ export default function TLesson({ item }) {
         <div className="transition-all px-0">
             <p className="p-2">{item.desc}</p>
             <div className="justify-baseline">
-                <Link to={"/teachers/courses/lesson/" + item.id} className="relative flex justify-center items-center w-[65%] group p-0 rounded-2xl">
-                    <div style={{ width: (parseInt(item.progress) - 0.5) + '%' }} className={`text-amber-600 bg-amber-500 absolute bottom-4 z-10 mx-0 left-1 my-3 h-3 transition-all ${parseInt(item.progress) == 100 ? 'rounded-b-2xl' : language && language['dir'] == 'ril' ? 'rounded-br-2xl' : 'rounded-bl-2xl'}
-                    `}></div>
+                <Link to={"/teachers/courses/lesson/" + item.id} className="relative flex justify-center items-center w-[65%] group p-0 rounded-4xl">
+                    <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-1 my-3 h-2 px-3 transition-all w-full rounded-b-2xl"></div>
+                    <div style={{ width: (parseInt(item.progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-1 my-3 h-2 px-0 transition-all blur-xs rounded-b-2xl"></div>
+                    <div style={{ width: (parseInt(item.progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-1 my-3 h-2 px-0 transition-all rounded-b-2xl"></div>
                     <div className="rounded-full w-14 h-14 pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br  hover:from-amber-700 group-hover:to-amber-400 absolute z-10 flex justify-center items-center">
                         <FontAwesomeIcon icon={faPlay} className="text-white text-3xl" />
                     </div>

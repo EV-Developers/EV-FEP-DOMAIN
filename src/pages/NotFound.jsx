@@ -13,8 +13,11 @@ export default function NotFound() {
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
         const role = window.localStorage.getItem("z8C2XXEo52uJQj7");
-        
-        setUserRole(role);
+        if(role && role == 'teacher'){
+            setUserRole("teachers");
+        } else {
+            setUserRole(role);
+        }
 
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {

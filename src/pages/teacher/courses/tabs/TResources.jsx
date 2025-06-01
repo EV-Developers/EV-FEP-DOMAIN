@@ -25,9 +25,11 @@ export default function TResources({ resources_list }) {
 
 
   return (<div>
-      {resources_list && resources_list.map(item => <div className="border-b border-b-gray-200 p-4 ">
-        <p>{item.description}</p>
-      </div>)}
-    </div>
+    {resources_list && resources_list.map(item => <div className="border-b border-b-gray-200 p-4 ">
+      <h4 className="text-l font-bold">{item.title}</h4>
+      <p>{item.description}</p>
+      <button className="block rounded pointer my-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 cursor-pointer">{language && language['download']}</button>
+    </div>)}
+  </div>
   )
 }

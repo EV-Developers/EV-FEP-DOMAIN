@@ -1,11 +1,12 @@
-import JSZip from "jszip";
 import React from 'react'
-import ThemeContainer from '../../../compenents/parts/ThemeContainer'
-import { translation } from '../../../config/translations';
-import { jsPDF } from "jspdf";
 import { useParams } from 'react-router-dom';
 import { QRCode } from '@liquid-js/qrcode-generator';
+import { jsPDF } from "jspdf";
+import JSZip from "jszip";
+
 import './Amiri-Regular-normal';
+import ThemeContainer from '../../../compenents/parts/ThemeContainer'
+import { translation } from '../../../config/translations';
 
 export default function CertificatesGenerator() {
   const [title, setTitle] = React.useState("Arduino pack: Design, Manage and Launch Arduino");
@@ -48,6 +49,7 @@ export default function CertificatesGenerator() {
    */
   const loadData = async () => {
     const response = await api.get('/courses/' + coursesId);
+
     if (response.status == 200) {
       setTitle(response.data.title);
     }
@@ -111,7 +113,6 @@ export default function CertificatesGenerator() {
    * @param {Array} array files array
   */
   const handleZipfile = (current, array, zip) => {
-    console.log(array[current]);
     let name = Date.now() * Math.random();
     zip.file(name + '.pdf', array[current]);
 
@@ -145,10 +146,12 @@ export default function CertificatesGenerator() {
     setLoadingDownloadAll(true);
     if (csv) {
       csv.map((item, index) => {
-        handleMakePdf(item, 'compress');
-        if (index == (csv.length - 1)) {
-
-          handleZipfile(0, filesList, zip);
+        if(item != ""){
+          handleMakePdf(item, 'compress');
+          if (index == (csv.length - 1)) {
+  
+            handleZipfile(0, filesList, zip);
+          }
         }
       });
     }
@@ -161,6 +164,9 @@ export default function CertificatesGenerator() {
    * @param {string} output output type: download | compress
   */
   const handleMakePdf = (student_name, output) => {
+    if(student_name == ""){
+      return false;
+    }
     const cr_ref = String(Date.now());
     // Replace file name spaces with dash
     const file_name = title.replaceAll(' ', '-') + '-certificate.pdf';

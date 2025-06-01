@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -48,7 +50,7 @@ export default function Login() {
         } else {
             try {
                 const response = await api.post("/login", formData);
-                
+
                 console.log(response);
 
                 if (response.status == 200 || response.status == 201) {
@@ -136,8 +138,26 @@ export default function Login() {
                     </p>
                 </form>
             </div>
-            <div className="w-[50%]">
-                <img src="/banner/banner.webp" className="w-full h-[100vh]" />
+            <div className="w-[50%] relative">
+                <Swiper
+                    //spaceBetween={50}
+                    slidesPerView={3}
+                    autoplay={true}
+                    onSlideChange={() => console.log('Slide change')}
+                    onSwiper={(swiper) => console.log(swiper)}
+                >
+                    <SwiperSlide>
+                        <div>
+                            <img src="/banner/banner.webp" className="w-full h-[100vh]" />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div>
+                            <img src="/banner/banner.webp" className="w-full h-[100vh]" />
+                        </div>
+                    </SwiperSlide>
+                </Swiper>
+                {/* <img src="/banner/banner.webp" className="w-full h-[100vh]" /> */}
             </div>
         </div>
     </>)

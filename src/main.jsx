@@ -10,6 +10,7 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import ContactPage from './pages/ContactPage';
+import Home from './pages/creator/Home';
 import Courses from './pages/creator/courses/Courses';
 import Course from './pages/creator/courses/Course';
 import AddCourse from './pages/creator/courses/AddCourse';
@@ -62,7 +63,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/creators",
-    element: <Courses />
+    element: <Home />
   },
   {
     path: "/login",
@@ -164,8 +165,7 @@ const router = createBrowserRouter([
     path: "/add-game",
     element: <AddGame />
   },
-  // gernal
-
+  // Gernal
   {
     path: "/pages/:pageName",
     element: <PagesContent />
