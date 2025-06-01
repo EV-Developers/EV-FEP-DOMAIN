@@ -9,7 +9,7 @@ import api from '../../../config/api';
 
 export default function EditAssesement() {
     const [show, setShow] = React.useState(false);
-    const { coursesId } = useParams();
+    const { courseId } = useParams();
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
 
@@ -38,7 +38,7 @@ export default function EditAssesement() {
 
     const loadData = async () => {
         try {
-            const response = await api.get('/assignments/' + coursesId);
+            const response = await api.get('/assignments/' + courseId);
             console.log(response);
             if (response.status == 200) {
                 setData(response.data);
@@ -83,11 +83,11 @@ export default function EditAssesement() {
 
         if (e.target.title.value != "" && e.target.description.value != "") {
             try {
-                const response = await api.put("/assignments/" + coursesId, formData);
+                const response = await api.put("/assignments/" + courseId, formData);
     
                 if (response.status == 200) {
                     setLoading(false);
-                    navigate('/courses/' + coursesId);
+                    navigate('/courses/' + courseId);
                 } else {
                     setLoading(false);
                     setMsg(language['error_msg']);
@@ -109,7 +109,7 @@ export default function EditAssesement() {
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                     </Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + coursesId}>{language && language["course"]}</Link>
+                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + courseId}>{language && language["course"]}</Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
                 </div>

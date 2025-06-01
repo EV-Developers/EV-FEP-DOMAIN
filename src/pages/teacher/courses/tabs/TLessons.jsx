@@ -27,6 +27,6 @@ export default function TLessons({ lessons, setLessons, assesments, courseId }) 
     return (<div>
         <p className="text-2xl m-4">{language && language["course_lessons"]}:</p>
         {lessons && lessons && lessons.map(item => <Lesson courseId={courseId} item={item} key={item.id} />)}
-        {assesments && assesments.map(item => <Assesment item={item} key={item.id} />)}
+        {assesments && assesments.map(item => <Assesment courseId={courseId} item={item} key={item.id} />)}
     </div>)
 }

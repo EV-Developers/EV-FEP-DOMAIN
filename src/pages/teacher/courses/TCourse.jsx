@@ -18,7 +18,7 @@ export default function TCourse() {
     const [lessons, setLessons] = React.useState(null);
     const [assestmentsData, setAssestmentsData] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
-    const { coursesId } = useParams();
+    const { courseId } = useParams();
 
     const lessonsList = [
         {
@@ -73,7 +73,7 @@ export default function TCourse() {
     const assesments = [
         {
             id: 'assesment-1',
-            title: 'Assesments 1',
+            title: 'Course Assesment',
             assesment_type: 'git',
             video: 'vid-3.webp'
         },
@@ -93,7 +93,7 @@ export default function TCourse() {
     }, [])
 
     async function getData() {
-        const tmpData = await api.get('/courses/' + coursesId);
+        const tmpData = await api.get('/courses/' + courseId);
         const tmpLessonsData = await api.get('/lessons');
         const tmpAssestmentsData = await api.get('/assignments');
 
@@ -123,7 +123,7 @@ export default function TCourse() {
 
             <div className="flex justify-between">
                 <div></div>
-                <Link to={'/teachers/generator/' + coursesId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 ">{language && language["certificates_generator"]}</Link>
+                <Link to={'/teachers/generator/' + courseId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 ">{language && language["certificates_generator"]}</Link>
             </div>
             <div className="flex">
                 <Link to="/courses">
@@ -148,7 +148,7 @@ export default function TCourse() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <TLessons courseId={coursesId} lessons={lessons} setLessons={setLessons} assesments={assesments} />
+                    <TLessons courseId={courseId} lessons={lessons} setLessons={setLessons} assesments={assesments} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>

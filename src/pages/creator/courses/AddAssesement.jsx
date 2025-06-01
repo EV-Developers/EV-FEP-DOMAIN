@@ -9,7 +9,7 @@ import api from '../../../config/api';
 export default function AddAssesement() {
     const [language, setLanguage] = React.useState(null);
     const [show, setShow] = React.useState(false);
-    const { coursesId } = useParams();
+    const { courseId } = useParams();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -58,7 +58,7 @@ export default function AddAssesement() {
         setMsg(null);
 
         const formData = new FormData(e.target);
-        formData.append("course_id", coursesId);
+        formData.append("course_id", courseId);
         formData.append("createdBy", "2");
 
         //return false;
@@ -68,7 +68,7 @@ export default function AddAssesement() {
                 const response = await api.post("/assignments", formData);
     
                 if (response.status == 200) {
-                    navigate('/courses/' + coursesId);
+                    navigate('/courses/' + courseId);
                 } else {
                     setMsg(language["error_msg"]);
                 }
@@ -88,7 +88,7 @@ export default function AddAssesement() {
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                     </Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + coursesId}>{language && language["course"]}</Link>
+                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + courseId}>{language && language["course"]}</Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <p className="m-3 my-3 text-color">{language && language["new_assesment"]}</p>
                 </div>

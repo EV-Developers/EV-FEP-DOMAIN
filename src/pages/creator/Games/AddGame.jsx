@@ -39,13 +39,11 @@ export default function AddGame() {
         setLoading(true);
         console.log(e.target);
 
-
         const formData = new FormData(e.target);
 
         if (e.target.description.value != "" && e.target.title.value != "") {
             try {
                 const response = await api.post("/games/" + catId, formData);
-    
                 console.log(response);
     
                 if (response.status == 200) {
@@ -61,7 +59,6 @@ export default function AddGame() {
         } else {
             setMsg(language["error_validation_msg"])
         }
-
     }
 
     return (

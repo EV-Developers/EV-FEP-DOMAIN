@@ -10,7 +10,7 @@ import api from '../../../config/api';
 export default function AddLesson() {
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
-    const { coursesId } = useParams();
+    const { courseId } = useParams();
     const [msg, setMsg] = React.useState(null);
     const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ export default function AddLesson() {
         console.log(e.target);
         
         const formData = new FormData(e.target);
-        formData.append("course_id", coursesId);
+        formData.append("course_id", courseId);
         formData.append("createdBy", "2");
         formData.append("lesson_cover_image", "2");
         formData.append("_order", "1");
@@ -55,7 +55,7 @@ export default function AddLesson() {
                 
                 if (response.status == 200) {
                     setLoading(false);
-                    navigate('/courses/'+coursesId);
+                    navigate('/courses/'+courseId);
                 } else {
                     setLoading(false);
                     setMsg(language["error_msg"]);
@@ -74,11 +74,11 @@ export default function AddLesson() {
     return (<ThemeContainer>
         <form method="post" encType="multipart/form-data" className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]" onSubmit={handleCreateSection}>
             <div className="flex">
-                <Link to={"/courses/"+coursesId}>
+                <Link to={"/courses/"+courseId}>
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                 </Link>
                 <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight: faAngleLeft} className="my-4 m-3 text-color" />
-                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/"+coursesId}>{language && language["course"]}</Link>
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/"+courseId}>{language && language["course"]}</Link>
                 <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <p className="m-3 my-3 text-color">{language && language["new_lesson"]}</p>
             </div>

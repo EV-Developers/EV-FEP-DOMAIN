@@ -61,7 +61,7 @@ export default function AddCourse() {
         formData.append("max_students", 0);
         formData.append("createdBy", auth_user);
         if(featuredImage && featuredImage[0]){
-            formData.append("featured_image", featuredImage[0], featuredImage[0].name);
+            //formData.append("featured_image", featuredImage[0], featuredImage[0].name);
         }
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
@@ -125,13 +125,14 @@ export default function AddCourse() {
         e.preventDefault();
         const auth_user = window.localStorage.getItem("auth_user");
         const formData = new FormData(e.target);
+        formData.append("createdBy", auth_user);
 
         try {
-            const response = await api.post("/courses/9/upload-image", formData);
+            const response = await api.post("/courses/upload-image", formData);
             console.log(response);
     
             if (response.status == 200 || response.status == 201) {
-                navigate('/courses');
+                //navigate('/courses');
             } else {
                 setMsg(language["error_msg"]);
             }
@@ -170,11 +171,11 @@ export default function AddCourse() {
 
     return (
         <ThemeContainer>
-            {/*<form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+            {/* <form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <input type="file" name="featured_image" />
 
                 <button type="submit">Add</button>
-            </form>*/}
+            </form> */}
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
                 <div className="flex">
                     <Link to="/courses">

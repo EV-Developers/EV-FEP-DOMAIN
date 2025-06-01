@@ -141,6 +141,8 @@ export const translation = [
         generate: "Generate",
         found: "Found",
         names: "names",
+        send: "Send",
+        message: "Message",
 
     },
     {
@@ -278,13 +280,15 @@ export const translation = [
         exam_note: "أجب على جميع الأسئلة، بعض الأسئلة قد تحتوى على اجابات متعددة.",
         result: "النتيجة",
         mark: "الدرجة",
-        certificates_generator: "منشأ الشهادات",
+        certificates_generator: "مُنشأ الشهادات",
         certificates_generator_note: "قم برفع ملف اكسل CSV به قائمة أسماء الطلاب واضغط زر الانشاء.",
         download_template: "تحميل قالب ملف CSV",
         generate: "أنشأ",
         download_all: "تحميل الكل",
         found: "تم الحصول على",
         names: "اسم",
-        
+        send: "إرسال",
+        message: "الرسالة",
+
     }
 ]

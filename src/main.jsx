@@ -6,9 +6,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Courses from './pages/creator/courses/Courses';
+import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
+import ContactPage from './pages/ContactPage';
+import Courses from './pages/creator/courses/Courses';
 import Course from './pages/creator/courses/Course';
 import AddCourse from './pages/creator/courses/AddCourse';
 import AddAssesement from './pages/creator/courses/AddAssesement';
@@ -45,13 +47,22 @@ import TGames from './pages/teacher/Games/TGames';
 import SHome from './pages/students/SHome';
 import AHome from './pages/admin/AHome';
 import CertificatesGenerator from './pages/teacher/Certificates/CertificatesGenerator';
+import SubmitAssesment from './pages/teacher/courses/SubmitAssesment';
 
 const router = createBrowserRouter([
   // Creators
   {
     path: "/",
-    element: <Courses />,
+    element: <Index />,
     errorElement: <NotFound />
+  },
+  {
+    path: "/contact",
+    element: <ContactPage />
+  },
+  {
+    path: "/creators",
+    element: <Courses />
   },
   {
     path: "/login",
@@ -66,7 +77,7 @@ const router = createBrowserRouter([
     element: <Courses />,
   },
   {
-    path: "/courses/:coursesId",
+    path: "/courses/:courseId",
     element: <Course />,
   },
   {
@@ -74,7 +85,7 @@ const router = createBrowserRouter([
     element: <AddCourse />,
   },
   {
-    path: "/courses/edit/:coursesId",
+    path: "/courses/edit/:courseId",
     element: <EditCourse />,
   },
   {
@@ -98,7 +109,7 @@ const router = createBrowserRouter([
     element: <AddMaterial />
   },
   {
-    path: "/add-lessons/:coursesId",
+    path: "/add-lessons/:courseId",
     element: <AddLesson />,
   },
   {
@@ -118,11 +129,11 @@ const router = createBrowserRouter([
     element: <EditQuiz />,
   },
   {
-    path: "/add-assesment/:coursesId",
+    path: "/add-assesment/:courseId",
     element: <AddAssesement />
   },
   {
-    path: "/edit-assesment/:coursesId",
+    path: "/edit-assesment/:courseId",
     element: <EditAssesement />,
   },
   {
@@ -169,7 +180,7 @@ const router = createBrowserRouter([
     element: <TCourses />
   },
   {
-    path: "/teachers/courses/:coursesId",
+    path: "/teachers/courses/:courseId",
     element: <TCourse />
   },
   {
@@ -197,8 +208,12 @@ const router = createBrowserRouter([
     element: <TGames />,
   },
   {
-    path: "/teachers/generator/:coursesId",
+    path: "/teachers/generator/:courseId",
     element: <CertificatesGenerator />,
+  },
+  {
+    path: "/teachers/submit-assesment/:courseId",
+    element: <SubmitAssesment />
   },
   // Studetns
   {

@@ -3,7 +3,7 @@ import React from 'react'
 import { translation } from '../../../config/translations';
 import { Link } from 'react-router-dom';
 
-export default function TAssesment({ item }) {
+export default function TAssesment({ courseId, item }) {
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
@@ -22,7 +22,6 @@ export default function TAssesment({ item }) {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
     }, []);
 
     return (
@@ -37,7 +36,7 @@ export default function TAssesment({ item }) {
                     </div>
                     <p className="p-2">{language && language["assesment_type"]}: {item.assesment_type}</p>
 
-                    <Link to="/teachers/submit-assesment" className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 " onClick={() => handleDownloadCertificate(item)}>{language && language['submit']}</Link>
+                    <Link to={"/teachers/submit-assesment/"+courseId} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 " >{language && language['submit']}</Link>
                 </div>
             </div>
 

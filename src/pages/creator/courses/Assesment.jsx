@@ -71,7 +71,7 @@ export default function Assesment({ item }) {
                             setCourseId(item.course_id);
                             setShowModal(true);
                         }}>{language && language["delete"]}</button>
-                        <Link to={"/edit-assesment/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
+                        <Link to={"/edit-assesment/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ">{language && language["edit"]}</Link>
                     </div>
                 </div>}
             </div>

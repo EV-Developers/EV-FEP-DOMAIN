@@ -19,7 +19,7 @@ export default function Course() {
     const [lessonsData, setLessonData] = React.useState(null);
     const [lessons, setLessons] = React.useState(null);
     const [assestmentsData, setAssestmentsData] = React.useState(null);
-    const { coursesId } = useParams();
+    const { courseId } = useParams();
     const navigate = useNavigate();
 
     const [language, setLanguage] = React.useState(null);
@@ -94,7 +94,7 @@ export default function Course() {
 
     async function getData() {
         try {
-            const tmpData = await api.get('/courses/'+coursesId);
+            const tmpData = await api.get('/courses/'+courseId);
             const tmpLessonsData = await api.get('/lessons');
             const tmpAssestmentsData = await api.get('/assignments');
     
@@ -119,7 +119,7 @@ export default function Course() {
 
     const handleDelete = async () => {
         try {
-            const response = await api.delete('/courses/' + coursesId);
+            const response = await api.delete('/courses/' + courseId);
             console.log(response);
             if (response.status == 200) {
                 navigate("/courses")
@@ -154,7 +154,7 @@ export default function Course() {
                 <div></div>
                 <div className="flex">
                     <button onClick={() => setShowModal(true)} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 ">{language && language["delete"]}</button>
-                    <Link to={'/courses/edit/' + coursesId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 ">{language && language["edit"]}</Link>
+                    <Link to={'/courses/edit/' + courseId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 ">{language && language["edit"]}</Link>
                 </div>
             </div>
             <div className="flex mt-4 border-b-1 border-b-[#cccccc] py-1 p-4">
@@ -171,7 +171,7 @@ export default function Course() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <Lessons courseId={coursesId} lessons={lessons} setLessons={setLessons} assesments={assesments} />
+                    <Lessons courseId={courseId} lessons={lessons} setLessons={setLessons} assesments={assesments} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>

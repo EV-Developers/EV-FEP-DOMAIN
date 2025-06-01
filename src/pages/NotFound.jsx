@@ -8,9 +8,13 @@ import ThemeContainer from '../compenents/parts/ThemeContainer';
 
 export default function NotFound() {
     const [language, setLanguage] = React.useState(null);
+    const [userRole, setUserRole] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
+        const role = window.localStorage.getItem("auth_user_role");
+        
+        setUserRole(role);
 
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {
@@ -25,10 +29,9 @@ export default function NotFound() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
     }, []);
 
-    return (<ThemeContainer>
+    return (<ThemeContainer role={userRole}>
         <div className="block mx-auto w-[75%]">
             <div className="flex">
                 <Link to={"/"}>

@@ -21,7 +21,7 @@ export default function EditCourse() {
     const [msg, setMsg] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
-    const { coursesId } = useParams()
+    const { courseId } = useParams()
     const navigate = useNavigate();
 
 
@@ -58,7 +58,7 @@ export default function EditCourse() {
         //formData.append("intro_video_url", '');
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
-            const response = await api.put("/courses/" + coursesId, formData);
+            const response = await api.put("/courses/" + courseId, formData);
 
             console.log(response);
 
@@ -98,7 +98,7 @@ export default function EditCourse() {
 
     const loadData = async () => {
         try {
-            const tmpData = await api.get('/courses/' + coursesId);
+            const tmpData = await api.get('/courses/' + courseId);
     
             console.log(tmpData);
     
@@ -131,11 +131,11 @@ export default function EditCourse() {
         <ThemeContainer>
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
                 <div className="flex">
-                    <Link to={"/courses/"+coursesId}>
+                    <Link to={"/courses/"+courseId}>
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                     </Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight: faAngleLeft} className="my-4 m-3 text-color" />
-                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/"+coursesId}>{language && language["course"]}</Link>
+                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/"+courseId}>{language && language["course"]}</Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
                 </div>

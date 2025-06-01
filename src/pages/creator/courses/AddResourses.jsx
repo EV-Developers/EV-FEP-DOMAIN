@@ -8,7 +8,7 @@ import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import api from '../../../config/api';
 
 export default function AddResourses() {
-  const { coursesId } = useParams();
+  const { courseId } = useParams();
   const [language, setLanguage] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -40,7 +40,7 @@ export default function AddResourses() {
             <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
           </Link>
           <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-          <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + coursesId}>{language && language["course"]} / {language && language["resources"]}</Link>
+          <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + courseId}>{language && language["course"]} / {language && language["resources"]}</Link>
           <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
           <p className="m-3 my-3 text-color">{language && language["new"]}</p>
         </div>

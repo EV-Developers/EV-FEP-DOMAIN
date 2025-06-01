@@ -94,7 +94,7 @@ export default function SignUp() {
                 <form method="post" onSubmit={handleRegister}>
                     <div className="relative h-11 mx-auto w-[45%] mb-7">
                         <input
-                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
+                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
                             placeholder=" "
                             type="text"
                             name="name"
@@ -105,7 +105,7 @@ export default function SignUp() {
                     </div>
                     <div className="relative h-11 mx-auto w-[45%] mb-7">
                         <input
-                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
+                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
                             placeholder=" "
                             type="email"
                             name="email"
@@ -116,7 +116,7 @@ export default function SignUp() {
                     </div>
                     <div className="relative h-11 mx-auto w-[45%] mb-7">
                         <input
-                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
+                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
                             placeholder=" "
                             type={passwordType ? "password" : "text"}
                             name="password"
@@ -131,7 +131,7 @@ export default function SignUp() {
 
                     <div className="relative h-11 mx-auto w-[45%] mb-7">
                         <input
-                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
+                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
                             placeholder=" "
                             type={passwordType ? "password" : "text"}
                             name="password_confirmation"
@@ -148,10 +148,12 @@ export default function SignUp() {
                         {msg}
                     </div>}
 
-                    <button className="rounded-xl pointer m-2 py-4 px-28 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto cursor-pointer text-white flex">{loading && <img className="animate-spin w-4 m-1" src="/loading_white.png" />} <span>{language && language["signup"]}</span></button>
+                    <button className="rounded-xl pointer m-2 py-4 px-28 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto cursor-pointer text-white flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["signup"]}</span></button>
 
                     <p className="text-sm text-gray-400 text-center my-5">
-                        <span>{language && language['signup_aqree']} <span className="mx-4"><Link to="/pages/privacy-policy" className="hover:underline">{language && language['privacy_policy']}</Link></span> </span>
+                        {language && language['signup_aqree']} <span className="mx-4">
+                            <Link to="/pages/privacy-policy" className="hover:underline">{language && language['privacy_policy']}</Link>
+                        </span>
                     </p>
                 </form>
             </div>

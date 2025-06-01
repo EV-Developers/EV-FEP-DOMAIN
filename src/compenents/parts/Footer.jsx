@@ -2,6 +2,7 @@ import React from 'react'
 import { translation } from '../../config/translations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faMapMarkerAlt, faPhone, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 export default function Footer({role}) {
     const [language, setLanguage] = React.useState(null);
@@ -48,22 +49,22 @@ export default function Footer({role}) {
             <div className="flex mt-7 text-xs">
                 <div className="mx-14">
                     <p className="font-bold my-4">{language && language['main_title']}</p>
-                    <p><a href={slug + "/courses"} className="hover:underline">{language && language['courses']}</a></p>
-                    <p><a href={slug + "/categories"} className="hover:underline">{language && language['categories']}</a></p> 
-                    <p><a href={slug + "/materials"} className="hover:underline">{language && language['materials']}</a></p> 
-                    <p><a href={slug + "/games"} className="hover:underline">{language && language['games']}</a></p> 
+                    <p><Link to={slug + "/courses"} className="hover:underline">{language && language['courses']}</Link></p>
+                    <p><Link to={slug + "/categories"} className="hover:underline">{language && language['categories']}</Link></p> 
+                    <p><Link to={slug + "/materials"} className="hover:underline">{language && language['materials']}</Link></p> 
+                    <p><Link to={slug + "/games"} className="hover:underline">{language && language['games']}</Link></p> 
                 </div>
                 <div className="mx-14">
                     <p className="font-bold my-4">{language && language['informations']}</p>
-                    <p><a href="/pages/about" className="hover:underline">{language && language['about']}</a></p>
-                    <p><a href="/pages/explore" className="hover:underline">{language && language['explore']}</a></p> 
-                    <p><a href="/pages/contact" className="hover:underline">{language && language['contact']}</a></p>
+                    <p><Link to="/pages/about" className="hover:underline">{language && language['about']}</Link></p>
+                    <p><Link to={slug + "/explore"} className="hover:underline">{language && language['explore']}</Link></p> 
+                    <p><Link to="/contact" className="hover:underline">{language && language['contact']}</Link></p>
                 </div>
                 <div className="mx-14">
                     <p className="font-bold my-4">{language && language['more']}</p>
-                    <p><a href="/pages/tos" className="hover:underline">{language && language['tos']}</a></p> 
-                    <p><a href="/pages/privacy-policy" className="hover:underline">{language && language['privacy_policy']}</a></p> 
-                    <p><a href="/pages/support" className="hover:underline">{language && language['support']}</a></p> 
+                    <p><Link to="/pages/tos" className="hover:underline">{language && language['tos']}</Link></p> 
+                    <p><Link to="/pages/privacy-policy" className="hover:underline">{language && language['privacy_policy']}</Link></p> 
+                    <p><Link to="/pages/support" className="hover:underline">{language && language['support']}</Link></p> 
                 </div>
             </div>
         </div>

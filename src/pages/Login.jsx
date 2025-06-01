@@ -123,7 +123,7 @@ export default function Login() {
                         {msg}
                     </div>}
 
-                    <button className="rounded-xl pointer m-2 py-4 px-28 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto cursor-pointer text-white flex">{loading && <img className="animate-spin w-4 m-1" src="/loading_white.png" />} <span>{language && language["login"]}</span></button>
+                    <button className="rounded-xl pointer m-2 py-4 px-28 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto cursor-pointer text-white flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["login"]}</span></button>
 
                     <p className="text-sm text-gray-400 text-center my-5">
                         <span>{language && language['signin_signup_note']} <span className="mx-4"><Link to="/signup" className="hover:underline">{language && language['signup']}</Link></span> </span>
