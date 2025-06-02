@@ -40,6 +40,8 @@ export default function Header({ role }) {
         if (userRole && userRole != "" && userRole != null) {
             if (userRole == 'teacher') {
                 slug = '/teachers';
+            } else if(userRole == 'student'){
+                slug = '/students';
             }
         }
 
@@ -87,11 +89,15 @@ export default function Header({ role }) {
     }, []);
 
     React.useEffect(() => {
-        const listen = document.getElementById("query").addEventListener('keydown', (ev) => {
-            if (ev.key == 'Enter' || ev.keyCode == 13) {
-                handleSearch();
-            }
-        });
+        try {
+            const listen = document.getElementById("query").addEventListener('keydown', (ev) => {
+                if (ev.key == 'Enter' || ev.keyCode == 13) {
+                    handleSearch();
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
 
         //return listen.removeEventListener()
     }, [ref]);
@@ -174,7 +180,7 @@ export default function Header({ role }) {
                         <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                     </Link>
                     <div className="block relative group">
-                        <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold group-hover:bg-white rounded-t-2xl group-hover:shadow-l transition-all hover:text-[#FD9800]">{language && language['explore']}</Link>
+                        {role && role != 'students' && <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold group-hover:bg-white rounded-t-2xl group-hover:shadow-l transition-all hover:text-[#FD9800]">{language && language['explore']}</Link>}
                         <div className="hidden group-hover:block md:w-[400px] drop-shadow-sm bg-white rounded-b-l absolute z-10 my-0 p-3 ">
                             <ul className="w-full grid grid-cols-3">
                                 {data && data.map(item => <li key={"cat-" + item.id}><Link to={slug + "/categories/" + item.id} className="block w-full hover:border-b hover:border-b-[#FD9800] py-1 text-xs">{item.name}</Link></li>)}
@@ -188,14 +194,14 @@ export default function Header({ role }) {
                             {language && language['home']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('/teachers/') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                         </Link>
-                        <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        {role && role != 'students' && <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['courses']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
-                        </Link>
-                        <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        </Link>}
+                        {role && role != 'students' && <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['categories']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
-                        </Link>
+                        </Link>}
                         <Link to={slug + "/materials"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/materials') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['materials']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/materials') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
@@ -207,19 +213,19 @@ export default function Header({ role }) {
                     </nav>
 
                     <div className={`hidden md:flex absolute ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'}`}>
-                        <div className="relative m-0">
+                        {role && role != 'students' && <div className="relative m-0">
                             <button onClick={handleSearch} className={`absolute z-10 m-4 ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'} `}>
                                 <FontAwesomeIcon icon={faSearch} className="text-xl" />
                             </button>
                             <input type="text" placeholder={language && language['search']} id="query" name="query" className="rounded-2xl py-2 my-2 p-4 mx-3 bg-white text-sm" ref={ref} />
-                        </div>
+                        </div>}
 
                         <div className="group">
                             <button className="relative rounded-full mx-2 my-2 w-10 h-10 cursor-pointer  group-hover:bg-white transition-all hover:scale-110" title={language && language['notifications']}>
                                 {notifications_list && notifications_list.length != 0 && <div className={`w-2 h-2 rounded-full absolute z-10 bg-amber-400  ${language && language['dir'] == 'ltr' ? 'left-3' : 'right-3'} border border-amber-600`}></div>}
                                 <FontAwesomeIcon icon={faBell} className="text-xl primary-text" />
                             </button>
-                            <div className={`hidden group-hover:block bg-white rounded-xl w-[75%] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 h-[300px] mx-5 shadow-sm`}>
+                            <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 h-[300px] mx-5 shadow-sm`}>
                                 <h2 className="text-l border-b border-b-gray-200 p-3 font-bold">{language && language['notifications']}</h2>
                                 {notifications_list && notifications_list.map(item => <div key={item.id} className="block hover:bg-gray-100 hover:border hover:border-gray-200 bg-white p-3 my-2 border-b border-b-gray-200 cursor-pointer" onClick={() => {
                                     if (item.type == 'comment') {
@@ -240,7 +246,7 @@ export default function Header({ role }) {
                             <button className="rounded-full mx-2 my-2 w-10 h-10 bg-primary cursor-pointer transition-all hover:scale-110" title={language && language['my_profile']}>
                                 <FontAwesomeIcon icon={faUser} className="text-xl text-white" />
                             </button>
-                            <div className={`hidden group-hover:block bg-white rounded-xl w-[65%] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 mx-3 shadow-sm`}>
+                            <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 mx-3 shadow-sm`}>
                                 {/* to={slug+"/profile"}  */}
                                 <button onClick={() => setShowProfile(true)} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
                                     {language && language['my_profile']}

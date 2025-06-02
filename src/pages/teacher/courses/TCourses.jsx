@@ -101,7 +101,6 @@ export default function TCourses() {
                             <strong className="text-bold primary-text">mohammed razi </strong>
                             <span>, electronic trainer and developer</span>
                         </p>
-
                     </div>
                 </Link>)}
             </div>

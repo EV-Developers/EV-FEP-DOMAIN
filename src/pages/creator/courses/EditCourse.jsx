@@ -3,11 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
+import CourseDetails from './steps/CourseDetails';
+import CourseOverview from './steps/CourseOverview';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import api from '../../../config/api';
-import CourseDetails from './steps/CourseDetails';
-import CourseOverview from './steps/CourseOverview';
 
 export default function EditCourse() {
     const [step, setStep] = React.useState(1);
@@ -18,12 +18,15 @@ export default function EditCourse() {
     const [level, setLevel] = React.useState("");
     const [featuredImage, setFeaturedImage] = React.useState(null);
     const [levelNewName, setLevelNewName] = React.useState('');
-    const [msg, setMsg] = React.useState(null);
+    const [categoryName, setCategoryName] = React.useState("");
     const [loading, setLoading] = React.useState(false);
-    const [language, setLanguage] = React.useState(null);
-    const { courseId } = useParams()
+    const [data, setData] = React.useState(null);
+    const [coursesData, setCoursesData] = React.useState(null);
+    const [msg, setMsg] = React.useState(null);
+    const { courseId } = useParams();
     const navigate = useNavigate();
 
+    const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -47,27 +50,38 @@ export default function EditCourse() {
     const handleCreateCourse = async () => {
         setMsg(null);
         setLoading(true);
+        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
+
         const formData = new FormData();
         formData.append("title", title);
         formData.append("description", description);
         formData.append("category_id", categoryId);
-        //formData.append("is_public", "true")
-        formData.append("difficulty_level", level);
-        //formData.append("max_students", 0);
-        //formData.append("featured_image_url", featuredImage);
-        //formData.append("intro_video_url", '');
+        formData.append("is_public", "true")
+        formData.append("level", level)
+        formData.append("difficulty_level", 1);
+        formData.append("max_students", 0);
+        formData.append("createdBy", auth_user);
+        if(featuredImage && featuredImage[0]){
+            //formData.append("featured_image", featuredImage[0], featuredImage[0].name);
+        }
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
-            const response = await api.put("/courses/" + courseId, formData);
+            try {
+                const response = await api.post("/courses", formData);
 
-            console.log(response);
+                console.log(response);
 
-            if (response.status == 200) {
+                if (response.status == 200 || response.status == 201) {
+                    setLoading(false)
+                    navigate('/courses');
+                } else {
+                    setLoading(false);
+                    setMsg(language["error_msg"]);
+                }
+            } catch (error) {
                 setLoading(false);
-                navigate('/courses');
-            } else {
-                setLoading(false);
-                setMsg(language['error_msg']);
+                console.log(error);
+                setMsg(language["error_msg"]);
             }
         } else {
             setLoading(false);
@@ -93,33 +107,13 @@ export default function EditCourse() {
 
     React.useEffect(() => {
         loadCategoriesData();
-        loadData();
-    }, [])
-
-    const loadData = async () => {
-        try {
-            const tmpData = await api.get('/courses/' + courseId);
-    
-            console.log(tmpData);
-    
-            if (tmpData.status == 200) {
-                setTitle(tmpData.data.title);
-                setDescription(tmpData.data.description)
-                setCategoryId(tmpData.data.categoryId)
-                setLevel(tmpData.data.level)
-                //setFeaturedImage(tmpData.data)
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    }, [categoryId]);
 
     const loadCategoriesData = async () => {
+        console.log(categoryId);
         try {
             const tmpCategoriesData = await api.get('/course-categories');
             if (tmpCategoriesData.status == 200) {
-                console.log(tmpCategoriesData.data);
-    
                 setCategories(tmpCategoriesData.data);
             }
         } catch (error) {
@@ -127,21 +121,85 @@ export default function EditCourse() {
         }
     }
 
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
+        const formData = new FormData(e.target);
+        formData.append("createdBy", auth_user);
+
+        try {
+            const response = await api.post("/courses/upload-image", formData);
+            console.log(response);
+    
+            if (response.status == 200 || response.status == 201) {
+                //navigate('/courses');
+            } else {
+                setMsg(language["error_msg"]);
+            }
+        } catch (error) {
+            setMsg(language["error_msg"]);
+            console.log(error);
+        }
+    }
+
+    React.useEffect(() => {
+        loadCoursesData();
+    }, []);
+
+    const loadCoursesData = async () => {
+        try {
+            const tmpData = await api.get('/courses/'+courseId);
+    
+            console.log(tmpData);
+            
+            if (tmpData.status == 200) {
+                setTitle(tmpData.data.title);
+                setDescription(tmpData.data.description)
+                setCategoryId(tmpData.data.categoryId)
+                setLevel(tmpData.data.level)
+                setCoursesData(tmpData.data.data);
+                setData(tmpData.data.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+    React.useEffect(() => {
+        if(title != "" && data){
+            let tmpArr = [];
+            tmpArr = [...data, {id: 'test-1', title: title}];
+            console.log(tmpArr);
+            
+            setCoursesData(tmpArr);
+        } else {
+            if(data){
+                setCoursesData(data);
+            }
+        }
+    }, [title]);
+
     return (
         <ThemeContainer>
+            {/* <form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+                <input type="file" name="featured_image" />
+
+                <button type="submit">Add</button>
+            </form> */}
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
                 <div className="flex">
-                    <Link to={"/courses/"+courseId}>
+                    <Link to="/courses">
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                     </Link>
-                    <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight: faAngleLeft} className="my-4 m-3 text-color" />
-                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/"+courseId}>{language && language["course"]}</Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                    <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
+                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>{language && language["courses"]}</Link>
+                    <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                    <p className="m-3 my-3 text-color">{language && language["new"]}</p>
                 </div>
                 <hr className="text-gray-200 my-5" />
-                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} />}
-                {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} handleSteps={handleSteps} />} */}
+                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} />}
+                {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />} */}
                 {step == 2 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
             </div>
         </ThemeContainer>

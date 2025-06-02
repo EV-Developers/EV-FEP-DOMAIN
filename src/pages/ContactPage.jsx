@@ -13,9 +13,21 @@ export default function ContactPage() {
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
-        const role = window.localStorage.getItem("z8C2XXEo52uJQj7");
+        let role = window.localStorage.getItem("z8C2XXEo52uJQj7");
+
+        
+        if(role && role != "" && role != null){
+            if(role == 'teacher'){
+                role = 'teachers';
+            } else if(role == 'student'){
+                role = 'students';
+            }
+        }
 
         setUserRole(role);
+
+        console.log(role);
+        
 
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {

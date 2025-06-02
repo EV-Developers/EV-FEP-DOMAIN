@@ -64,13 +64,13 @@ export default function THome() {
     }
   }
 
-  return (<ThemeContainer role="teachers" customeClasses="">
+  return (<ThemeContainer customeClasses="">
     <Swiper
       modules={[Autoplay, Pagination]}
       slidesPerView={1}
       autoplay={{ delay: 4000 }}
       pagination={{ clickable: true }}
-      className="h-full [&_.swiper-pagination-bullet]:bg-gray-400 [&_.swiper-pagination-bullet-active]:bg-orange-500"
+      className="h-full [&_.swiper-pagination-bullet]:bg-gray-400 [&_.swiper-pagination-bullet-active]:bg-[#fa9600]"
     >
       {slides && slides.map(item => <SwiperSlide key={item.id}>
         <img
@@ -93,20 +93,20 @@ export default function THome() {
         </Link>)}
       </div>
       {!data && loading && <div className="flex animate-pulse">
-        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
-          <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
-        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
-          <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
-        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
-          <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
       </div>}
     </div>
