@@ -8,7 +8,7 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
     const video = useRef();
 
     React.useEffect(() => {
-        if(video){
+        if (video) {
             try {
                 video.current.currentTime = userProgress;
             } catch (error) {
@@ -40,8 +40,8 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
         };
 
         console.log(payload);
-        
-                
+
+
         setProgress(totalTime);
         setVideoData(payload);
 

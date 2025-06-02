@@ -12,18 +12,17 @@ export default function ChangPassword({ open, setOpen, language }) {
         const password = e.target.password.value;
         const repeat_password = e.target.repeat_password.value;
 
-        if(password != repeat_password){
+        if (password != repeat_password) {
             setMsg(language['error_validation_password_match_msg']);
             setLoading(false);
             return false;
         }
 
-        if(password.length < 6){
+        if (password.length < 6) {
             setMsg(language['error_validation_password_length_msg']);
             setLoading(false);
             return false;
         }
-
     }
 
     return (<div open={open} onClose={setOpen} className="relative z-50">

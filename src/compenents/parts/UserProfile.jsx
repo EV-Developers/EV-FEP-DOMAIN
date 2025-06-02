@@ -14,7 +14,7 @@ export default function UserProfile({ open, setOpen, language }) {
         const tmpEmail = window.localStorage.getItem("L5HiP7ZpOyuVnO4");
 
         console.log(tmpName, tmpEmail);
-        
+
         setName(tmpName);
         setEmail(tmpEmail);
     }, []);
@@ -36,7 +36,7 @@ export default function UserProfile({ open, setOpen, language }) {
                 setPhoto(tmpData.data.photo);
             }
 
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     }

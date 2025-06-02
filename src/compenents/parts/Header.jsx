@@ -40,7 +40,7 @@ export default function Header({ role }) {
         if (userRole && userRole != "" && userRole != null) {
             if (userRole == 'teacher') {
                 slug = '/teachers';
-            } else if(userRole == 'student'){
+            } else if (userRole == 'student') {
                 slug = '/students';
             }
         }
