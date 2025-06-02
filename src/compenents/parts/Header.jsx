@@ -180,7 +180,7 @@ export default function Header({ role }) {
                         <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                     </Link>
                     <div className="block relative group">
-                        {role && role != 'students' && <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold group-hover:bg-white rounded-t-2xl group-hover:shadow-l transition-all hover:text-[#FD9800]">{language && language['explore']}</Link>}
+                        <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold group-hover:bg-white rounded-t-2xl group-hover:shadow-l transition-all hover:text-[#FD9800]">{language && language['explore']}</Link>
                         <div className="hidden group-hover:block md:w-[400px] drop-shadow-sm bg-white rounded-b-l absolute z-10 my-0 p-3 ">
                             <ul className="w-full grid grid-cols-3">
                                 {data && data.map(item => <li key={"cat-" + item.id}><Link to={slug + "/categories/" + item.id} className="block w-full hover:border-b hover:border-b-[#FD9800] py-1 text-xs">{item.name}</Link></li>)}
@@ -194,14 +194,14 @@ export default function Header({ role }) {
                             {language && language['home']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('/teachers/') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                         </Link>
-                        {role && role != 'students' && <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['courses']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
-                        </Link>}
-                        {role && role != 'students' && <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        </Link>
+                        <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['categories']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
-                        </Link>}
+                        </Link>
                         <Link to={slug + "/materials"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/materials') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['materials']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/materials') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
@@ -213,7 +213,7 @@ export default function Header({ role }) {
                     </nav>
 
                     <div className={`hidden md:flex absolute ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'}`}>
-                        {role && role != 'students' && <div className="relative m-0">
+                        {slug && slug != '/students' && <div className="relative m-0">
                             <button onClick={handleSearch} className={`absolute z-10 m-4 ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'} `}>
                                 <FontAwesomeIcon icon={faSearch} className="text-xl" />
                             </button>

@@ -52,15 +52,15 @@ export default function Footer({role}) {
                 <div className="mx-14">
                     <p className="font-bold my-4">{language && language['main_title']}</p>
                     <p><Link to={slug + "/"} className="hover:underline">{language && language['home']}</Link></p>
-                    {role && role != 'students' && <p><Link to={slug + "/courses"} className="hover:underline">{language && language['courses']}</Link></p>}
-                    {role && role != 'students' && <p><Link to={slug + "/categories"} className="hover:underline">{language && language['categories']}</Link></p>}
+                    <p><Link to={slug + "/courses"} className="hover:underline">{language && language['courses']}</Link></p>
+                    <p><Link to={slug + "/categories"} className="hover:underline">{language && language['categories']}</Link></p>
                     <p><Link to={slug + "/materials"} className="hover:underline">{language && language['materials']}</Link></p>
                     <p><Link to={slug + "/games"} className="hover:underline">{language && language['games']}</Link></p> 
                 </div>
                 <div className="mx-14">
                     <p className="font-bold my-4">{language && language['informations']}</p>
                     <p><Link to="/pages/about" className="hover:underline">{language && language['about']}</Link></p>
-                    {role && role != 'students' && <p><Link to={slug + "/explore"} className="hover:underline">{language && language['explore']}</Link></p>}
+                    <p><Link to={slug + "/explore"} className="hover:underline">{language && language['explore']}</Link></p>
                     <p><Link to="/contact" className="hover:underline">{language && language['contact']}</Link></p>
                 </div>
                 <div className="mx-14">
