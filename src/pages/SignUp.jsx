@@ -85,7 +85,9 @@ export default function SignUp() {
             <div className="block w-[50%] h-[100vh] bg-white">
                 <img src="/logo/Logo.png" alt="" className="block mx-auto w-[45%] mt-14 " />
 
-                <h3 className="text-3xl mx-auto block text-center m-4 my-14">{language && language["get_started"]}</h3>
+                <h3 className="text-2xl my-5 md:text-3xl font-bold text-center mb-8">
+                    {language && language["get_started"]}
+                </h3>
 
                 <p className="text-sm text-gray-400 text-center my-5">
                     <span>{language && language['signup_login_note']} <span className="mx-4"><Link to="/login" className="hover:underline text-amber-400">{language && language['login']}</Link></span> </span>

@@ -144,6 +144,7 @@ export const translation = [
         names: "names",
         send: "Send",
         message: "Message",
+        download_cerificate: "Download Your Course Certificate",
 
     },
     {
@@ -291,6 +292,6 @@ export const translation = [
         names: "اسم",
         send: "إرسال",
         message: "الرسالة",
-
+        download_cerificate: "تحميل شهادة الكورس",
     }
 ]

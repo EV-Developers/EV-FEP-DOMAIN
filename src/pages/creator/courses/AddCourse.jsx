@@ -164,10 +164,16 @@ export default function AddCourse() {
     React.useEffect(() => {
         if(title != "" && data){
             let tmpArr = [];
-            tmpArr = [...data, {id: 'test-1', title: title}]
+            tmpArr = [...data, {id: 'test-1', title: title}];
+            console.log(tmpArr);
+            
             setCoursesData(tmpArr);
+        } else {
+            if(data){
+                setCoursesData(data);
+            }
         }
-    }, []);
+    }, [title]);
 
     return (
         <ThemeContainer>

@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import 'swiper/css/pagination';
 
 import { translation } from '../config/translations';
 import api from '../config/api';
@@ -20,20 +21,19 @@ export default function Login() {
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
 
-        if (lang && lang != '' && lang != null) {
-            if (lang == 'english') {
+        if (lang && lang !== '') {
+            if (lang === 'english') {
                 setLanguage(translation[0]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('dir', 'ltr');
             } else {
                 setLanguage(translation[1]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('dir', 'rtl');
             }
         } else {
             setLanguage(translation[0]);
-            window.localStorage.setItem("language", 'english');
-            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+            localStorage.setItem("language", 'english');
+            document.documentElement.setAttribute('dir', 'ltr');
         }
-
     }, []);
 
     const handleLogin = async (e) => {
@@ -41,124 +41,131 @@ export default function Login() {
         setMsg(null);
         const formData = new FormData(e.target);
         setLoading(true);
-        if (e.target.email.value == "" && e.target.password.value == "") {
+
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+
+        if (!email && !password) {
             setMsg(language["error_validation_password_msg"]);
             setLoading(false);
-        } else if (!e.target.email.value.includes("@") || !e.target.email.value.includes(".")) {
+        } else if (!email.includes("@") || !email.includes(".")) {
             setMsg(language["error_validation_email_msg"]);
             setLoading(false);
         } else {
             try {
                 const response = await api.post("/login", formData);
+                if ((response.status === 200 || response.status === 201) && response?.data?.user?.status === "active") {
+                    localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
+                    localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
+                    localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);
+                    localStorage.setItem("L5HiP7ZpOyuVnO4", email);
 
-                console.log(response);
+                    if (response?.data?.user?.roles[0]) {
+                        localStorage.setItem("z8C2XXEo52uJQj7", response.data.user.roles[0].name);
+                    }
 
-                if (response.status == 200 || response.status == 201) {
-                    if (response?.data?.user?.status == "active") {
-                        // Token: rJp7E3Qi7r172VD
-                        // UserId: DDOj9KHr51qW1xi
-                        // Name: VPHl3hMFGI8w9kq
-                        // Email: L5HiP7ZpOyuVnO4
-                        // Role: z8C2XXEo52uJQj7
+                    setLoading(false);
 
-                        localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
-                        localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
-                        localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);
-                        localStorage.setItem("L5HiP7ZpOyuVnO4", e.target.email.value);
-
-                        if (response?.data?.user?.roles[0]) {
-                            localStorage.setItem("z8C2XXEo52uJQj7", response.data.user.roles[0].name);
-                        }
-
-                        setLoading(false);
-
-                        if (response?.data?.user?.roles[0]?.name == 'teacher') {
-                            navigate('/teachers');
-                        } else {
-                            navigate('/');
-                        }
+                    if (response.data.user.roles[0].name === 'teacher') {
+                        navigate('/teachers');
                     } else {
-                        setLoading(false);
-                        setMsg(language["wrong_email_password"]);
+                        navigate('/');
                     }
                 } else {
-                    setMsg(language["wrong_email_password"]);
                     setLoading(false);
+                    setMsg(language["wrong_email_password"]);
                 }
             } catch (error) {
-                console.log(error);
-                setLoading(false)
+                console.error(error);
+                setLoading(false);
                 setMsg(language["error_msg"]);
             }
         }
-    }
+    };
 
-    return (<>
-        <div className="flex w-[90%] mx-auto">
-            <div className="block w-[50%] h-[100vh] bg-white">
-                <img src="/logo/Logo.png" alt="" className="block mx-auto w-[45%] mt-14 " />
+    return (
+        <div className="flex flex-col lg:flex-row w-full min-h-screen md:w-[90%] md:mx-auto">
+            <div className="w-full lg:w-[50%] bg-white p-6 lg:p-12 flex flex-col justify-center">
+                <img src="/logo/Logo.png" alt="Logo" className="w-[65%] mx-auto mb-10" />
+                <h3 className="text-2xl md:text-3xl font-bold text-center mb-8">
+                    {language && language["get_started"]}
+                </h3>
 
-                <h3 className="text-3xl mx-auto block text-center m-4 my-14">{language && language["main_title"]}</h3>
-
-                <form method="post" onSubmit={handleLogin}>
-                    <div className="relative h-11 mx-auto w-[45%] mb-7">
+                <form method="post" onSubmit={handleLogin} className="w-full max-w-md mx-auto">
+                    <div className="relative mb-6">
                         <input
-                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
-                            placeholder=" "
                             type="email"
                             name="email"
+                            placeholder=" "
+                            className="peer w-full border-b border-[#FD9800] bg-transparent pt-4 pb-2 text-sm text-[#FD9800] focus:outline-none"
                         />
-                        <label className="after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-[#FD9800] after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-[#FD9800] peer-focus:after:scale-x-100 peer-focus:after:border-[#FD9800] peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                        <label className="absolute left-0 -top-2 text-xs text-[#FD9800] peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all">
                             {language && language["email"]}
                         </label>
                     </div>
-                    <div className="relative h-11 mx-auto w-[45%] mb-7">
+
+                    <div className="relative mb-6">
                         <input
-                            className="peer h-full w-full border-b border-[#FD9800] bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-[#FD9800] outline-0 transition-all placeholder-shown:border-[#FD9800] focus:border-[#FD9800] focus:outline-0 disabled:border-0 disabled:bg-[#757575]"
-                            placeholder=" "
                             type={passwordType ? "password" : "text"}
                             name="password"
+                            placeholder=" "
+                            className="peer w-full border-b border-[#FD9800] bg-transparent pt-4 pb-2 text-sm text-[#FD9800] focus:outline-none"
                         />
-                        <button type="button" className={`absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} m-2 cursor-pointer `} onClick={() => setPasswordType(!passwordType)}>
-                            <FontAwesomeIcon icon={passwordType ? faEye : faEyeSlash} className="text-color" />
+                        <button
+                            type="button"
+                            onClick={() => setPasswordType(!passwordType)}
+                            className={`absolute top-3 ${language?.dir === 'ltr' ? 'right-0' : 'left-0'} text-[#FD9800]`}
+                        >
+                            <FontAwesomeIcon icon={passwordType ? faEye : faEyeSlash} />
                         </button>
-                        <label className="after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-[#FD9800] after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-blue-gray-500 peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-[#FD9800] peer-focus:after:scale-x-100 peer-focus:after:border-[#FD9800] peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                        <label className="absolute left-0 -top-2 text-xs text-[#FD9800] peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all">
                             {language && language["password"]}
                         </label>
                     </div>
 
-                    {msg && <div className="p-4 m-2 text-center">
-                        {msg}
-                    </div>}
+                    {msg && <div className="text-red-600 text-sm text-center mb-4">{msg}</div>}
 
-                    <button className="rounded-xl pointer m-2 py-4 px-28 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto cursor-pointer text-white flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["login"]}</span></button>
+                    <button
+                        type="submit"
+                        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white text-sm bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:from-amber-700 hover:to-amber-400 transition"
+                    >
+                        {loading && <img src="/loading_white.png" className="w-4 h-4 animate-spin" />}
+                        <span>{language && language["login"]}</span>
+                    </button>
 
-                    <p className="text-sm text-gray-400 text-center my-5">
-                        <span>{language && language['signin_signup_note']} <span className="mx-4"><Link to="/signup" className="hover:underline">{language && language['signup']}</Link></span> </span>
+                    <p className="text-sm text-center text-gray-500 mt-6">
+                        {language && language['signin_signup_note']}{" "}
+                        <Link to="/signup" className="text-[#FD9800] hover:underline">
+                            {language && language['signup']}
+                        </Link>
                     </p>
                 </form>
             </div>
-            <div className="w-[50%] relative">
+
+            <div className="w-full lg:w-[50%] h-[50vh] lg:h-screen relative">
                 <Swiper
-                    //spaceBetween={50}
-                    slidesPerView={3}
-                    autoplay={true}
-                    onSlideChange={() => console.log('Slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
+                    modules={[Autoplay, Pagination]}
+                    slidesPerView={1}
+                    autoplay={{ delay: 3000 }}
+                    pagination={{ clickable: true }}
+                    className="h-full [&_.swiper-pagination-bullet]:bg-gray-400 [&_.swiper-pagination-bullet-active]:bg-orange-500"
                 >
                     <SwiperSlide>
-                        <div>
-                            <img src="/banner/banner.webp" className="w-full h-[100vh]" />
-                        </div>
+                        <img
+                            src="/banner/banner.webp"
+                            className="w-full h-full object-cover"
+                            alt="Slide 1"
+                        />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <div>
-                            <img src="/banner/banner.webp" className="w-full h-[100vh]" />
-                        </div>
+                        <img
+                            src="/banner/banner.webp"
+                            className="w-full h-full object-cover"
+                            alt="Slide 2"
+                        />
                     </SwiperSlide>
                 </Swiper>
-                {/* <img src="/banner/banner.webp" className="w-full h-[100vh]" /> */}
             </div>
         </div>
-    </>)
+    );
 }

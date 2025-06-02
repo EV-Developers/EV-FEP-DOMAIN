@@ -11,6 +11,7 @@ export default function Header({ role }) {
     const [loading, setLoading] = React.useState(true);
     const [showProfile, setShowProfile] = React.useState(false);
     const [show, setShow] = React.useState(false);
+    const [data, setData] = React.useState(null);
     const navigate = useNavigate();
     const location = useLocation();
     const ref = React.useRef();
@@ -81,6 +82,8 @@ export default function Header({ role }) {
         } else {
             setLoading(false)
         }
+
+        loadData();
     }, []);
 
     React.useEffect(() => {
@@ -127,6 +130,19 @@ export default function Header({ role }) {
         window.location.reload();
     }
 
+    const loadData = async () => {
+        try {
+            const response = await api.get('/course-categories');
+            if (response.status == 200) {
+                console.log(response.data);
+
+                setData(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (<>
         {show && <ChangPassword open={show} setOpen={setShow} language={language} />}
 
@@ -157,8 +173,13 @@ export default function Header({ role }) {
                     <Link className="w-[300px] md:w-[45%]" to="/">
                         <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                     </Link>
-                    <div className="block">
-                        <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold transition-all hover:scale-110 hover:text-[#FD9800]">{language && language['explore']}</Link>
+                    <div className="block relative group">
+                        <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold group-hover:bg-white rounded-t-2xl group-hover:shadow-l transition-all hover:text-[#FD9800]">{language && language['explore']}</Link>
+                        <div className="hidden group-hover:block md:w-[400px] drop-shadow-sm bg-white rounded-b-l absolute z-10 my-0 p-3 ">
+                            <ul className="w-full grid grid-cols-3">
+                                {data && data.map(item => <li><Link to={slug + "/categories/" + item.id} key={"cat" + item.id} className="block w-full hover:border-b hover:border-b-[#FD9800] py-1">{item.name}</Link></li>)}
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0 mt-2">

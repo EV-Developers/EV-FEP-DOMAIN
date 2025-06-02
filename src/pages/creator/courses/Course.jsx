@@ -184,9 +184,9 @@ export default function Course() {
                     </a>)}
                 </div>
             </div>}
-            {tabs == 'overview' && <Overview />}
-            {tabs == 'comments' && <Comments />}
-            {tabs == 'resources' && <Resources resources_list={resources_list} />}
+            {tabs == 'overview' && <Overview courseId={courseId} />}
+            {tabs == 'comments' && <Comments courseId={courseId} />}
+            {tabs == 'resources' && <Resources courseId={courseId} resources_list={resources_list} />}
         </ThemeContainer>
     )
 }

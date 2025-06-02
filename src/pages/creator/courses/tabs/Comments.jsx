@@ -4,7 +4,7 @@ import { faCaretDown, faStar, faThumbsUp, faTrash } from '@fortawesome/free-soli
 import { translation } from '../../../../config/translations';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
 
-export default function Comments() {
+export default function Comments({ courseId }) {
   const [show, setShow] = React.useState(false)
   const stars = [1, 2, 3, 4, 5];
   const [language, setLanguage] = React.useState(null);

@@ -31,6 +31,15 @@ export default function AddResourses() {
 
   }, []);
 
+  const handleSetImage = (e) => {
+    const imgUrl = window.URL.createObjectURL(e.target.files[0]);
+    ref.current.style.display = 'block';
+    ref.current.style.backgroundSize = '35%';
+    ref.current.style.backgroundPosition = 'center';
+    ref.current.style.background = `url(${imgUrl}) no-repeat`;
+
+    setFeaturedImage(e.target.files)
+  }
 
   return (
     <ThemeContainer>
@@ -50,6 +59,21 @@ export default function AddResourses() {
           <p id="sectionTitle" className="my-3 font-bold">{language && language["important_resources"]}</p>
           <input type="text" id="sectionTitle" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
         </label>
+
+        <label htmlFor="desc">
+          <p id="desc" className="my-3 font-bold">{language && language["description"]}</p>
+          <input type="text" id="desc" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
+        </label>
+
+        <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-color bg-color bg-cover bg-no-repeat">
+          <div className="text-center">
+            <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
+            <p className="text-l font-bold">{language && language["upload"]} PNG/JPG</p>
+            <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+          </div>
+          <input type="file" accept="image/jpg,image/png,image/jepg,image/webp" id="uploadImage" name="uploadImage" className="hidden" onChange={handleSetImage} />
+        </label>
+
         <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
       </div>
     </ThemeContainer>

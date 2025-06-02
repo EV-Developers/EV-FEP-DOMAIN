@@ -16,7 +16,7 @@ export default function NotFound() {
         if(role && role == 'teacher'){
             setUserRole("teachers");
         } else {
-            setUserRole(role);
+            //setUserRole(role);
         }
 
         if (lang && lang != '' && lang != null) {

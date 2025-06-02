@@ -2,7 +2,10 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { jsPDF } from "jspdf";
+import { QRCode } from '@liquid-js/qrcode-generator';
 
+import '../Certificates/Amiri-Regular-normal';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import api from '../../../config/api';
@@ -112,6 +115,51 @@ export default function TCourse() {
             console.log(tmpAssestmentsData);
         }
     }
+
+    const handleCourseCertificateDownload = () => {
+        const username = window.localStorage.getItem("VPHl3hMFGI8w9kq");
+        const courseTitle = "Arduino pack: Design, Manage and Launch Arduino";
+        const date = new Date().toLocaleDateString('en-GB');
+
+        if (username != null && username != '') {
+            const cr_ref = String(Date.now());
+            // Replace file name spaces with dash
+            const file_name = courseTitle.replaceAll(' ', '-') + '-certificate.pdf';
+
+            // add certificate URL as QR Code.
+            const qr = new QRCode(4, 'L');
+            qr.addData('https://fep.misk-donate.com/?c=' + cr_ref);
+            qr.make();
+            const qr_image = qr.toDataURL();
+
+            let logo = "/logo/Logo.png";
+            let bgcer = "/cerbg.png";
+
+            // creating certificate PDF
+            const doc = new jsPDF('landscape', 'pt', 'a4');
+            const centerX = doc.internal.pageSize.getWidth() / 2;
+            // get font name from 'Amiri-Regular-normal.js'
+            doc.setFont('Amiri-Regular');
+            doc.setTextColor('#212121');
+            doc.setFontSize(26);
+            doc.addImage(bgcer, 'png', 0, 0, 850, 600);
+            doc.addImage(logo, 'png', centerX - 70, 180, 142, 54);
+            doc.addImage(qr_image, 'png', centerX + 200, 450, 100, 100);
+            doc.setFontSize(32);
+            doc.text(username, centerX, 310, { align: 'center', dir: language['dir'] });
+            doc.setFontSize(18);
+
+            // if user UI language is arabic or english this will effect the certificate language.
+            if (language['dir'] == 'ltr') {
+                doc.text("In " + courseTitle + " on " + date, centerX, 350, { align: 'center', dir: 'ltr' });
+            } else {
+                doc.text("في برنامج " + courseTitle + " بتاريخ " + date, centerX, 350, { align: 'center', dir: 'rtl' });
+            }
+
+            doc.save(file_name);
+        }
+    }
+
     return (
         <ThemeContainer role="teachers">
             <h2 className="mt-4 text-3xl p-2 font-bold">Arduino pack: Design, Manage and Launch Arduino</h2>
@@ -164,6 +212,9 @@ export default function TCourse() {
             {tabs == 'overview' && <TOverview />}
             {tabs == 'comments' && <TComments />}
             {tabs == 'resources' && <TResources resources_list={resources_list} />}
+
+            <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto ">{language && language['download_cerificate']}</button>
+
         </ThemeContainer>
     )
 }

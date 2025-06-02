@@ -59,7 +59,7 @@ setCoursesData }) {
             grade: "GRADE4",
             level: '4'
         },
-    ]
+    ];
 
     return (<div>
         <div className="flex">

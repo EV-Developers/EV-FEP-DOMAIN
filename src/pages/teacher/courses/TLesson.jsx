@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import { faClock, faPlay } from '@fortawesome/free-solid-svg-icons'
@@ -6,8 +6,9 @@ import { faClock, faPlay } from '@fortawesome/free-solid-svg-icons'
 import { translation } from '../../../config/translations';
 import api from '../../../config/api';
 
-export default function TLesson({ item }) {
+export default function TLesson({ item, courseId }) {
     const [language, setLanguage] = React.useState(null);
+    const tmp_vid_url = "https://www.w3schools.com/html/mov_bbb.mp4";
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -37,7 +38,7 @@ export default function TLesson({ item }) {
         <div className="transition-all px-0">
             <p className="p-2">{item.desc}</p>
             <div className="justify-baseline">
-                <Link to={"/teachers/courses/lesson/" + item.id} className="relative flex justify-center items-center w-[65%] group p-0 rounded-4xl">
+                <Link to={`/teachers/courses/${courseId}/lessons/${item.id}/`} className="relative flex justify-center items-center w-[65%] group p-0 rounded-4xl">
                     <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-1 my-3 h-2 px-3 transition-all w-full rounded-b-2xl"></div>
                     <div style={{ width: (parseInt(item.progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-1 my-3 h-2 px-0 transition-all blur-xs rounded-b-2xl"></div>
                     <div style={{ width: (parseInt(item.progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-1 my-3 h-2 px-0 transition-all rounded-b-2xl"></div>
@@ -46,6 +47,10 @@ export default function TLesson({ item }) {
                     </div>
                     <img src="/data/vid-1.webp" className="w-full my-7 px-0 overflow-x-hidden rounded-2xl" />
                 </Link>
+
+                <div className="flex">
+                    <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ">{language && language["lesson_quizzes"]}</Link>
+                </div>
             </div>
         </div>
     </div>)

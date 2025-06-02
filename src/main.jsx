@@ -150,7 +150,7 @@ const router = createBrowserRouter([
     element: <Search />
   },
   {
-    path: "/new-resource",
+    path: "/new-resource/:courseId",
     element: <AddResourses />
   },
   {
@@ -184,11 +184,11 @@ const router = createBrowserRouter([
     element: <TCourse />
   },
   {
-    path: "/teachers/courses/lesson/:lessonId",
+    path: "/teachers/courses/:courseId/lessons/:lessonId",
     element: <TLessonDetails />,
   },
   {
-    path: "/teachers/courses/quiz/:lessonId",
+    path: "/teachers/courses/:courseId/quiz/:lessonId",
     element: <Exam />,
   },
   {

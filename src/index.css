@@ -107,3 +107,12 @@ input[type='radio']:checked:after {
 .swiper-slide {
   width: 100% !important;
 }
+
+.swiper-pagination-bullet {
+  background-color: #999; /* Inactive dot color */
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #f97316 !important; /* Active dot color (e.g., Tailwind orange-500) */
+}

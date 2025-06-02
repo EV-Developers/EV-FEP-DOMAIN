@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { translation } from '../../../../config/translations';
 
-export default function Overview() {
+export default function Overview({ courseId }) {
   const [language, setLanguage] = React.useState(null);
 
   React.useEffect(() => {
