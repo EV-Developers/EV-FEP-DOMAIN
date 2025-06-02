@@ -4,7 +4,7 @@ import Header from './Header'
 import { useLocation } from 'react-router-dom';
 import { check_auth } from '../../config/check_auth';
 
-export default function ThemeContainer({ children, role }) {
+export default function ThemeContainer({ children, role, customeClasses="md:w-[90%]" }) {
   const { pathname } = useLocation();
 
   React.useEffect(() => {
@@ -18,7 +18,7 @@ export default function ThemeContainer({ children, role }) {
 
   return (<>
     <Header role={role} />
-    <div className="block md:w-[90%] mx-auto">
+    <div className={`block ${customeClasses} mx-auto`}>
         {children}
     </div>
     <Footer role={role} />

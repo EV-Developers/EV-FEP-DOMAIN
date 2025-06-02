@@ -49,6 +49,7 @@ import SHome from './pages/students/SHome';
 import AHome from './pages/admin/AHome';
 import CertificatesGenerator from './pages/teacher/Certificates/CertificatesGenerator';
 import SubmitAssesment from './pages/teacher/courses/SubmitAssesment';
+import Explore from './pages/Explore';
 
 const router = createBrowserRouter([
   // Creators
@@ -178,6 +179,10 @@ const router = createBrowserRouter([
   {
     path: "/teachers/courses",
     element: <TCourses />
+  },
+  {
+    path: "/teachers/explore",
+    element: <Explore />
   },
   {
     path: "/teachers/courses/:courseId",

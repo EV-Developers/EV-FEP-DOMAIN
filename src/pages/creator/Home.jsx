@@ -1,85 +1,114 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-
-import { translation } from '../../config/translations';
-import ThemeContainer from '../../compenents/parts/ThemeContainer';
+import ThemeContainer from '../../compenents/parts/ThemeContainer'
 import api from '../../config/api';
+import { Link } from 'react-router-dom';
+import { translation } from '../../config/translations';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import 'swiper/css/pagination';
 
-export default function Home() {
-    const [language, setLanguage] = React.useState(null);
-    const navigate = useNavigate();
-    const role = window.localStorage.getItem("z8C2XXEo52uJQj7");
-    /*
-    if(role && role != "" && role != null){
-        if(role == 'teacher'){
-            navigate('/teachers');
-        }
+export default function THome() {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [language, setLanguage] = React.useState(null);
+  const [username, setUsername] = React.useState("");
+  const slides = [
+    {
+      id: "img-1",
+      img: 'slide_1.jpg',
+      alt: "Slide 1"
+    },
+    {
+      id: "img-2",
+      img: 'slide_2.jpg',
+      alt: "Slide 2"
+    },
+  ]
+
+  React.useEffect(() => {
+    const lang = window.localStorage.getItem("language");
+    const user_name = window.localStorage.getItem("VPHl3hMFGI8w9kq");
+    setUsername(user_name);
+
+    if (lang && lang != '' && lang != null) {
+      if (lang == 'english') {
+        setLanguage(translation[0]);
+        window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+      } else {
+        setLanguage(translation[1]);
+        window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+      }
+    } else {
+      setLanguage(translation[0]);
+      window.localStorage.setItem("language", 'english');
+      window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
-    */
-    
-    React.useEffect(() => {
-        const lang = window.localStorage.getItem("language");
+  }, []);
 
-        if (lang && lang != '' && lang != null) {
-            if (lang == 'english') {
-                setLanguage(translation[0]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-            } else {
-                setLanguage(translation[1]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-            }
-        } else {
-            setLanguage(translation[0]);
-            window.localStorage.setItem("language", 'english');
-            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-        }
+  React.useEffect(() => {
+    loadCourses();
+  }, []);
 
-    }, []);
-    
-    const data = {
-        labels: ['', '', ''],
-        datasets: [
-            {
-                label: "Report",
-                backgroundColor: "#fff",
-                borderColor: "#ccc",
-                borderWidth: 2,
-                data: [1, 2, 3],
-                backgroundColor: ["#FD9800", "orange", "#FFEFB4", "orange"],
-                borderColor: ["#FD9800", "orange", "#FFEFB4", "orange"],
-                borderWidth: 1,
-            },
-        ],
-    };
+  const loadCourses = async () => {
+    const list = await api.get('/courses');
 
-    return (<>
-        {/* <Loading /> */}
+    if (list.status == 200) {
+      if (list.data.data) {
+        setData(list.data.data);
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    }
+  }
 
-        <ThemeContainer>
-            <div className="w-[75%] block mx-auto">
-                <h2 className="my-5 text-2xl">{language && language["hello"]} "User", {language && language["to_dashboard"]}.</h2>
-                <div className="flex">
-                    <div className='block w-[45%] rounded-xl bg-white p-5 my-14'>
-                        <h2>{language && language["recently_added"]}</h2>
-                        <div>
-                            <Link to="/courses/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/courses/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/courses/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/courses/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/courses/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                        </div>
-                    </div>
-                    <div className='block w-[45%] rounded-xl bg-white p-5 m-5 my-14'>
-                        <h2>{language && language["recently_added"]}</h2>
-                        <div>
-                            <Link to="/materials/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/materials/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/materials/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/materials/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                            <Link to="/materials/1" className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl block p-3">Item</Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </ThemeContainer></>)
+  return (<ThemeContainer role="teachers" customeClasses="">
+    <Swiper
+      modules={[Autoplay, Pagination]}
+      slidesPerView={1}
+      autoplay={{ delay: 4000 }}
+      pagination={{ clickable: true }}
+      className="h-full [&_.swiper-pagination-bullet]:bg-gray-400 [&_.swiper-pagination-bullet-active]:bg-orange-500"
+    >
+      {slides && slides.map(item => <SwiperSlide key={item.id}>
+        <img
+          src={"/"+item.img}
+          className="w-full h-full object-cover"
+          alt={item.alt}
+        />
+      </SwiperSlide>)}
+    </Swiper>
+    <div className="block w-[75%] mx-auto">
+      <h2 className="py-5 my-5 text-2xl font-bold border-b border-b-gray-200">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
+      <div className="flex">
+        {data && data.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
+          <div className="relative p-0 mx-0">
+            <div style={{ width: '75%' }} className={`text-amber-600 bg-amber-500 absolute bottom-0 z-10 mx-0 left-1 my-0 h-2 transition-all ${parseInt(75) == 100 ? 'rounded-b-2xl' : language && language['dir'] == 'ril' ? 'rounded-br-2xl' : 'rounded-bl-2xl'}`}></div>
+            <img src="/data/vid-1.webp" className="w-full rounded" />
+          </div>
+          <h3 className="text-l mx-2 my-4 font-bold">{item.title}</h3>
+          <div className="rounded w-full pointer m-1 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br  hover:from-amber-700 group-hover:to-amber-400 text-center ">{language && language["continue"]}</div>
+        </Link>)}
+      </div>
+      {!data && loading && <div className="flex animate-pulse">
+        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+          <div className="w-full h-24 bg-gray-300"></div>
+          <div className="w-full h-2 bg-gray-300 my-4"></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+        </div>
+        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+          <div className="w-full h-24 bg-gray-300"></div>
+          <div className="w-full h-2 bg-gray-300 my-4"></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+        </div>
+        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
+          <div className="w-full h-24 bg-gray-300"></div>
+          <div className="w-full h-2 bg-gray-300 my-4"></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
+        </div>
+      </div>}
+    </div>
+  </ThemeContainer>)
 }

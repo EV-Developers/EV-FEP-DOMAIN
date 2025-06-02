@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: smooth !important;
 }
 
 body {
@@ -45,63 +45,65 @@ body {
 }
 
 input[type='checkbox']:after {
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
   border-radius: 3px;
-  top: -3px;
-  left: -1px;
   position: relative;
   background-color: #d1d3d1;
   content: '';
   display: inline-block;
   visibility: visible;
   border: 2px solid white;
-  padding: 5px;
+  top: 10px;
+  left: -11px;
+  /* padding: 5px; */
 }
 
 input[type='checkbox']:checked:after {
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
   border-radius: 3px;
-  top: -3px;
-  left: -1px;
   position: relative;
   background-color: #ffa500;
+  background: linear-gradient(90deg,#ffefb4 15%, #ffa500 100%);
   content: '';
   display: inline-block;
   visibility: visible;
-  border: 2px solid white;
-  padding: 5px;
+  border: 2px solid #FD9800;
+  top: 10px;
+  left: -11px;
+  /* padding: 5px; */
 }
 
 input[type='radio']:after {
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
   border-radius: 15px;
-  top: -3px;
-  left: -1px;
+  top: 10px;
+  left: -11px;
   position: relative;
   background-color: #d1d3d1;
   content: '';
   display: inline-block;
   visibility: visible;
   border: 2px solid white;
-  padding: 5px;
+  /* padding: 5px; */
 }
 
 input[type='radio']:checked:after {
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
   border-radius: 15px;
-  top: -3px;
-  left: -1px;
+  top: 10px;
+  left: -11px;
   position: relative;
   background-color: #ffa500;
+  background: linear-gradient(90deg,#ffefb4 15%, #ffa500 100%);
   content: '';
   display: inline-block;
   visibility: visible;
-  border: 2px solid white;
-  padding: 5px;
+  border: 2px solid #f97316;
+  /* padding: 5px; */
 }
 
 .swiper-slide {
@@ -109,10 +111,10 @@ input[type='radio']:checked:after {
 }
 
 .swiper-pagination-bullet {
-  background-color: #999; /* Inactive dot color */
+  background-color: #999;
   opacity: 1;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #f97316 !important; /* Active dot color (e.g., Tailwind orange-500) */
+  background-color: #f97316 !important; 
 }

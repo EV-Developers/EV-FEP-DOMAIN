@@ -23,6 +23,7 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
         } else {
             video.current.pause()
         }
+
         setShow(!play);
     }
 
@@ -37,6 +38,9 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
             currentTime: currentTime,
             progress: totalTime
         };
+
+        console.log(payload);
+        
                 
         setProgress(totalTime);
         setVideoData(payload);

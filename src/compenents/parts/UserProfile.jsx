@@ -22,7 +22,7 @@ export default function UserProfile({ open, setOpen, language }) {
     const getUserProfile = async () => {
         // teacher/profile
         // student/profile
-        //const user_id = window.localStorage.getItem("auth_user");
+        const user_id = window.localStorage.getItem("DDOj9KHr51qW1xi");
         const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
 
         try {

@@ -177,7 +177,7 @@ export default function Header({ role }) {
                         <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold group-hover:bg-white rounded-t-2xl group-hover:shadow-l transition-all hover:text-[#FD9800]">{language && language['explore']}</Link>
                         <div className="hidden group-hover:block md:w-[400px] drop-shadow-sm bg-white rounded-b-l absolute z-10 my-0 p-3 ">
                             <ul className="w-full grid grid-cols-3">
-                                {data && data.map(item => <li><Link to={slug + "/categories/" + item.id} key={"cat" + item.id} className="block w-full hover:border-b hover:border-b-[#FD9800] py-1">{item.name}</Link></li>)}
+                                {data && data.map(item => <li key={"cat-" + item.id}><Link to={slug + "/categories/" + item.id} className="block w-full hover:border-b hover:border-b-[#FD9800] py-1 text-xs">{item.name}</Link></li>)}
                             </ul>
                         </div>
                     </div>
