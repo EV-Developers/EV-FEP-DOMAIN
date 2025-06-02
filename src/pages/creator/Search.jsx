@@ -11,9 +11,21 @@ export default function Search() {
   const { query } = useParams()
   const [data, setData] = React.useState(null);
   const [language, setLanguage] = React.useState(null);
-
+  const [slug, setSlug] = React.useState('');
+  
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
+    const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
+    let tmpSlug = '';
+    if (userRole && userRole != "" && userRole != null) {
+        if (userRole == 'teacher') {
+          tmpSlug = '/teachers';
+        } else if(userRole == 'student'){
+          tmpSlug = '/students';
+        }
+
+        setSlug(tmpSlug);
+    }
 
     if (lang && lang != '' && lang != null) {
       if (lang == 'english') {
@@ -64,7 +76,7 @@ export default function Search() {
         </div>
         <hr className="text-gray-200 my-5" />
 
-        {data && data.map(item => <Link to={'/courses/' + item.id} key={"cat-" + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-2 my-2 text-sm'>{item.title}</Link>)}
+        {data && data.map(item => <Link to={slug+'/courses/' + item.id} key={"cat-" + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-2 my-2 text-sm'>{item.title}</Link>)}
 
         {!data && <div role='status' className='animate-pulse'>
           <div className='block rounded-xl bg-gray-300 p-5 py-2 my-2 w-full h-8'></div>

@@ -18,7 +18,7 @@ export default function PagesContent() {
         } else if(role == 'student'){
             role = 'students';
         }
-        
+
         setUserRole(role);
 
         if (lang && lang != '' && lang != null) {
@@ -44,7 +44,12 @@ export default function PagesContent() {
                 <p className="m-3 my-3 text-color">{language && language[pageName]}</p>
             </div>
             <hr className="text-gray-200 my-5" />
-            <div className="p-5 m-5">Pages Content</div>
+            <div className="my-5 text-xl font-bold">Pages Content</div>
+            <div>
+                <p className="my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eum adipisci rerum distinctio autem voluptates inventore unde incidunt nemo, esse voluptate error vero velit facilis id, eveniet harum! Necessitatibus, minus.</p>
+                <p className="my-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quae iusto rerum aliquid eaque nemo! Natus, dignissimos perspiciatis aliquid sunt doloribus hic veniam excepturi omnis. Officia nostrum odit eveniet fugit.</p>
+                <p className="my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim nobis facere officiis consequuntur harum eligendi labore voluptate dolore ad nam, dolorem delectus at recusandae eveniet nulla adipisci quod ratione eaque.</p>
+            </div>
         </div>
     </ThemeContainer>)
 }

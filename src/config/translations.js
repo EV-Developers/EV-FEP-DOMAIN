@@ -9,7 +9,7 @@ export const translation = [
         title: "Title",
         date: "Date",
         slogin: "",
-        subtitle: "FEP Dashboard",
+        subtitle: "Future Engineers Program Dashboard",
         dashboard: "Dashboard",
         home: "Home",
         courses: "Courses",

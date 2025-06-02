@@ -25,7 +25,7 @@ export default function THome() {
       img: 'slide_2.jpg',
       alt: "Slide 2"
     },
-  ]
+  ];
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -85,28 +85,23 @@ export default function THome() {
       <div className="flex">
         {data && data.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
           <div className="relative p-0 mx-0">
-            <div style={{ width: '75%' }} className={`text-amber-600 bg-amber-500 absolute bottom-0 z-10 mx-0 left-1 my-0 h-2 transition-all ${parseInt(75) == 100 ? 'rounded-b-2xl' : language && language['dir'] == 'ril' ? 'rounded-br-2xl' : 'rounded-bl-2xl'}`}></div>
             <img src="/data/vid-1.webp" className="w-full rounded" />
           </div>
           <h3 className="text-l mx-2 my-4 font-bold">{item.title}</h3>
-          <div className="rounded w-full pointer m-1 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br  hover:from-amber-700 group-hover:to-amber-400 text-center ">{language && language["continue"]}</div>
         </Link>)}
       </div>
       {!data && loading && <div className="flex animate-pulse">
         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
-          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
-          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
-          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
       </div>}
     </div>
