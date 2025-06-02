@@ -18,6 +18,7 @@ export default function PagesContent() {
         } else if(role == 'student'){
             role = 'students';
         }
+        
         setUserRole(role);
 
         if (lang && lang != '' && lang != null) {
