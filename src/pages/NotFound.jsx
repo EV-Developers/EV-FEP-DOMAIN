@@ -45,6 +45,7 @@ export default function NotFound() {
                 <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <p className="m-3 my-3 text-color">404</p>
             </div>
+            
             <hr className="text-gray-200 my-5" />
 
             <div className="text-center my-[15%]">

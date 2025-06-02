@@ -225,8 +225,6 @@ const router = createBrowserRouter([
     path: "/students",
     element: <SHome />,
   },
-
-
   // Admins
   {
     path: "/dashboard",
