@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
+import api from '../../../config/api';
 import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
-import api from '../../../config/api';
 
 export default function GameDetails() {
     const [data, setData] = React.useState(null);

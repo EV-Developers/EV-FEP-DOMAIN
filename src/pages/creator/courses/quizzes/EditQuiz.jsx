@@ -2,9 +2,10 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import api from '../../../../config/api';
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
-import api from '../../../../config/api';
 
 export default function EditQuiz() {
     const [data, setData] = React.useState(false);

@@ -1,9 +1,10 @@
 import React from 'react'
-import { translation } from '../../../config/translations';
 import { Link, useParams } from 'react-router-dom';
-import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+
+import { translation } from '../../../config/translations';
+import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 
 export default function SubmitAssesment() {
     const [language, setLanguage] = React.useState(null);

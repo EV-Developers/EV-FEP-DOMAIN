@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 
-import { translation } from '../../../config/translations';
 import api from '../../../config/api';
+import { translation } from '../../../config/translations';
 
 export default function TLesson({ item, courseId }) {
     const [language, setLanguage] = React.useState(null);

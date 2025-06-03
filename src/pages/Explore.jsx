@@ -1,7 +1,8 @@
 import React from 'react'
-import ThemeContainer from '../compenents/parts/ThemeContainer'
-import api from '../config/api';
 import { Link } from 'react-router-dom';
+
+import api from '../config/api';
+import ThemeContainer from '../compenents/parts/ThemeContainer'
 import { translation } from '../config/translations';
 
 export default function Explore() {

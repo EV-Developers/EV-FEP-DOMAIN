@@ -1,8 +1,9 @@
+import React, { useState } from 'react'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react'
-import { translation } from '../../../../config/translations';
+
 import api from '../../../../config/api';
+import { translation } from '../../../../config/translations';
 
 export default function TCourseDetails({ categories, handleSteps, title, setTitle, categoryId, setCategoryId, categoryName, setCategoryName, level, setLevel }) {
     const [show, setShow] = useState(false);

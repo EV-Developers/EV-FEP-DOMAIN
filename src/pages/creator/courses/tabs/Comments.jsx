@@ -1,6 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import { translation } from '../../../../config/translations';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
 

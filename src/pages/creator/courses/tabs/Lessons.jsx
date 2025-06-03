@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ReactSortable } from 'react-sortablejs';
+
 import { translation } from '../../../../config/translations';
 import Lesson from '../Lesson';
 import Assesment from '../Assesment';
-import { ReactSortable } from 'react-sortablejs';
 
 export default function Lessons({ lessons, setLessons, assesments, courseId }) {
     const [language, setLanguage] = React.useState(null);

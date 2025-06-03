@@ -3,11 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
-import CourseDetails from './steps/CourseDetails';
-import CourseOverview from './steps/CourseOverview';
+import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
-import api from '../../../config/api';
+import CourseDetails from './steps/CourseDetails';
+import CourseOverview from './steps/CourseOverview';
 
 export default function EditCourse() {
     const [step, setStep] = React.useState(1);

@@ -1,8 +1,9 @@
 import React from 'react'
-import ThemeContainer from '../compenents/parts/ThemeContainer'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
-import { faAngleLeft, faAngleRight, faEnvelope, faMapMarkerAlt, faPhone, faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleLeft, faAngleRight, faEnvelope, faMapMarkerAlt, faPhone, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+
+import ThemeContainer from '../compenents/parts/ThemeContainer'
 import { translation } from '../config/translations'
 
 export default function ContactPage() {

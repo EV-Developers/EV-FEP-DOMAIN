@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
-import api from '../../../config/api';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export default function Courses() {
     const [data, setData] = React.useState(null);

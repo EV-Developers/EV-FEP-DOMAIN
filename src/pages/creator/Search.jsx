@@ -3,9 +3,9 @@ import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
+import api from '../../config/api';
 import { translation } from '../../config/translations';
 import ThemeContainer from '../../compenents/parts/ThemeContainer';
-import api from '../../config/api';
 
 export default function Search() {
   const { query } = useParams()

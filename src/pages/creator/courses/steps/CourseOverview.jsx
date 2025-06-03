@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+
 import { translation } from '../../../../config/translations';
 
 export default function CourseOverview({ handleSteps, description, setDescription, featuredImage, setFeaturedImage, handleCreateCourse, msg, loading }) {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-
-import { translation } from '../../../config/translations';
-import ThemeContainer from '../../../compenents/parts/ThemeContainer';
-import api from '../../../config/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+
+import api from '../../../config/api';
+import { translation } from '../../../config/translations';
+import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 
 export default function TCategoryDetails() {
     const [data, setData] = React.useState(null);

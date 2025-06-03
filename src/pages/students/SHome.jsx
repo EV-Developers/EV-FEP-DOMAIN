@@ -1,10 +1,11 @@
 import React from 'react';
-import ThemeContainer from '../../compenents/parts/ThemeContainer';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/pagination';
+
+import ThemeContainer from '../../compenents/parts/ThemeContainer';
 
 export default function SHome() {
   const slides = [

@@ -1,7 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 import { translation } from '../../../config/translations';
-import { Link } from 'react-router-dom';
 
 export default function TAssesment({ courseId, item }) {
     const [language, setLanguage] = React.useState(null);

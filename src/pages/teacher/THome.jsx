@@ -1,13 +1,14 @@
 import React from 'react'
-import ThemeContainer from '../../compenents/parts/ThemeContainer'
-import api from '../../config/api';
 import { Link } from 'react-router-dom';
-import { translation } from '../../config/translations';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/pagination';
+
+import { translation } from '../../config/translations';
+import ThemeContainer from '../../compenents/parts/ThemeContainer'
+import api from '../../config/api';
 
 export default function THome() {
   const [data, setData] = React.useState(null);

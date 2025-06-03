@@ -1,11 +1,11 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
+import api from '../../../config/api';
 import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 import { translation } from '../../../config/translations';
-import api from '../../../config/api';
 
 export default function Assesment({ item }) {
     const [show, setShow] = React.useState(false);

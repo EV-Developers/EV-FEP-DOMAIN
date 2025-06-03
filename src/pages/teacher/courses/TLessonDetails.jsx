@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
-import ThemeContainer from '../../../compenents/parts/ThemeContainer'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { translation } from '../../../config/translations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faPlay } from '@fortawesome/free-solid-svg-icons';
+
+import { translation } from '../../../config/translations';
+import ThemeContainer from '../../../compenents/parts/ThemeContainer'
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
 export default function TLessonDetails() {

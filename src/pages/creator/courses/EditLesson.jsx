@@ -3,9 +3,9 @@ import { faAngleLeft, faAngleRight, faArrowUp } from '@fortawesome/free-solid-sv
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
-import api from '../../../config/api';
 
 export default function EditLesson() {
     const [data, setData] = React.useState(null);
