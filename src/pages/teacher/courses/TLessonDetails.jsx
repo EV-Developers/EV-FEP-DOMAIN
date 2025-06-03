@@ -51,7 +51,7 @@ export default function TLessonDetails() {
                 <VideoPlayer lessonId={lessonId} courseId={courseId} videoData={videoData} setVideoData={setVideoData} tmp_vid_url={tmp_vid_url} userProgress={6.555291} />
 
                 <div className="flex">
-                    <Link to={`/teachers/courses/${courseId}/quiz/${lessonId}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ">{language && language["lesson_quizzes"]}</Link>
+                    <Link to={`/teachers/courses/${courseId}/quiz/${lessonId}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>
                 </div>
             </div>
         </div>

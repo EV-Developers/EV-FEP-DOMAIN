@@ -50,6 +50,8 @@ import AHome from './pages/admin/AHome';
 import CertificatesGenerator from './pages/teacher/Certificates/CertificatesGenerator';
 import SubmitAssesment from './pages/teacher/courses/SubmitAssesment';
 import Explore from './pages/Explore';
+import SGames from './pages/students/Games/SGames';
+import SMaterials from './pages/students/Materials/SMaterials';
 
 const router = createBrowserRouter([
   // Creators
@@ -224,6 +226,14 @@ const router = createBrowserRouter([
   {
     path: "/students",
     element: <SHome />,
+  },
+  {
+    path: "/students/games",
+    element: <SGames />,
+  },
+  {
+    path: "/students/materials",
+    element: <SMaterials />,
   },
   // Admins
   {

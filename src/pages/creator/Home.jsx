@@ -17,7 +17,7 @@ export default function THome() {
   const slides = [
     {
       id: "img-1",
-      img: 'slide_1.jpg',
+      img: 'slide_2.jpg',
       alt: "Slide 1"
     },
     {
@@ -83,7 +83,7 @@ export default function THome() {
     <div className="block w-[75%] mx-auto">
       <h2 className="py-5 my-5 text-2xl font-bold border-b border-b-gray-200">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
       <div className="flex">
-        {data && data.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
+        {data && data.map(item => <Link to={"/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
           <div className="relative p-0 mx-0">
             <img src="/data/vid-1.webp" className="w-full rounded" />
           </div>

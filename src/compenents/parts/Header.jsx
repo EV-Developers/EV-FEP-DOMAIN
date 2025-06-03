@@ -12,14 +12,15 @@ export default function Header({ role }) {
     const [showProfile, setShowProfile] = React.useState(false);
     const [show, setShow] = React.useState(false);
     const [data, setData] = React.useState(null);
+    const [slug, setSlug] = React.useState("");
     const navigate = useNavigate();
     const location = useLocation();
     const ref = React.useRef();
     const [language, setLanguage] = React.useState(null);
 
-    let slug = "";
+    //let slug = "";
     if (role) {
-        slug = '/' + role;
+        //slug = '/' + role;
     }
 
     const notifications_list = []; /*[
@@ -36,12 +37,23 @@ export default function Header({ role }) {
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
         const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
+        let tmpSlug = '';
 
         if (userRole && userRole != "" && userRole != null) {
             if (userRole == 'teacher') {
-                slug = '/teachers';
+                tmpSlug = '/teachers';
+            } else if(userRole == "student"){
+                tmpSlug = '/students';
+            } else if(userRole == "content_creator"){
+                tmpSlug = '';
+            } else if(userRole == "admin"){
+                tmpSlug = '/dashboard';
             }
+        } else {
+            tmpSlug = '/' + role;
         }
+
+        setSlug(tmpSlug);
 
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {
@@ -188,26 +200,38 @@ export default function Header({ role }) {
                 </div>
                 <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0 mt-2">
                     <nav className="flex mr-14">
-                        <Link to={slug + "/"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath('/teachers/') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        <Link to={slug + "/"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug+'/') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['home']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('/teachers/') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                         </Link>
-                        <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        {slug != '/dashboard' && slug != '/students'  && <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['courses']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
-                        </Link>
-                        <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        </Link>}
+                        {slug != '/dashboard' && slug != '/students' && <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['categories']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
-                        </Link>
-                        <Link to={slug + "/materials"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/materials') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        </Link>}
+                        {slug != '/dashboard' && <Link to={slug + "/materials"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/materials') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['materials']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/materials') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
-                        </Link>
-                        <Link to={slug + "/games"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/games') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        </Link>}
+                        {slug != '/dashboard' && <Link to={slug + "/games"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/games') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['games']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/games') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
-                        </Link>
+                        </Link>}
+                        {slug == '/dashboard' && <Link to={slug + "/users"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/users') && 'border-b-2 border-b-[#fa9600]'}`}>
+                            {language && language['users']}
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/users') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        </Link>}
+                        {slug == '/dashboard' && <Link to={slug + "/subscriptions"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/subscriptions') && 'border-b-2 border-b-[#fa9600]'}`}>
+                            {language && language['subscriptions']}
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/subscriptions') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        </Link>}
+                        {slug == '/dashboard' && <Link to={slug + "/Contents"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/Contents') && 'border-b-2 border-b-[#fa9600]'}`}>
+                            {language && language['contents']}
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/Contents') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        </Link>}
                     </nav>
 
                     <div className={`hidden md:flex absolute ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'}`}>

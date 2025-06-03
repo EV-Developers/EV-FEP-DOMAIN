@@ -1,6 +1,4 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faStar, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { translation } from '../../../../config/translations';
 
 export default function TComments() {
@@ -77,7 +75,7 @@ export default function TComments() {
       </div>
     </div>}
 
-    {comments_list.map(item => <div className="bg-[#E4E4E4] my-5 rounded-2xl m-3 p-3">
+    {comments_list.map(item => <div className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
           <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />
@@ -101,10 +99,13 @@ export default function TComments() {
           <div className="relative w-[75%]">
             <div className="flex">
               <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl flex my-2'><span>{language && language["like"]}</span> <img src="/like.png" className="mx-1 w-4 h-4 cursor-pointer" /></button>
-              <button className='p-3 mx-2 cursor-pointer hover:bg-white rounded-2xl flex' onClick={() => setShow(!show)}><span>{language && language["reply"]}</span> <FontAwesomeIcon icon={faCaretDown} className="primary" /></button>
+              <button className='p-3 mx-2 py-1 my-2 cursor-pointer hover:bg-white rounded-2xl flex ' onClick={() => setShow(!show)}>
+                <span>{language && language["reply"]} </span> 
+                <img src="/prioritylow.png" className="w-3 h-2 mt-2 mx-2" alt="" /> 
+              </button>
             </div>
             {show && <div className="mt-3">
-              <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10`}>{language && language["add"]}</button>
+              <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10`}>{language && language["add"]}</button>
               <textarea className="bg-white rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]}></textarea>
             </div>}
           </div>
@@ -115,9 +116,9 @@ export default function TComments() {
     <div className="relative m-4 mt-14">
       <div className={`flex justify-between ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10 bottom-0 w-full m-0 p-4`}>
         <div></div>
-        <button onClick={() => setOpen(true)} className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400`}>{language && language["publish"]}</button>
+        <button onClick={() => setOpen(true)} className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold`}>{language && language["publish"]}</button>
       </div>
-      <textarea className="bg-color rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]} rows="7" onChange={val => setComment(val.target.value)}>{comment}</textarea>
+      <textarea className="bg-[#00000016] rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]} rows="7" onChange={val => setComment(val.target.value)}>{comment}</textarea>
     </div>
   </div>
   )

@@ -13,12 +13,20 @@ export default function PagesContent() {
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
         let role = window.localStorage.getItem("z8C2XXEo52uJQj7");
-        if(role == 'teacher'){
-            role = 'teachers';
-        } else if(role == 'student'){
-            role = 'students';
+        
+        if(role && role != "" && role != null){
+            if(role == 'teacher'){
+                role = 'teachers';
+            } else if(role == 'student'){
+                role = 'students';
+            } else if(role == 'content_creator'){
+                role = '';
+            }
+        } else {
+            role = '';
         }
 
+        console.log(role);
         setUserRole(role);
 
         if (lang && lang != '' && lang != null) {

@@ -98,8 +98,7 @@ export default function TCourses() {
                         <h2 className="text-2xl">{item.title}</h2>
                         <p className="text-color py-2 flex">
                             <span className="mx-2">{language && language["course_by"]} </span>
-                            <strong className="text-bold primary-text">mohammed razi </strong>
-                            <span>, electronic trainer and developer</span>
+                            <strong className="text-bold primary-text">Mohammed Razi </strong> <span>, Electronic Trainer and Developer</span>
                         </p>
                     </div>
                 </Link>)}

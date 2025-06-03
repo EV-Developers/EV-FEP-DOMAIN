@@ -11,7 +11,7 @@ export default function Index() {
                 navigate('/teachers');
             } else if(userRole == 'content_creator') {
                 navigate('/creators');
-            } else if(userRole == 'adminstrator') {
+            } else if(userRole == 'admin') {
                 navigate('/dashboard');
             } else {
                 navigate('/students');

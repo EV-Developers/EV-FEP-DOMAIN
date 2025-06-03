@@ -53,7 +53,7 @@ export default function SubmitAssesment() {
                 <input type="file" accept=".pdf, .doc, .docx" id="file" name="file" className="hidden " />
             </label>
 
-            <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{language && language["submit"]}</button>
+            <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold">{language && language["submit"]}</button>
         </form>
     </ThemeContainer>)
 }

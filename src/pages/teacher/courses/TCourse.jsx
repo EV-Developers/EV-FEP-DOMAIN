@@ -165,13 +165,13 @@ export default function TCourse() {
             <h2 className="mt-4 text-3xl p-2 font-bold">Arduino pack: Design, Manage and Launch Arduino</h2>
             <div className="text-color py-2 flex">
                 <span className="mx-2">{language && language["course_by"]} </span>
-                <strong className="text-bold primary-text">mohammed razi </strong>
-                <span>, electronic trainer and developer</span>
+                <strong className="text-bold primary-text">Mohammed Razi </strong>
+                <span>, Electronic Trainer and Developer</span>
             </div>
 
             <div className="flex justify-between">
                 <div></div>
-                <Link to={'/teachers/generator/' + courseId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 ">{language && language["certificates_generator"]}</Link>
+                <Link to={'/teachers/generator/' + courseId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 font-bold">{language && language["certificates_generator"]}</Link>
             </div>
             <div className="flex">
                 <Link to="/courses">
@@ -215,7 +215,7 @@ export default function TCourse() {
             {tabs == 'comments' && <TComments />}
             {tabs == 'resources' && <TResources resources_list={resources_list} />}
 
-            <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto ">{language && language['download_cerificate']}</button>
+            <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
 
         </ThemeContainer>
     )

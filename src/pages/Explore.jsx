@@ -7,7 +7,9 @@ import { translation } from '../config/translations';
 export default function Explore() {
     const [coursesData, setCoursesData] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
+    const [category, setCategory] = React.useState(null);
     const [data, setData] = React.useState(null);
+    const [shadowData, setShadowData] = React.useState(null);
     const [loading, setLoading] = React.useState(null);
 
     React.useEffect(() => {
@@ -38,6 +40,7 @@ export default function Explore() {
                 console.log(response.data);
 
                 setData(response.data);
+                setShadowData(response.data);
                 loadCoursesData()
             }
         } catch (error) {
@@ -63,28 +66,45 @@ export default function Explore() {
 
     const handleCats = (cat_id) => {
         console.log(cat_id);
+        setCategory(cat_id);
+    }
 
+    const filterCategoryByName = (val) => {
+        if (shadowData && val.length != 0) {
+            let cats = shadowData.filter(item => item.name.toLowerCase().includes(val.toLowerCase()));
+            setData(cats);
+        } else {
+            setData(shadowData);
+        }
     }
 
     return (<ThemeContainer role="teachers">
         <div className="block mx-auto w-[75%]">
             <div className="flex">
-                <div className="w-[25%] text-center flex items-center">
+                <div className="w-full md:w-[25%] flex items-center">
                     <div>
+                        <div className="block mx-auto relative mb-6">
+                            <input
+                                type="search"
+                                name="search"
+                                placeholder=" "
+                                onChange={(val) => filterCategoryByName(val.target.value)}
+                                className="peer w-full border-b border-gray-600 bg-transparent pt-4 pb-2 text-sm text-gray-600 focus:outline-none"
+                            />
+                            <label className="absolute left-0 -top-2 text-xs text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all">
+                                {language && language["search"]}
+                            </label>
+                        </div>
                         {data && data.map(item => <div key={"cat-" + item.id}>
-                            <button onClick={() => handleCats(item.id)} className="text-gray-400 text-sm px-2 hover:text-gray-600 hover:border-b-gray-600 cursor-pointer">{item.name}</button>
+                            <button onClick={() => handleCats(item.id)} className={`text-gray-400 text-sm px-2 hover:text-gray-600 hover:border-b-gray-600 rounded-xl cursor-pointer text-left w-full ${category == item.id && 'border border-gray-400'}`}>{item.name}</button>
                         </div>)}
                     </div>
                 </div>
                 <div className="p-5 w-[75%]">
                     <div className="flex">
-                        {coursesData && coursesData.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
-                            <div className="relative p-0 mx-0">
-                                <div style={{ width: '75%' }} className={`text-amber-600 bg-amber-500 absolute bottom-0 z-10 mx-0 left-1 my-0 h-2 transition-all ${parseInt(75) == 100 ? 'rounded-b-2xl' : language && language['dir'] == 'ril' ? 'rounded-br-2xl' : 'rounded-bl-2xl'}`}></div>
-                                <img src="/data/vid-1.webp" className="w-full rounded" />
-                            </div>
-                            <h3 className="text-l mx-2 my-4 font-bold">{item.title}</h3>
-                            <div className="rounded w-full pointer m-1 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br  hover:from-amber-700 group-hover:to-amber-400 text-center ">{language && language["continue"]}</div>
+                        {coursesData && coursesData.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-t-xl p-0 mx-2 hover:scale-102">
+                            <img src="/data/vid-1.webp" className="w-full rounded-t-xl" />
+                            <h3 className="text-xs mx-2 my-4 font-bold">{item.title}</h3>
                         </Link>)}
                     </div>
 
@@ -92,17 +112,14 @@ export default function Explore() {
                         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
                             <div className="w-full h-24 bg-gray-300"></div>
                             <div className="w-full h-2 bg-gray-300 my-4"></div>
-                            <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
                         </div>
                         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
                             <div className="w-full h-24 bg-gray-300"></div>
                             <div className="w-full h-2 bg-gray-300 my-4"></div>
-                            <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
                         </div>
                         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
                             <div className="w-full h-24 bg-gray-300"></div>
                             <div className="w-full h-2 bg-gray-300 my-4"></div>
-                            <div className="w-full h-6 bg-gray-300 mt-4 rounded "></div>
                         </div>
                     </div>}
                 </div>

@@ -145,6 +145,9 @@ export const translation = [
         send: "Send",
         message: "Message",
         download_cerificate: "Download Your Course Certificate",
+        users: "Users",
+        subscriptions: "Subscriptions",
+        contents: "Contents",
 
     },
     {
@@ -293,5 +296,8 @@ export const translation = [
         send: "إرسال",
         message: "الرسالة",
         download_cerificate: "تحميل شهادة الكورس",
+        users: "المستخدمين",
+        subscriptions: "الاشتراكات",
+        contents: "المحتوى",
     }
 ]

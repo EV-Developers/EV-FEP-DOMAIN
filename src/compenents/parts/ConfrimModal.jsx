@@ -5,7 +5,7 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 export default function ConfrimModal({ open, setOpen, title, message, action, language }) {
 
   return (
-    <div open={open} onClose={setOpen} className="relative z-50">
+    <div className="relative z-50">
       <div className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></div>
 
       <div className="fixed inset-0 z-50 w-screen overflow-y-auto">

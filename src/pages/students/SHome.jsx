@@ -10,7 +10,7 @@ export default function SHome() {
   const slides = [
     {
       id: "img-1",
-      img: 'slide_1.jpg',
+      img: 'slide_2.jpg',
       alt: "Slide 1"
     },
     {

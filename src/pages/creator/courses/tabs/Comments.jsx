@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faStar, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { translation } from '../../../../config/translations';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
 
@@ -57,7 +57,7 @@ export default function Comments({ courseId }) {
 
   return (<div>
     {showModal && <ConfrimModal message={language && language['confirm']} action={handleDeleteComment} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
-    {comments_list.map(item => <div className="bg-[#E4E4E4] my-5 rounded-2xl m-3 p-3">
+    {comments_list.map(item => <div className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
           <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />
@@ -79,9 +79,12 @@ export default function Comments({ courseId }) {
           <div></div>
           <div className="relative w-[75%]">
             <div className="flex">
-              <button className='p-3 mx-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShowModal(true)}>{language && language["delete"]} <FontAwesomeIcon icon={faTrash} className="primary" /></button>
-              <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl'>{language && language["like"]} <FontAwesomeIcon icon={faThumbsUp} className="primary" /></button>
-              <button className='p-3 mx-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShow(!show)}>{language && language["reply"]} <FontAwesomeIcon icon={faCaretDown} className="primary" /></button>
+              <button className='px-3 py-1 mx-2  my-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShowModal(true)}>{language && language["delete"]} <FontAwesomeIcon icon={faTrash} className="primary" /></button>
+              <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl flex my-2'><span>{language && language["like"]}</span> <img src="/like.png" className="mx-1 w-4 h-4 cursor-pointer" /></button>
+              <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl flex my-2' onClick={() => setShow(!show)}>
+              <span>{language && language["reply"]} </span> 
+              <img src="/prioritylow.png" className="w-3 h-2 mt-2 mx-2" alt="" />  
+              </button>
             </div>
             {show && <div>
               <button className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} absolute z-10`}>{language && language["add"]}</button>

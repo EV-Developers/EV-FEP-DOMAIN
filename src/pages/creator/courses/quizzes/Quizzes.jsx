@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
-
+import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
 
 export default function Quizzes() {
-  const { courseId, lessonId } = useParams();
-
   const [language, setLanguage] = React.useState(null);
+  const [quizzId, setQuizzId] = React.useState("");
+  const [showModal, setShowModal] = React.useState(false);
+  const { courseId, lessonId } = useParams();
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -72,25 +73,22 @@ export default function Quizzes() {
     }
   ]
 
-  const handleDelete = async (quizzId) => {
-    const r = window.confirm("Are you sure?");
-
-    if (r) {
-      try {
-        const response = await api.delete('/quizzes/' + quizzId);
-        console.log(response);
-        if (response.status == 200) {
-          navigate("/quizzes/" + lessonId)
-        } else {
-          console.log('error');
-        }
-      } catch (error) {
-        console.log(error);
+  const handleDelete = async () => {
+    try {
+      const response = await api.delete('/quizzes/' + quizzId);
+      console.log(response);
+      if (response.status == 200) {
+        navigate("/quizzes/" + lessonId)
+      } else {
+        console.log('error');
       }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   return (<ThemeContainer>
+    {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
     <div className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]">
       <div className="flex justify-between">
         <div></div>
@@ -110,7 +108,10 @@ export default function Quizzes() {
         {item.answers && item.answers.map(answer => <div key={answer.id} className={`p-3 m-2 rounded-2xl ${answer.correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer}</div>)}
         <div className="flex justify-between">
           <Link to={`/quizzes/${courseId}/${lessonId}/${item.id}`} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["edit"]}</Link>
-          <button onClick={() => handleDelete(item.id)} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["delete"]}</button>
+          <button onClick={() => {
+            setShowModal(true); 
+            setQuizzId(item.id);
+          }} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["delete"]}</button>
         </div>
       </div>)}
     </div>

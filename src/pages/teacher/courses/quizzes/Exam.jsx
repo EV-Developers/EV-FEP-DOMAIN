@@ -241,7 +241,7 @@ export default function Exam() {
                 <p className="p-4 text-l text-center italic">{language && language['submitted']}</p>
             </div>}
 
-            {inprogress && <button className="flex rounded pointer mx-3 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 my-5">
+            {inprogress && <button className="flex rounded pointer mx-3 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 my-5 font-bold">
                 {loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />}
                 <span>{language && language['submit']}</span>
             </button>}

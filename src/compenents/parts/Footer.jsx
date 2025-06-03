@@ -6,21 +6,28 @@ import { Link } from 'react-router-dom';
 
 export default function Footer({ role }) {
     const [language, setLanguage] = React.useState(null);
-    let slug = "";
-
-    if (role) {
-        slug = '/' + role;
-    }
+    const [slug, setSlug] = React.useState("");
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
         const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
+        let tmpSlug = '';
 
         if (userRole && userRole != "" && userRole != null) {
             if (userRole == 'teacher') {
-                slug = '/teachers';
+                tmpSlug = '/teachers';
+            } else if(userRole == "student"){
+                tmpSlug = '/students';
+            } else if(userRole == "content_creator"){
+                tmpSlug = '';
+            } else if(userRole == "admin"){
+                tmpSlug = '/dashboard';
             }
+        } else {
+            tmpSlug = '/' + role;
         }
+
+        setSlug(tmpSlug);
 
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {
@@ -50,10 +57,10 @@ export default function Footer({ role }) {
                     <div className="mx-14">
                         <p className="font-bold my-4">{language && language['main_title']}</p>
                         <p><Link to={slug + "/"} className="hover:underline">{language && language['home']}</Link></p>
-                        <p><Link to={slug + "/courses"} className="hover:underline">{language && language['courses']}</Link></p>
-                        <p><Link to={slug + "/categories"} className="hover:underline">{language && language['categories']}</Link></p>
-                        <p><Link to={slug + "/materials"} className="hover:underline">{language && language['materials']}</Link></p>
-                        <p><Link to={slug + "/games"} className="hover:underline">{language && language['games']}</Link></p>
+                        {slug != '/dashboard' && slug != '/students' && <p><Link to={slug + "/courses"} className="hover:underline">{language && language['courses']}</Link></p>}
+                        {slug != '/dashboard' && slug != '/students' && <p><Link to={slug + "/categories"} className="hover:underline">{language && language['categories']}</Link></p>}
+                        {slug != '/dashboard' &&  <p><Link to={slug + "/materials"} className="hover:underline">{language && language['materials']}</Link></p>}
+                        {slug != '/dashboard' &&  <p><Link to={slug + "/games"} className="hover:underline">{language && language['games']}</Link></p>}
                     </div>
                     <div className="mx-14">
                         <p className="font-bold my-4">{language && language['informations']}</p>

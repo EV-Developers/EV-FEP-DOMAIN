@@ -17,7 +17,7 @@ export default function THome() {
   const slides = [
     {
       id: "img-1",
-      img: 'slide_1.jpg',
+      img: 'slide_2.jpg',
       alt: "Slide 1"
     },
     {
@@ -83,9 +83,11 @@ export default function THome() {
     <div className="block w-[75%] mx-auto">
       <h2 className="py-5 my-5 text-2xl font-bold border-b border-b-gray-200">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
       <div className="flex">
-        {data && data.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
+        {data && data.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-t-2xl p-2 mx-2 hover:scale-102 font-bold">
           <div className="relative p-0 mx-0">
-            <div style={{ width: '75%' }} className={`text-amber-600 bg-amber-500 absolute bottom-0 z-10 mx-0 left-1 my-0 h-2 transition-all ${parseInt(75) == 100 ? 'rounded-b-2xl' : language && language['dir'] == 'ril' ? 'rounded-br-2xl' : 'rounded-bl-2xl'}`}></div>
+            <div style={{ width: '75%' }} className="text-amber-600 bg-amber-500 absolute bottom-0 z-20 mx-0 my-0 h-2 transition-all"></div>
+            <div style={{ width: '75%' }} className="text-amber-600 bg-amber-500 absolute bottom-0 z-20 mx-0 my-0 h-2 blur-xs transition-all"></div>
+            <div className="text-gray-300 w-full bg-gray-300 absolute bottom-0 z-10 mx-0 my-0 h-2 transition-all"></div>
             <img src="/data/vid-1.webp" className="w-full rounded" />
           </div>
           <h3 className="text-l mx-2 my-4 font-bold">{item.title}</h3>

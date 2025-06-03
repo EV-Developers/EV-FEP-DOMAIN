@@ -130,7 +130,7 @@ export default function Courses() {
                         {categoriesData && <>
                             <div className="text-l font-bold py-2 px-2 border-b border-b-gray-200">{language && language['categories']}</div>
                             <div className="relative">
-                                {(ref && ref.current && ref.current.value != 0) && <FontAwesomeIcon icon={faTimes} className="absolute right-0 m-3 my-5 cursor-pointer" onClick={resetSearch} />}
+                                {(ref && ref.current && ref.current.value != 0) && <FontAwesomeIcon icon={faTimes} className={`absolute ${language && language['dir'] == 'ltr' ? 'right-0':'left-0'} m-3 my-5 cursor-pointer`} onClick={resetSearch} />}
                                 <input type="text" onChange={val => filterCategoryByName(val.target.value)} ref={ref} className="px-5 py-2 rounded-xl my-2 bg-white border border-gray-200 placeholder:text-gray-300 w-full" placeholder={language && language['search']} />
                             </div>
                             <div className="max-h-[30vh] overflow-auto">
@@ -177,8 +177,8 @@ export default function Courses() {
                                 <h2 className="text-2xl">{item.title}</h2>
                                 <p className="text-color py-2 flex">
                                     <span className="mx-2">{language && language["course_by"]} </span>
-                                    <strong className="text-bold primary-text">mohammed razi </strong>
-                                    <span>, electronic trainer and developer</span>
+                                    <strong className="text-bold primary-text">Mohammed Razi </strong>
+                                    <span>, Electronic Trainer and Developer</span>
                                 </p>
 
                             </div>

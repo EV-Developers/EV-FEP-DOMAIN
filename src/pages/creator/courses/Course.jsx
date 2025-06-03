@@ -19,10 +19,9 @@ export default function Course() {
     const [lessonsData, setLessonData] = React.useState(null);
     const [lessons, setLessons] = React.useState(null);
     const [assestmentsData, setAssestmentsData] = React.useState(null);
+    const [language, setLanguage] = React.useState(null);
     const { courseId } = useParams();
     const navigate = useNavigate();
-
-    const [language, setLanguage] = React.useState(null);
 
     const lessonsList = [
         {
@@ -81,10 +80,10 @@ export default function Course() {
 
     const resources_list = [
         {
-            id: 'comment-1',
-            title: 'test',
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque nostrum iusto eum ad ratione in eveniet! Quaerat debitis tenetur deserunt rerum commodi. Sunt, quaerat non. Nisi dicta in amet excepturi.",
-            file: '/data/logo.png'
+            id: 'res-1',
+            title: 'Software & Tools',
+            description: "Arduino IDE (Download from arduino.cc) Tinkercad Circuits",
+            file: 'https://downloads.arduino.cc/arduino-ide/arduino-ide_latest_Windows_64bit.exe',
         }
     ]
 
@@ -138,8 +137,7 @@ export default function Course() {
             <h2 className="mt-4 text-3xl p-2 font-bold">Arduino pack: Design, Manage and Launch Arduino</h2>
             <p className="text-color py-2 flex">
                 <span className="mx-2">{language && language["course_by"]} </span>
-                <strong className="text-bold primary-text">mohammed razi </strong>
-                <span>, electronic trainer and developer</span>
+                <strong className="text-bold primary-text">Mohammed Razi </strong> <span>, Electronic Trainer and Developer</span>
             </p>
             <div className="flex">
                 <Link to="/courses">
