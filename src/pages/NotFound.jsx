@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { faAngleLeft, faAngleRight, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { faAngleLeft, faAngleRight, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { translation } from '../config/translations';
 import ThemeContainer from '../compenents/parts/ThemeContainer';

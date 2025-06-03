@@ -31,7 +31,7 @@ export default function Login() {
             }
         } else {
             setLanguage(translation[0]);
-            localStorage.setItem("language", 'english');
+            window.localStorage.setItem("language", 'english');
             document.documentElement.setAttribute('dir', 'ltr');
         }
     }, []);
@@ -55,13 +55,13 @@ export default function Login() {
             try {
                 const response = await api.post("/login", formData);
                 if ((response.status === 200 || response.status === 201) && response?.data?.user?.status === "active") {
-                    localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
-                    localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
-                    localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);
-                    localStorage.setItem("L5HiP7ZpOyuVnO4", email);
+                    window.localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
+                    window.localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
+                    window.localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);
+                    window.localStorage.setItem("L5HiP7ZpOyuVnO4", email);
 
                     if (response?.data?.user?.roles[0]) {
-                        localStorage.setItem("z8C2XXEo52uJQj7", response.data.user.roles[0].name);
+                        window.localStorage.setItem("z8C2XXEo52uJQj7", response.data.user.roles[0].name);
                     }
 
                     setLoading(false);

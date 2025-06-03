@@ -37,9 +37,7 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
             progress: totalTime
         };
 
-        console.log(payload);
-
-
+        //console.log(payload);
         setProgress(totalTime);
         setVideoData(payload);
 

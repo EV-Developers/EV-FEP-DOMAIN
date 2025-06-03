@@ -51,7 +51,7 @@ export default function TCourse() {
             progress: 75,
             desc: "Repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
         },
-    ]
+    ];
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -80,7 +80,7 @@ export default function TCourse() {
             assesment_type: 'git',
             video: 'vid-3.webp'
         },
-    ]
+    ];
 
     const resources_list = [
         {
@@ -89,11 +89,11 @@ export default function TCourse() {
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque nostrum iusto eum ad ratione in eveniet! Quaerat debitis tenetur deserunt rerum commodi. Sunt, quaerat non. Nisi dicta in amet excepturi.",
             file: '/data/logo.png'
         }
-    ]
+    ];
 
     React.useEffect(() => {
         getData();
-    }, [])
+    }, []);
 
     async function getData() {
         const tmpData = await api.get('/courses/' + courseId);
@@ -216,7 +216,6 @@ export default function TCourse() {
             {tabs == 'resources' && <TResources resources_list={resources_list} />}
 
             <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
-
         </ThemeContainer>
     )
 }
