@@ -55,6 +55,7 @@ export default function Login() {
             try {
                 const response = await api.post("/login", formData);
                 if ((response.status === 200 || response.status === 201) && response?.data?.user?.status === "active") {
+                    window.localStorage.setItem("RYnY7KFuRuX2Iut", Date.now());
                     window.localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
                     window.localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
                     window.localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);

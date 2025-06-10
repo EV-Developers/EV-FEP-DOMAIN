@@ -43,11 +43,11 @@ export default function Header({ role }) {
             if (userRole == 'teacher') {
                 tmpSlug = '/teachers';
                 loadData();
-            } else if(userRole == "student"){
+            } else if (userRole == "student") {
                 tmpSlug = '/students';
-            } else if(userRole == "content_creator"){
+            } else if (userRole == "content_creator") {
                 tmpSlug = '';
-            } else if(userRole == "admin"){
+            } else if (userRole == "admin") {
                 tmpSlug = '/dashboard';
             }
         } else {
@@ -201,11 +201,11 @@ export default function Header({ role }) {
                 </div>
                 <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0 mt-2">
                     <nav className="flex mr-14">
-                        <Link to={slug + "/"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug+'/') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        <Link to={slug + "/"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['home']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath('/teachers/') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                         </Link>
-                        {slug != '/dashboard' && slug != '/students'  && <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
+                        {slug != '/dashboard' && slug != '/students' && <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'}`}>
                             {language && language['courses']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                         </Link>}
@@ -236,7 +236,7 @@ export default function Header({ role }) {
                     </nav>
 
                     <div className={`hidden md:flex absolute ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'}`}>
-                        {slug && slug != '/students' && slug != '/dashboard' && <div className="relative m-0"> 
+                        {slug && slug != '/students' && slug != '/dashboard' && <div className="relative m-0">
                             <button onClick={handleSearch} className={`absolute z-10 m-4 ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'} `}>
                                 <FontAwesomeIcon icon={faSearch} className="text-xl" />
                             </button>
