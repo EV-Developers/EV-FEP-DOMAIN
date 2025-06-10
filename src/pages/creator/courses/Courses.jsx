@@ -109,7 +109,27 @@ export default function Courses() {
                 </div>
 
                 <div className="flex">
-                    <div className='w-[25%] mx-5'>
+
+                <div className="w-full md:w-[25%] flex items-center">
+                    <div>
+                        <div className="block mx-auto relative mb-6">
+                            <input
+                                type="search"
+                                name="search"
+                                placeholder=" "
+                                onChange={val => filterCategoryByName(val.target.value)}
+                                className="peer w-full border-b border-gray-600 bg-transparent pt-4 pb-2 text-sm text-gray-600 focus:outline-none"
+                            />
+                            <label className="absolute left-0 -top-2 text-xs text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all">
+                                {language && language["search"]}
+                            </label>
+                        </div>
+                        {categoriesData && categoriesData.map(item => <div key={"cat-" + item.id}>
+                            <button onClick={() => setCategory(item.id)} className={`text-gray-400 text-sm px-2 hover:text-gray-600 hover:border-b-gray-600 rounded-xl cursor-pointer text-left w-full ${category == item.id && 'border border-gray-400'}`}>{item.name}</button>
+                        </div>)}
+                    </div>
+                </div>
+                    {/*<div className='w-[25%] mx-5'>
                         {(!categoriesData && loadingCats) && <div className="animate-pulse">
                             <div className="flex">
                                 <div className="w-full px-5">
@@ -143,7 +163,7 @@ export default function Courses() {
                                 </button>)}
                             </div>
                         </>}
-                    </div>
+                    </div>*/}
 
                     <div className="w-[75%]">
                         <div className="*:animate-pulse">

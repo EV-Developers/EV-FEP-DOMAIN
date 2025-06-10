@@ -4,34 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { translation } from '../../../../config/translations';
 
-export default function TOverview() {
-  const [language, setLanguage] = React.useState(null);
-
-  React.useEffect(() => {
-    const lang = window.localStorage.getItem("language");
-
-    if (lang && lang != '' && lang != null) {
-      if (lang == 'english') {
-        setLanguage(translation[0]);
-        window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-      } else {
-        setLanguage(translation[1]);
-        window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-      }
-    } else {
-      setLanguage(translation[0]);
-      window.localStorage.setItem("language", 'english');
-      window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-    }
-
-  }, []);
+export default function TOverview({language}) {
 
   return (
     <div className="p-5">
       <div className="mb-14">
         <div className="flex py-4">
           <FontAwesomeIcon icon={faRefresh} className="mx-3 text-color" />
-          <p className="mx-3 text-color">{["last_updated"]} August 2024</p>
+          <p className="mx-3 text-color">{language && language["last_updated"]} August 2024</p>
         </div>
         <div className="flex py-4">
           <FontAwesomeIcon icon={faGlobe} className="mx-3 text-color" />

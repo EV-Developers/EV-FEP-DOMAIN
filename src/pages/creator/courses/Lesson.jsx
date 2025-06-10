@@ -6,9 +6,11 @@ import { faCaretDown, faCaretUp, faClock } from '@fortawesome/free-solid-svg-ico
 import api from '../../../config/api';
 import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 import { translation } from '../../../config/translations';
+import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
 export default function Lesson({ courseId, item }) {
     const [show, setShow] = React.useState(false);
+    const [videoData, setVideoData] = React.useState(null);
     const tmp_vid_url = "https://www.w3schools.com/html/mov_bbb.mp4";
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
@@ -32,10 +34,6 @@ export default function Lesson({ courseId, item }) {
 
     }, []);
 
-    /**
-     * delete lessons by lesson ID
-     * @param {string} lessonId lesson ID
-     */
     const handleDeleteLesson = async (lessonId) => {
         try {
             const response = await api.delete('/lessons/'+lessonId);
@@ -61,10 +59,7 @@ export default function Lesson({ courseId, item }) {
         </button>
         {show && <div className="transition-all px-0">
             <p className="p-2">{item.desc}</p>
-            <video height="440" className="w-[65%] px-0 overflow-x-hidden rounded-2xl" poster="/data/vid-1.webp" controls>
-                <source src={tmp_vid_url} type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
+            <VideoPlayer tmp_vid_url={tmp_vid_url} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />
             <div className="flex">
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>

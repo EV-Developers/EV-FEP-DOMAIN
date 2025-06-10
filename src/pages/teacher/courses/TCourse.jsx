@@ -13,6 +13,7 @@ import TLessons from './tabs/TLessons';
 import TOverview from './tabs/TOverview';
 import TComments from './tabs/TComments';
 import TResources from './tabs/TResources';
+import TCertificate from './tabs/TCertificate';
 
 export default function TCourse() {
     const [tabs, setTabs] = React.useState('content');
@@ -171,7 +172,10 @@ export default function TCourse() {
 
             <div className="flex justify-between">
                 <div></div>
-                <Link to={'/teachers/generator/' + courseId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 font-bold">{language && language["certificates_generator"]}</Link>
+                <div className="flex">
+                    <Link to={'/teachers/generator/' + courseId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 font-bold">{language && language["certificates_generator"]}</Link>
+                    <button onClick={handleCourseCertificateDownload} className="block rounded pointer px-5 py-1 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
+                </div>
             </div>
             <div className="flex">
                 <Link to="/courses">
@@ -192,6 +196,8 @@ export default function TCourse() {
                     <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'resources' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('resources')}>{language && language["resources"]}
                     <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
+                <button className={`mx-2 cursor-pointer ${tabs == 'course_certificate' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('course_certificate')}>{language && language["course_certificate"]}
+                    <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
             </div>
 
             {tabs == 'content' && <div className="flex">
@@ -211,9 +217,10 @@ export default function TCourse() {
                     </a>)}
                 </div>
             </div>}
-            {tabs == 'overview' && <TOverview />}
-            {tabs == 'comments' && <TComments />}
+            {tabs == 'overview' && <TOverview language={language} />}
+            {tabs == 'comments' && <TComments language={language} />}
             {tabs == 'resources' && <TResources resources_list={resources_list} />}
+            {tabs == 'course_certificate' && <TCertificate language={language} handleCourseCertificateDownload={handleCourseCertificateDownload} />}
 
             <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
         </ThemeContainer>

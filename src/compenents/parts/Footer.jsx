@@ -61,12 +61,19 @@ export default function Footer({ role }) {
                         {slug != '/dashboard' && slug != '/students' && <p><Link to={slug + "/categories"} className="hover:underline">{language && language['categories']}</Link></p>}
                         {slug != '/dashboard' &&  <p><Link to={slug + "/materials"} className="hover:underline">{language && language['materials']}</Link></p>}
                         {slug != '/dashboard' &&  <p><Link to={slug + "/games"} className="hover:underline">{language && language['games']}</Link></p>}
+                        {slug == '/dashboard' &&  <p><Link to={slug + "/users"} className="hover:underline">{language && language['users']}</Link></p>}
+                        {slug == '/dashboard' &&  <p><Link to={slug + "/subscriptions"} className="hover:underline">{language && language['subscriptions']}</Link></p>}
+                        {slug == '/dashboard' &&  <p><Link to={slug + "/contents"} className="hover:underline">{language && language['contents']}</Link></p>}
                     </div>
                     <div className="mx-14">
                         <p className="font-bold my-4">{language && language['informations']}</p>
                         <p><Link to="/pages/about" className="hover:underline">{language && language['about']}</Link></p>
-                        <p><Link to={slug + "/explore"} className="hover:underline">{language && language['explore']}</Link></p>
-                        <p><Link to="/contact" className="hover:underline">{language && language['contact']}</Link></p>
+                        {slug == '/teachers' && <p>
+                            <Link to={slug + "/explore"} className="hover:underline">{language && language['explore']}</Link>
+                        </p>}
+                        <p>
+                            <Link to="/contact" className="hover:underline">{language && language['contact']}</Link>
+                        </p>
                     </div>
                     <div className="mx-14">
                         <p className="font-bold my-4">{language && language['more']}</p>

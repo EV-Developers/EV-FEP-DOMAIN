@@ -25,12 +25,22 @@ export default function Course() {
 
     const lessonsList = [
         {
-            id: '3',
+            id: '1',
             title: 'lesson 1',
             video: '',
             level: 1,
             cover: 'vid-3.webp',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?",
+            progress: 30
+        },
+        {
+            id: '3',
+            title: 'lesson 2',
+            video: '',
+            level: 1,
+            cover: 'vid-3.webp',
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?",
+            progress: 30
         },
         {
             id: '4',
@@ -38,7 +48,8 @@ export default function Course() {
             video: '',
             level: 2,
             cover: 'vid-3.webp',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?",
+            progress: 70,
         },
     ];
 

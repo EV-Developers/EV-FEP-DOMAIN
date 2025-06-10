@@ -14,8 +14,8 @@ export default function SignUp() {
     const [msg, setMsg] = React.useState(null);
     const [passwordType, setPasswordType] = React.useState(true);
     const [loading, setLoading] = React.useState(false);
-    const navigate = useNavigate();
     const [language, setLanguage] = React.useState(null);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");

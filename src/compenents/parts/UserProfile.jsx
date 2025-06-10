@@ -55,8 +55,11 @@ export default function UserProfile({ open, setOpen, language }) {
         const authUser = window.localStorage.getItem("DDOj9KHr51qW1xi");
         const formData = new FormData(e.target);
         formData.append('user_id', authUser);
+        const name = e.target.name.value;
+        const bio = e.target.bio.value;
+        const email = e.target.email.value;
 
-        if (e.target.name.value == "" || e.target.bio.value == "" || e.target.email.value == "") {
+        if (name == "" || bio == "" || email == "") {
             setMsg(language['error_validation_msg']);
             setLoading(false);
             return false;

@@ -52,6 +52,14 @@ import SubmitAssesment from './pages/teacher/courses/SubmitAssesment';
 import Explore from './pages/Explore';
 import SGames from './pages/students/Games/SGames';
 import SMaterials from './pages/students/Materials/SMaterials';
+import UsersList from './pages/admin/Users/UsersList';
+import NewUser from './pages/admin/Users/NewUser';
+import Subscriptions from './pages/admin/Subscriptions/Subscriptions';
+import WebContent from './pages/admin/Website/WebContent';
+import EditContent from './pages/admin/Website/EditContent';
+import Membership from './pages/admin/Subscriptions/Membership';
+import NewMembership from './pages/admin/Subscriptions/NewMembership';
+import UserDetails from './pages/admin/Users/UserDetails';
 
 const router = createBrowserRouter([
   // Creators
@@ -240,6 +248,38 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <AHome />,
   },
+  {
+    path: "/dashboard/users",
+    element: <UsersList />,
+  },
+  {
+    path: "/dashboard/new-user",
+    element: <NewUser />,
+  },
+  {
+    path: "/dashboard/:user",
+    element: <UserDetails />,
+  },
+  {
+    path: "/dashboard/subscriptions",
+    element: <Subscriptions />
+  },
+  {
+    path: "/dashboard/contents",
+    element: <WebContent />
+  },
+  {
+    path: "/dashboard/edit-content/:page",
+    element: <EditContent />
+  },
+  {
+    path: "/dashboard/subscriptions/:member",
+    element: <Membership />
+  },
+  {
+    path: "/dashboard/new-subscription",
+    element: <NewMembership />
+  }
 
 ]);
 
