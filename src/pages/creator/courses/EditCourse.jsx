@@ -151,14 +151,15 @@ export default function EditCourse() {
         try {
             const tmpData = await api.get('/courses/'+courseId);
     
-            console.log(tmpData);
             
             if (tmpData.status == 200) {
-                setTitle(tmpData.data.title);
-                setDescription(tmpData.data.description)
-                setCategoryId(tmpData.data.categoryId)
-                setLevel(tmpData.data.level)
-                setCoursesData(tmpData.data.data);
+                console.log(tmpData.data.data);
+                setTitle(tmpData.data.data.title);
+                setDescription(tmpData.data.data.description)
+                setCategoryId(tmpData.data.data.categoryId)
+                setLevel(tmpData.data.data.level)
+                setCategoryId(tmpData.data.data.category.id);
+                setCategoryName(tmpData.data.data.category.name);
                 setData(tmpData.data.data);
             }
         } catch (error) {
@@ -167,16 +168,35 @@ export default function EditCourse() {
     }
     
     React.useEffect(() => {
-        if(title != "" && data){
+        loadCategoryCourses()
+    }, [categoryId]);
+
+    const loadCategoryCourses = async () => {
+        try {
+            setCoursesData(null);
+            const tmpData = await api.get('/courses?category_id='+categoryId);
+            
+            if (tmpData.status == 200) {
+                console.log(tmpData.data.data);
+                setCoursesData(tmpData.data.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    React.useEffect(() => {
+        if(title != "" && coursesData){
             let tmpArr = [];
-            tmpArr = [...data, {id: 'test-1', title: title}];
+            coursesData.map(item => {
+                if(item.id == courseId){
+                    item.title = title;
+                }
+                tmpArr.push(item);
+            })
             console.log(tmpArr);
             
             setCoursesData(tmpArr);
-        } else {
-            if(data){
-                setCoursesData(data);
-            }
         }
     }, [title]);
 
@@ -190,7 +210,7 @@ export default function EditCourse() {
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>{language && language["courses"]}</Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                    <p className="m-3 my-3 text-color">{language && language["new"]}</p>
+                    <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
                 </div>
                 <hr className="text-gray-200 my-5" />
                 {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} />}

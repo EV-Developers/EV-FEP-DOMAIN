@@ -181,6 +181,24 @@ export default function AddCourse() {
             }
         }
     }, [title]);
+    
+    React.useEffect(() => {
+        loadCategoryCourses()
+    }, [categoryId]);
+
+    const loadCategoryCourses = async () => {
+        try {
+            setCoursesData(null);
+            const tmpData = await api.get('/courses?category_id='+categoryId);
+            
+            if (tmpData.status == 200) {
+                console.log(tmpData.data.data);
+                setCoursesData(tmpData.data.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <ThemeContainer>

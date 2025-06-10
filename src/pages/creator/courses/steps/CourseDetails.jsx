@@ -29,45 +29,12 @@ setCoursesData }) {
         }
     }, []);
 
-    const levels_list = [
-        {
-            id: '0',
-            title: 'None',
-            grade: "Grade0",
-            level: '0'
-        },
-        {
-            id: '1',
-            title: 'SCratch',
-            grade: "GRADE1",
-            level: '1'
-        },
-        {
-            id: '2',
-            title: 'Arduino',
-            grade: "GRADE2",
-            level: '2'
-        },
-        {
-            id: '3',
-            title: 'Microbit',
-            grade: "GRADE3",
-            level: '3'
-        },
-        {
-            id: '4',
-            title: 'Electronics',
-            grade: "GRADE4",
-            level: '4'
-        },
-    ];
-
     return (<div>
         <div className="flex">
             <div className="w-[60%] px-4 border-r border-r-[#ccccccc1] mx-5">
                 <label htmlFor="lessonTitle=">
                     <p id="lessonTitle=" className="my-3 font-bold">{language && language["title"]}</p>
-                    <input type="text" id="lessonTitle=" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shadow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" value={title} onChange={val => setTitle(val.target.value)} />
+                    <input type="text" id="lessonTitle=" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shadow-sm bg-color w-full placeholder-gray-400 " value={title} onChange={val => setTitle(val.target.value)} />
                 </label>
                 
                 <label htmlFor="courseLevel">
