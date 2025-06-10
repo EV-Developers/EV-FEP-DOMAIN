@@ -33,6 +33,12 @@ export default function Lessons({ lessons, setLessons, assesments, courseId }) {
             {assesments && assesments.length == 0 && <Link to={"/add-assesment/" + courseId} className="block rounded pointer m-1 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 transition-all">{language && language["new_assesment"]}</Link>}
         </div>
         <p className="text-2xl m-4">{language && language["course_lessons"]}:</p>
+
+        {!lessons && <div className="*:animate-pulse mt-4 ">
+            <div className="bg-gray-300 h-10 w-full p-5 my-5 rounded-xl "></div>
+            <div className="bg-gray-300 h-10 w-full p-5 my-5 rounded-xl "></div>
+            <div className="bg-gray-300 h-10 w-full p-5 my-5 rounded-xl "></div>
+        </div>}
         {lessons && <ReactSortable list={lessons} setList={setLessons}>
             {lessons && lessons.map(item => <Lesson courseId={courseId} item={item} key={item.id} />)}
         </ReactSortable>}

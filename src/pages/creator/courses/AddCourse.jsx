@@ -56,16 +56,23 @@ export default function AddCourse() {
         formData.append("description", description);
         formData.append("category_id", categoryId);
         formData.append("is_public", "true")
-        formData.append("level", level)
+        formData.append("level", 1)
         formData.append("difficulty_level", 1);
         formData.append("max_students", 0);
         formData.append("createdBy", auth_user);
         if(featuredImage && featuredImage[0]){
-            //formData.append("featured_image", featuredImage[0], featuredImage[0].name);
+            formData.append("featured_image", featuredImage[0]);
         }
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
+                api.interceptors.request.use((config) => {
+                    config.headers['accept'] = 'application/json';
+                    config.headers['Content-Type'] = 'multipart/form-data';
+                    
+                    return config;
+                });
+
                 const response = await api.post("/courses", formData);
 
                 console.log(response);
@@ -177,11 +184,6 @@ export default function AddCourse() {
 
     return (
         <ThemeContainer>
-            {/* <form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
-                <input type="file" name="featured_image" />
-
-                <button type="submit">Add</button>
-            </form> */}
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
                 <div className="flex">
                     <Link to="/courses">

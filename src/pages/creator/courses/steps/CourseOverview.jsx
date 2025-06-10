@@ -50,10 +50,10 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
     <div>
       <label htmlFor="courseOverview">
         <p className="my-3 font-bold">{language && language["course_overview"]}</p>
-        <textarea onChange={val => setDescription(val.target.value)} id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} value={description} ></textarea>
+        <textarea onChange={val => setDescription(val.target.value)} id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} value={description} ></textarea>
       </label>
 
-      <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-color bg-color bg-cover bg-no-repeat" ref={ref}>
+      <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat" ref={ref}>
         <div className="text-center">
           <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
           <p className="text-l font-bold">{language && language["upload"]} PNG/JPG</p>

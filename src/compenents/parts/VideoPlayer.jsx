@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster="/data/vid-1.webp" }) {
+export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp" }) {
     const [play, setShow] = React.useState(true);
     const [progress, setProgress] = React.useState(0);
     const video = useRef();
@@ -53,7 +53,15 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
         {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 pointer m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
             <img src="/play_btn.png" alt="" className="w-full" />
         </button>}
-        <video onTimeUpdate={handleProgress} onClick={handlePlay} ref={video} height="440" className="w-full my-7 px-0 overflow-x-hidden rounded-t-2xl" poster={poster} controls={false}>
+        <video 
+            onTimeUpdate={handleProgress} 
+            onClick={handlePlay} 
+            ref={video} 
+            height="440" 
+            className="w-full my-7 px-0 overflow-x-hidden rounded-t-2xl" 
+            //poster={poster} 
+            controls={false}
+        >
             <source src={tmp_vid_url} type="video/mp4" />
             Your browser does not support the video tag.
         </video>

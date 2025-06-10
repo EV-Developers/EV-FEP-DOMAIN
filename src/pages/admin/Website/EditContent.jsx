@@ -49,22 +49,22 @@ export default function EditContent() {
             <form method="post" encType="multipart/form-data" onSubmit={handleUpdateContent} className="block mx-auto rounded-xl m-5 bg-white p-5">
                 <label htmlFor="title" className="block">
                     <p className="my-3 font-bold">{language && language["title"]}</p>
-                    <input type="text" id="title" name="title" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    <input type="text" id="title" name="title" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
                 </label>
 
                 <label htmlFor="title" className="block">
                     <p className="my-3 font-bold">{language && language["title"]} - {language && language["english"]}</p>
-                    <input type="text" id="title" name="title" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    <input type="text" id="title" name="title" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
                 </label>
 
                 <label htmlFor="name" className="block">
                     <p className="my-3 font-bold">{language && language["content"]}</p>
-                    <textarea id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400"></textarea>
+                    <textarea id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400"></textarea>
                 </label>
                 
                 <label htmlFor="name" className="block">
                     <p className="my-3 font-bold">{language && language["content"]} - {language && language["english"]}</p>
-                    <textarea id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400"></textarea>
+                    <textarea id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400"></textarea>
                 </label>
 
                 {msg && <div className="p-4 m-2 text-center">

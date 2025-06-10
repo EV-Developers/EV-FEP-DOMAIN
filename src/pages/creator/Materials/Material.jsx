@@ -120,9 +120,9 @@ export default function Material() {
 
                 <label htmlFor="courseOverview">
                     <p className="my-3 font-bold">{language && language["title"]}</p>
-                    <textarea id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} ></textarea>
+                    <textarea id="courseOverview" name="course-overview" className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} ></textarea>
                 </label>
-                <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-color">
+                <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border inset-shadow-sm inset-gray-indigo-800 border-gray-300">
                     <div className="text-center">
                         <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
                         <p className="text-l font-bold">{language && language["upload_material"]}</p>

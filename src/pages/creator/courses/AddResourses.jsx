@@ -57,15 +57,15 @@ export default function AddResourses() {
 
         <label htmlFor="sectionTitle">
           <p id="sectionTitle" className="my-3 font-bold">{language && language["important_resources"]}</p>
-          <input type="text" id="sectionTitle" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
+          <input type="text" id="sectionTitle" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400" />
         </label>
 
         <label htmlFor="desc">
           <p id="desc" className="my-3 font-bold">{language && language["description"]}</p>
-          <input type="text" id="desc" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
+          <input type="text" id="desc" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400" />
         </label>
 
-        <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-color bg-color bg-cover bg-no-repeat">
+        <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat">
           <div className="text-center">
             <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
             <p className="text-l font-bold">{language && language["upload"]} PNG/JPG</p>

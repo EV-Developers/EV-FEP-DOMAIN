@@ -7,11 +7,11 @@ import api from '../../../config/api';
 import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 import { translation } from '../../../config/translations';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
+import axios from 'axios';
 
 export default function Lesson({ courseId, item }) {
     const [show, setShow] = React.useState(false);
     const [videoData, setVideoData] = React.useState(null);
-    const tmp_vid_url = "https://www.w3schools.com/html/mov_bbb.mp4";
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
 
@@ -34,9 +34,9 @@ export default function Lesson({ courseId, item }) {
 
     }, []);
 
-    const handleDeleteLesson = async (lessonId) => {
+    const handleDeleteLesson = async () => {
         try {
-            const response = await api.delete('/lessons/'+lessonId);
+            const response = await api.delete('/lessons/'+item.id);
             console.log(response);
             if (response.status == 200) {
                 window.location.reload()
@@ -51,15 +51,15 @@ export default function Lesson({ courseId, item }) {
     return (<div id={"lesson-"+item.id} className="bg-white px-3 py-5 m-4 shadow-sm rounded-xl cursor-grab transition-all">
         {showModal && <ConfrimModal message={language && language['confirm']} action={handleDeleteLesson} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
         <button className="flex justify-between transition-all cursor-pointer w-full pb-3" onClick={() => setShow(!show)}>
-            <p className="text-l font-bold flex">
+            <div className="text-l font-bold flex">
                 <div>{item.title}</div>
                 <div className="text-sm text-gray-500 font-light mx-3"> <span>-</span> <FontAwesomeIcon icon={faClock} /> <span> 3 {language && language["minitus"]}, 33 {language && language["seconds"]}</span></div>
-            </p>
+            </div>
             <FontAwesomeIcon icon={!show ? faCaretDown : faCaretUp} className="text-xl" />
         </button>
         {show && <div className="transition-all px-0">
-            <p className="p-2">{item.desc}</p>
-            <VideoPlayer tmp_vid_url={tmp_vid_url} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />
+            <p className="p-2">{item.description}</p>
+            <VideoPlayer tmp_vid_url={'https://fep.misk-donate.com/storage/'+item.video_path} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />
             <div className="flex">
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>

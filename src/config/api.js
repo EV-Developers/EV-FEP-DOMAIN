@@ -4,7 +4,8 @@ const api = axios.create({
   baseURL: 'https://fep.misk-donate.com/api',
   headers: {
     'Content-Type': 'application/json',
-  },
+  }
+
   //withCredentials: true,
 });
 

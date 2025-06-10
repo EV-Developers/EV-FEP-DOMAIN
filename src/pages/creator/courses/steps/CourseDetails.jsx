@@ -67,12 +67,12 @@ setCoursesData }) {
             <div className="w-[60%] px-4 border-r border-r-[#ccccccc1] mx-5">
                 <label htmlFor="lessonTitle=">
                     <p id="lessonTitle=" className="my-3 font-bold">{language && language["title"]}</p>
-                    <input type="text" id="lessonTitle=" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shadow-sm bg-color w-full placeholder-gray-400" value={title} onChange={val => setTitle(val.target.value)} />
+                    <input type="text" id="lessonTitle=" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shadow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" value={title} onChange={val => setTitle(val.target.value)} />
                 </label>
                 
                 <label htmlFor="courseLevel">
                     <p className="my-3 font-bold">{language && language["level"]}</p>
-                    <input type="text" className="py-2 px-14 rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]}  value={level} onChange={val => setLevel(val.target.value)}/>
+                    <input type="text" className="py-2 px-14 rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]}  value={level} onChange={val => setLevel(val.target.value)}/>
                 </label>
                 <p className="my-3 font-bold">{language && language["choose_category"]}</p>
                 <div className="relative">

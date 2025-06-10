@@ -154,10 +154,10 @@ export default function EditQuiz() {
             <div className="flex my-4">
                 <div className="w-[70%]">
                     <label htmlFor="question" className="block my-4">
-                        <input type="text" onChange={val => setQuestion(val.target.value)} id="question" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" value={question} />
+                        <input type="text" onChange={val => setQuestion(val.target.value)} id="question" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" value={question} />
                     </label>
                     <label htmlFor="mark" className="block my-4">
-                        <input type="number" onChange={val => setMark(val.target.value)} id="mark" placeholder={language && language["mark"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" value={mark} />
+                        <input type="number" onChange={val => setMark(val.target.value)} id="mark" placeholder={language && language["mark"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" value={mark} />
                     </label>
                 </div>
                 <div className="block relative w-[30%]">
@@ -172,7 +172,7 @@ export default function EditQuiz() {
             <p className="my-5 font-bold">{language && language["add_answers"]}</p>
             {quizType != 'text' && <div className="flex">
                 <label htmlFor="question" className="block w-[75%]">
-                    <input type="text" id="question" placeholder="Answer Option" className="py-2 px-14 rounded shodow-sm bg-gray-200 placeholder-gray-400 w-full" value={answerText} onChange={val => setAnswerText(val.target.value)} />
+                    <input type="text" id="question" placeholder="Answer Option" className="py-2 px-14 rounded shodow-sm bg-gray-200 placeholder-gray-400 w-full inset-shadow-sm inset-gray-indigo-800" value={answerText} onChange={val => setAnswerText(val.target.value)} />
                 </label>
                 <button onClick={handleAddAnswer} className="block mx-3 rounded pointer py-2 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["add_text"]}</button>
             </div>}

@@ -6,12 +6,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
+import VideoPlayer from '../../../compenents/parts/VideoPlayer';
+import axios from 'axios';
 
 export default function EditLesson() {
     const [data, setData] = React.useState(null);
     const [msg, setMsg] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
+    const [tmp_vid_url, setVidUrl] = React.useState(null);
     const navigate = useNavigate();
     const { courseId, lessonId } = useParams();
 
@@ -45,6 +48,9 @@ export default function EditLesson() {
 
         if (response.status == 200) {
             setData(response.data);
+            console.log(response.data);
+            
+            setVidUrl('https://fep.misk-donate.com/storage/'+response.data.video_path);
         } else {
             console.log('error');
         }
@@ -54,13 +60,22 @@ export default function EditLesson() {
         e.preventDefault();
         setMsg(null);
         setLoading(true);
+        const token = localStorage.getItem('rJp7E3Qi7r172VD');
         const formData = new FormData(e.target);
         formData.append("lesson_cover_image", "2");
 
         if (e.target.name.value != "" && e.target.description.value != "") {
             try {
-                const response = await api.put("/lessons/" + lessonId, formData);
+                //const response = await api.put("/lessons/" + lessonId, formData);
     
+                const response = await axios.put('https://fep.misk-donate.com/api/lessons/'+lessonId, formData, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+
                 console.log(response);
     
                 if (response.status == 200) {
@@ -104,6 +119,8 @@ export default function EditLesson() {
                 defaultValue={data && data.description}
             ></textarea>
 
+            {tmp_vid_url && <VideoPlayer tmp_vid_url={tmp_vid_url} />}
+
             <label htmlFor="uploadVideo" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-color mb-14">
                 <div className="text-center">
                     <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
@@ -111,15 +128,6 @@ export default function EditLesson() {
                     <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
                 </div>
                 <input type="file" id="uploadVideo" name="video_path" className="hidden" />
-            </label>
-
-            <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-color mb-14">
-                <div className="text-center">
-                    <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-                    <p className="text-l font-bold">{language && language["upload_video_cover"]}</p>
-                    <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
-                </div>
-                <input type="file" id="uploadImage" name="lesson_cover_image" className="hidden " />
             </label>
 
             {msg && <div className="p-4 m-2">{msg}</div>}

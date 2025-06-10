@@ -56,24 +56,24 @@ export default function EditCourse() {
         formData.append("title", title);
         formData.append("description", description);
         formData.append("category_id", categoryId);
-        formData.append("is_public", "true")
-        formData.append("level", level)
+        formData.append("is_public", "true");
+        formData.append("level", 1);
         formData.append("difficulty_level", 1);
         formData.append("max_students", 0);
         formData.append("createdBy", auth_user);
         if(featuredImage && featuredImage[0]){
-            //formData.append("featured_image", featuredImage[0], featuredImage[0].name);
+            formData.append("featured_image", featuredImage[0], featuredImage[0].name);
         }
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
-                const response = await api.post("/courses", formData);
+                const response = await api.put("/courses/"+courseId, formData);
 
                 console.log(response);
 
                 if (response.status == 200 || response.status == 201) {
                     setLoading(false)
-                    navigate('/courses');
+                    navigate('/courses/'+courseId);
                 } else {
                     setLoading(false);
                     setMsg(language["error_msg"]);
@@ -182,11 +182,6 @@ export default function EditCourse() {
 
     return (
         <ThemeContainer>
-            {/* <form post="post" encType="multipart/form-data" onSubmit={handleSubmit}>
-                <input type="file" name="featured_image" />
-
-                <button type="submit">Add</button>
-            </form> */}
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
                 <div className="flex">
                     <Link to="/courses">

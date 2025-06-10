@@ -112,15 +112,15 @@ export default function GameDetails() {
                 <hr className="text-gray-200 my-5" />
                 <label htmlFor="title">
                     <p className="my-3 font-bold">{language && language["title"]}</p>
-                    <input id="title" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} />
+                    <input id="title" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} />
                 </label>
                 <label htmlFor="title">
                     <p className="my-3 font-bold">{language && language["description"]}</p>
-                    <textarea id="description" name="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} ></textarea>
+                    <textarea id="description" name="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} ></textarea>
                 </label>
                 <label htmlFor="content">
                     <p className="my-3 font-bold">{language && language["content"]}</p>
-                    <textarea id="content" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} ></textarea>
+                    <textarea id="content" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} ></textarea>
                 </label>
 
                 {msg && <div className="p-4 m-2">{msg}</div>}

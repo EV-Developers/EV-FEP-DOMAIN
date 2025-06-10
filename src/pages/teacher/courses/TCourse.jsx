@@ -19,40 +19,9 @@ export default function TCourse() {
     const [tabs, setTabs] = React.useState('content');
     const [data, setData] = React.useState(null);
     const [lessonsData, setLessonData] = React.useState(null);
-    const [lessons, setLessons] = React.useState(null);
     const [assestmentsData, setAssestmentsData] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
     const { courseId } = useParams();
-
-    const lessonsList = [
-        {
-            id: '3',
-            title: 'Lesson 1',
-            video: '',
-            level: 1,
-            cover: 'vid-3.webp',
-            progress: 100,
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti."
-        },
-        {
-            id: '23423',
-            title: 'Lesson 2',
-            video: '',
-            level: 2,
-            cover: 'vid-3.webp',
-            progress: 10,
-            desc: "Mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum."
-        },
-        {
-            id: '23424',
-            title: 'Lesson 3',
-            video: '',
-            level: 3,
-            cover: 'vid-3.webp',
-            progress: 75,
-            desc: "Repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?"
-        },
-    ];
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -70,8 +39,6 @@ export default function TCourse() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
-        setLessons(lessonsList);
     }, []);
 
     const assesments = [
@@ -97,21 +64,22 @@ export default function TCourse() {
     }, []);
 
     async function getData() {
+        const auth_user = window.localStorage.getItem("rJp7E3Qi7r172VD");
         const tmpData = await api.get('/courses/' + courseId);
-        const tmpLessonsData = await api.get('/lessons');
-        const tmpAssestmentsData = await api.get('/assignments');
+        const tmpLessonsData = await api.get('/lessons?course_id=' + courseId + '&user_id='+auth_user);
+        const tmpAssestmentsData = null //await api.get('/assignments');
 
-        if (tmpData.status == 200) {
-            setData(tmpData.data)
-            console.log(tmpData.data);
+        if (tmpData && tmpData.status == 200) {
+            setData(tmpData.data.data)
+            console.log(tmpData.data.data);
         }
 
-        if (tmpLessonsData.status == 200) {
+        if (tmpLessonsData && tmpLessonsData.status == 200) {
             setLessonData(tmpLessonsData.data);
             console.log(tmpLessonsData.data);
         }
 
-        if (tmpAssestmentsData.status == 200) {
+        if (tmpAssestmentsData && tmpAssestmentsData.status == 200) {
             setAssestmentsData(tmpAssestmentsData.data);
             console.log(tmpAssestmentsData);
         }
@@ -163,12 +131,14 @@ export default function TCourse() {
 
     return (
         <ThemeContainer role="teachers">
-            <h2 className="mt-4 text-3xl p-2 font-bold">Arduino pack: Design, Manage and Launch Arduino</h2>
-            <div className="text-color py-2 flex">
-                <span className="mx-2">{language && language["course_by"]} </span>
-                <strong className="text-bold primary-text">Mohammed Razi </strong>
-                <span>, Electronic Trainer and Developer</span>
-            </div>
+            {!data && <div className="*:animate-pulse mt-4">
+                <div className="bg-gray-300 h-4 w-[65%] p-5"></div>
+                <div className="bg-gray-300 h-2 py-2 mt-2 w-[45%] p-3"></div>
+            </div>}
+            <h2 className="mt-4 text-3xl p-2 font-bold">{data && data.title}</h2>
+            <p className="text-color py-2 flex">
+                <span className="mx-2"><strong className="text-bold primary-text">{data && data.category.name}</strong></span>
+            </p>
 
             <div className="flex justify-between">
                 <div></div>
@@ -202,11 +172,11 @@ export default function TCourse() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <TLessons courseId={courseId} lessons={lessons} setLessons={setLessons} assesments={assesments} />
+                    <TLessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assesments={assesments} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
-                    {lessons && lessons.map((item, index) => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
+                    {lessonsData && lessonsData.map((item, index) => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
                         <div className="relative group hover:border-none">
                             <div className={`inline-block text-xs p-2 w-7 h-7 text-center rounded-full ${index == 0 ? 'bg-amber-500' : 'bg-color'}`}>{item.level}</div>
                             <p className="inline-block py-4 mx-3">{item.title}</p>
@@ -217,9 +187,9 @@ export default function TCourse() {
                     </a>)}
                 </div>
             </div>}
-            {tabs == 'overview' && <TOverview language={language} />}
-            {tabs == 'comments' && <TComments language={language} />}
-            {tabs == 'resources' && <TResources resources_list={resources_list} />}
+            {tabs == 'overview' && <TOverview data={data} language={language} />}
+            {tabs == 'comments' && <TComments data={data} language={language} />}
+            {tabs == 'resources' && <TResources data={data} resources_list={resources_list} />}
             {tabs == 'course_certificate' && <TCertificate language={language} handleCourseCertificateDownload={handleCourseCertificateDownload} />}
 
             <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>

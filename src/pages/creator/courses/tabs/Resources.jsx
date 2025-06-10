@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { translation } from '../../../../config/translations';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
 
-export default function Resources({ resources_list, courseId }) {
+export default function Resources({ data, resources_list, courseId }) {
   const [showModal, setShowModal] = React.useState(false);
   const [language, setLanguage] = React.useState(null);
   const [resourceId, setResourceId] = React.useState(null);

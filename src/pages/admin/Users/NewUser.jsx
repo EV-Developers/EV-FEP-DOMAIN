@@ -131,21 +131,21 @@ export default function NewUser() {
 
                 <label htmlFor="name" className="block">
                     <p className="my-3 font-bold">{language && language["name"]}</p>
-                    <input type="text" id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    <input type="text" id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
                 </label>
 
                 <label htmlFor="email" className="block">
                     <p className="my-3 font-bold">{language && language["email"]}</p>
-                    <input type="text" id="email" name="email" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    <input type="text" id="email" name="email" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
                 </label>
 
                 <label htmlFor="password" className="block">
                     <p className="my-3 font-bold">{language && language["password"]}</p>
-                    <input type="password" id="password" name="password" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    <input type="password" id="password" name="password" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
                 </label>
                 <label htmlFor="password_confirmation" className="block">
                     <p className="my-3 font-bold">{language && language["repeat_password"]}</p>
-                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
                 </label>
 
                 {msg && <div className="p-4 m-2 text-center">

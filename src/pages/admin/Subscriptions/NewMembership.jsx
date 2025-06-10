@@ -14,9 +14,9 @@ export default function NewMembership() {
     const navigate = useNavigate();
     const [show, setShow] = React.useState(false);
     const [userType, setUserType] = React.useState({
-        id: 'school',
-        title: "مدرسة",
-        title_en: 'School',
+        id: 'Private school',
+        title: "مدرسة خاصة",
+        title_en: 'Private School',
     });
 
     React.useEffect(() => {
@@ -40,14 +40,14 @@ export default function NewMembership() {
 
     const user_types = [
         {
-            id: 'school',
-            title: "مدرسة",
-            title_en: 'School',
+            id: 'Private school',
+            title: "مدرسة خاصة",
+            title_en: 'Private School',
         },
         {
-            id: 'academy',
-            title: 'اكاديمية',
-            title_en: 'Academy',
+            id: 'Public School',
+            title: "مدرسة حكومية",
+            title_en: 'Public School',
         },
     ];
 
@@ -109,11 +109,11 @@ export default function NewMembership() {
 
                 <div className="relative">
                     <button type="button" className="flex justify-between font-bold bg-color py-2 px-14 mx-3 rounded-xl text-sm" onClick={() => setShow(!show)}>
-                        <span className="mx-2">{userType && language && language['dir'] == 'ltr' ? userType.title_en:userType.title}</span> <FontAwesomeIcon icon={faCaretDown} />
+                        <span className="mx-2">{userType && language && language['dir'] == 'ltr' ? userType.title_en : userType.title}</span> <FontAwesomeIcon icon={faCaretDown} />
                     </button>
                     {show && <div className="bg-color block rounded-xl w-[25%] p-3 absolute z-10">
                         {user_types && user_types.map(item => <button type="button" onClick={() => setUserType(item)} key={item.id} className={`block text-left font-bold rounded-xl w-full mb-3 p-3 ${userType && userType.id == item.id ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
-                            {language && language['dir'] == 'ltr'? item.title_en:item.title}
+                            {language && language['dir'] == 'ltr' ? item.title_en : item.title}
                         </button>)}
                     </div>}
                     <input type="hidden" name="role" value={userType && userType.id} />

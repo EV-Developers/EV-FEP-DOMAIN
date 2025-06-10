@@ -67,7 +67,7 @@ export default function CourseGrades({ handleSteps, level, setLevel, levelNewNam
 
             <label htmlFor="courseOverview" className="p-4">
                 <p className="my-3 font-bold">{language && language["new_level"]}</p>
-                <textarea value={levelNewName} onChange={val => setLevelNewName(val.target.value)} id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} ></textarea>
+                <textarea value={levelNewName} onChange={val => setLevelNewName(val.target.value)} id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} ></textarea>
             </label>
 
             <div className="flex flex-row justify-between mt-14">

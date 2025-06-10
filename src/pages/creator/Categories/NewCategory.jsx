@@ -77,12 +77,12 @@ export default function NewCategory() {
             <hr className="text-gray-200 my-5" />
             <label htmlFor="title">
                 <p id="title" className="my-3 font-bold">{language && language["title"]}</p>
-                <input type="text" id="title" name="name" placeholder={language && language['write_here']} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
+                <input type="text" id="title" name="name" placeholder={language && language['write_here']} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
             </label>
 
             <label htmlFor="description">
                 <p className="my-3 font-bold">{language && language["description"]}</p>
-                <textarea value={description} name="description" onChange={val => setDescription(val.target.value)} id="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["description"]} ></textarea>
+                <textarea value={description} name="description" onChange={val => setDescription(val.target.value)} id="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["description"]} ></textarea>
             </label>
 
             {msg && <div className="p-4 m-2">{msg}</div>}

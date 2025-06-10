@@ -156,7 +156,6 @@ export const translation = [
         user_type: "User Type",
         course_certificate: "Course Certificate",
         subscription_years: "Subscription Years",
-
     },
     {
         dir: "rtl",

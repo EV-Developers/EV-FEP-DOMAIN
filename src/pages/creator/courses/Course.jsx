@@ -23,36 +23,6 @@ export default function Course() {
     const { courseId } = useParams();
     const navigate = useNavigate();
 
-    const lessonsList = [
-        {
-            id: '1',
-            title: 'lesson 1',
-            video: '',
-            level: 1,
-            cover: 'vid-3.webp',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?",
-            progress: 30
-        },
-        {
-            id: '3',
-            title: 'lesson 2',
-            video: '',
-            level: 1,
-            cover: 'vid-3.webp',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?",
-            progress: 30
-        },
-        {
-            id: '4',
-            title: 'lesson 2',
-            video: '',
-            level: 2,
-            cover: 'vid-3.webp',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora molestiae corrupti, mollitia facere reiciendis ipsa doloremque id veniam laudantium fuga ducimus repudiandae quibusdam voluptatum, sapiente excepturi et modi! Non, eius?",
-            progress: 70,
-        },
-    ];
-
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
         const role = window.localStorage.getItem("z8C2XXEo52uJQj7");
@@ -76,8 +46,6 @@ export default function Course() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
-        setLessons(lessonsList);
     }, []);
 
     const assesments = [
@@ -103,22 +71,24 @@ export default function Course() {
     }, []);
 
     async function getData() {
+        console.log(courseId);
+        
         try {
             const tmpData = await api.get('/courses/' + courseId);
-            const tmpLessonsData = await api.get('/lessons');
-            const tmpAssestmentsData = await api.get('/assignments');
+            const tmpLessonsData = await api.get('/lessons?course_id='+courseId);
+            const tmpAssestmentsData = null //await api.get('/assignments');
 
-            if (tmpData.status == 200) {
-                setData(tmpData.data)
-                console.log(tmpData.data);
+            if (tmpData && tmpData.status == 200) {
+                setData(tmpData.data.data)
+                console.log(tmpData.data.data);
             }
 
-            if (tmpLessonsData.status == 200) {
+            if (tmpLessonsData && tmpLessonsData.status == 200) {
                 setLessonData(tmpLessonsData.data);
                 console.log(tmpLessonsData.data);
             }
 
-            if (tmpAssestmentsData.status == 200) {
+            if (tmpAssestmentsData && tmpAssestmentsData.status == 200) {
                 setAssestmentsData(tmpAssestmentsData.data);
                 console.log(tmpAssestmentsData);
             }
@@ -145,10 +115,13 @@ export default function Course() {
         <ThemeContainer>
             {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
 
-            <h2 className="mt-4 text-3xl p-2 font-bold">Arduino pack: Design, Manage and Launch Arduino</h2>
+            {!data && <div className="*:animate-pulse mt-4">
+                <div className="bg-gray-300 h-4 w-[65%] p-5"></div>
+                <div className="bg-gray-300 h-2 py-2 mt-2 w-[45%] p-3"></div>
+            </div>}
+            <h2 className="mt-4 text-3xl p-2 font-bold">{data && data.title}</h2>
             <p className="text-color py-2 flex">
-                <span className="mx-2">{language && language["course_by"]} </span>
-                <strong className="text-bold primary-text">Mohammed Razi </strong> <span>, Electronic Trainer and Developer</span>
+                <span className="mx-2"><strong className="text-bold primary-text">{data && data.category.name}</strong></span>
             </p>
             <div className="flex">
                 <Link to="/courses">
@@ -180,22 +153,23 @@ export default function Course() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <Lessons courseId={courseId} lessons={lessons} setLessons={setLessons} assesments={assesments} />
+                    <Lessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assesments={assesments} />
                 </div>
                 <div className="w-[25%] relative pb-[5%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
-                    {lessons && lessons.map(item => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
+                    {lessonsData && lessonsData.map(item => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
                         <div className="relative group hover:border-none">
-                            <div className="inline-block text-xs w-7 h-7 text-center bg-amber-500 p-2 rounded-full">{item.level}</div><p className="inline-block py-4 mx-3">{item.title}</p>
+                            <div className="inline-block text-xs w-7 h-7 text-center bg-amber-500 p-2 rounded-full">{item.level}</div>
+                            <p className="inline-block py-4 mx-3">{item.title}</p>
                             <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span>
                         </div>
                         {/* <FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faArrowLeft : faArrowRight} className="text-amber-500 p-4" /> */}
                     </a>)}
                 </div>
             </div>}
-            {tabs == 'overview' && <Overview courseId={courseId} />}
-            {tabs == 'comments' && <Comments courseId={courseId} />}
-            {tabs == 'resources' && <Resources courseId={courseId} resources_list={resources_list} />}
+            {tabs == 'overview' && <Overview data={data} courseId={courseId} />}
+            {tabs == 'comments' && <Comments data={data} courseId={courseId} />}
+            {tabs == 'resources' && <Resources data={data} courseId={courseId} resources_list={resources_list} />}
         </ThemeContainer>
     )
 }
