@@ -46,8 +46,6 @@ export default function AHome() {
     datasets: [
       {
         label: "Daily Report",
-        backgroundColor: "#fff",
-        borderColor: "#ccc",
         borderWidth: 2,
         data: [
           44,
