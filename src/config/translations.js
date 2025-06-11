@@ -12,6 +12,7 @@ export const translation = [
         subtitle: "Future Engineers Program Dashboard",
         dashboard: "Dashboard",
         home: "Home",
+        home_quote: "Learn with our trainers what you need!",
         courses: "Courses",
         categories: "Categories",
         games: "Games",
@@ -156,6 +157,7 @@ export const translation = [
         user_type: "User Type",
         course_certificate: "Course Certificate",
         subscription_years: "Subscription Years",
+        see_more: "See more future engineering courses",
     },
     {
         dir: "rtl",
@@ -170,6 +172,7 @@ export const translation = [
         subtitle: "لوحة التحكم",
         dashboard: "لوحة التحكم",
         home: "الرئيسية",
+        home_quote: "تعلم مع مدربينا ما تحتاجه",
         courses: "الدورات",
         categories: "الأقسام",
         games: "الالعاب",
@@ -313,5 +316,7 @@ export const translation = [
         course_certificate: "شهادة الكورس",
         subscription_date: "تاريخ الاشتراك",
         subscription_years: "عدد سنوات الاشتراك",
+        see_more: "رؤية المزيد من برامج مهندسي المستقبل",
+
     }
 ]

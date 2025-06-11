@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 import { translation } from '../../config/translations';
 import ThemeContainer from '../../compenents/parts/ThemeContainer'
 import api from '../../config/api';
+import CourseItem from '../../compenents/parts/CourseItem';
 
 export default function THome() {
   const [data, setData] = React.useState(null);
@@ -81,22 +82,15 @@ export default function THome() {
         />
       </SwiperSlide>)}
     </Swiper>
-    <div className="block w-[75%] mx-auto">
-      <h2 className="py-5 my-5 text-2xl font-bold border-b border-b-gray-200">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
-      <div className="flex">
-        {data && data.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-t-2xl p-2 mx-2 hover:scale-102 font-bold">
-          <div className="relative p-0 mx-0">
-            <div style={{ width: '75%' }} className="text-amber-600 bg-amber-500 absolute bottom-0 z-20 mx-0 my-0 h-2 transition-all"></div>
-            <div style={{ width: '75%' }} className="text-amber-600 bg-amber-500 absolute bottom-0 z-20 mx-0 my-0 h-2 blur-xs transition-all"></div>
-            <div className="text-gray-300 w-full bg-gray-300 absolute bottom-0 z-10 mx-0 my-0 h-2 transition-all"></div>
-            <img src="/data/vid-1.webp" className="w-full rounded" />
-          </div>
-          <h3 className="text-l mx-2 my-4 font-bold">{item.title}</h3>
-          <div className="rounded w-full pointer m-1 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br  hover:from-amber-700 group-hover:to-amber-400 text-center ">{language && language["continue"]}</div>
-        </Link>)}
+    <div className="block w-[95%] mx-auto">
+      <h2 className="py-5 my-5 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
+      <p className="mb-10 mt-4 text-xl font-medium">{language && language['home_quote']}</p>
+      <div className="flex flex-wrap ">
+        {data && data.map(item =>  <CourseItem language={language} link="/teachers/courses/" item={item} />)}
       </div>
+
       {!data && loading && <div className="flex animate-pulse">
-        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
+        <div className="shadow block w-[25%] rounded-l p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
           <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
@@ -113,5 +107,7 @@ export default function THome() {
         </div>
       </div>}
     </div>
+    <Link to="/teachers/courses" className="block mx-auto p-3 bg-[#fa9600] hover:bg-[#ffe696] w-[30%] text-center rounded-2xl my-7 transition-all">{language && language['see_more']}</Link>
+
   </ThemeContainer>)
 }
