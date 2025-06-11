@@ -68,19 +68,17 @@ export default function EditLesson() {
             try {
                 //const response = await api.put("/lessons/" + lessonId, formData);
     
-                const response = await axios.put('https://fep.misk-donate.com/api/lessons/'+lessonId, formData, {
+                const response = await axios.post('https://fep.misk-donate.com/api/lessons/'+lessonId, formData, {
                     headers: {
                         'accept': 'application/json',
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${token}`
                     },
                 });
-
-                console.log(response);
     
                 if (response.status == 200) {
                     setLoading(false);
-                    navigate('/courses/' + courseId);
+                    navigate('/courses');
                 } else {
                     setLoading(false);
                     setMsg(language["error_msg"]);
@@ -133,7 +131,7 @@ export default function EditLesson() {
             {msg && <div className="p-4 m-2">{msg}</div>}
 
             <div className="flex flex-row justify-between">
-                <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />}  <span>{language && language["update"]}</span></button>
+                <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />}  <span>{language && language["update"]}</span></button>
             </div>
         </form>
     </ThemeContainer>)

@@ -6,26 +6,16 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import api from '../../config/api';
 import { translation } from '../../config/translations';
 import ThemeContainer from '../../compenents/parts/ThemeContainer';
+import CourseItem from '../../compenents/parts/CourseItem';
 
 export default function Search() {
   const { query } = useParams()
   const [data, setData] = React.useState(null);
   const [language, setLanguage] = React.useState(null);
-  const [slug, setSlug] = React.useState('');
-  
+  const [loading, setLoading] = React.useState(true);
+
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
-    const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
-    let tmpSlug = '';
-    if (userRole && userRole != "" && userRole != null) {
-        if (userRole == 'teacher') {
-          tmpSlug = '/teachers';
-        } else if(userRole == 'student'){
-          tmpSlug = '/students';
-        }
-
-        setSlug(tmpSlug);
-    }
 
     if (lang && lang != '' && lang != null) {
       if (lang == 'english') {
@@ -49,21 +39,23 @@ export default function Search() {
 
   const loadData = async () => {
     try {
-      const tmpData = await api.get('/courses/q=' + query);
+      const tmpData = await api.get('/teachers/courses/q=' + query);
       if (tmpData.status == 200) {
         setData(tmpData.data.data);
+        setLoading(false);
       } else {
+        setLoading(false);
         setData([]);
       }
     } catch (error) {
       console.log(error);
-
+      setLoading(false);
       setData([]);
     }
   }
 
   return (
-    <ThemeContainer>
+    <ThemeContainer role="teachers">
       <div className="block mx-auto w-[75%]">
         <div className="flex">
           <Link to={"/"}>
@@ -76,13 +68,29 @@ export default function Search() {
         </div>
         <hr className="text-gray-200 my-5" />
 
-        {data && data.map(item => <Link to={slug+'/courses/' + item.id} key={"cat-" + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-2 my-2 text-sm'>{item.title}</Link>)}
+        {data && data.map(item => <CourseItem language={language} link="/teachers/courses/" item={item} />)}
 
-        {!data && <div role='status' className='animate-pulse'>
-          <div className='block rounded-xl bg-gray-300 p-5 py-2 my-2 w-full h-8'></div>
-          <div className='block rounded-xl bg-gray-300 p-5 py-2 my-2 w-full h-8'></div>
-          <div className='block rounded-xl bg-gray-300 p-5 py-2 my-2 w-full h-8'></div>
-          <div className='block rounded-xl bg-gray-300 p-5 py-2 my-2 w-full h-8'></div>
+        {!data && loading && <div className="flex flex-wrap animate-pulse">
+          <div className="shadow block w-[23%] h-[470px] rounded-l p-2 mx-2 my-3">
+            <div className="w-full h-24 bg-gray-300"></div>
+            <div className="w-full h-2 bg-gray-300 my-4"></div>
+            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+          </div>
+          <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+            <div className="w-full h-24 bg-gray-300"></div>
+            <div className="w-full h-2 bg-gray-300 my-4"></div>
+            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+          </div>
+          <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+            <div className="w-full h-24 bg-gray-300"></div>
+            <div className="w-full h-2 bg-gray-300 my-4"></div>
+            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+          </div>
+          <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+            <div className="w-full h-24 bg-gray-300"></div>
+            <div className="w-full h-2 bg-gray-300 my-4"></div>
+            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+          </div>
         </div>}
 
         {data && data.length == 0 && <p className="p-5 m-5">{language && language["no_search_results"]} {query}...</p>}

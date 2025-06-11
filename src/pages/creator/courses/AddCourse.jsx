@@ -15,17 +15,17 @@ export default function AddCourse() {
     const [title, setTitle] = React.useState("");
     const [description, setDescription] = React.useState("");
     const [categoryId, setCategoryId] = React.useState("");
-    const [level, setLevel] = React.useState("");
+    const [level, setLevel] = React.useState(0);
     const [featuredImage, setFeaturedImage] = React.useState(null);
     const [levelNewName, setLevelNewName] = React.useState('');
     const [categoryName, setCategoryName] = React.useState("");
+    const [userSort, setUserSort] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [data, setData] = React.useState(null);
     const [coursesData, setCoursesData] = React.useState(null);
     const [msg, setMsg] = React.useState(null);
-    const navigate = useNavigate();
-
     const [language, setLanguage] = React.useState(null);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -56,7 +56,7 @@ export default function AddCourse() {
         formData.append("description", description);
         formData.append("category_id", categoryId);
         formData.append("is_public", "true")
-        formData.append("level", 1)
+        formData.append("level", level)
         formData.append("difficulty_level", 1);
         formData.append("max_students", 0);
         formData.append("createdBy", auth_user);
@@ -113,55 +113,17 @@ export default function AddCourse() {
 
     React.useEffect(() => {
         loadCategoriesData();
-    }, [categoryId]);
+    }, []);
 
     const loadCategoriesData = async () => {
-        console.log(categoryId);
         try {
             const tmpCategoriesData = await api.get('/course-categories');
             if (tmpCategoriesData.status == 200) {
                 setCategories(tmpCategoriesData.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
-        const formData = new FormData(e.target);
-        formData.append("createdBy", auth_user);
-
-        try {
-            const response = await api.post("/courses/upload-image", formData);
-            console.log(response);
-    
-            if (response.status == 200 || response.status == 201) {
-                //navigate('/courses');
-            } else {
-                setMsg(language["error_msg"]);
-            }
-        } catch (error) {
-            setMsg(language["error_msg"]);
-            console.log(error);
-        }
-    }
-
-    React.useEffect(() => {
-        loadCoursesData();
-    }, []);
-
-    const loadCoursesData = async () => {
-        try {
-            const tmpData = await api.get('/courses');
-    
-            console.log(tmpData);
-            
-            if (tmpData.status == 200) {
-                setCoursesData(tmpData.data.data);
-                setData(tmpData.data.data);
+                if(tmpCategoriesData && tmpCategoriesData.data && tmpCategoriesData.data.length != 0){
+                    setCategoryId(tmpCategoriesData.data[0].id);
+                    setCategoryName(tmpCategoriesData.data[0].name);
+                }
             }
         } catch (error) {
             console.log(error);
@@ -169,9 +131,12 @@ export default function AddCourse() {
     }
     
     React.useEffect(() => {
+        console.log(data);
+        
         if(title != "" && data){
+            console.log(title);
             let tmpArr = [];
-            tmpArr = [...data, {id: 'test-1', title: title}];
+            tmpArr = [...data, {id: 'new Item', title: title}];
             console.log(tmpArr);
             
             setCoursesData(tmpArr);
@@ -189,14 +154,47 @@ export default function AddCourse() {
     const loadCategoryCourses = async () => {
         try {
             setCoursesData(null);
+            setData(null);
             const tmpData = await api.get('/courses?category_id='+categoryId);
             
             if (tmpData.status == 200) {
                 console.log(tmpData.data.data);
+                setData(tmpData.data.data);
                 setCoursesData(tmpData.data.data);
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    React.useEffect(() => {
+        if(userSort){
+            console.log(coursesData);
+            setUserSort(false);
+            handleSort();
+        }
+    }, [coursesData]);
+
+    const handleSort = () => {        
+        if(coursesData){
+            coursesData.map(async (item, index) => {
+                let _sort = index + 1;
+                if(item.id == 'new Item'){
+                    setLevel(_sort);
+                } else {
+                    try {
+                        const tmpData = await api.put('/courses/'+item.id, {
+                            level: _sort
+                        });
+                        
+                        if (tmpData.status == 200) {
+                            console.log(tmpData);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+            })
         }
     }
 
@@ -213,7 +211,7 @@ export default function AddCourse() {
                     <p className="m-3 my-3 text-color">{language && language["new"]}</p>
                 </div>
                 <hr className="text-gray-200 my-5" />
-                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} />}
+                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} handleSort={setUserSort} />}
                 {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />} */}
                 {step == 2 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
             </div>

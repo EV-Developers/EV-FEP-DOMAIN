@@ -7,7 +7,7 @@ import { translation } from '../../../../config/translations';
 import { ReactSortable } from 'react-sortablejs';
 
 export default function CourseDetails({ categories, handleSteps, title, setTitle, categoryId, setCategoryId, categoryName, setCategoryName, level, setLevel, coursesData,
-setCoursesData }) {
+setCoursesData, handleSort }) {
     const [show, setShow] = useState(false);
     const [language, setLanguage] = useState(null);
 
@@ -36,11 +36,6 @@ setCoursesData }) {
                     <p id="lessonTitle=" className="my-3 font-bold">{language && language["title"]}</p>
                     <input type="text" id="lessonTitle=" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shadow-sm bg-color w-full placeholder-gray-400 " value={title} onChange={val => setTitle(val.target.value)} />
                 </label>
-                
-                <label htmlFor="courseLevel">
-                    <p className="my-3 font-bold">{language && language["level"]}</p>
-                    <input type="text" className="py-2 px-14 rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]}  value={level} onChange={val => setLevel(val.target.value)}/>
-                </label>
                 <p className="my-3 font-bold">{language && language["choose_category"]}</p>
                 <div className="relative">
                     <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm" onClick={() => setShow(!show)}><span className="mr-4">{categoryName === "" ? language && language["category"] : categoryName}</span> <FontAwesomeIcon icon={faCaretDown} className="mx-3" /></button>
@@ -55,7 +50,7 @@ setCoursesData }) {
                 </div>
             </div>
             <div className="w-[35%]">
-                {coursesData && <ReactSortable list={coursesData} setList={setCoursesData}>
+                {coursesData && <ReactSortable list={coursesData} setList={setCoursesData} onUpdate={() => handleSort(Date.now())}>
                 {coursesData.map((item, index) => (
                     <div key={item.id} className="py-2 px-3 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
                 ))}
@@ -65,8 +60,8 @@ setCoursesData }) {
         </div>
 
         <div className="flex flex-row justify-between mt-7">
-            <button className="bg-color pointer rounded m-2 py-1 px-5 text-sm">Previous</button>
-            <button onClick={() => handleSteps('next')} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">Continue</button>
+            <button className="bg-color pointer rounded m-2 py-1 px-5 text-sm">{language && language['previous']}</button>
+            <button onClick={() => handleSteps('next')} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language['continue']}</button>
         </div>
     </div>)
 }

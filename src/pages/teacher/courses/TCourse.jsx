@@ -13,7 +13,6 @@ import TLessons from './tabs/TLessons';
 import TOverview from './tabs/TOverview';
 import TComments from './tabs/TComments';
 import TResources from './tabs/TResources';
-import TCertificate from './tabs/TCertificate';
 
 export default function TCourse() {
     const [tabs, setTabs] = React.useState('content');
@@ -66,7 +65,7 @@ export default function TCourse() {
     async function getData() {
         const auth_user = window.localStorage.getItem("rJp7E3Qi7r172VD");
         const tmpData = await api.get('/courses/' + courseId);
-        const tmpLessonsData = await api.get('/lessons?course_id=' + courseId + '&user_id='+auth_user);
+        const tmpLessonsData = await api.get('/lessons?course_id=' + courseId + '&user_id=' + auth_user);
         const tmpAssestmentsData = null //await api.get('/assignments');
 
         if (tmpData && tmpData.status == 200) {
@@ -166,8 +165,6 @@ export default function TCourse() {
                     <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'resources' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('resources')}>{language && language["resources"]}
                     <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
-                <button className={`mx-2 cursor-pointer ${tabs == 'course_certificate' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('course_certificate')}>{language && language["course_certificate"]}
-                    <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
             </div>
 
             {tabs == 'content' && <div className="flex">
@@ -190,8 +187,6 @@ export default function TCourse() {
             {tabs == 'overview' && <TOverview data={data} language={language} />}
             {tabs == 'comments' && <TComments data={data} language={language} />}
             {tabs == 'resources' && <TResources data={data} resources_list={resources_list} />}
-            {tabs == 'course_certificate' && <TCertificate language={language} handleCourseCertificateDownload={handleCourseCertificateDownload} />}
-
             <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
         </ThemeContainer>
     )

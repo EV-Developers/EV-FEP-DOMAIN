@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 import api from '../../config/api';
 import { translation } from '../../config/translations';
 import ThemeContainer from '../../compenents/parts/ThemeContainer'
+import CourseItem from '../../compenents/parts/CourseItem';
 
 export default function THome() {
   const [data, setData] = React.useState(null);
@@ -82,29 +83,30 @@ export default function THome() {
       </SwiperSlide>)}
     </Swiper>
     <div className="block w-[75%] mx-auto">
-      <h2 className="py-5 my-5 text-2xl font-bold border-b border-b-gray-200">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
-      <div className="flex">
-        {data && data.map(item => <Link to={"/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-2xl p-2 mx-2 hover:scale-102">
-          <div className="relative p-0 mx-0">
-            <img src="/data/vid-1.webp" className="w-full rounded" />
-          </div>
-          <h3 className="text-l mx-2 my-4 font-bold">{item.title}</h3>
-        </Link>)}
+      <h2 className="py-5 my-5 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
+
+      <div className="flex flex-wrap ">
+        {data && data.map(item => <CourseItem language={language} link="/courses/" item={item} creator={true} />)}
       </div>
+
       {!data && loading && <div className="flex animate-pulse">
-        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
+        <div className="shadow block w-[25%] rounded-l p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
         <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
+          <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
       </div>}
+
     </div>
   </ThemeContainer>)
 }

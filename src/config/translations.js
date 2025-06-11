@@ -29,6 +29,7 @@ export const translation = [
         category: "Category",
         new_level: "New Level",
         previous: "Previous",
+        start: "Start",
         continue: "Continue",
         next: "Next",
         write_here: "Write here",
@@ -158,6 +159,13 @@ export const translation = [
         course_certificate: "Course Certificate",
         subscription_years: "Subscription Years",
         see_more: "See more future engineering courses",
+        my_courses: "My Courses",
+        recommanded: "Recommanded",
+        new_courses: "New Courses",
+        top_rated: "Top Rated",
+        popular_courses: "Popular Courses",
+        single_choice: 'Single choice',
+        true_false: "Multi choice",
     },
     {
         dir: "rtl",
@@ -189,6 +197,7 @@ export const translation = [
         category: "القسم",
         new_level: "مستوي جديد",
         previous: "السابق",
+        start: "بدء",
         continue: "متابعه",
         next: "التالي",
         write_here: "اكتب هنا",
@@ -317,6 +326,12 @@ export const translation = [
         subscription_date: "تاريخ الاشتراك",
         subscription_years: "عدد سنوات الاشتراك",
         see_more: "رؤية المزيد من برامج مهندسي المستقبل",
-
+        my_courses: "دوراتي",
+        recommanded: "الموصي به",
+        new_courses: "دورات جديدة",
+        top_rated: "الاعلي تقييما",
+        popular_courses: "الاكثر شعبية",
+        single_choice: 'اجابة منفردة',
+        true_false: "اجابة متعددة",
     }
 ]

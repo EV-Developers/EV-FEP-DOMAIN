@@ -6,10 +6,12 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
+import api from '../../../../config/api';
 
 export default function Quizzes() {
   const [language, setLanguage] = React.useState(null);
   const [quizzId, setQuizzId] = React.useState("");
+  const [quizzList, setQuizzList] = React.useState("");
   const [showModal, setShowModal] = React.useState(false);
   const { courseId, lessonId } = useParams();
 
@@ -88,6 +90,30 @@ export default function Quizzes() {
     }
   }
 
+  React.useEffect(() => {
+    loadLessonQuzzies();
+  }, []);
+
+  const loadLessonQuzzies = async () => {
+    console.log(lessonId);
+    
+    try {
+      const response = await api.get('/quizzes?lesson_id=' + lessonId);
+      if (response.status == 200) {
+        if(response.data){
+          console.log(response.data);
+          
+          setQuizzList(response.data)
+        }
+      } else {
+        console.log('error');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
   return (<ThemeContainer>
     {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
     <div className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]">
@@ -102,11 +128,11 @@ export default function Quizzes() {
         <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight:faAngleLeft} className="my-4 m-3 text-color" />
         <p className="m-3 my-3 text-color">{language && language["lessons_quizzes"]}</p>
       </div>
-      {quzzes_list && quzzes_list.map(item => <div key={item.id} className="border-t border-t-gray-200 py-5">
-        <p className="text-xl p-3 m-2 font-bold">{item.question}</p>
-        {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {item.question_type}</p>}
+      {quizzList && quizzList.map(quiz => quiz.questions && quiz.questions.map(item => <div key={item.id} className="border-t border-t-gray-200 py-5">
+        <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
+        {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {language && language[item.question_type]}</p>}
         {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
-        {item.answers && item.answers.map(answer => <div key={answer.id} className={`p-3 m-2 rounded-2xl ${answer.correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer}</div>)}
+        {item.answers && item.answers.map(answer => <div key={answer.id} className={`p-3 m-2 rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer_text}</div>)}
         <div className="flex justify-between">
           <Link to={`/quizzes/${courseId}/${lessonId}/${item.id}`} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["edit"]}</Link>
           <button onClick={() => {
@@ -114,7 +140,7 @@ export default function Quizzes() {
             setQuizzId(item.id);
           }} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["delete"]}</button>
         </div>
-      </div>)}
+      </div>))}
     </div>
 
   </ThemeContainer>)

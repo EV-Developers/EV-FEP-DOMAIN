@@ -1,51 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import api from '../../config/api';
+import CourseItem from './CourseItem';
 
-import api from '../../../config/api';
-import { translation } from '../../../config/translations';
-import ThemeContainer from '../../../compenents/parts/ThemeContainer';
-import CourseItem from '../../../compenents/parts/CourseItem';
-
-export default function TCourses() {
+export default function ExploreOverlay({ language, setShow }) {
     const [data, setData] = React.useState(null);
     const [categoriesData, setCategoriesData] = React.useState(null);
     const [categoryId, setCategoryId] = React.useState(null);
     const [categoriesShadowData, setCategoriesShadowData] = React.useState(null);
-    const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [loadingCats, setLoadingCats] = React.useState(true);
-
-    React.useEffect(() => {
-        const lang = window.localStorage.getItem("language");
-
-        if (lang && lang != '' && lang != null) {
-            if (lang == 'english') {
-                setLanguage(translation[0]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-            } else {
-                setLanguage(translation[1]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-            }
-        } else {
-            setLanguage(translation[0]);
-            window.localStorage.setItem("language", 'english');
-            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-        }
-
-    }, []);
-
-    const loadData = async () => {
-        const tmpData = await api.get('/courses');
-        console.log(tmpData);
-
-        if (tmpData.status == 200) {
-            setLoading(false);
-            setData(tmpData.data.data);
-        } else {
-            setLoading(false);
-            loadCategoriesData();
-        }
-    }
 
     React.useEffect(() => {
         loadCategoriesData();
@@ -93,12 +56,23 @@ export default function TCourses() {
     }
 
     return (
-        <ThemeContainer role="teachers">
+        <div className="fixed z-50 h-[87vh] w-full bg-[#F0F4F9] mt-[7%] border-none" onMouseLeave={() => setShow(false)}>
             <div className="flex">
-                <div className="w-[25%]">
+                <div className="w-[25%] px-3">
+                    
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['courses']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['my_courses']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['main_title']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['recommanded']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['new_courses']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['top_rated']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['popular_courses']}</button>
+                    
+                    <hr className="text-gray-300 mx-4 my-5 mt-14" />
+
                     <h3 className="text-2xl my-3">{language && language['categories']}</h3>
                     {categoriesData && categoriesData.map(item => <div key={item.id}>
-                        <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]':''}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
+                        <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]':''} ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
                     </div>)}
                     {!categoriesData && loadingCats && <div className="animate-pulse">
                         <div className="w-[65%] h-8 bg-gray-300 my-4"></div>
@@ -134,6 +108,6 @@ export default function TCourses() {
                     </div>
                 </div>
             </div>
-        </ThemeContainer>
+        </div>
     )
 }

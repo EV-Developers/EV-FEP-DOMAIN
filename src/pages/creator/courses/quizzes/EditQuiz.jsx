@@ -181,7 +181,7 @@ export default function EditQuiz() {
 
             <div className="mt-5">
                 {answers && answers.map((item, index) => <label htmlFor={"correct-answer" + item.id} key={"answer-" + item.id} className={`hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl ${item.correct && 'bg-green-200'} p-5 py-2 my-2 text-sm flex justify-between`}><span>{(index + 1)} - {item.answer}</span> <div>
-                    <span className="p-2 mx-4"><input onChange={e => updateCorrectAnswer(item.id, e.target.checked)} defaultChecked={item.correct} type={quizType == 'Single choice' ? "radio" : "checkbox"} name="correct-answer" id={"correct-answer" + item.id} /> {language && language["correct_answer"]}</span> <button onClick={() => handleRemove(item.id)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button>
+                    <span className="p-2 mx-4"><input onChange={e => updateCorrectAnswer(item.id, e.target.checked)} defaultChecked={item.correct} type={quizType == 'Single choice' ? "radio" : "checkbox"} name="correct-answer" id={"correct-answer" + item.id} className={`${language && language['dir'] == 'ltr' ? ' input-left' : 'input-right'}`} /> {language && language["correct_answer"]}</span> <button onClick={() => handleRemove(item.id)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button>
                 </div>
                 </label>)}
             </div>

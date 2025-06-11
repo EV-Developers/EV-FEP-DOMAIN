@@ -6,6 +6,7 @@ import api from '../../config/api';
 import { translation } from '../../config/translations';
 import UserProfile from './UserProfile';
 import ChangPassword from './ChangPassword';
+import ExploreOverlay from './ExploreOverlay';
 
 export default function Header({ role }) {
     const [loading, setLoading] = React.useState(true);
@@ -17,7 +18,7 @@ export default function Header({ role }) {
     const location = useLocation();
     const ref = React.useRef();
     const [language, setLanguage] = React.useState(null);
-
+    const [showExplore, setShowExplore] = React.useState(null);
     //let slug = "";
     if (role) {
         //slug = '/' + role;
@@ -42,7 +43,7 @@ export default function Header({ role }) {
         if (userRole && userRole != "" && userRole != null) {
             if (userRole == 'teacher') {
                 tmpSlug = '/teachers';
-                loadData();
+                //loadData();
             } else if (userRole == "student") {
                 tmpSlug = '/students';
             } else if (userRole == "content_creator") {
@@ -146,24 +147,12 @@ export default function Header({ role }) {
         window.location.reload();
     }
 
-    // load categories for explore top menu
-    const loadData = async () => {
-        try {
-            const response = await api.get('/course-categories');
-            if (response.status == 200) {
-                console.log(response.data);
-
-                setData(response.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     return (<>
         {show && <ChangPassword open={show} setOpen={setShow} language={language} />}
 
         {showProfile && <UserProfile open={showProfile} setOpen={setShowProfile} language={language} />}
+
+        {showExplore && <ExploreOverlay language={language} setShow={setShowExplore} />}
 
         <div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF] border-b border-b-gray-300">
             <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between">
@@ -190,14 +179,7 @@ export default function Header({ role }) {
                     <Link className="w-[300px] md:w-[45%]" to="/">
                         <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                     </Link>
-                    <div className="block relative group">
-                        {slug == '/teachers' && <Link to={slug + "/explore"} className="block p-3 text-[#fa9600] font-bold group-hover:bg-white rounded-t-2xl group-hover:shadow-l transition-all hover:text-[#FD9800]">{language && language['explore']}</Link>}
-                        <div className="hidden group-hover:block md:w-[400px] drop-shadow-sm bg-white rounded-b-l absolute z-10 my-0 p-3 ">
-                            <ul className="w-full grid grid-cols-3">
-                                {data && data.map(item => <li key={"cat-" + item.id}><Link to={slug + "/categories/" + item.id} className="block w-full hover:border-b hover:border-b-[#FD9800] py-1 text-xs">{item.name}</Link></li>)}
-                            </ul>
-                        </div>
-                    </div>
+                    {slug == '/teachers' && <button onMouseOver={() => setShowExplore(true)} className={`block p-3 text-[#fa9600] font-bold rounded-t group-hover:shadow-l transition-all hover:bg-[#F0F4F9] ${showExplore && 'bg-[#F0F4F9]'}`}>{language && language['explore']}</button>}
                 </div>
                 <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0 mt-2">
                     <nav className="flex mr-14">

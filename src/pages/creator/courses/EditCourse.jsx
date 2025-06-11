@@ -24,6 +24,7 @@ export default function EditCourse() {
     const [coursesData, setCoursesData] = React.useState(null);
     const [msg, setMsg] = React.useState(null);
     const { courseId } = useParams();
+    const [userSort, setUserSort] = React.useState(null);
     const navigate = useNavigate();
 
     const [language, setLanguage] = React.useState(null);
@@ -57,7 +58,7 @@ export default function EditCourse() {
         formData.append("description", description);
         formData.append("category_id", categoryId);
         formData.append("is_public", "true");
-        formData.append("level", 1);
+        formData.append("level", level);
         formData.append("difficulty_level", 1);
         formData.append("max_students", 0);
         formData.append("createdBy", auth_user);
@@ -150,17 +151,17 @@ export default function EditCourse() {
     const loadCoursesData = async () => {
         try {
             const tmpData = await api.get('/courses/'+courseId);
-    
             
-            if (tmpData.status == 200) {
+            if (tmpData && tmpData.status == 200) {
                 console.log(tmpData.data.data);
-                setTitle(tmpData.data.data.title);
-                setDescription(tmpData.data.data.description)
-                setCategoryId(tmpData.data.data.categoryId)
-                setLevel(tmpData.data.data.level)
-                setCategoryId(tmpData.data.data.category.id);
-                setCategoryName(tmpData.data.data.category.name);
-                setData(tmpData.data.data);
+                if(tmpData.data && tmpData.data.data){
+                    setTitle(tmpData.data.data.title);
+                    setDescription(tmpData.data.data.description)
+                    setCategoryId(tmpData.data.data.categoryId)
+                    setLevel(tmpData.data.data.level)
+                    setCategoryName(tmpData.data.data.category.name);
+                    setData(tmpData.data.data);
+                }
             }
         } catch (error) {
             console.log(error);
@@ -200,6 +201,37 @@ export default function EditCourse() {
         }
     }, [title]);
 
+    React.useEffect(() => {
+        if(userSort){
+            console.log(coursesData);
+            setUserSort(false);
+            handleSort();
+        }
+    }, [coursesData]);
+
+    const handleSort = () => {        
+        if(coursesData){
+            coursesData.map(async (item, index) => {
+                let _sort = index + 1;
+                if(item.id == 'new Item'){
+                    setLevel(_sort);
+                } else {
+                    try {
+                        const tmpData = await api.put('/courses/'+item.id, {
+                            level: _sort
+                        });
+                        
+                        if (tmpData.status == 200) {
+                            console.log(tmpData);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+            })
+        }
+    }
+
     return (
         <ThemeContainer>
             <div className="block mx-auto w-[75%] rounded-xl m-5 bg-white p-5">
@@ -213,7 +245,7 @@ export default function EditCourse() {
                     <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
                 </div>
                 <hr className="text-gray-200 my-5" />
-                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} />}
+                {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} handleSort={setUserSort} />}
                 {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />} */}
                 {step == 2 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
             </div>

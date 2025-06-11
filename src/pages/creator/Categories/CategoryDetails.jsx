@@ -18,6 +18,7 @@ export default function CategoryDetails() {
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [coursesData, setCoursesData] = React.useState(null);
+    const [userSort, setUserSort] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -108,15 +109,40 @@ export default function CategoryDetails() {
 
     const loadCoursesData = async () => {
         try {
-            const tmpData = await api.get('/courses');
-    
-            console.log(tmpData);
-            
+            const tmpData = await api.get('/courses?sort_by=level_id&category_id='+catId);
+                
             if (tmpData.status == 200) {
                 setCoursesData(tmpData.data.data);
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    React.useEffect(() => {
+        if(userSort){
+            console.log(coursesData);
+            setUserSort(false);
+            handleSort();
+        }
+    }, [coursesData]);
+
+    const handleSort = () => {        
+        if(coursesData){
+            coursesData.map(async (item, index) => {
+                let _sort = index + 1;
+                try {
+                    const tmpData = await api.put('/courses/'+item.id, {
+                        level: _sort
+                    });
+                    
+                    if (tmpData.status == 200) {
+                        console.log(tmpData);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            })
         }
     }
 
@@ -156,7 +182,7 @@ export default function CategoryDetails() {
             {coursesData && <div className="block mx-auto w-[75%] bg-white rounded-xl p-4 mt-3">
                 <h3 className="text-l font-bold my-4">{language && language['category_sort']}</h3>
 
-                <ReactSortable list={coursesData} setList={setCoursesData}>
+                <ReactSortable list={coursesData} setList={setCoursesData} onUpdate={() => setUserSort(Date.now())}>
                 {coursesData.map(item => (
                     <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
                 ))}

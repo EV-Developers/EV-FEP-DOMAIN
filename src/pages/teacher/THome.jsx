@@ -107,6 +107,7 @@ export default function THome() {
         </div>
       </div>}
     </div>
+    
     <Link to="/teachers/courses" className="block mx-auto p-3 bg-[#fa9600] hover:bg-[#ffe696] w-[30%] text-center rounded-2xl my-7 transition-all">{language && language['see_more']}</Link>
 
   </ThemeContainer>)

@@ -100,7 +100,7 @@ export default function Login() {
                             placeholder=" "
                             className="peer w-full border-b border-[#FD9800] bg-transparent pt-4 pb-2 text-sm text-[#FD9800] focus:outline-none"
                         />
-                        <label className="absolute left-0 -top-2 text-xs text-[#FD9800] peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all">
+                        <label className={`absolute ${language && language['dir'] == 'ltr' ? 'left-0':'right-0'} -top-2 text-xs text-[#FD9800] peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all`}>
                             {language && language["email"]}
                         </label>
                     </div>
@@ -119,7 +119,7 @@ export default function Login() {
                         >
                             <FontAwesomeIcon icon={passwordType ? faEye : faEyeSlash} />
                         </button>
-                        <label className="absolute left-0 -top-2 text-xs text-[#FD9800] peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all">
+                        <label className={`absolute ${language && language['dir'] == 'ltr' ? 'left-0':'right-0'} -top-2 text-xs text-[#FD9800] peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all`}>
                             {language && language["password"]}
                         </label>
                     </div>

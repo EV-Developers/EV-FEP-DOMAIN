@@ -5,25 +5,28 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
+import api from '../../../../config/api';
 
 export default function NewQuiz() {
     const [msg, setMsg] = React.useState(false);
     const [show, setShow] = React.useState(false);
-    const [quizType, setQuizType] = React.useState('Single choice');
+    const [quizType, setQuizType] = React.useState('single_choice');
     const [answerText, setAnswerText] = React.useState('');
+    const [questions, setQuestions] = React.useState([]);
+    const [updated, setUpdated] = React.useState(null);
     const [question, setQuestion] = React.useState('');
-    const [mark, setMark] = React.useState(0);
+    const [mark, setMark] = React.useState('');
     const [answers, setAnswers] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
     const { courseId, lessonId } = useParams();
     const navigate = useNavigate();
-    
+
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
 
-        if(lang && lang != '' && lang != null){
-            if(lang == 'english'){
+        if (lang && lang != '' && lang != null) {
+            if (lang == 'english') {
                 setLanguage(translation[0]);
                 window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
             } else {
@@ -38,27 +41,10 @@ export default function NewQuiz() {
 
     }, []);
 
-    const quizTypes = [
-        {
-            id: 'single',
-            label: 'Single choice',
-            label_arabic: 'اجابة منفردة'
-        },
-        {
-            id: 'multi',
-            label: 'Multi choice',
-            label_arabic: 'اجابة متعددة',
-
-        },
-        {
-            id: 'text',
-            label: 'Text Input',
-            label_arabic: 'نصي'
-        },
-    ]
+    const quizTypes = ["single_choice", "true_false"]
 
     React.useEffect(() => {
-        if(quizType == 'Text Input'){
+        if (quizType == 'Text Input') {
             setAnswers([]);
         }
     }, [quizType])
@@ -68,7 +54,8 @@ export default function NewQuiz() {
             let tmpAnswers = answers.slice();
             tmpAnswers.push({
                 id: Date.now() * Math.random(),
-                answer: answerText
+                answer_text: answerText,
+                is_correct: false
             });
 
             setAnswers(tmpAnswers);
@@ -78,15 +65,15 @@ export default function NewQuiz() {
 
     const updateCorrectAnswer = (item_id, checked) => {
         let tmpAnswers = [];
-        
+
         answers.map(item => {
-            if(item.id === item_id){
-                tmpAnswers.push({...item, correct: checked});
+            if (item.id === item_id) {
+                tmpAnswers.push({ ...item, is_correct: checked });
             } else {
-                if(quizType == "Single choice") {
+                if (quizType == "single_choice") {
                     tmpAnswers.push({
                         ...item,
-                        correct: false
+                        is_correct: false
                     });
                 } else {
                     tmpAnswers.push(item);
@@ -103,45 +90,103 @@ export default function NewQuiz() {
         setAnswers(tmpAnswers);
     }
 
-    const handleAddQuiz = () => {
-        setLoading(true);
-        let ok = false;
-        if(question !== ""){
-            if(quizType == "Text Input"){
-                ok = true;
-            } else {
-                if(answers.length != 0){
-                    ok = true;
-                }
-            }
+    const handleAddQuestion = () => {
+        setMsg(null);
+
+        if (!answers) {
+            setMsg(language["error_validation_msg"]);
+            return false;
         }
 
-        if(ok){
-            setLoading(false);
-            navigate('/lessons/quizzes/'+courseId+'/'+lessonId);
+        let ok = false;
+
+        answers.map(item => {
+            if (item.is_correct) {
+                ok = true
+            }
+        });
+
+        if (!ok) {
+            setMsg(language["error_validation_msg"]);
+            return false;
+        }
+
+        let tmpArr = questions;
+        tmpArr.push({
+            id: Date.now(),
+            question_text: question,
+            question_type: quizType,
+            mark: mark,
+            answers: answers
+        });
+
+        console.log(tmpArr);
+
+        setQuestions(tmpArr);
+        setQuestion("");
+        setMark("");
+        setAnswers([]);
+        setUpdated(Date.now());
+    }
+
+    const handleAddQuiz = async () => {
+        setLoading(true);
+        let ok = false;
+        
+
+        if (questions.length != 0) {
+            ok = true;
+        }
+
+        if (ok) {
+            console.log(questions);
+            const payload = {
+                "lesson_id": lessonId,
+                "title": "Quiz",
+                "questions": questions
+            }
+            
+            try {
+                const response = await api.post('/quizzes', payload);
+                
+                if (response.status == 200) {
+                    setLoading(false);
+                    navigate('/lessons/quizzes/' + courseId + '/' + lessonId);
+                }
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+                setMsg(language['error-msg']);
+            }
+
         } else {
             setLoading(false);
             setMsg(language["error_validation_msg"])
         }
     }
- 
+
+    const handleRemoveQuestion = (item_id) => {
+        let tmpArr = questions.filter(item => item.id != item_id);
+        setQuestions(tmpArr);
+    }
+
     return (<ThemeContainer>
         <div className="w-[75%] bg-white mx-auto block p-5 rounded-xl">
             <p className="my-5 font-bold">{language && language["new_question"]}</p>
             <div className="flex my-4">
                 <div className="w-[70%]">
                     <label htmlFor="question" className="block my-4">
-                        <input type="text" onChange={val => setQuestion(val.target.value)} id="question" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
+                        <input type="text" value={question} onChange={val => setQuestion(val.target.value)} id="question" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
                     </label>
                     <label htmlFor="mark" className="block my-4">
-                        <input type="number" onChange={val => setMark(val.target.value)} id="mark" placeholder={language && language["mark"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
+                        <input type="number" value={mark} onChange={val => setMark(val.target.value)} id="mark" placeholder={language && language["mark"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
                     </label>
                 </div>
                 <div className="block relative w-[30%]">
-                    <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm w-[55%] my-4" onClick={() => setShow(!show)}><span>{quizType}</span> <FontAwesomeIcon icon={faCaretDown} /></button>
+                    <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm w-[55%] my-4" onClick={() => setShow(!show)}><span>{language && language[quizType]}</span> <FontAwesomeIcon icon={faCaretDown} /></button>
                     {show && <div className="bg-color block rounded-xl p-3 absolute z-10">
-                        {quizTypes && quizTypes.map(item => <button onClick={() => setQuizType(item.label)} key={item.id} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-3 p-3 ${quizType == item.label ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
-                            {language && language['dir'] == 'ltr' ? item.label : item.label_arabic}
+                        {quizTypes && quizTypes.map(item => <button onClick={() => setQuizType(item)} key={item} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-3 p-3 ${quizType == item ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
+                            {language && language[item]}
                         </button>)}
                     </div>}
                 </div>
@@ -157,15 +202,30 @@ export default function NewQuiz() {
             {answers && answers.length != 0 && <p className="my-5 font-bold">{language && language["answers_list"]}</p>}
 
             <div className="mt-5">
-                {answers && answers.map((item, index) => <label htmlFor={"correct-answer" + item.id} key={"answer-" + item.id} className={`hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl ${item.correct && 'bg-green-200'} p-5 py-2 my-2 text-sm flex justify-between`}><span>{(index + 1)} - {item.answer}</span> <div>
-                    <span className="p-2 mx-4"><input onChange={e => updateCorrectAnswer(item.id, e.target.checked)} defaultChecked={item.correct} type={quizType == "Single choice" ? "radio" : "checkbox"} name="correct-answer" id={"correct-answer" + item.id} /> {language &&  language["correct_answer"]}</span> <button onClick={() => handleRemove(item.id)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button>
+                {answers && answers.map((item, index) => <label htmlFor={"correct-answer" + item.id} key={"answer-" + item.id} className={`hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl ${item.is_correct && 'bg-green-200'} p-5 py-2 my-2 text-sm flex justify-between`}><span>{(index + 1)} - {item.answer_text}</span> <div>
+                    <span className="p-2 mx-4"><input onChange={e => updateCorrectAnswer(item.id, e.target.checked)} defaultChecked={item.is_correct} type={quizType == "single_choice" ? "radio" : "checkbox"} name="correct-answer" id={"correct-answer" + item.id} className={`${language && language['dir'] == 'ltr' ? ' input-left' : 'input-right'}`} /> {language && language["correct_answer"]}</span> <button onClick={() => handleRemove(item.id)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button>
                 </div>
                 </label>)}
             </div>
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 
-            <button onClick={handleAddQuiz} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add_to_quizzes"]}</span></button>
+            <button onClick={handleAddQuestion} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add_to_quizzes"]}</span></button>
+
+            {questions && questions.map((item, index) => <div key={"question-" + index} className="border-t border-t-gray-200 py-5">
+                <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
+                {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {language && language[item.question_type]}</p>}
+                {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
+                {item.answers && item.answers.map((answer, aindex) => <div key={"question" + index + "-answers-" + aindex} className={`p-3 m-2 rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer_text}</div>)}
+
+                <button onClick={() => {
+                    handleRemoveQuestion(item.id);
+                }} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["delete"]}</button>
+            </div>)}
+
+            <hr className="my-5 text-gray-200 mx-5" />
+
+            <button onClick={handleAddQuiz} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10 flex">{loading && <img className="animate-spin w-4 h-4 m-1 mx-24" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
         </div>
     </ThemeContainer>)
 }

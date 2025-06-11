@@ -22,6 +22,7 @@ export default function Course() {
     const [language, setLanguage] = React.useState(null);
     const { courseId } = useParams();
     const navigate = useNavigate();
+    const [userSort, setUserSort] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -111,6 +112,33 @@ export default function Course() {
         }
     }
 
+    React.useEffect(() => {
+        if(userSort){
+            console.log(lessonsData);
+            setUserSort(false);
+            handleSort();
+        }
+    }, [lessonsData]);
+
+    const handleSort = () => {        
+        if(lessonsData){
+            lessonsData.map(async (item, index) => {
+                let _sort = index + 1;
+                try {
+                    const tmpData = await api.post('/lessons/'+item.id, {
+                        _order: _sort
+                    });
+                    
+                    if (tmpData.status == 200) {
+                        console.log(tmpData);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            })
+        }
+    }
+
     return (
         <ThemeContainer>
             {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
@@ -153,7 +181,7 @@ export default function Course() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <Lessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assesments={assesments} />
+                    <Lessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assesments={assesments} handleSort={setUserSort} />
                 </div>
                 <div className="w-[25%] relative pb-[5%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
