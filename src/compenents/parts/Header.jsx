@@ -230,7 +230,7 @@ export default function Header({ role }) {
                                 {notifications_list && notifications_list.length != 0 && <div className={`w-2 h-2 rounded-full absolute z-10 bg-amber-400  ${language && language['dir'] == 'ltr' ? 'left-3' : 'right-3'} border border-amber-600`}></div>}
                                 <FontAwesomeIcon icon={faBell} className="text-xl primary-text" />
                             </button>
-                            <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 h-[300px] mx-5 shadow-sm`}>
+                            <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-30 h-[300px] mx-5 shadow-sm`}>
                                 <h2 className="text-l border-b border-b-gray-200 p-3 font-bold">{language && language['notifications']}</h2>
                                 {notifications_list && notifications_list.map(item => <div key={item.id} className="block hover:bg-gray-100 hover:border hover:border-gray-200 bg-white p-3 my-2 border-b border-b-gray-200 cursor-pointer" onClick={() => {
                                     if (item.type == 'comment') {

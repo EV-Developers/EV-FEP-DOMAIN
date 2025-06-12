@@ -62,6 +62,7 @@ export const translation = [
         resources: "Resources",
         course_summary: "COURSE SUMMARY",
         create: "Create",
+        success_msg: "Updated Successfully.",
         error_msg: "Something went wrong",
         error_validation_msg: "Please enter all required feilds",
         lesson_quizzes: "Lesson Quizzes",
@@ -165,7 +166,9 @@ export const translation = [
         top_rated: "Top Rated",
         popular_courses: "Popular Courses",
         single_choice: 'Single choice',
-        true_false: "Multi choice",
+        multiple_choice: "Multiple choice",
+        select_correct: "Select the correct answer",
+
     },
     {
         dir: "rtl",
@@ -332,6 +335,7 @@ export const translation = [
         top_rated: "الاعلي تقييما",
         popular_courses: "الاكثر شعبية",
         single_choice: 'اجابة منفردة',
-        true_false: "اجابة متعددة",
+        multiple_choice: "اجابة متعددة",
+        select_correct: "اختر الاجابة الصحيحة",
     }
 ]

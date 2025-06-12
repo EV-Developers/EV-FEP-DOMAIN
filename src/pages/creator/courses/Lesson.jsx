@@ -32,7 +32,32 @@ export default function Lesson({ courseId, item }) {
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
 
+        getVideo();
+
     }, []);
+
+    const getVideo = async () => {
+        const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+        try {
+            api.interceptors.request.use((config) => {
+                config.headers['Content-Type'] = 'application/octet-stream';
+                
+                return config;
+            });
+
+            const response = await api.get("/lessons/download/u75AoxCz3m786TYzcXWXlxqMElaOw5MRYKJ3N8j2.mp4");
+            
+            if(response.status == 200){
+                const tmpVideoURL = URL.createObjectURL(blob);
+                //setVideoURL(tmpVideoURL);
+                console.log(tmpVideoURL);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+                
+           
+    }
 
     const handleDeleteLesson = async () => {
         try {

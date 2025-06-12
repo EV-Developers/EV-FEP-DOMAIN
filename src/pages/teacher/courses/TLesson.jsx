@@ -7,9 +7,10 @@ import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
-export default function TLesson({ item, courseId, userProgress=0 }) {
+export default function TLesson({ item, courseId, userProgress = 0 }) {
     const [language, setLanguage] = React.useState(null);
     const [videoData, setVideoData] = React.useState(null);
+    const [videoURL, setVideoURL] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -49,8 +50,14 @@ export default function TLesson({ item, courseId, userProgress=0 }) {
 
                     <img src="/data/vid-1.webp" className="w-full my-7 px-0 overflow-x-hidden rounded-t-2xl" />
                 </Link> */}
-                
-                <VideoPlayer lessonId={item.id} courseId={courseId} videoData={videoData} tmp_vid_url={"https://fep.misk-donate.com/storage/"+item.video_path} setVideoData={setVideoData} userProgress={userProgress} />
+
+                <VideoPlayer 
+                    lessonId={item.id} 
+                    courseId={courseId} 
+                    videoData={videoData} 
+                    tmp_vid_url={"https://fep.misk-donate.com/storage/" + item.video_path} 
+                    setVideoData={setVideoData} 
+                    userProgress={userProgress} />
 
                 <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>

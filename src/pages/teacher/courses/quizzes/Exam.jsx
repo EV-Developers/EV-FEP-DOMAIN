@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
+import api from '../../../../config/api';
 
 export default function Exam() {
     const { courseId, lessonId } = useParams();
@@ -14,6 +15,7 @@ export default function Exam() {
     const [result, setResult] = React.useState(0);
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
+    const [quizzList, setQuizzList] = React.useState("");
     const navigate = useNavigate();
 
     const quzzes_list = [
@@ -217,6 +219,29 @@ export default function Exam() {
         // navigate('/teachers/courses/lesson' + lessonId);
     }
 
+    React.useEffect(() => {
+        loadQuestions();
+    }, []);
+
+    const loadQuestions = async () => {
+        console.log(lessonId);
+        
+        try {
+            const response = await api.get('/quizzes?lesson_id=' + lessonId);
+            if (response.status == 200) {
+                if (response.data) {
+                    console.log(response.data);
+
+                    setQuizzList(response.data)
+                }
+            } else {
+                console.log('error');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (<ThemeContainer role="teachers">
         <form method="POST" onSubmit={handleSubmit} className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]">
             <div className="flex">
@@ -230,11 +255,11 @@ export default function Exam() {
                 <h3 className="text-l italic underline mt-4 p-4">* {language && language['exam_note']}</h3>
             </div>
 
-            {questions && questions.map(item => <div key={"Q-" + item.id} className={` py-5`}>
+            {quizzList && quizzList.map(quiz => quiz.questions.map(item => <div key={"Q-" + item.id} className={` py-5`}>
                 <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
                 {item.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + item.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + item.id}></textarea>}
-                {item.answers && item.answers.map(answer => <label className={`flex p-3 m-2 rounded-2xl ${inprogress == false ? (item.question_type !== "Text Input" && answer.userAnswer == answer.is_correct) ? 'bg-green-400' : (answer.userAnswer !== undefined && answer.userAnswer != answer.is_correct) ? 'bg-red-400' : '' : ''} ${(!inprogress && answer.userAnswer === undefined && answer.is_correct == true) ? 'bg-green-100' : ''}`} key={"answer-" + answer.id}><input type={item.question_type == "Multi choice" ? "checkbox" : "radio"} name={"question-" + item.id} value={answer.answer_text} id={"answer-" + answer.id} disabled={!inprogress} className="mx-4 py-5" /> <span className="block py-3">{answer.answer_text}</span> </label>)}
-            </div>)}
+                {item.answers && item.answers.map(answer => <label className={`flex p-3 m-2 rounded-2xl ${inprogress == false ? (item.question_type !== "Text Input" && answer.userAnswer == answer.is_correct) ? 'bg-green-400' : (answer.userAnswer !== undefined && answer.userAnswer != answer.is_correct) ? 'bg-red-400' : '' : ''} ${(!inprogress && answer.userAnswer === undefined && answer.is_correct == true) ? 'bg-green-100' : ''}`} key={"answer-" + answer.id}><input type={item.question_type == "multiple_choice" ? "checkbox" : "radio"} name={"question-" + item.id} value={answer.answer_text} id={"answer-" + answer.id} disabled={!inprogress} className="mx-4 py-5 after:top-3 "  /> <span className="block py-3">{answer.answer_text}</span> </label>)}
+            </div>))}
 
             {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">
                 <h3 className="text-2xl">{language && language['result']}</h3>

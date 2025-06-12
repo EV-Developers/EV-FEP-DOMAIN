@@ -34,48 +34,6 @@ export default function Quizzes() {
 
   }, []);
 
-  const quzzes_list = [
-    {
-      id: "quiz-1",
-      question: "Lorem ipsum dolor sit amet consectetur adipisicing elit?",
-      question_type: "One choice",
-      answers: [
-        {
-          id: 'ans-1',
-          answer: 'Yes',
-          correct: false
-        },
-        {
-          id: 'ans-2',
-          answer: 'No',
-          correct: true
-        },
-      ]
-    },
-    {
-      id: "quiz-2",
-      question: "Expedita nam alias praesentium soluta porro maxime asperiores sapiente recusandae illum molestiae inventore?",
-      question_type: "Multi choice",
-      answers: [
-        {
-          id: 'ans2-1',
-          answer: 'Yes',
-          correct: false
-        },
-        {
-          id: 'ans2-1',
-          answer: 'Maybe',
-          correct: true
-        },
-        {
-          id: 'ans2-2',
-          answer: 'No',
-          correct: true
-        },
-      ]
-    }
-  ]
-
   const handleDelete = async () => {
     try {
       const response = await api.delete('/quizzes/' + quizzId);

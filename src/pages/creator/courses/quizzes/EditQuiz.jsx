@@ -18,7 +18,7 @@ export default function EditQuiz() {
     const [answers, setAnswers] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
-    const { courseId, lessonId, quizzId } = useParams();
+    const { quizzId, questionId } = useParams();
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -126,26 +126,33 @@ export default function EditQuiz() {
         setAnswers(tmpAnswers);
     }
 
-    const handleUpdateQuiz = () => {
+    const handleUpdateQuiz = async () => {
         setLoading(true);
         let ok = false;
         if (question !== "") {
-            if (quizType == "Text Input") {
+            if (answers.length != 0) {
                 ok = true;
-            } else {
-                if (answers.length != 0) {
-                    ok = true;
-                }
             }
         }
 
-        if (ok) {
-            setLoading(false);
-            navigate('/lessons/quizzes/'+courseId+'/'+lessonId)
+        if(ok){
+            try {
+                const response = await api.put(`/quizzes/${quizzId}/question/${questionId}`);
+        
+                if (response.config.status == 200) {
+                    setLoading(false);
+                    setMsg(language['success_msg']);
+                } else {
+                    setLoading(false);
+                    setMsg(language['error_validation_msg']);
+                }
+            } catch (error) {
+                setMsg(language['error_msg']);
+            }
         } else {
-            setLoading(false);
-            setMsg("Please enter  valid question and answer")
-        }
+                setLoading(false);
+                setMsg("Please enter  valid question and answer")
+            }
     }
 
     return (<ThemeContainer>

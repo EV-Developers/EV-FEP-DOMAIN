@@ -58,7 +58,7 @@ export default function ExploreOverlay({ language, setShow }) {
     return (
         <div className="fixed z-50 h-[87vh] w-full bg-[#F0F4F9] mt-[7%] border-none" onMouseLeave={() => setShow(false)}>
             <div className="flex">
-                <div className="w-[25%] px-3">
+                <div className="w-[25%] px-3 overflow-y-auto h-[100vh]">
                     
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['courses']}</button>
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['my_courses']}</button>
@@ -75,12 +75,12 @@ export default function ExploreOverlay({ language, setShow }) {
                         <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]':''} ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
                     </div>)}
                     {!categoriesData && loadingCats && <div className="animate-pulse">
-                        <div className="w-[65%] h-8 bg-gray-300 my-4"></div>
-                        <div className="w-[65%] h-8 bg-gray-300 my-4"></div>
-                        <div className="w-[65%] h-8 bg-gray-300 my-4"></div>
+                        <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>
+                        <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>
+                        <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>
                     </div>}
                 </div>
-                <div className="block mx-auto w-[75%]">
+                <div className="block mx-auto w-[75%] overflow-y-auto h-[100vh] pb-[10%]">
                     {(!loadingCats && !data && loading) && <div className="flex flex-wrap animate-pulse">
                         <div className="shadow block w-[23%] h-[470px] rounded-l p-2 mx-2 my-3">
                             <div className="w-full h-24 bg-gray-300"></div>
@@ -104,7 +104,7 @@ export default function ExploreOverlay({ language, setShow }) {
                         </div>
                     </div>}
                     <div className="flex flex-wrap ">
-                        {data && data.map(item => <CourseItem language={language} link="/teachers/courses/" item={item} />)}
+                        {data && data.map(item => <CourseItem onClick={() => setShow(false)} language={language} link="/teachers/courses/" item={item} />)}
                     </div>
                 </div>
             </div>
