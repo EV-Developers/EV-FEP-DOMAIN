@@ -38,14 +38,45 @@ export default function Lesson({ courseId, item }) {
 
     const getVideo = async () => {
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+        fetch("https://fep.misk-donate.com/api/lessons/download/cGoj3E7qVwQNidD967peJBJgtMMUJb07np0gfDwq.mp4", {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': "video/mp4"
+            }
+        })
+        .then(res => console.log(res))
+        .then(response => {
+            try {
+                if (response && !response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            } catch (error) {
+                console.log(error);
+                
+                return null;
+            }
+        })
+        .then(blob => {
+            console.log(blob);
+            
+            //const videoURL = URL.createObjectURL(blob);            
+            //document.getElementById('myVideo').src = videoURL;
+        })
+        .catch(error => {
+            console.error('Error loading video:', error);
+        });
+        /*
         try {
             api.interceptors.request.use((config) => {
-                config.headers['Content-Type'] = 'application/octet-stream';
+                config.headers['Content-Type'] = 'video/mp4';
                 
                 return config;
             });
 
             const response = await api.get("/lessons/download/u75AoxCz3m786TYzcXWXlxqMElaOw5MRYKJ3N8j2.mp4");
+            
+            console.log(response);
             
             if(response.status == 200){
                 const tmpVideoURL = URL.createObjectURL(blob);
@@ -55,7 +86,7 @@ export default function Lesson({ courseId, item }) {
         } catch (error) {
             console.log(error);
         }
-                
+             */   
            
     }
 

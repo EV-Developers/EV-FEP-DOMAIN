@@ -61,6 +61,8 @@ export default function Course() {
             const tmpAssestmentsData = null //await api.get('/assignments');
 
             if (tmpData && tmpData.status == 200) {
+                console.log(tmpData.data.data);
+                
                 setData(tmpData.data.data);
 
                 if(tmpData.data && tmpData.data.data && tmpData.data.data.lessons){
