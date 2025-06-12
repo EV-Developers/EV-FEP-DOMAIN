@@ -39,7 +39,7 @@ export default function Lessons({ lessons, setLessons, assesments, courseId, han
             <div className="bg-gray-300 h-10 w-full p-5 my-5 rounded-xl "></div>
             <div className="bg-gray-300 h-10 w-full p-5 my-5 rounded-xl "></div>
         </div>}
-        {lessons && <ReactSortable list={lessons} setList={setLessons} onUpdate={() => handleSort(Date.now())}>
+        {lessons && <ReactSortable list={lessons} setList={setLessons} onUpdate={(data) => handleSort(data)}>
             {lessons && lessons.map(item => <Lesson courseId={courseId} item={item} key={item.id} />)}
         </ReactSortable>}
         {assesments && assesments.map(item => <Assesment item={item} key={item.id} />)}

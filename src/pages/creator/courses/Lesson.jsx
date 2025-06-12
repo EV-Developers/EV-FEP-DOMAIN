@@ -7,11 +7,11 @@ import api from '../../../config/api';
 import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 import { translation } from '../../../config/translations';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
-import axios from 'axios';
 
 export default function Lesson({ courseId, item }) {
     const [show, setShow] = React.useState(false);
     const [videoData, setVideoData] = React.useState(null);
+    const [videoUrl, setVideoUrl] = React.useState(null);
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
 
@@ -37,57 +37,37 @@ export default function Lesson({ courseId, item }) {
     }, []);
 
     const getVideo = async () => {
+        const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
-        fetch("https://fep.misk-donate.com/api/lessons/download/cGoj3E7qVwQNidD967peJBJgtMMUJb07np0gfDwq.mp4", {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': "video/mp4"
-            }
-        })
-        .then(res => console.log(res))
-        .then(response => {
-            try {
-                if (response && !response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.blob();
-            } catch (error) {
-                console.log(error);
-                
-                return null;
-            }
-        })
-        .then(blob => {
-            console.log(blob);
-            
-            //const videoURL = URL.createObjectURL(blob);            
-            //document.getElementById('myVideo').src = videoURL;
-        })
-        .catch(error => {
-            console.error('Error loading video:', error);
-        });
-        /*
-        try {
-            api.interceptors.request.use((config) => {
-                config.headers['Content-Type'] = 'video/mp4';
-                
-                return config;
-            });
 
-            const response = await api.get("/lessons/download/u75AoxCz3m786TYzcXWXlxqMElaOw5MRYKJ3N8j2.mp4");
-            
-            console.log(response);
-            
-            if(response.status == 200){
-                const tmpVideoURL = URL.createObjectURL(blob);
-                //setVideoURL(tmpVideoURL);
-                console.log(tmpVideoURL);
-            }
+        try {
+            fetch(aurl+item.video_path, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            .then(response => {            
+                try {
+                    if (response && !response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob();
+                } catch (error) {
+                    console.log(error);
+                    
+                    return null;
+                }
+            })
+            .then(blob => {            
+                const tmpVideoURL = URL.createObjectURL(blob);  
+                setVideoUrl(tmpVideoURL);          
+            })
+            .catch(error => {
+                console.error('Error loading video:', error);
+            });
         } catch (error) {
             console.log(error);
         }
-             */   
-           
     }
 
     const handleDeleteLesson = async () => {
@@ -115,7 +95,7 @@ export default function Lesson({ courseId, item }) {
         </button>
         {show && <div className="transition-all px-0">
             <p className="p-2">{item.description}</p>
-            <VideoPlayer tmp_vid_url={'https://fep.misk-donate.com/storage/'+item.video_path} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />
+            <VideoPlayer tmp_vid_url={videoUrl} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />
             <div className="flex">
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>

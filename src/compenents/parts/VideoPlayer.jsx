@@ -58,7 +58,7 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
             onClick={handlePlay} 
             ref={video} 
             height="440" 
-            className="w-full my-7 px-0 overflow-x-hidden rounded-t-2xl" 
+            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl" 
             //poster={poster} 
             controls={false}
         >

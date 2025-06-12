@@ -17,6 +17,7 @@ export default function Course() {
     const [showModal, setShowModal] = React.useState(false);
     const [data, setData] = React.useState(null);
     const [lessonsData, setLessonData] = React.useState(null);
+    const [lessonshadowData, setShadowLessonData] = React.useState(null);
     const [resources, setResources] = React.useState(null);
     const [assesments, setAssestmentsData] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
@@ -54,33 +55,30 @@ export default function Course() {
     }, []);
 
     async function getData() {
-        console.log(courseId);
-        
         try {
             const tmpData = await api.get('/courses/' + courseId);
+            const tmplessonsData = null //await api.get('/lessons/'+courseId);
             const tmpAssestmentsData = null //await api.get('/assignments');
 
             if (tmpData && tmpData.status == 200) {
-                console.log(tmpData.data.data);
-                
                 setData(tmpData.data.data);
 
-                if(tmpData.data && tmpData.data.data && tmpData.data.data.lessons){
-                    if(tmpData.data.data && tmpData.data.data.lessons.length != 0){
+                if (tmpData.data && tmpData.data.data && tmpData.data.data.lessons) {
+                    if (tmpData.data.data && tmpData.data.data.lessons.length != 0) {
                         const tmpArr = tmpData.data.data.lessons.sort((a, b) => a._order - b._order);
                         setLessonData(tmpArr);
+                        setShadowLessonData(tmpArr);
                     } else {
                         setLessonData([]);
                     }
                 }
                 setAssestmentsData(tmpData.data.data.assignment);
                 setResources(tmpData.data.data.resources);
-            } 
-            
+            }
+
 
             if (tmpAssestmentsData && tmpAssestmentsData.status == 200) {
                 setAssestmentsData(tmpAssestmentsData.data);
-                console.log(tmpAssestmentsData);
             }
         } catch (error) {
             console.log(error);
@@ -90,7 +88,6 @@ export default function Course() {
     const handleDelete = async () => {
         try {
             const response = await api.delete('/courses/' + courseId);
-            console.log(response);
             if (response.status == 200) {
                 navigate("/courses")
             } else {
@@ -102,29 +99,39 @@ export default function Course() {
     }
 
     React.useEffect(() => {
-        if(userSort){
-            console.log(lessonsData);
+        if (userSort) {
             setUserSort(false);
             handleSort();
         }
     }, [lessonsData]);
 
-    const handleSort = () => {        
-        if(lessonsData){
-            lessonsData.map(async (item, index) => {
-                let _sort = index + 1;
-                try {
-                    const tmpData = await api.post('/lessons/'+item.id, {
-                        _order: _sort
-                    });
-                    
-                    if (tmpData.status == 200) {
-                        console.log(tmpData);
+    const handleSort = () => {
+        if (userSort) {
+            const newIndex = userSort.newIndex;
+            const oldIndex = userSort.oldIndex;
+
+            const sorted = lessonshadowData.filter((item, index) => index == newIndex || index == oldIndex);
+
+            console.log(sorted);
+
+            if (sorted && sorted.length != 0 && sorted.length == 2) {
+                sorted.map(async (item, index) => {
+                    const sort_index = index == 0 ? 1 : 0;
+                    const _sort = sorted[sort_index]._order;
+
+                    try {
+                        const tmpData = await api.post('/lessons/' + item.id, {
+                            _order: _sort
+                        });
+
+                        if (tmpData.status == 200) {
+                            //console.log(tmpData);
+                        }
+                    } catch (error) {
+                        console.log(error);
                     }
-                } catch (error) {
-                    console.log(error);
-                }
-            })
+                })
+            }
         }
     }
 
