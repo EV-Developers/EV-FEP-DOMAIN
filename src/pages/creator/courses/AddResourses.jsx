@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight, faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import api from '../../../config/api';
 import { translation } from '../../../config/translations';
@@ -10,7 +10,11 @@ import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 export default function AddResourses() {
   const { courseId } = useParams();
   const [language, setLanguage] = React.useState(null);
+  const [msg, setMsg] = React.useState("");
+  const [file, setFile] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [resoureName, setResourceName] = React.useState(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -31,19 +35,48 @@ export default function AddResourses() {
 
   }, []);
 
-  const handleSetImage = (e) => {
-    const imgUrl = window.URL.createObjectURL(e.target.files[0]);
-    ref.current.style.display = 'block';
-    ref.current.style.backgroundSize = '35%';
-    ref.current.style.backgroundPosition = 'center';
-    ref.current.style.background = `url(${imgUrl}) no-repeat`;
+  const handleSetFile = (e) => {
+    const fileUrl = window.URL.createObjectURL(e.target.files[0]);
+    console.log(e.target.files[0]);
+    if(e.target.files[0]){
+      setResourceName(e.target.files[0].name)
+    }
+    setFile(fileUrl);
+  }
 
-    setFeaturedImage(e.target.files)
+  const handleAddResource = async (ev) => {
+    ev.preventDefault();
+    const form = new FormData(ev.target);
+    form.append('course_id', courseId);
+
+    if (ev.target.title != "" && ev.target.description != "") {
+      try {
+        api.interceptors.request.use((config) => {
+          config.headers['accept'] = 'application/json';
+          config.headers['Content-Type'] = 'multipart/form-data';
+
+          return config;
+        });
+
+        const response = await api.post('/resources', form);
+
+        if(response.status == 200){
+          navigate('/courses/'+courseId);
+        } else {
+          setMsg(language['error_msg']);
+        }
+      } catch (error) {
+        console.log(error);
+        setMsg(language['error_msg']);
+      }
+    } else {
+      setMsg(language['error_validation_msg']);
+    }
   }
 
   return (
     <ThemeContainer>
-      <div className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]">
+      <form method="post" encType="multipart/form-data" onSubmit={handleAddResource} className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]">
         <div className="flex">
           <Link to={"/courses/"}>
             <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
@@ -55,27 +88,28 @@ export default function AddResourses() {
         </div>
         <hr className="text-gray-200 my-5" />
 
-        <label htmlFor="sectionTitle">
+        <label htmlFor="title">
           <p id="sectionTitle" className="my-3 font-bold">{language && language["important_resources"]}</p>
-          <input type="text" id="sectionTitle" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400" />
+          <input type="text" id="title" name="title" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400" />
         </label>
 
-        <label htmlFor="desc">
+        <label htmlFor="description">
           <p id="desc" className="my-3 font-bold">{language && language["description"]}</p>
-          <input type="text" id="desc" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400" />
+          <input type="text" id="description" name="description" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400" />
         </label>
 
-        <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat">
+        <label htmlFor="file" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat">
           <div className="text-center">
             <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-            <p className="text-l font-bold">{language && language["upload"]} PNG/JPG</p>
+            <p className="text-l font-bold">{language && language["upload"]}</p>
             <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+            {resoureName && <p className="p-4">{resoureName}</p>}
           </div>
-          <input type="file" accept="image/jpg,image/png,image/jepg,image/webp" id="uploadImage" name="uploadImage" className="hidden" onChange={handleSetImage} />
+          <input type="file" accept="image/jpg,image/png,image/jepg,image/webp,.pdf" id="file" name="file" className="hidden" onChange={handleSetFile} />
         </label>
 
-        <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
-      </div>
+        <button type="submit" className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
+      </form>
     </ThemeContainer>
   )
 }

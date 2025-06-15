@@ -112,8 +112,6 @@ export default function Course() {
 
             const sorted = lessonshadowData.filter((item, index) => index == newIndex || index == oldIndex);
 
-            console.log(sorted);
-
             if (sorted && sorted.length != 0 && sorted.length == 2) {
                 sorted.map(async (item, index) => {
                     const sort_index = index == 0 ? 1 : 0;

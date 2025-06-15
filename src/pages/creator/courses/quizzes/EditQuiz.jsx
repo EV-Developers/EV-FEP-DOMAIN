@@ -11,10 +11,10 @@ export default function EditQuiz() {
     const [data, setData] = React.useState(false);
     const [msg, setMsg] = React.useState(false);
     const [show, setShow] = React.useState(false);
-    const [quizType, setQuizType] = React.useState('Multi choice');
+    const [quizType, setQuizType] = React.useState('single_choice');
     const [answerText, setAnswerText] = React.useState('');
     const [question, setQuestion] = React.useState('');
-    const [mark, setMark] = React.useState(0);
+    const [mark, setMark] = React.useState("");
     const [answers, setAnswers] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
@@ -40,24 +40,7 @@ export default function EditQuiz() {
 
     }, []);
 
-    const quizTypes = [
-        {
-            id: 'single',
-            label: 'Single choice',
-            label_arabic: 'اجابة منفردة'
-        },
-        {
-            id: 'multi',
-            label: 'Multi choice',
-            label_arabic: 'اجابة متعددة',
-
-        },
-        {
-            id: 'text',
-            label: 'Text Input',
-            label_arabic: 'نصي'
-        },
-    ]
+    const quizTypes = ["single_choice", "multiple_choice"]
 
     React.useEffect(() => {
         if (quizzId) {
@@ -66,14 +49,19 @@ export default function EditQuiz() {
     }, [quizzId]);
 
     async function getData() {
+        console.log(questionId);
+        
         try {
             const tmpData = await api.get('/quizzes/' + quizzId);
-            const answers = await api.get('/answers/' + quizzId);
-            console.log(tmpData, answers);
-    
+            //const answers = await api.get('/answers/' + quizzId);
+            
             if (tmpData.status == 200) {
-                setData(tmpData.data);
-                setAnswers(answers.data)
+                tmpData.data.questions.map(item => {
+                    if(item.id == questionId){
+                        console.log(quizzId, item);
+                        setData(item);
+                    }
+                })
             }
         } catch (error) {
             console.log(error);
@@ -168,10 +156,10 @@ export default function EditQuiz() {
                     </label>
                 </div>
                 <div className="block relative w-[30%]">
-                    <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm w-[55%] my-4" onClick={() => setShow(!show)}><span>{quizType}</span> <FontAwesomeIcon icon={faCaretDown} /></button>
+                    <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm w-[55%] my-4" onClick={() => setShow(!show)}><span>{language && language[quizType]}</span> <FontAwesomeIcon icon={faCaretDown} /></button>
                     {show && <div className="bg-color block rounded-xl p-3 absolute z-10">
-                        {quizTypes && quizTypes.map(item => <button onClick={() => setQuizType(item.label)} key={item.id} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-3 p-3 ${quizType == item.label ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
-                            {language && language['dir'] == 'ltr' ? item.label : item.label_arabic}
+                        {quizTypes && quizTypes.map(item => <button onClick={() => setQuizType(item)} key={item} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-3 p-3 ${quizType == item ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
+                            {language && language[item]}
                         </button>)}
                     </div>}
                 </div>

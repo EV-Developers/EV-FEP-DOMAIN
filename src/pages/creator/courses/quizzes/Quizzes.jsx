@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,10 +10,11 @@ import api from '../../../../config/api';
 
 export default function Quizzes() {
   const [language, setLanguage] = React.useState(null);
-  const [quizzId, setQuizzId] = React.useState("");
+  const [quizzId, setQuizzId] = React.useState(null);
   const [quizzList, setQuizzList] = React.useState("");
   const [showModal, setShowModal] = React.useState(false);
   const { courseId, lessonId } = useParams();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -35,16 +36,18 @@ export default function Quizzes() {
   }, []);
 
   const handleDelete = async () => {
-    try {
-      const response = await api.delete('/quizzes/' + quizzId);
-      console.log(response);
-      if (response.status == 200) {
-        navigate("/quizzes/" + lessonId)
-      } else {
-        console.log('error');
+    if(quizzId){
+      try {
+        const response = await api.delete('/quizzes/' + quizzId.quiz_id + '/question/' + quizzId.id);
+        console.log(response);
+        if (response.status == 200) {
+          window.location.reload();
+        } else {
+          console.log('error');
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -95,7 +98,10 @@ export default function Quizzes() {
           <Link to={`/quizzes/${courseId}/${lessonId}/${item.id}`} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["edit"]}</Link>
           <button onClick={() => {
             setShowModal(true); 
-            setQuizzId(item.id);
+            setQuizzId({
+              id: item.id,
+              quiz_id: quiz.id
+            });
           }} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["delete"]}</button>
         </div>
       </div>))}

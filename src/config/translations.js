@@ -168,6 +168,7 @@ export const translation = [
         single_choice: 'Single choice',
         multiple_choice: "Multiple choice",
         select_correct: "Select the correct answer",
+        video_player_error: "Your web browser does not support the video playback try another web browser or update your web brower.",
 
     },
     {
@@ -337,5 +338,7 @@ export const translation = [
         single_choice: 'اجابة منفردة',
         multiple_choice: "اجابة متعددة",
         select_correct: "اختر الاجابة الصحيحة",
+        video_player_error: "متصفح الانترنت الخاص بك لا يدعم تشغيل الفيديو، جرب متصفح انترنت اخر او قم بتحديث المتصفح لاخر نسخة متوفرة...",
+
     }
 ]

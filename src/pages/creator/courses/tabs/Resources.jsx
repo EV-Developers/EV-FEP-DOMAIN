@@ -1,13 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { translation } from '../../../../config/translations';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
+import api from '../../../../config/api';
 
 export default function Resources({ data, resources_list, courseId }) {
   const [showModal, setShowModal] = React.useState(false);
   const [language, setLanguage] = React.useState(null);
   const [resourceId, setResourceId] = React.useState(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -28,8 +30,18 @@ export default function Resources({ data, resources_list, courseId }) {
 
   }, []);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log(resourceId);
+    try {
+        const response = await api.delete('/resources/'+resourceId);
+        if (response.status == 200) {
+            navigate("/courses/"+courseId)
+        } else {
+            console.log('error');
+        }
+    } catch (error) {
+        console.log(error);
+    }
     
   }
 

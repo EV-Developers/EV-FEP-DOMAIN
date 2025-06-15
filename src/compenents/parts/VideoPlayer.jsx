@@ -1,19 +1,31 @@
 import React, { useRef } from 'react'
 
-export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp" }) {
+export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp" }) {
     const [play, setShow] = React.useState(true);
     const [progress, setProgress] = React.useState(0);
     const video = useRef();
 
     React.useEffect(() => {
-        if (video) {
-            try {
-                video.current.currentTime = userProgress;
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    }, [video])
+        const listen = document.getElementsByTagName('video')[0].addEventListener('loadedmetadata', function (ev) {
+            ev.target.currentTime = userProgress;
+            const duration = ev.target.duration;
+            const currentTime = ev.target.currentTime;
+            const totalTime = (currentTime / duration) * 100;
+            const payload = {
+                courseId: courseId,
+                lessonId: lessonId,
+                duration: duration,
+                minutes: Math.floor((duration / 60)),
+                seconds: Math.floor((duration % 60)),
+                currentTime: userProgress,
+                progress: totalTime
+            };
+
+            setVideoData(payload);
+        });
+
+        return document.getElementsByTagName('video')[0].removeEventListener('loadedmetadata', listen);
+    }, [tmp_vid_url]);
 
     const handlePlay = () => {
         if (play) {
@@ -33,11 +45,12 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
             courseId: courseId,
             lessonId: lessonId,
             duration: duration,
+            minutes: parseInt((duration / 60)),
+            seconds: parseInt((duration % 60)),
             currentTime: currentTime,
             progress: totalTime
         };
 
-        //console.log(payload);
         setProgress(totalTime);
         setVideoData(payload);
 
@@ -53,17 +66,18 @@ export default function VideoPlayer({ tmp_vid_url, courseId, lessonId, videoData
         {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 pointer m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
             <img src="/play_btn.png" alt="" className="w-full" />
         </button>}
-        <video 
-            onTimeUpdate={handleProgress} 
-            onClick={handlePlay} 
-            ref={video} 
-            height="440" 
-            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl" 
-            //poster={poster} 
+        <video
+            onTimeUpdate={handleProgress}
+            onClick={handlePlay}
+            ref={video}
+            height="440"
+            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl"
+            //poster={poster}
             controls={false}
+            preload="metadata"
         >
             <source src={tmp_vid_url} type="video/mp4" />
-            Your browser does not support the video tag.
+            {language && language['video_player_error']}
         </video>
     </div>)
 }

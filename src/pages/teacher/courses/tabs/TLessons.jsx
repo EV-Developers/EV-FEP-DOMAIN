@@ -4,7 +4,7 @@ import { translation } from '../../../../config/translations';
 import Lesson from '../TLesson';
 import Assesment from '../TAssesment';
 
-export default function TLessons({ lessons, setLessons, assesments, courseId }) {
+export default function TLessons({ lessons, assesments, courseId }) {
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {

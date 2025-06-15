@@ -87,7 +87,9 @@ export default function Courses() {
             if (response.status == 200) {
                 if(response && response.data && response.data.data){
                     setLoading(false);
-                    setData(response.data.data);
+                    const tmpArr = response.data.data.sort((a, b) => a.level - b.level);
+
+                    setData(tmpArr);
                 }
             } else {
                 setLoading(false);

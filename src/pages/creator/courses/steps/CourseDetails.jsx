@@ -50,7 +50,7 @@ setCoursesData, handleSort }) {
                 </div>
             </div>
             <div className="w-[35%]">
-                {coursesData && <ReactSortable list={coursesData} setList={setCoursesData} onUpdate={() => handleSort(Date.now())}>
+                {coursesData && <ReactSortable list={coursesData} setList={setCoursesData} onUpdate={(data) => handleSort(data)}>
                 {coursesData.map((item, index) => (
                     <div key={item.id} className="py-2 px-3 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
                 ))}

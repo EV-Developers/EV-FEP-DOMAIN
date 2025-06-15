@@ -12,6 +12,7 @@ export default function Lesson({ courseId, item }) {
     const [show, setShow] = React.useState(false);
     const [videoData, setVideoData] = React.useState(null);
     const [videoUrl, setVideoUrl] = React.useState(null);
+    const [videoError, setVideoError] = React.useState(null);
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
 
@@ -37,11 +38,14 @@ export default function Lesson({ courseId, item }) {
     }, []);
 
     const getVideo = async () => {
+        console.log(item.video_path);
+        
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
             fetch(aurl+item.video_path, {
+            //fetch(textVideo, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -49,12 +53,12 @@ export default function Lesson({ courseId, item }) {
             .then(response => {            
                 try {
                     if (response && !response.ok) {
-                        throw new Error('Network response was not ok');
+                        setVideoError(true)
                     }
                     return response.blob();
                 } catch (error) {
                     console.log(error);
-                    
+                    setVideoError(true);
                     return null;
                 }
             })
@@ -89,13 +93,13 @@ export default function Lesson({ courseId, item }) {
         <button className="flex justify-between transition-all cursor-pointer w-full pb-3" onClick={() => setShow(!show)}>
             <div className="text-l font-bold flex">
                 <div>{item.title}</div>
-                <div className="text-sm text-gray-500 font-light mx-3"> <span>-</span> <FontAwesomeIcon icon={faClock} /> <span> 3 {language && language["minitus"]}, 33 {language && language["seconds"]}</span></div>
+                {show && <div className="text-sm text-gray-500 font-light mx-3"> <span>-</span> <FontAwesomeIcon icon={faClock} /> <span> {videoData && videoData.minutes} {language && language["minitus"]}, {videoData && videoData.seconds} {language && language["seconds"]}</span></div>}
             </div>
             <FontAwesomeIcon icon={!show ? faCaretDown : faCaretUp} className="text-xl" />
         </button>
         {show && <div className="transition-all px-0">
             <p className="p-2">{item.description}</p>
-            <VideoPlayer tmp_vid_url={videoUrl} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />
+            {!videoError && <VideoPlayer language={language} tmp_vid_url={videoUrl} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />}
             <div className="flex">
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>

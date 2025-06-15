@@ -107,14 +107,14 @@ export default function AddLesson() {
                     <p className="text-l font-bold">{language && language["upload_video"]}</p>
                     <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
                 </div>
-                <input type="file" id="video_path" name="video_path" onChange={(ev) => setVidUrl(window.URL.createObjectURL(ev.target.files[0]))} className="hidden" />
+                <input type="file" id="video_path" accept='video/mp4' name="video_path" onChange={(ev) => setVidUrl(window.URL.createObjectURL(ev.target.files[0]))} className="hidden" />
             </label>
 
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 
             <div className="flex flex-row justify-between">
-                <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
+                <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
             </div>
         </form>
     </ThemeContainer>)

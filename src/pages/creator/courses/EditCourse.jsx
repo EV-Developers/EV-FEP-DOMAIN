@@ -51,7 +51,6 @@ export default function EditCourse() {
     const handleCreateCourse = async () => {
         setMsg(null);
         setLoading(true);
-        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
 
         const formData = new FormData();
         formData.append("title", title);
@@ -59,22 +58,30 @@ export default function EditCourse() {
         formData.append("category_id", categoryId);
         formData.append("is_public", "true");
         formData.append("level", level);
-        formData.append("difficulty_level", 1);
-        formData.append("max_students", 0);
-        formData.append("createdBy", auth_user);
-        if(featuredImage && featuredImage[0]){
+        console.log(level);
+        
+        
+        if(featuredImage && typeof featuredImage == Array && featuredImage[0]){
             formData.append("featured_image", featuredImage[0], featuredImage[0].name);
-        }
+        }        
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
+                api.interceptors.request.use((config) => {
+                    config.headers['accept'] = 'application/json';
+                    config.headers['Content-Type'] = 'multipart/form-data';
+                    
+                    return config;
+                });
+                
+
                 const response = await api.put("/courses/"+courseId, formData);
 
                 console.log(response);
 
-                if (response.status == 200 || response.status == 201) {
-                    setLoading(false)
-                    navigate('/courses/'+courseId);
+                if (response.status == 200) {
+                    setLoading(false);
+                    //navigate('/courses/'+courseId);
                 } else {
                     setLoading(false);
                     setMsg(language["error_msg"]);
@@ -122,28 +129,6 @@ export default function EditCourse() {
         }
     }
 
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
-        const formData = new FormData(e.target);
-        formData.append("createdBy", auth_user);
-
-        try {
-            const response = await api.post("/courses/upload-image", formData);
-            console.log(response);
-    
-            if (response.status == 200 || response.status == 201) {
-                //navigate('/courses');
-            } else {
-                setMsg(language["error_msg"]);
-            }
-        } catch (error) {
-            setMsg(language["error_msg"]);
-            console.log(error);
-        }
-    }
-
     React.useEffect(() => {
         loadCoursesData();
     }, []);
@@ -157,10 +142,12 @@ export default function EditCourse() {
                 if(tmpData.data && tmpData.data.data){
                     setTitle(tmpData.data.data.title);
                     setDescription(tmpData.data.data.description)
-                    setCategoryId(tmpData.data.data.categoryId)
+                    setCategoryId(tmpData.data.data.category.id)
                     setLevel(tmpData.data.data.level)
                     setCategoryName(tmpData.data.data.category.name);
-                    setData(tmpData.data.data);
+                    setFeaturedImage(tmpData.data.data.featured_image_url);
+                    const tmpArr = tmpData.data.data.sort((a, b) => a.level - b.level);
+                    setData(tmpArr);
                 }
             }
         } catch (error) {
@@ -209,26 +196,31 @@ export default function EditCourse() {
         }
     }, [coursesData]);
 
-    const handleSort = () => {        
-        if(coursesData){
-            coursesData.map(async (item, index) => {
-                let _sort = index + 1;
-                if(item.id == 'new Item'){
-                    setLevel(_sort);
-                } else {
+    const handleSort = () => {
+        if (userSort) {
+            const newIndex = userSort.newIndex;
+            const oldIndex = userSort.oldIndex;
+
+            const sorted = coursesData.filter((item, index) => index == newIndex || index == oldIndex);
+
+            if (sorted && sorted.length != 0 && sorted.length == 2) {
+                sorted.map(async (item, index) => {
+                    const sort_index = index == 0 ? 1 : 0;
+                    const _sort = sorted[sort_index].level;
+
                     try {
-                        const tmpData = await api.put('/courses/'+item.id, {
+                        const tmpData = await api.put('/courses/' + item.id, {
                             level: _sort
                         });
-                        
+
                         if (tmpData.status == 200) {
-                            console.log(tmpData);
+                            //console.log(tmpData);
                         }
                     } catch (error) {
                         console.log(error);
                     }
-                }
-            })
+                })
+            }
         }
     }
 

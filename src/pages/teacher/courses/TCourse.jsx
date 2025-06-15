@@ -19,6 +19,7 @@ export default function TCourse() {
     const [data, setData] = React.useState(null);
     const [lessonsData, setLessonData] = React.useState(null);
     const [assestmentsData, setAssestmentsData] = React.useState(null);
+    const [resources, setResources] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
     const { courseId } = useParams();
 
@@ -40,48 +41,24 @@ export default function TCourse() {
         }
     }, []);
 
-    const assesments = [
-        {
-            id: 'assesment-1',
-            title: 'Course Assesment',
-            assesment_type: 'git',
-            video: 'vid-3.webp'
-        },
-    ];
-
-    const resources_list = [
-        {
-            id: 'comment-1',
-            title: 'test',
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque nostrum iusto eum ad ratione in eveniet! Quaerat debitis tenetur deserunt rerum commodi. Sunt, quaerat non. Nisi dicta in amet excepturi.",
-            file: '/data/logo.png'
-        }
-    ];
-
     React.useEffect(() => {
         getData();
     }, []);
 
     async function getData() {
-        const auth_user = window.localStorage.getItem("rJp7E3Qi7r172VD");
-        const tmpData = await api.get('/courses/' + courseId);
-        const tmpLessonsData = await api.get('/lessons?course_id=' + courseId + '&user_id=' + auth_user);
-        const tmpAssestmentsData = null //await api.get('/assignments');
-
-        if (tmpData && tmpData.status == 200) {
-            setData(tmpData.data.data)
-            console.log(tmpData.data.data);
+        try {
+            const tmpData = await api.get('/courses/' + courseId);
+    
+            if (tmpData && tmpData.status == 200) {
+                setData(tmpData.data.data)
+                setLessonData(tmpData.data.data.lessons);
+                setAssestmentsData(tmpData.data.data.assignments);
+                setResources(tmpData.data.data.resources)
+            }
+        } catch (error) {
+            console.log(error);
         }
 
-        if (tmpLessonsData && tmpLessonsData.status == 200) {
-            setLessonData(tmpLessonsData.data);
-            console.log(tmpLessonsData.data);
-        }
-
-        if (tmpAssestmentsData && tmpAssestmentsData.status == 200) {
-            setAssestmentsData(tmpAssestmentsData.data);
-            console.log(tmpAssestmentsData);
-        }
     }
 
     const handleCourseCertificateDownload = () => {
@@ -169,7 +146,7 @@ export default function TCourse() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <TLessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assesments={assesments} />
+                    <TLessons courseId={courseId} lessons={lessonsData} assesments={assestmentsData} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
@@ -186,7 +163,7 @@ export default function TCourse() {
             </div>}
             {tabs == 'overview' && <TOverview data={data} language={language} />}
             {tabs == 'comments' && <TComments data={data} language={language} />}
-            {tabs == 'resources' && <TResources data={data} resources_list={resources_list} />}
+            {tabs == 'resources' && <TResources data={data} resources_list={resources} />}
             <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
         </ThemeContainer>
     )
