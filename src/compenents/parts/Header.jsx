@@ -251,7 +251,7 @@ export default function Header({ role }) {
                             <button className="rounded-full mx-2 my-2 w-10 h-10 bg-primary cursor-pointer transition-all hover:scale-110" title={language && language['my_profile']}>
                                 <FontAwesomeIcon icon={faUser} className="text-xl text-white" />
                             </button>
-                            <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-10 mx-3 shadow-sm`}>
+                            <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-50 mx-3 shadow-sm`}>
                                 {/* to={slug+"/profile"}  */}
                                 <button onClick={() => setShowProfile(true)} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
                                     {language && language['my_profile']}

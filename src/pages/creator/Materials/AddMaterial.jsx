@@ -55,7 +55,10 @@ export default function AddMaterial() {
           </div>
           <input type="file" accept="image/jpg,image/png" id="file" name="file" className="hidden " />
         </label>
-        <button className="flex rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
+
+        <div className="flex flex-row justify-between">
+          <button className="flex rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
+        </div>
       </div>
     </ThemeContainer>
   )

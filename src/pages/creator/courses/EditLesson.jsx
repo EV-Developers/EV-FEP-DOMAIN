@@ -38,6 +38,38 @@ export default function EditLesson() {
     }, []);
 
 
+    const getVideo = async (video_path) => {        
+        const aurl = "https://fep.misk-donate.com/api/lessons/download/";
+        const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+
+        try {
+            fetch(aurl+video_path, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            .then(response => {            
+                try {
+                    if (response && !response.ok) {
+                        setVideoError(true)
+                    }
+                    return response.blob();
+                } catch (error) {
+                    console.log(error);
+                    return null;
+                }
+            })
+            .then(blob => {            
+                const tmpVideoURL = URL.createObjectURL(blob);  
+                setVidUrl(tmpVideoURL);
+            })
+            .catch(error => {
+                console.error('Error loading video:', error);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     React.useEffect(() => {
         loadData();
@@ -48,9 +80,7 @@ export default function EditLesson() {
 
         if (response.status == 200) {
             setData(response.data);
-            console.log(response.data);
-            
-            setVidUrl('https://fep.misk-donate.com/storage/'+response.data.video_path);
+            getVideo(response.data.video_path);
         } else {
             console.log('error');
         }

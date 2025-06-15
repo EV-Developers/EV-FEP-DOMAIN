@@ -44,8 +44,8 @@ export default function Overview({ data, courseId }) {
           <div><span className="text-color">{language && language["language"]}:</span><span className="mx-3 text-color">English</span></div>
         </div>
         <div className={`${language && language["dir"] == 'ltr' ? 'border-l border-l-gray-200' : 'border-r border-r-gray-200'} p-4 mb-14`}>
-          <p className="text-color">{language && language["videos"]}:  35</p>
-          <p className="text-color">{language && language["time"]}:  3 {language && language['total_hours']}</p>
+          <p className="text-color">{language && language["videos"]}:  {data && data.lessons.length}</p>
+          {/* <p className="text-color">{language && language["time"]}:  3 {language && language['total_hours']}</p> */}
         </div>
       </div>
       <div className="flex py-7 border-t border-t-gray-200">

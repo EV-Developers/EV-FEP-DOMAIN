@@ -22,6 +22,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             };
 
             setVideoData(payload);
+
         });
 
         return document.getElementsByTagName('video')[0].removeEventListener('loadedmetadata', listen);

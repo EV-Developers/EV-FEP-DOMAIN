@@ -52,36 +52,45 @@ export default function EditCourse() {
         setMsg(null);
         setLoading(true);
 
+        /*
         const formData = new FormData();
         formData.append("title", title);
         formData.append("description", description);
         formData.append("category_id", categoryId);
         formData.append("is_public", "true");
         formData.append("level", level);
-        console.log(level);
-        
         
         if(featuredImage && typeof featuredImage == Array && featuredImage[0]){
             formData.append("featured_image", featuredImage[0], featuredImage[0].name);
         }        
+        */        
+
+        const formData = JSON.stringify({
+            "title": title,
+            "description": description,
+            "category_id": categoryId,
+            "is_public": "true",
+            "level": level
+        })
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
+                /*
                 api.interceptors.request.use((config) => {
                     config.headers['accept'] = 'application/json';
-                    config.headers['Content-Type'] = 'multipart/form-data';
+                    config.headers['Content-Type'] = 'application/json';
                     
                     return config;
                 });
+                */
                 
-
                 const response = await api.put("/courses/"+courseId, formData);
 
                 console.log(response);
 
                 if (response.status == 200) {
                     setLoading(false);
-                    //navigate('/courses/'+courseId);
+                    navigate('/courses/'+courseId);
                 } else {
                     setLoading(false);
                     setMsg(language["error_msg"]);
@@ -118,7 +127,6 @@ export default function EditCourse() {
     }, [categoryId]);
 
     const loadCategoriesData = async () => {
-        console.log(categoryId);
         try {
             const tmpCategoriesData = await api.get('/course-categories');
             if (tmpCategoriesData.status == 200) {
@@ -138,7 +146,6 @@ export default function EditCourse() {
             const tmpData = await api.get('/courses/'+courseId);
             
             if (tmpData && tmpData.status == 200) {
-                console.log(tmpData.data.data);
                 if(tmpData.data && tmpData.data.data){
                     setTitle(tmpData.data.data.title);
                     setDescription(tmpData.data.data.description)
@@ -165,7 +172,6 @@ export default function EditCourse() {
             const tmpData = await api.get('/courses?category_id='+categoryId);
             
             if (tmpData.status == 200) {
-                console.log(tmpData.data.data);
                 setCoursesData(tmpData.data.data);
             }
         } catch (error) {
@@ -182,7 +188,6 @@ export default function EditCourse() {
                 }
                 tmpArr.push(item);
             })
-            console.log(tmpArr);
             
             setCoursesData(tmpArr);
         }
@@ -190,7 +195,6 @@ export default function EditCourse() {
 
     React.useEffect(() => {
         if(userSort){
-            console.log(coursesData);
             setUserSort(false);
             handleSort();
         }

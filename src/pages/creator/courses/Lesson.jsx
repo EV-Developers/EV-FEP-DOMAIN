@@ -37,9 +37,7 @@ export default function Lesson({ courseId, item }) {
 
     }, []);
 
-    const getVideo = async () => {
-        console.log(item.video_path);
-        
+    const getVideo = async () => {        
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 

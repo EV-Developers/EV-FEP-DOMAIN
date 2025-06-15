@@ -28,12 +28,8 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
 
   }, []);
 
-  React.useEffect(() => {
-    console.log(featuredImage);
-    
-    if (featuredImage && featuredImage != '') {
-      console.log(featuredImage);
-      
+  React.useEffect(() => {    
+    if (featuredImage && featuredImage != '') {      
       if(typeof featuredImage == Array && featuredImage[0]){
         const imgUrl = window.URL.createObjectURL(featuredImage[0]);
         setImage(imgUrl);
@@ -57,7 +53,7 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
       </label>
 
       <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat " ref={ref}>
-        {image && <img src={image} className="flex m-auto w-[45%] align-middle self-center " />}
+        {image && <img src={image} className="flex m-auto w-[25%] align-middle self-center " />}
         {!image && <div className="text-center">
           <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
           <p className="text-l font-bold">{language && language["upload"]} PNG/JPG</p>
