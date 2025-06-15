@@ -4,7 +4,7 @@ import { faThumbsUp, faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function CourseItem({ language, link, item, continue_course, creator }) {
-    return (<Link to={link + item.id} key={"item-" + item.id} className="flex flex-col justify-between w-[23%] bg-white p-0 mx-2 my-3 hover:scale-102 font-bold h-[470px] rounded-t-3xl shadow-xl group">
+    return (<Link to={link + item.id} key={"item-" + item.id} className="flex flex-col justify-between w-[23%] bg-white p-0 mx-2 my-3 hover:scale-102 font-bold h-[470px] rounded-2xl shadow group">
         <div>
             <div className="relative p-0 mx-0 w-full flex items-center justify-center">
                 <img src="/play_btn.png" alt="" className="block mx-auto absolute z-10 w-12  group-hover:scale-95 transition-all" />

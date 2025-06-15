@@ -80,7 +80,7 @@ export default function AddAssesement() {
 
     React.useEffect(() => {
         setShow(false);
-    }, [assesementType])
+    }, [assesementType]);
 
     const handleAddQuestion = () => {
         const tmpArr = questionsList;
@@ -88,6 +88,7 @@ export default function AddAssesement() {
             id: Date.now(),
             question_text: questionText
         });
+
         setQuestionsList(tmpArr);
         setQuestionText("");
     }

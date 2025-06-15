@@ -139,7 +139,7 @@ export default function AddAssesement() {
                         {questionsList && questionsList.map((item, index) => <div key={"question-" + index} className="flex justify-between w-full">
                             <span>{item.question_text}</span>
                             <span className="p-2 mx-4">
-                                <button onClick={() => handleRemove(item.id)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button></span>
+                                <button type="button" onClick={() => handleRemove(item)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button></span>
                         </div>)}
                     </div>}
                 </div>}
