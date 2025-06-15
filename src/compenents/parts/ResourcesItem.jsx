@@ -7,37 +7,55 @@ export default function ResourcesItem({ language, item, setResourceId, setShowMo
         getVideo();
     }, []);
 
-    const getVideo = async () => {
-        const rurl = "https://fep.misk-donate.com/api/resources/download/";
+    const getVideo = async () => {        
+        const rurl = "https://fep.misk-donate.com/api/resources/download/"+item.file_path;
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
-            fetch(rurl + item.file_path, {
+            fetch(rurl, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-                .then(response => {
-                    try {
-                        if (response && !response.ok) {
-                            return false;
-                        }
-                        return response.blob();
-                    } catch (error) {
-                        //console.log(error);
-                        return null;
-                    }
-                })
-                .then(blob => {
-                    if (blob) {
-                        const tmpVideoURL = window.URL.createObjectURL(blob);
+            .then((response) => {
+                response.text()
+            })
+            .then((result) => {
+                console.log(result);
+                if (result) {
+                    const tmpUrl = window.URL.createObjectURL(result);
+                    setResourceUrl(tmpUrl);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
 
-                        setResourceUrl(tmpVideoURL);
+        /*
+            .then(response => {
+                try {
+                    if (response && !response.ok) {
+                        return false;
                     }
-                })
-                .catch(error => {
-                    console.error('Error loading video:', error);
-                });
+
+                    return response.blob();
+                } catch (error) {
+                    console.log(error);
+                    return null;
+                }
+            })
+            .then(blob => {
+                if (blob) {
+                    const tmpVideoURL = window.URL.createObjectURL(blob);
+
+                    console.log(tmpVideoURL);
+                    setResourceUrl(tmpVideoURL);
+                }
+            })
+            .catch(error => {
+                console.log('something went wrong', error);
+            });
+            */
         } catch (error) {
             //console.log(error);
         }

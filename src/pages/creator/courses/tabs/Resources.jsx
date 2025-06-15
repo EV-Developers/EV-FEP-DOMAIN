@@ -52,7 +52,7 @@ export default function Resources({ data, resources_list, courseId }) {
 
       {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
 
-      {resources_list && resources_list.map(item => <ResourcesItem item={item} language={language} setResourceId={setResourceId} setShowModal={setShowModal} />)}
+      {resources_list && resources_list.map(item => <ResourcesItem key={"res-"+item.id} item={item} language={language} setResourceId={setResourceId} setShowModal={setShowModal} />)}
     </div>
   )
 }
