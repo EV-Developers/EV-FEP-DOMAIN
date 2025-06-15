@@ -77,7 +77,7 @@ export default function THome() {
       {slides && slides.map(item => <SwiperSlide key={item.id}>
         <img
           src={"/" + item.img}
-          className="w-full md:h-[460px] object-cover"
+          className="block 2xl:w-[75%] mx-auto md:w-full 2xl:h-[600px] md:h-[460px] object-cover"
           alt={item.alt}
         />
       </SwiperSlide>)}

@@ -173,6 +173,7 @@ export const translation = [
         "url": "Link (URL)",
         "meeting": "Meeting", 
         "questions": "Questions",
+        "best_growth": "Best Growth",
     },
     {
         dir: "rtl",
@@ -346,6 +347,7 @@ export const translation = [
         "url": "رابط",
         "meeting": "اجتماع", 
         "questions": "أسئلة",
+        "best_growth": "أفضل نمو",
 
     }
 ]

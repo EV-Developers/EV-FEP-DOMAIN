@@ -4,7 +4,7 @@ import { faThumbsUp, faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function CourseItem({ language, link, item, continue_course, creator }) {
-    return (<Link to={link + item.id} key={"item-" + item.id} className="flex flex-col justify-between w-[23%] bg-white p-0 mx-2 my-3 hover:scale-102 font-bold h-[470px] rounded-xl shadow group">
+    return (<Link to={link + item.id} key={"item-" + item.id} className="flex flex-col justify-between 2xl:w-[15%] md:w-[23%] bg-white p-0 mx-2 my-3 hover:scale-102 font-bold h-[470px] rounded-xl shadow group">
         <div>
             <div className="relative p-0 mx-0 w-full flex items-center justify-center">
                 <img src="/play_btn.png" alt="" className="block mx-auto absolute z-10 w-12  group-hover:scale-95 transition-all" />
@@ -25,9 +25,9 @@ export default function CourseItem({ language, link, item, continue_course, crea
             </p>
         </div>
         <div>
-            <p className="text-[#fa9600] mx-2 py-3 text-xs font-bold">Best Growth: 96%</p>
+            <p className="text-[#fa9600] mx-2 py-3 text-xs font-bold">{language && language['best_growth']}: 96%</p>
             {creator && <div className="p-2"></div>}
-            {!creator && <div className="rounded m-3 pointer py-4 px-5 bg-[#fa9600] text-l text-center text-white">{language && (continue_course ? language["continue"] : language["start"])}</div>}
+            {!creator && <div className="rounded m-3 pointer py-3 px-5 bg-[#fa9600] text-l text-center text-white">{language && (continue_course ? language["continue"] : language["start"])}</div>}
         </div>
     </Link>)
 }

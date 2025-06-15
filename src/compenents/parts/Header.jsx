@@ -154,8 +154,8 @@ export default function Header({ role }) {
 
         {showExplore && <ExploreOverlay language={language} setShow={setShowExplore} />}
 
-        <div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF] border-b border-b-gray-300">
-            <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between">
+        <div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF] border-b border-b-gray-300 relative">
+            <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between relative">
                 <div className="flex">
                     <p className='mx-2'><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-sm" /> <span><a className="hover:underline" href="mailto:evcentersinfo@gmail.com">evcentersinfo@gmail.com</a></span></p>
                     <p className='mx-2 text-sm'>

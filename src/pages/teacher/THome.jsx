@@ -77,14 +77,14 @@ export default function THome() {
       {slides && slides.map(item => <SwiperSlide key={item.id}>
         <img
           src={"/"+item.img}
-          className="w-full h-full md:h-[460] object-cover"
+          className="w-full 2xl:w-[75%] mx-auto md:w-full 2xl:h-[600px] md:h-[460px] object-cover"
           alt={item.alt}
         />
       </SwiperSlide>)}
     </Swiper>
-    <div className="block w-[95%] mx-auto">
-      <h2 className="py-5 my-5 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
-      <p className="mb-10 mt-4 text-xl font-medium">{language && language['home_quote']}</p>
+    <div className="block w-[75%] mx-auto">
+      <h2 className="my-2 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
+      <p className="mb-10 mt-3 text-xl font-medium">{language && language['home_quote']}</p>
       <div className="flex flex-wrap ">
         {data && data.map(item =>  <CourseItem language={language} link="/teachers/courses/" item={item} />)}
       </div>
