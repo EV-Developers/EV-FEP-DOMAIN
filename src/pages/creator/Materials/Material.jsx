@@ -67,10 +67,10 @@ export default function Material() {
         if (e.target.description.value != "" && e.target.name.value != "") {
             try {
                 const response = await api.put("/materials/" + catId, formData);
-    
+
                 console.log(response);
-    
-    
+
+
                 if (response.status == 200) {
                     navigate('/materials');
                 } else {

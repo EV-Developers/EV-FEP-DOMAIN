@@ -37,36 +37,36 @@ export default function Lesson({ courseId, item }) {
 
     }, []);
 
-    const getVideo = async () => {        
+    const getVideo = async () => {
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
-            fetch(aurl+item.video_path, {
-            //fetch(textVideo, {
+            fetch(aurl + item.video_path, {
+                //fetch(textVideo, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            .then(response => {            
-                try {
-                    if (response && !response.ok) {
-                        setVideoError(true)
+                .then(response => {
+                    try {
+                        if (response && !response.ok) {
+                            setVideoError(true)
+                        }
+                        return response.blob();
+                    } catch (error) {
+                        console.log(error);
+                        setVideoError(true);
+                        return null;
                     }
-                    return response.blob();
-                } catch (error) {
-                    console.log(error);
-                    setVideoError(true);
-                    return null;
-                }
-            })
-            .then(blob => {            
-                const tmpVideoURL = URL.createObjectURL(blob);  
-                setVideoUrl(tmpVideoURL);          
-            })
-            .catch(error => {
-                console.error('Error loading video:', error);
-            });
+                })
+                .then(blob => {
+                    const tmpVideoURL = URL.createObjectURL(blob);
+                    setVideoUrl(tmpVideoURL);
+                })
+                .catch(error => {
+                    console.error('Error loading video:', error);
+                });
         } catch (error) {
             console.log(error);
         }
@@ -74,7 +74,7 @@ export default function Lesson({ courseId, item }) {
 
     const handleDeleteLesson = async () => {
         try {
-            const response = await api.delete('/lessons/'+item.id);
+            const response = await api.delete('/lessons/' + item.id);
             console.log(response);
             if (response.status == 200) {
                 window.location.reload()
@@ -86,7 +86,7 @@ export default function Lesson({ courseId, item }) {
         }
     }
 
-    return (<div id={"lesson-"+item.id} className="bg-white px-3 py-5 m-4 shadow-sm rounded-xl cursor-grab transition-all">
+    return (<div id={"lesson-" + item.id} className="bg-white px-3 py-5 m-4 shadow-sm rounded-xl cursor-grab transition-all">
         {showModal && <ConfrimModal message={language && language['confirm']} action={handleDeleteLesson} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
         <button className="flex justify-between transition-all cursor-pointer w-full pb-3" onClick={() => setShow(!show)}>
             <div className="text-l font-bold flex">
@@ -101,7 +101,7 @@ export default function Lesson({ courseId, item }) {
             <div className="flex">
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>
-                <Link to={"/lessons/quizzes/"+courseId+"/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["lesson_quizzes"]}</Link>
+                <Link to={"/lessons/quizzes/" + courseId + "/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["lesson_quizzes"]}</Link>
             </div>
         </div>}
     </div>)

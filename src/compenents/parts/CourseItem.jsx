@@ -17,7 +17,7 @@ export default function CourseItem({ language, link, item, continue_course, crea
             </div>
             <p className="text-xs font-light my-4 mx-2 text-color">
                 <span className="">
-                    <FontAwesomeIcon icon={faUser} className="text-xs font-light" /> 122.6 
+                    <FontAwesomeIcon icon={faUser} className="text-xs font-light" /> 122.6
                 </span>
                 <span className="mx-4">
                     <FontAwesomeIcon icon={faThumbsUp} className="text-xs font-light" /> 90%

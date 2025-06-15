@@ -8,10 +8,10 @@ import Assesment from '../Assesment';
 
 export default function Lessons({ lessons, setLessons, assesments, courseId, handleSort }) {
     const [language, setLanguage] = React.useState(null);
-    
+
     React.useEffect(() => {
         console.log(assesments);
-        
+
         const lang = window.localStorage.getItem("language");
 
         if (lang && lang != '' && lang != null) {

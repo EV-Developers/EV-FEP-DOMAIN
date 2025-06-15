@@ -76,7 +76,7 @@ export default function THome() {
     >
       {slides && slides.map(item => <SwiperSlide key={item.id}>
         <img
-          src={"/"+item.img}
+          src={"/" + item.img}
           className="w-full 2xl:w-[75%] mx-auto md:w-full 2xl:h-[600px] md:h-[460px] object-cover"
           alt={item.alt}
         />
@@ -86,7 +86,7 @@ export default function THome() {
       <h2 className="my-2 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
       <p className="mb-10 mt-3 text-xl font-medium">{language && language['home_quote']}</p>
       <div className="flex flex-wrap ">
-        {data && data.map(item =>  <CourseItem language={language} link="/teachers/courses/" item={item} />)}
+        {data && data.map(item => <CourseItem language={language} link="/teachers/courses/" item={item} />)}
       </div>
 
       {!data && loading && <div className="flex animate-pulse">
@@ -107,7 +107,7 @@ export default function THome() {
         </div>
       </div>}
     </div>
-    
+
     <Link to="/teachers/courses" className="block mx-auto p-3 bg-[#fa9600] hover:bg-[#ffe696] w-[30%] text-center rounded-2xl my-7 transition-all">{language && language['see_more']}</Link>
 
   </ThemeContainer>)

@@ -183,7 +183,7 @@ export default function Course() {
                         <div className="relative group hover:border-none">
                             <div className="inline-block text-xs w-7 h-7 text-center bg-amber-500 p-2 rounded-full">{item.level}</div>
                             <p className="inline-block py-4 mx-3">{item.title}</p>
-                            <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span>
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
                         </div>
                         {/* <FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faArrowLeft : faArrowRight} className="text-amber-500 p-4" /> */}
                     </a>)}

@@ -41,7 +41,7 @@ export default function AddAssesement() {
         setMsg(null);
         let formData = null;
 
-        if(assesementType == 'questions'){
+        if (assesementType == 'questions') {
             formData = JSON.stringify({
                 "title": "Assignment",
                 "course_id": courseId,
@@ -56,7 +56,7 @@ export default function AddAssesement() {
         }
 
         console.log(formData);
-        
+
 
         //return false;
 
