@@ -34,9 +34,7 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
         getVideo();
     }, []);
 
-    const getVideo = async () => {
-        console.log(item.video_path);
-        
+    const getVideo = async () => {        
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
@@ -53,7 +51,7 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
                     }
                     return response.blob();
                 } catch (error) {
-                    console.log(error);
+
                     return null;
                 }
             })
@@ -62,10 +60,10 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
                 setVideoUrl(tmpVideoURL);          
             })
             .catch(error => {
-                console.error('Error loading video:', error);
+                //console.error('Error loading video:', error);
             });
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 

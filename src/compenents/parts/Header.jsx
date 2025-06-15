@@ -107,7 +107,7 @@ export default function Header({ role }) {
                 }
             });
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
 
         //return listen.removeEventListener()
@@ -121,7 +121,7 @@ export default function Header({ role }) {
                 navigate('/login');
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 

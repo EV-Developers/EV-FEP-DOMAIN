@@ -38,21 +38,18 @@ export default function Explore() {
         try {
             const response = await api.get('/course-categories');
             if (response.status == 200) {
-                console.log(response.data);
-
                 setData(response.data);
                 setShadowData(response.data);
                 loadCoursesData()
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
     const loadCoursesData = async () => {
         try {
             const tmpData = await api.get('/courses');
-            console.log(tmpData);
 
             if (tmpData.status == 200) {
                 setLoading(false);
@@ -61,12 +58,11 @@ export default function Explore() {
                 setLoading(false);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
     const handleCats = (cat_id) => {
-        console.log(cat_id);
         setCategory(cat_id);
     }
 

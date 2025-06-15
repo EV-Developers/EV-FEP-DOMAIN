@@ -40,14 +40,14 @@ export default function Assesment({ item }) {
     const handleDelete = async (item_id) => {
         try {
             const response = await api.delete('/assignments/' + item_id);
-            console.log(response);
+
             if (response.status == 200) {
                 navigate("/courses/" + courseId)
             } else {
-                console.log('error');
+                //console.log('error');
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
         
     }

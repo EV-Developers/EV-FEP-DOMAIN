@@ -55,7 +55,6 @@ export default function EditLesson() {
                     }
                     return response.blob();
                 } catch (error) {
-                    console.log(error);
                     return null;
                 }
             })
@@ -64,10 +63,10 @@ export default function EditLesson() {
                 setVidUrl(tmpVideoURL);
             })
             .catch(error => {
-                console.error('Error loading video:', error);
+                //console.error('Error loading video:', error);
             });
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -82,7 +81,7 @@ export default function EditLesson() {
             setData(response.data);
             getVideo(response.data.video_path);
         } else {
-            console.log('error');
+            //console.log('error');
         }
     }
 
@@ -114,7 +113,7 @@ export default function EditLesson() {
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         } else {
             setLoading(false);

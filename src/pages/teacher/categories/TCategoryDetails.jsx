@@ -34,7 +34,6 @@ export default function TCategoryDetails() {
 
     const loadData = async () => {
         const tmpData = await api.get('/courses?sort_by=level_id&category_id='+catId);
-        console.log(tmpData);
 
         if (tmpData.status == 200) {
             setLoading(false);

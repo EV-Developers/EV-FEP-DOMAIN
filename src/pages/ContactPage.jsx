@@ -27,7 +27,6 @@ export default function ContactPage() {
             role = '';
         }
 
-        console.log(role);
         setUserRole(role);
         
         const lang = window.localStorage.getItem("language");

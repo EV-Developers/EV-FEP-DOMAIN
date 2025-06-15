@@ -35,13 +35,11 @@ export default function Categories() {
     const loadData = async () => {
         try {
             const response = await api.get('/course-categories');
-            if (response.status == 200) {
-                console.log(response.data);
-    
+            if (response.status == 200) {    
                 setData(response.data);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 

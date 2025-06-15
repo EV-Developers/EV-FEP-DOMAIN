@@ -27,7 +27,6 @@ export default function PagesContent() {
             role = '';
         }
 
-        console.log(role);
         setUserRole(role);
 
         if (lang && lang != '' && lang != null) {

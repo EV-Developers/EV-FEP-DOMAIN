@@ -48,7 +48,6 @@ export default function Search() {
         setData([]);
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
       setData([]);
     }

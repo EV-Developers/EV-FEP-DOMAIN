@@ -56,7 +56,7 @@ export default function TCourse() {
                 setResources(tmpData.data.data.resources)
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
 
     }

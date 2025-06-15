@@ -55,7 +55,6 @@ export default function Lesson({ courseId, item }) {
                         }
                         return response.blob();
                     } catch (error) {
-                        console.log(error);
                         setVideoError(true);
                         return null;
                     }
@@ -75,14 +74,14 @@ export default function Lesson({ courseId, item }) {
     const handleDeleteLesson = async () => {
         try {
             const response = await api.delete('/lessons/' + item.id);
-            console.log(response);
+
             if (response.status == 200) {
                 window.location.reload()
             } else {
-                console.log('error');
+                //console.log('error');
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 

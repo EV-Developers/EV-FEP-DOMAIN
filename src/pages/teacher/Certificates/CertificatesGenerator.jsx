@@ -86,7 +86,6 @@ export default function CertificatesGenerator() {
 
       reader.readAsText(e.target.csv.files[0]);
     } catch (error) {
-      console.log(error);
       setLoading(false);
       setMsg(language['error_msg']);
     }
@@ -102,7 +101,6 @@ export default function CertificatesGenerator() {
     try {
       handleMakePdf(student_name, 'download');
     } catch (error) {
-      console.log(error);
       setMsg(language['error_msg']);
     }
   }
@@ -130,7 +128,6 @@ export default function CertificatesGenerator() {
           setLoadingDownloadAll(false)
         })
         .catch(err => {
-          console.log(err);
           setLoadingDownloadAll(false);
         });
     } else {

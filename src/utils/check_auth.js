@@ -21,11 +21,7 @@ export const check_auth = (role) => {
         break;
     }
 
-    console.log(tmpRole, role);
-
-    if(tmpRole != '' && tmpRole != role){
-        console.log('not authurized..');
-        
+    if(tmpRole != '' && tmpRole != role){        
         window.location.href = '/';
     }
 }

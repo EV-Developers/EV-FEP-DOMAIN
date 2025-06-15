@@ -68,7 +68,6 @@ export default function TCourseDetails({ categories, handleSteps, title, setTitl
 
     const loadCoursesData = async () => {
         const tmpData = await api.get('/courses');
-        console.log(tmpData);
 
         if (tmpData.status == 200) {
             setCoursesData(tmpData.data.data);

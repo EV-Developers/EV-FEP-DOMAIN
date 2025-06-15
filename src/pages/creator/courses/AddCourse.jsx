@@ -75,8 +75,6 @@ export default function AddCourse() {
 
                 const response = await api.post("/courses", formData);
 
-                console.log(response);
-
                 if (response.status == 200 || response.status == 201) {
                     setLoading(false)
                     navigate('/courses');
@@ -86,7 +84,7 @@ export default function AddCourse() {
                 }
             } catch (error) {
                 setLoading(false);
-                console.log(error);
+
                 setMsg(language["error_msg"]);
             }
         } else {
@@ -126,18 +124,14 @@ export default function AddCourse() {
                 }
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
     
-    React.useEffect(() => {
-        console.log(data);
-        
+    React.useEffect(() => {        
         if(title != "" && data){
-            console.log(title);
             let tmpArr = [];
             tmpArr = [...data, {id: 'new Item', title: title}];
-            console.log(tmpArr);
             
             setCoursesData(tmpArr);
         } else {
@@ -158,18 +152,16 @@ export default function AddCourse() {
             const tmpData = await api.get('/courses?category_id='+categoryId);
             
             if (tmpData.status == 200) {
-                console.log(tmpData.data.data);
                 setData(tmpData.data.data);
                 setCoursesData(tmpData.data.data);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
     React.useEffect(() => {
         if(userSort){
-            console.log(coursesData);
             setUserSort(false);
             handleSort();
         }
@@ -188,10 +180,10 @@ export default function AddCourse() {
                         });
                         
                         if (tmpData.status == 200) {
-                            console.log(tmpData);
+                            //console.log(tmpData);
                         }
                     } catch (error) {
-                        console.log(error);
+                        //console.log(error);
                     }
                 }
             })

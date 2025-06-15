@@ -13,8 +13,6 @@ export default function UserProfile({ open, setOpen, language }) {
         const tmpName = window.localStorage.getItem("VPHl3hMFGI8w9kq");
         const tmpEmail = window.localStorage.getItem("L5HiP7ZpOyuVnO4");
 
-        console.log(tmpName, tmpEmail);
-
         setName(tmpName);
         setEmail(tmpEmail);
     }, []);
@@ -29,7 +27,6 @@ export default function UserProfile({ open, setOpen, language }) {
             const tmpData = await api.get(`/${userRole}/profile/`);
 
             if (tmpData.status == 200) {
-                console.log(tmpData.data);
                 setName(tmpData.data.name);
                 setBio(tmpData.data.bio);
                 setEmail(tmpData.data.email);
@@ -37,7 +34,7 @@ export default function UserProfile({ open, setOpen, language }) {
             }
 
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 

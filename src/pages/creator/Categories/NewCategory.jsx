@@ -44,8 +44,6 @@ export default function NewCategory() {
             try {
                 const response = await api.post("/course-categories", formData);
     
-                console.log(response);
-    
                 if (response.status == 200) {
                     setLoading(false);
                     navigate('/categories');
@@ -54,7 +52,7 @@ export default function NewCategory() {
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         } else {
             setLoading(false);

@@ -37,7 +37,7 @@ export default function AddResourses() {
 
   const handleSetFile = (e) => {
     const fileUrl = window.URL.createObjectURL(e.target.files[0]);
-    console.log(e.target.files[0]);
+
     if(e.target.files[0]){
       setResourceName(e.target.files[0].name)
     }
@@ -50,6 +50,7 @@ export default function AddResourses() {
     form.append('course_id', courseId);
 
     if (ev.target.title != "" && ev.target.description != "") {
+      setLoading(true);
       try {
         api.interceptors.request.use((config) => {
           config.headers['accept'] = 'application/json';
@@ -61,15 +62,18 @@ export default function AddResourses() {
         const response = await api.post('/resources', form);
 
         if(response.status == 200){
+          setLoading(false);
           navigate('/courses/'+courseId);
         } else {
+          setLoading(false);
           setMsg(language['error_msg']);
         }
       } catch (error) {
-        console.log(error);
+        setLoading(false);
         setMsg(language['error_msg']);
       }
     } else {
+      setLoading(false);
       setMsg(language['error_validation_msg']);
     }
   }
@@ -105,7 +109,7 @@ export default function AddResourses() {
             <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
             {resoureName && <p className="p-4">{resoureName}</p>}
           </div>
-          <input type="file" accept="image/jpg,image/png,image/jepg,image/webp,.pdf" id="file" name="file" className="hidden" onChange={handleSetFile} />
+          <input type="file" id="file" name="file" className="hidden" onChange={handleSetFile} />
         </label>
 
       <div className="flex flex-row justify-between">

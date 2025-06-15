@@ -86,8 +86,6 @@ export default function EditCourse() {
 
                 const response = await api.put("/courses/" + courseId, formData);
 
-                console.log(response);
-
                 if (response.status == 200) {
                     setLoading(false);
                     navigate('/courses/' + courseId);
@@ -97,7 +95,7 @@ export default function EditCourse() {
                 }
             } catch (error) {
                 setLoading(false);
-                console.log(error);
+
                 setMsg(language["error_msg"]);
             }
         } else {
@@ -133,7 +131,7 @@ export default function EditCourse() {
                 setCategories(tmpCategoriesData.data);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -158,7 +156,7 @@ export default function EditCourse() {
                 }
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -175,7 +173,7 @@ export default function EditCourse() {
                 setCoursesData(tmpData.data.data);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -221,7 +219,7 @@ export default function EditCourse() {
                             //console.log(tmpData);
                         }
                     } catch (error) {
-                        console.log(error);
+                        //console.log(error);
                     }
                 })
             }

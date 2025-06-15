@@ -206,7 +206,6 @@ export default function Exam() {
 
             let obj = {}
             form.forEach((item, key) => {
-                console.log(item, key);
                 obj[key] = item;
             });
 
@@ -223,22 +222,18 @@ export default function Exam() {
         loadQuestions();
     }, []);
 
-    const loadQuestions = async () => {
-        console.log(lessonId);
-        
+    const loadQuestions = async () => {        
         try {
             const response = await api.get('/quizzes?lesson_id=' + lessonId);
             if (response.status == 200) {
                 if (response.data) {
-                    console.log(response.data);
-
                     setQuizzList(response.data)
                 }
             } else {
-                console.log('error');
+                //console.log('error');
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 

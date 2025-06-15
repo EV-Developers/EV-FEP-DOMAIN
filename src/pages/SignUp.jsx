@@ -63,7 +63,6 @@ export default function SignUp() {
         } else {
             try {
                 const response = await api.post("/register", formData);
-                console.log(response);
 
                 if (response.status == 200 || response.status == 201) {
                     navigate('/login');
@@ -72,7 +71,6 @@ export default function SignUp() {
                     setLoading(false);
                 }
             } catch (error) {
-                console.log("test", error.response.data);
                 setLoading(false);
                 if (error.response && error.response.data) {
                     setMsg(error.response.data.message);

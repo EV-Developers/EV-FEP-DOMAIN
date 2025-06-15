@@ -41,7 +41,7 @@ export default function Games() {
 
     const handleSelectAll = (e) => {
         const items = document.getElementsByClassName('items');
-        console.log(e.target.checked);
+
         for (let index = 0; index < items.length; index++) {
             const element = items[index];
 

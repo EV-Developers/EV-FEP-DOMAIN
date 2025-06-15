@@ -81,7 +81,7 @@ export default function Course() {
                 setAssestmentsData(tmpAssestmentsData.data);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -91,10 +91,10 @@ export default function Course() {
             if (response.status == 200) {
                 navigate("/courses")
             } else {
-                console.log('error');
+                //console.log('error');
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -126,7 +126,7 @@ export default function Course() {
                             //console.log(tmpData);
                         }
                     } catch (error) {
-                        console.log(error);
+                        //console.log(error);
                     }
                 })
             }
@@ -163,14 +163,14 @@ export default function Course() {
             </div>
             <div className="flex mt-4 border-b-1 border-b-[#cccccc] py-1 p-4">
                 <button className={`mx-2 cursor-pointer ${tabs == 'content' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('content')}>{language && language["content"]}
-                    <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span>
+                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
                 </button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'overview' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('overview')}>{language && language["overview"]}
-                    <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
+                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span></button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'comments' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('comments')}>{language && language["comments"]}
-                    <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
+                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span></button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'resources' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('resources')}>{language && language["resources"]}
-                    <span className="absolute bottom-0 left-0 h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full"></span></button>
+                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span></button>
             </div>
 
             {tabs == 'content' && <div className="flex">

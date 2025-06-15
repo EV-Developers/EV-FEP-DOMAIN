@@ -37,7 +37,7 @@ export default function TCourseOverview({ handleSteps, description, setDescripti
         ref.current.style.backgroundSize = 'contain';
         ref.current.style.background = `url(${imgUrl}) no-repeat`;
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
 
     }

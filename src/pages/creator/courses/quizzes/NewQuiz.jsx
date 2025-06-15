@@ -129,32 +129,43 @@ export default function NewQuiz() {
         setUpdated(Date.now());
     }
 
-    const handleAddQuiz = async () => {
+    const handleAddQuiz = async () => {        
         setLoading(true);
         let ok = false;
         
-
         if (questions.length != 0) {
             ok = true;
         }
 
         if (ok) {
-            console.log(questions);
+            const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+
             const payload = {
                 "lesson_id": lessonId,
                 "title": "Quiz",
                 "questions": questions
-            }
+            };
             
             try {
-                const response = await api.post('/quizzes', payload);
-                
-                if (response.status == 200) {
+                fetch('https://fep.misk-donate.com/api/quizzes', {
+                    method: "POST",
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(j => j.json())
+                .then(res => {
                     setLoading(false);
                     navigate('/lessons/quizzes/' + courseId + '/' + lessonId);
-                }
+                })
+                .catch(err => {
+                    setLoading(false);
+                });
+
+                return false;
             } catch (error) {
-                console.log(error);
                 setLoading(false);
                 setMsg(language['error-msg']);
             }
@@ -229,8 +240,9 @@ export default function NewQuiz() {
 
             <hr className="my-5 text-gray-200 mx-5" />
 
-            <div className="flex">
-                <button onClick={handleAddQuiz} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10 flex">{loading && <img className="animate-spin w-4 h-4 m-1 mx-24" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
+            <div className="flex flex-row justify-between">
+                <div></div>
+                <button onClick={handleAddQuiz} className="flex rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1 mx-2" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
             </div>
         </div>
     </ThemeContainer>)

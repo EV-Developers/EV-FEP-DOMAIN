@@ -39,14 +39,14 @@ export default function Quizzes() {
     if(quizzId){
       try {
         const response = await api.delete('/quizzes/' + quizzId.quiz_id + '/question/' + quizzId.id);
-        console.log(response);
+
         if (response.status == 200) {
           window.location.reload();
         } else {
-          console.log('error');
+          //console.log('error');
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     }
   }
@@ -55,22 +55,18 @@ export default function Quizzes() {
     loadLessonQuzzies();
   }, []);
 
-  const loadLessonQuzzies = async () => {
-    console.log(lessonId);
-    
+  const loadLessonQuzzies = async () => {    
     try {
       const response = await api.get('/quizzes?lesson_id=' + lessonId);
       if (response.status == 200) {
-        if(response.data){
-          console.log(response.data);
-          
+        if(response.data){          
           setQuizzList(response.data)
         }
       } else {
-        console.log('error');
+        //console.log('error');
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
 
   }

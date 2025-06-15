@@ -56,9 +56,6 @@ export default function AddAssesement() {
             formData.append("createdBy", "2");
         }
 
-        console.log(formData);
-
-
         //return false;
 
         if (e.target.title.value != "" && e.target.description.value != "") {
@@ -71,7 +68,7 @@ export default function AddAssesement() {
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         } else {
             setMsg(language["error_validation_msg"])

@@ -13,6 +13,7 @@ export default function AddAssesement() {
     const [questionText, setQuestionText] = React.useState("");
     const [questionsList, setQuestionsList] = React.useState([]);
     const [assesementType, setAssesementType] = React.useState("file");
+    const [loading, setLoading] = React.useState(false);
     const [msg, setMsg] = React.useState(null);
     const { courseId } = useParams();
     const assesement_types = ["file", "url", "meeting", "questions"];
@@ -39,6 +40,7 @@ export default function AddAssesement() {
     const handleAddAssesement = async (e) => {
         e.preventDefault();
         setMsg(null);
+        setLoading(true);
         let formData = null;
 
         if (assesementType == 'questions') {
@@ -55,8 +57,6 @@ export default function AddAssesement() {
             formData.append("createdBy", "2");
         }
 
-        console.log(formData);
-
 
         //return false;
 
@@ -65,14 +65,17 @@ export default function AddAssesement() {
                 const response = await api.post("/assignments", formData);
 
                 if (response.status == 200) {
+                    setLoading(false);
                     navigate('/courses/' + courseId);
                 } else {
+                    setLoading(false);
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
-                console.log(error);
+                setLoading(false);
             }
         } else {
+            setLoading(false);
             setMsg(language["error_validation_msg"])
         }
     }
@@ -158,8 +161,9 @@ export default function AddAssesement() {
                     {msg}
                 </div>}
 
-                <hr className="text-gray-200 my-5" />
-                <button type="submit" className="block rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{language && language["create"]}</button>
+                <div className="flex flex-row justify-between">
+                    <button type="submit" className="flex rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && language["create"]}</button>
+                </div>
             </form>
         </ThemeContainer>
     )

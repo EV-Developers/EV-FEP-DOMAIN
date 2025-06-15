@@ -59,7 +59,6 @@ export default function AddLesson() {
                 });
 
                 const response = await api.post('/lessons', formData);
-                console.log(response);
 
                 if (response.status == 200) {
                     setLoading(false);
@@ -71,7 +70,6 @@ export default function AddLesson() {
             } catch (error) {
                 setLoading(false);
                 setMsg(language["error_msg"]);
-                console.log(error);
             }
         } else {
             setLoading(false);

@@ -43,14 +43,14 @@ export default function Material() {
     const loadData = async () => {
         try {
             const response = await api.get('/materials/' + catId);
-            console.log(response);
+
             if (response.status == 200) {
                 setData(response.data);
             } else {
-                console.log('error');
+                //console.log('error');
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -68,16 +68,13 @@ export default function Material() {
             try {
                 const response = await api.put("/materials/" + catId, formData);
 
-                console.log(response);
-
-
                 if (response.status == 200) {
                     navigate('/materials');
                 } else {
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         } else {
             setMsg(language["error_validation_msg"])
@@ -89,16 +86,14 @@ export default function Material() {
         setLoading(true);
         try {
             const response = await api.delete('/materials/' + catId);
-            console.log(response);
+
             if (response.status == 200) {
                 setLoading(false);
                 navigate('/materials');
             } else {
-                console.log('error');
                 setLoading(false);
             }
         } catch (error) {
-            console.log(error);
             setLoading(false);
         }
     }

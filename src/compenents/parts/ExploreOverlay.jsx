@@ -16,7 +16,7 @@ export default function ExploreOverlay({ language, setShow }) {
 
     const loadCategoriesData = async () => {
         const response = await api.get('/course-categories');
-        console.log(response);
+
         if (response.status == 200) {
             setLoadingCats(false);
             let tmpArr = response.data;
@@ -27,7 +27,6 @@ export default function ExploreOverlay({ language, setShow }) {
             }
         } else {
             setLoadingCats(false);
-            console.log('error');
         }
     }
 
@@ -41,7 +40,6 @@ export default function ExploreOverlay({ language, setShow }) {
 
         try {
             const response = await api.get('/courses?sort_by=level_id&category_id='+categoryId);
-            console.log(response);
 
             if (response.status == 200) {
                 setLoading(false);
@@ -51,7 +49,6 @@ export default function ExploreOverlay({ language, setShow }) {
             }
         } catch (error) {
             setLoading(false);
-            console.log(error);
         }
     }
 

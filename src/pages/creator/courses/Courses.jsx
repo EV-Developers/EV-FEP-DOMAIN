@@ -53,7 +53,7 @@ export default function Courses() {
     const loadCategoriesData = async () => {
         try {
             const response = await api.get('/course-categories');
-            console.log(response);
+
             if (response.status == 200) {
                 setLoadingCats(false);
                 let tmpArr = response.data;
@@ -64,11 +64,9 @@ export default function Courses() {
                 }
             } else {
                 setLoadingCats(false);
-                console.log('error');
             }
         } catch (error) {
             setLoadingCats(false);
-            console.log(error);
         }
     }
 
@@ -82,7 +80,6 @@ export default function Courses() {
 
         try {
             const response = await api.get('/courses?sort_by=level_id&category_id=' + category);
-            console.log(response);
 
             if (response.status == 200) {
                 if(response && response.data && response.data.data){
@@ -96,7 +93,6 @@ export default function Courses() {
             }
         } catch (error) {
             setLoading(false);
-            console.log(error);
         }
     }
 

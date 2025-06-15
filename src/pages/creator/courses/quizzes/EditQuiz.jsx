@@ -48,9 +48,7 @@ export default function EditQuiz() {
         }
     }, [quizzId]);
 
-    async function getData() {
-        console.log(questionId);
-        
+    async function getData() {        
         try {
             const tmpData = await api.get('/quizzes/' + quizzId);
             //const answers = await api.get('/answers/' + quizzId);
@@ -58,13 +56,12 @@ export default function EditQuiz() {
             if (tmpData.status == 200) {
                 tmpData.data.questions.map(item => {
                     if(item.id == questionId){
-                        console.log(quizzId, item);
                         setData(item);
                     }
                 })
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -183,7 +180,9 @@ export default function EditQuiz() {
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 
-            <button onClick={handleUpdateQuiz} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add_to_quizzes"]}</span></button>
+                <div className="flex flex-row justify-between">
+                    <button onClick={handleUpdateQuiz} className="flex rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && language["create"]}</button>
+                </div>
         </div>
     </ThemeContainer>)
 }

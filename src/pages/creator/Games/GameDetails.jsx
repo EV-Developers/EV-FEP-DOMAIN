@@ -43,12 +43,11 @@ export default function GameDetails() {
 
     const loadData = async () => {
         const response = await api.get('/games/' + catId);
-        console.log(response);
+
         if (response.status == 200) {
             setData(response.data);
         } else {
-            console.log('error');
-
+            //console.log('error');
         }
     }
 
@@ -70,7 +69,7 @@ export default function GameDetails() {
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         } else {
             setMsg(language["error_validation_msg"])
@@ -84,14 +83,14 @@ export default function GameDetails() {
         if (r) {
             try {
                 const response = await api.delete('/games/' + catId);
-                console.log(response);
+
                 if (response.status == 200) {
                     navigate('/games')
                 } else {
-                    console.log('error');
+                    //console.log('error');
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         }
     }

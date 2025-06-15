@@ -36,7 +36,6 @@ export default function TCourses() {
 
     const loadData = async () => {
         const tmpData = await api.get('/courses');
-        console.log(tmpData);
 
         if (tmpData.status == 200) {
             setLoading(false);
@@ -53,7 +52,7 @@ export default function TCourses() {
 
     const loadCategoriesData = async () => {
         const response = await api.get('/course-categories');
-        console.log(response);
+
         if (response.status == 200) {
             setLoadingCats(false);
             let tmpArr = response.data;
@@ -64,7 +63,6 @@ export default function TCourses() {
             }
         } else {
             setLoadingCats(false);
-            console.log('error');
         }
     }
 
@@ -78,7 +76,6 @@ export default function TCourses() {
 
         try {
             const response = await api.get('/courses?sort_by=level_id&category_id='+categoryId);
-            console.log(response);
 
             if (response.status == 200) {
                 setLoading(false);
@@ -88,7 +85,6 @@ export default function TCourses() {
             }
         } catch (error) {
             setLoading(false);
-            console.log(error);
         }
     }
 
