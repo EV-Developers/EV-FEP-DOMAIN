@@ -224,7 +224,7 @@ export default function NewQuiz() {
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 
-            <button onClick={handleAddQuestion} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add_to_quizzes"]}</span></button>
+            <button onClick={handleAddQuestion} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10">{language && language["add_to_quizzes"]}</button>
 
             {questions && questions.map((item, index) => <div key={"question-" + index} className="border-t border-t-gray-200 py-5">
                 <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
