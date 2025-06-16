@@ -12,7 +12,7 @@ export default function ResourcesItem({ language, item, setResourceId, setShowMo
         console.log(item.file_path);
                 
         const demo_file = "cpgadXkTcb621RwYciKX2XM1beDlHWukHFpoqkf0.docx";
-        const rurl = "https://fep.misk-donate.com/api/resources/download/"+demo_file//+item.file_path;
+        const rurl = "https://fep.misk-donate.com/api/resources/download/"+item.file_path;
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
