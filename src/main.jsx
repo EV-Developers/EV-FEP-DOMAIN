@@ -137,7 +137,7 @@ const router = createBrowserRouter([
     element: <NewQuiz />,
   },
   {
-    path: "/quizzes/:courseId/:lessonId/:quizzId",
+    path: "/quizzes/:courseId/:lessonId/:quizzId/:questionId",
     element: <EditQuiz />,
   },
   {

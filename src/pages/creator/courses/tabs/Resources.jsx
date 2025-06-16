@@ -35,7 +35,7 @@ export default function Resources({ data, resources_list, courseId }) {
     try {
         const response = await api.delete('/resources/'+resourceId);
         if (response.status == 200) {
-            navigate("/courses/"+courseId)
+          window.location.reload();
         } else {
           //console.log('error');
         }
@@ -44,15 +44,14 @@ export default function Resources({ data, resources_list, courseId }) {
     }
   }
 
-  return (
-    <div>
+  return (<div>
       <div className="flex border-b border-gray-200">
         <Link to={"/new-resource/"+courseId} className="block rounded pointer my-3 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 m-4">{language && language["upload"]}</Link>
       </div>
 
       {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
 
-      {resources_list && resources_list.map(item => <ResourcesItem key={"res-"+item.id} item={item} language={language} setResourceId={setResourceId} setShowModal={setShowModal} />)}
+      {resources_list && resources_list.map(item => <ResourcesItem key={"res-"+item.id} item={item} language={language} setResourceId={setResourceId} setShowModal={setShowModal} role="creator" />)}
     </div>
   )
 }

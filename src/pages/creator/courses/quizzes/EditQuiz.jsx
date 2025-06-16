@@ -18,7 +18,7 @@ export default function EditQuiz() {
     const [answers, setAnswers] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
-    const { quizzId, questionId } = useParams();
+    const { courseId, lessonId, quizzId, questionId } = useParams();
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -51,12 +51,16 @@ export default function EditQuiz() {
     async function getData() {        
         try {
             const tmpData = await api.get('/quizzes/' + quizzId);
-            //const answers = await api.get('/answers/' + quizzId);
+            //const answers = await api.get('/answers/' + quizzId);            
             
             if (tmpData.status == 200) {
                 tmpData.data.questions.map(item => {
-                    if(item.id == questionId){
+                    if(item.id == questionId){                        
                         setData(item);
+                        setQuestion(item.question_text);
+                        setAnswers(item.answers);
+                        setMark(item.mark);
+                        setQuizType(question_type);
                     }
                 })
             }
@@ -69,14 +73,16 @@ export default function EditQuiz() {
         if (quizType == 'Text Input') {
             setAnswers([]);
         }
+        setShow(false);
     }, [quizType])
 
     const handleAddAnswer = () => {
         if (answerText != '') {
             let tmpAnswers = answers.slice();
             tmpAnswers.push({
-                id: Date.now() * Math.random(),
-                answer: answerText
+                id: answers.length + 1,
+                answer_text: answerText,
+                is_correct: false
             });
 
             setAnswers(tmpAnswers);
@@ -85,16 +91,16 @@ export default function EditQuiz() {
     }
 
     const updateCorrectAnswer = (item_id, checked) => {
-        let tmpAnswers = [];
+        let tmpAnswers = [];        
 
         answers.map(item => {
             if (item.id === item_id) {
-                tmpAnswers.push({ ...item, correct: checked })
+                tmpAnswers.push({ ...item, is_correct: checked })
             } else {
-                if (quizType == "Single choice") {
+                if (quizType == "single_choice") {
                     tmpAnswers.push({
                         ...item,
-                        correct: false
+                        is_correct: false
                     });
                 } else {
                     tmpAnswers.push(item);
@@ -121,23 +127,37 @@ export default function EditQuiz() {
         }
 
         if(ok){
+            const tmpAnswers = [];
+            answers.map(item => tmpAnswers.push({
+                "answer_text": item.answer_text,
+                "is_correct": item.is_correct
+            }));
+
+            const formData = {
+                "question_text": question,
+                "question_type": quizType,
+                "mark": mark,
+                "answers": tmpAnswers
+            }
+
             try {
-                const response = await api.put(`/quizzes/${quizzId}/question/${questionId}`);
+                const response = await api.put(`/quizzes/${quizzId}/question/${questionId}`, formData);
         
-                if (response.config.status == 200) {
+                if (response.status == 200) {
                     setLoading(false);
                     setMsg(language['success_msg']);
+                    navigate(`/lessons/quizzes/${courseId}/${lessonId}`);
                 } else {
                     setLoading(false);
                     setMsg(language['error_validation_msg']);
                 }
-            } catch (error) {
+            } catch (error) {                
                 setMsg(language['error_msg']);
             }
         } else {
-                setLoading(false);
-                setMsg("Please enter  valid question and answer")
-            }
+            setLoading(false);
+            setMsg("Please enter  valid question and answer")
+        }
     }
 
     return (<ThemeContainer>
@@ -172,8 +192,8 @@ export default function EditQuiz() {
             {answers && answers.length != 0 && <p className="my-5 font-bold">{language && language["answers_list"]}</p>}
 
             <div className="mt-5">
-                {answers && answers.map((item, index) => <label htmlFor={"correct-answer" + item.id} key={"answer-" + item.id} className={`hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl ${item.correct && 'bg-green-200'} p-5 py-2 my-2 text-sm flex justify-between`}><span>{(index + 1)} - {item.answer}</span> <div>
-                    <span className="p-2 mx-4"><input onChange={e => updateCorrectAnswer(item.id, e.target.checked)} defaultChecked={item.correct} type={quizType == 'Single choice' ? "radio" : "checkbox"} name="correct-answer" id={"correct-answer" + item.id} className={`${language && language['dir'] == 'ltr' ? ' input-left' : 'input-right'}`} /> {language && language["correct_answer"]}</span> <button onClick={() => handleRemove(item.id)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button>
+                {answers && answers.map((item, index) => <label htmlFor={"correct-answer" + item.id} key={"answer-" + item.id} className={`hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl ${item.is_correct == true && 'bg-green-200'} p-5 py-2 my-2 text-sm flex justify-between`}><span>{(index + 1)} - {item.answer_text}</span> <div>
+                    <span className="p-2 mx-4"><input onChange={e => updateCorrectAnswer(item.id, e.target.checked)} defaultChecked={item.is_correct} type={quizType == 'single_choice' ? "radio" : "checkbox"} name="correct-answer" id={"correct-answer" + item.id} className={`${language && language['dir'] == 'ltr' ? ' input-left' : 'input-right'}`} /> {language && language["correct_answer"]}</span> <button onClick={() => handleRemove(item.id)} className='bg-red-400 rounded-full w-5 h-5 text-xs text-white'>x</button>
                 </div>
                 </label>)}
             </div>
@@ -181,7 +201,7 @@ export default function EditQuiz() {
             {msg && <div className="p-4 m-2">{msg}</div>}
 
                 <div className="flex flex-row justify-between">
-                    <button onClick={handleUpdateQuiz} className="flex rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && language["create"]}</button>
+                    <button onClick={handleUpdateQuiz} className="flex rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && language["update"]}</button>
                 </div>
         </div>
     </ThemeContainer>)

@@ -47,6 +47,7 @@ export default function NewQuiz() {
         if (quizType == 'Text Input') {
             setAnswers([]);
         }
+        setShow(false);
     }, [quizType])
 
     const handleAddAnswer = () => {
