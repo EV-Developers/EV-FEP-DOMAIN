@@ -70,11 +70,18 @@ export default function Course() {
                         setLessonData([]);
                     }
                 }
-                setAssestmentsData(tmpData.data.data.assignments);
-                setResources(tmpData.data.data.resources);
+                
+                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.assignments){
+                    setAssestmentsData(tmpData.data.data.assignments);
+                }
+
+                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.resources){
+                    setResources(tmpData.data.data.resources);
+                }
+
             }
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
     }
 

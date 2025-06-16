@@ -52,8 +52,13 @@ export default function TCourse() {
             if (tmpData && tmpData.status == 200) {
                 setData(tmpData.data.data)
                 setLessonData(tmpData.data.data.lessons);
-                setAssestmentsData(tmpData.data.data.assignments);
-                setResources(tmpData.data.data.resources)
+                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.assignments){
+                    setAssestmentsData(tmpData.data.data.assignments);
+                }
+
+                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.resources){
+                    setResources(tmpData.data.data.resources);
+                }
             }
         } catch (error) {
             //console.log(error);
