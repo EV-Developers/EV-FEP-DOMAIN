@@ -63,8 +63,6 @@ export default function AddCourse() {
         if(featuredImage && featuredImage[0]){
             formData.append("featured_image", featuredImage[0]);
         }
-
-        console.log(title, description, categoryId, level);
         
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {

@@ -198,7 +198,7 @@ export const translation = [
     categories: "المسارات",
     games: "الالعاب",
     explore: "إكتشف",
-    materials: "المواد",
+    materials: "الموارد",
     notifications: "التنبيهات",
     no_notifications: "لا توجد اي تنبيهات جديدة",
     profile: "ملف المستخدم",
