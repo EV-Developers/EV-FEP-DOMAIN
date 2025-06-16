@@ -232,9 +232,7 @@ export default function NewQuiz() {
                 {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
                 {item.answers && item.answers.map((answer, aindex) => <div key={"question" + index + "-answers-" + aindex} className={`p-3 m-2 rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer_text}</div>)}
 
-                <button onClick={() => {
-                    handleRemoveQuestion(item.id);
-                }} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["delete"]}</button>
+                <button onClick={() => handleRemoveQuestion(item.id)} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["delete"]}</button>
             </div>)}
 
             <hr className="my-5 text-gray-200 mx-5" />
