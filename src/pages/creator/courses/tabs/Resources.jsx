@@ -28,7 +28,6 @@ export default function Resources({ data, resources_list, courseId }) {
       window.localStorage.setItem("language", 'english');
       window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
-
   }, []);
 
   const handleDelete = async () => {

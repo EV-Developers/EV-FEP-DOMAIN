@@ -86,7 +86,7 @@ export default function THome() {
       <h2 className="my-2 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
       <p className="mb-10 mt-3 text-xl font-medium">{language && language['home_quote']}</p>
       <div className="flex flex-wrap ">
-        {data && data.map(item => <CourseItem language={language} link="/teachers/courses/" item={item} />)}
+        {data && data.map(item => <CourseItem key={'course-'+item.id} language={language} link="/teachers/courses/" item={item} />)}
       </div>
 
       {!data && loading && <div className="flex animate-pulse">

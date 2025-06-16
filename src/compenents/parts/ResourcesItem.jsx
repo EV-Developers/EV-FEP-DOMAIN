@@ -34,10 +34,10 @@ export default function ResourcesItem({ language, item, setResourceId, setShowMo
                     setResourceUrl(tmpUrl);
                 })
                 .catch(error => {
-                    console.error('Error loading file:', error);
+                    //console.error('Error loading file:', error);
                 });
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
