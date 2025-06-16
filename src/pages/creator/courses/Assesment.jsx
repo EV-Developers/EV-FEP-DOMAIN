@@ -51,44 +51,44 @@ export default function Assesment({ item }) {
         } catch (error) {
             console.log(error);
         }
-        
+
     }
 
     React.useEffect(() => {
-        if(item && item.video && item.video != ''){
+        if (item && item.video && item.video != '') {
             getVideo();
         }
     }, []);
 
-    const getVideo = async () => {        
+    const getVideo = async () => {
         const aurl = "https://fep.misk-donate.com/api/assignments/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
-            fetch(aurl+item.video, {
+            fetch(aurl + item.video, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            .then(response => {            
-                try {
-                    if (response && !response.ok) {
+                .then(response => {
+                    try {
+                        if (response && !response.ok) {
+                            setVideoError(true);
+                        }
+                        return response.blob();
+                    } catch (error) {
                         setVideoError(true);
+                        return null;
                     }
-                    return response.blob();
-                } catch (error) {
+                })
+                .then(blob => {
+                    const tmpVideoURL = URL.createObjectURL(blob);
+                    setVideoUrl(tmpVideoURL);
+                })
+                .catch(error => {
+                    //console.error('Error loading video:', error);
                     setVideoError(true);
-                    return null;
-                }
-            })
-            .then(blob => {            
-                const tmpVideoURL = URL.createObjectURL(blob);  
-                setVideoUrl(tmpVideoURL);          
-            })
-            .catch(error => {
-                //console.error('Error loading video:', error);
-                setVideoError(true);
-            });
+                });
         } catch (error) {
             //console.log(error);
             setVideoError(true);
@@ -106,7 +106,7 @@ export default function Assesment({ item }) {
                 {show && <div className="transition-all">
                     <p className="text-sm text-color">{item.description}</p>
                     {item.video && item.video != '' && <div className="p-2">
-                       {videoUrl && !videoError && <VideoPlayer videoData={videoData} tmp_vid_url={videoUrl} setVideoData={setVideoData}/>} 
+                        {videoUrl && !videoError && <VideoPlayer videoData={videoData} tmp_vid_url={videoUrl} setVideoData={setVideoData} />}
                     </div>}
                     <p className="p-2">{language && language["assesment_type"]}: {language && language[item.type]}</p>
                     <div className="flex">

@@ -222,7 +222,7 @@ export default function Exam() {
         loadQuestions();
     }, []);
 
-    const loadQuestions = async () => {        
+    const loadQuestions = async () => {
         try {
             const response = await api.get('/quizzes?lesson_id=' + lessonId);
             if (response.status == 200) {
@@ -253,7 +253,7 @@ export default function Exam() {
             {quizzList && quizzList.map(quiz => quiz.questions.map(item => <div key={"Q-" + item.id} className={` py-5`}>
                 <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
                 {item.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + item.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + item.id}></textarea>}
-                {item.answers && item.answers.map(answer => <label className={`flex p-3 m-2 rounded-2xl ${inprogress == false ? (item.question_type !== "Text Input" && answer.userAnswer == answer.is_correct) ? 'bg-green-400' : (answer.userAnswer !== undefined && answer.userAnswer != answer.is_correct) ? 'bg-red-400' : '' : ''} ${(!inprogress && answer.userAnswer === undefined && answer.is_correct == true) ? 'bg-green-100' : ''}`} key={"answer-" + answer.id}><input type={item.question_type == "multiple_choice" ? "checkbox" : "radio"} name={"question-" + item.id} value={answer.answer_text} id={"answer-" + answer.id} disabled={!inprogress} className="mx-4 py-5 after:top-3 "  /> <span className="block py-3">{answer.answer_text}</span> </label>)}
+                {item.answers && item.answers.map(answer => <label className={`flex p-3 m-2 rounded-2xl ${inprogress == false ? (item.question_type !== "Text Input" && answer.userAnswer == answer.is_correct) ? 'bg-green-400' : (answer.userAnswer !== undefined && answer.userAnswer != answer.is_correct) ? 'bg-red-400' : '' : ''} ${(!inprogress && answer.userAnswer === undefined && answer.is_correct == true) ? 'bg-green-100' : ''}`} key={"answer-" + answer.id}><input type={item.question_type == "multiple_choice" ? "checkbox" : "radio"} name={"question-" + item.id} value={answer.answer_text} id={"answer-" + answer.id} disabled={!inprogress} className="mx-4 py-5 after:top-3 " /> <span className="block py-3">{answer.answer_text}</span> </label>)}
             </div>))}
 
             {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">

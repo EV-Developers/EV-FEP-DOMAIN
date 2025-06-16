@@ -54,7 +54,7 @@ export default function AddLesson() {
                 api.interceptors.request.use((config) => {
                     config.headers['accept'] = 'application/json';
                     config.headers['Content-Type'] = 'multipart/form-data';
-                    
+
                     return config;
                 });
 
@@ -92,7 +92,7 @@ export default function AddLesson() {
 
             <label htmlFor="sectionTitle">
                 <p id="sectionTitle" className="my-3 font-bold">{language && language["title"]}</p>
-                <input type="text" id="sectionTitle" name="title" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800"  />
+                <input type="text" id="sectionTitle" name="title" placeholder={language && language["write_here"]} className="py-2 px-14 rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
             </label>
 
             <p className="my-3 font-bold">{language && language["content"]}</p>

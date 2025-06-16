@@ -65,7 +65,7 @@ export default function AddAssesement() {
         if (e.target.title.value != "" && e.target.description.value != "") {
             try {
                 const response = await api.post("/assignments", formData);
-                
+
                 if (response.status == 200) {
                     setLoading(false);
 
@@ -76,7 +76,7 @@ export default function AddAssesement() {
                 }
             } catch (error) {
                 console.log(error);
-                
+
                 setMsg(language['error_msg']);
                 setLoading(false);
             }

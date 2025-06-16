@@ -143,10 +143,10 @@ export default function CertificatesGenerator() {
     setLoadingDownloadAll(true);
     if (csv) {
       csv.map((item, index) => {
-        if(item != ""){
+        if (item != "") {
           handleMakePdf(item, 'compress');
           if (index == (csv.length - 1)) {
-  
+
             handleZipfile(0, filesList, zip);
           }
         }
@@ -161,7 +161,7 @@ export default function CertificatesGenerator() {
    * @param {string} output output type: download | compress
   */
   const handleMakePdf = (student_name, output) => {
-    if(student_name == ""){
+    if (student_name == "") {
       return false;
     }
     const cr_ref = String(Date.now());

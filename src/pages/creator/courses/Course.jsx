@@ -58,7 +58,7 @@ export default function Course() {
         try {
             const tmpData = await api.get('/courses/' + courseId);
 
-            
+
             if (tmpData && tmpData.status == 200) {
                 console.log(tmpData.data.data);
                 setData(tmpData.data.data);
@@ -83,7 +83,7 @@ export default function Course() {
     const handleDelete = async () => {
         try {
             const response = await api.delete('/courses/' + courseId);
-            
+
             if (response.status == 200) {
                 navigate("/courses")
             } else {

@@ -48,14 +48,14 @@ export default function EditQuiz() {
         }
     }, [quizzId]);
 
-    async function getData() {        
+    async function getData() {
         try {
             const tmpData = await api.get('/quizzes/' + quizzId);
             //const answers = await api.get('/answers/' + quizzId);            
-            
+
             if (tmpData.status == 200) {
                 tmpData.data.questions.map(item => {
-                    if(item.id == questionId){                        
+                    if (item.id == questionId) {
                         setData(item);
                         setQuestion(item.question_text);
                         setAnswers(item.answers);
@@ -91,7 +91,7 @@ export default function EditQuiz() {
     }
 
     const updateCorrectAnswer = (item_id, checked) => {
-        let tmpAnswers = [];        
+        let tmpAnswers = [];
 
         answers.map(item => {
             if (item.id === item_id) {
@@ -126,7 +126,7 @@ export default function EditQuiz() {
             }
         }
 
-        if(ok){
+        if (ok) {
             const tmpAnswers = [];
             answers.map(item => tmpAnswers.push({
                 "answer_text": item.answer_text,
@@ -142,7 +142,7 @@ export default function EditQuiz() {
 
             try {
                 const response = await api.put(`/quizzes/${quizzId}/question/${questionId}`, formData);
-        
+
                 if (response.status == 200) {
                     setLoading(false);
                     setMsg(language['success_msg']);
@@ -151,7 +151,7 @@ export default function EditQuiz() {
                     setLoading(false);
                     setMsg(language['error_validation_msg']);
                 }
-            } catch (error) {                
+            } catch (error) {
                 setMsg(language['error_msg']);
             }
         } else {
@@ -200,9 +200,9 @@ export default function EditQuiz() {
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 
-                <div className="flex flex-row justify-between">
-                    <button onClick={handleUpdateQuiz} className="flex rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && language["update"]}</button>
-                </div>
+            <div className="flex flex-row justify-between">
+                <button onClick={handleUpdateQuiz} className="flex rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && language["update"]}</button>
+            </div>
         </div>
     </ThemeContainer>)
 }

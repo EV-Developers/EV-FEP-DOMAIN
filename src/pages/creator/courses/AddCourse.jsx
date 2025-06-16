@@ -60,16 +60,16 @@ export default function AddCourse() {
         formData.append("difficulty_level", 1);
         formData.append("max_students", 0);
         formData.append("createdBy", auth_user);
-        if(featuredImage && featuredImage[0]){
+        if (featuredImage && featuredImage[0]) {
             formData.append("featured_image", featuredImage[0]);
         }
-        
+
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
                 api.interceptors.request.use((config) => {
                     config.headers['accept'] = 'application/json';
                     config.headers['Content-Type'] = 'multipart/form-data';
-                    
+
                     return config;
                 });
 
@@ -118,7 +118,7 @@ export default function AddCourse() {
             const tmpCategoriesData = await api.get('/course-categories');
             if (tmpCategoriesData.status == 200) {
                 setCategories(tmpCategoriesData.data);
-                if(tmpCategoriesData && tmpCategoriesData.data && tmpCategoriesData.data.length != 0){
+                if (tmpCategoriesData && tmpCategoriesData.data && tmpCategoriesData.data.length != 0) {
                     setCategoryId(tmpCategoriesData.data[0].id);
                     setCategoryName(tmpCategoriesData.data[0].name);
                 }
@@ -127,20 +127,20 @@ export default function AddCourse() {
             //console.log(error);
         }
     }
-    
-    React.useEffect(() => {        
-        if(title != "" && data){
+
+    React.useEffect(() => {
+        if (title != "" && data) {
             let tmpArr = [];
-            tmpArr = [...data, {id: 'new Item', title: title}];
-            
+            tmpArr = [...data, { id: 'new Item', title: title }];
+
             setCoursesData(tmpArr);
         } else {
-            if(data){
+            if (data) {
                 setCoursesData(data);
             }
         }
     }, [title]);
-    
+
     React.useEffect(() => {
         loadCategoryCourses()
     }, [categoryId]);
@@ -149,8 +149,8 @@ export default function AddCourse() {
         try {
             setCoursesData(null);
             setData(null);
-            const tmpData = await api.get('/courses?category_id='+categoryId);
-            
+            const tmpData = await api.get('/courses?category_id=' + categoryId);
+
             if (tmpData.status == 200) {
                 setData(tmpData.data.data);
                 setCoursesData(tmpData.data.data);
@@ -161,24 +161,24 @@ export default function AddCourse() {
     }
 
     React.useEffect(() => {
-        if(userSort){
+        if (userSort) {
             setUserSort(false);
             handleSort();
         }
     }, [coursesData]);
 
-    const handleSort = () => {        
-        if(coursesData){
+    const handleSort = () => {
+        if (coursesData) {
             coursesData.map(async (item, index) => {
                 let _sort = index + 1;
-                if(item.id == 'new Item'){
+                if (item.id == 'new Item') {
                     setLevel(_sort);
                 } else {
                     try {
-                        const tmpData = await api.put('/courses/'+item.id, {
+                        const tmpData = await api.put('/courses/' + item.id, {
                             level: _sort
                         });
-                        
+
                         if (tmpData.status == 200) {
                             //console.log(tmpData);
                         }

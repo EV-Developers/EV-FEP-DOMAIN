@@ -22,7 +22,7 @@ export default function ExploreOverlay({ language, setShow }) {
             let tmpArr = response.data;
             setCategoriesData(tmpArr);
             setCategoriesShadowData(tmpArr);
-            if(tmpArr && tmpArr.length != 0){
+            if (tmpArr && tmpArr.length != 0) {
                 setCategoryId(tmpArr[0].id);
             }
         } else {
@@ -39,7 +39,7 @@ export default function ExploreOverlay({ language, setShow }) {
         setData(null);
 
         try {
-            const response = await api.get('/courses?sort_by=level_id&category_id='+categoryId);
+            const response = await api.get('/courses?sort_by=level_id&category_id=' + categoryId);
 
             if (response.status == 200) {
                 setLoading(false);
@@ -56,7 +56,7 @@ export default function ExploreOverlay({ language, setShow }) {
         <div className="fixed z-50 h-[87vh] w-full bg-[#F0F4F9] mt-[7%] border-none" onMouseLeave={() => setShow(false)}>
             <div className="flex">
                 <div className="w-[25%] px-3 overflow-y-auto h-[100vh]">
-                    
+
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['courses']}</button>
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['my_courses']}</button>
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['main_title']}</button>
@@ -64,12 +64,12 @@ export default function ExploreOverlay({ language, setShow }) {
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['new_courses']}</button>
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['top_rated']}</button>
                     <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['popular_courses']}</button>
-                    
+
                     <hr className="text-gray-300 mx-4 my-5 mt-14" />
 
                     <h3 className="text-2xl my-3">{language && language['categories']}</h3>
                     {categoriesData && categoriesData.map(item => <div key={item.id}>
-                        <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]':''} ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
+                        <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]' : ''} ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
                     </div>)}
                     {!categoriesData && loadingCats && <div className="animate-pulse">
                         <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>

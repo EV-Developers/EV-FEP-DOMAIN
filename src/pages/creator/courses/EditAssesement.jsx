@@ -64,7 +64,7 @@ export default function AddAssesement() {
 
         if (e.target.title.value != "" && e.target.description.value != "") {
             try {
-                const response = await api.post("/assignments/"+assesmentId, formData);
+                const response = await api.post("/assignments/" + assesmentId, formData);
 
                 if (response.status == 200) {
                     setLoading(false);
@@ -104,20 +104,20 @@ export default function AddAssesement() {
 
     const loadData = async () => {
         try {
-            const response = await api.get('/assignments/'+assesmentId);
+            const response = await api.get('/assignments/' + assesmentId);
 
             console.log(response);
-            
-            if(response.status == 200){
+
+            if (response.status == 200) {
                 setData(response.data);
                 setAssesementType(response.data.type);
-                if(response.data.type == 'questions'){
+                if (response.data.type == 'questions') {
                     setQuestionsList(response.data.questions)
                 }
             }
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 

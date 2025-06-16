@@ -36,7 +36,7 @@ export default function Quizzes() {
   }, []);
 
   const handleDelete = async () => {
-    if(quizzId){
+    if (quizzId) {
       try {
         const response = await api.delete('/quizzes/' + quizzId.quiz_id + '/question/' + quizzId.id);
 
@@ -55,11 +55,11 @@ export default function Quizzes() {
     loadLessonQuzzies();
   }, []);
 
-  const loadLessonQuzzies = async () => {    
+  const loadLessonQuzzies = async () => {
     try {
       const response = await api.get('/quizzes?lesson_id=' + lessonId);
       if (response.status == 200) {
-        if(response.data){          
+        if (response.data) {
           setQuizzList(response.data)
         }
       } else {
@@ -79,10 +79,10 @@ export default function Quizzes() {
         <Link to={`/quizzes/${courseId}/${lessonId}/new-quiz`} className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["create"]}</Link>
       </div>
       <div className="flex">
-        <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight:faAngleLeft} className="my-4 m-3 text-color" />
-        <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>{language && language["courses"]}</Link><FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight:faAngleLeft} className="my-4 m-3 text-color" />
+        <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+        <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>{language && language["courses"]}</Link><FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
         <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + courseId}>{language && language['course']}</Link>
-        <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight:faAngleLeft} className="my-4 m-3 text-color" />
+        <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
         <p className="m-3 my-3 text-color">{language && language["lessons_quizzes"]}</p>
       </div>
       {quizzList && quizzList.map(quiz => quiz.questions && quiz.questions.map(item => <div key={item.id} className="border-t border-t-gray-200 py-5">
@@ -93,7 +93,7 @@ export default function Quizzes() {
         <div className="flex justify-between">
           <Link to={`/quizzes/${courseId}/${lessonId}/${quiz.id}/${item.id}`} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["edit"]}</Link>
           <button onClick={() => {
-            setShowModal(true); 
+            setShowModal(true);
             setQuizzId({
               id: item.id,
               quiz_id: quiz.id

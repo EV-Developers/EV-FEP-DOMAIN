@@ -6,7 +6,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
     const video = useRef();
 
     React.useEffect(() => {
-        const listen = document.getElementById('video-'+lessonId).addEventListener('loadedmetadata', function (ev) {
+        const listen = document.getElementById('video-' + lessonId).addEventListener('loadedmetadata', function (ev) {
             ev.target.currentTime = userProgress;
             const duration = ev.target.duration;
             const currentTime = ev.target.currentTime;
@@ -21,12 +21,12 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
                 progress: totalTime
             };
             console.log(payload);
-            
+
 
             setVideoData(payload);
         });
 
-        return document.getElementById('video-'+lessonId).removeEventListener('loadedmetadata', listen);
+        return document.getElementById('video-' + lessonId).removeEventListener('loadedmetadata', listen);
     }, [tmp_vid_url]);
 
     const handlePlay = () => {
@@ -77,7 +77,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             //poster={poster}
             controls={false}
             preload="metadata"
-            id={'video-'+lessonId}
+            id={'video-' + lessonId}
         >
             <source src={tmp_vid_url} type="video/mp4" />
             {language && language['video_player_error']}

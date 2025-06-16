@@ -28,9 +28,9 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
 
   }, []);
 
-  React.useEffect(() => {    
-    if (featuredImage && featuredImage != '') {      
-      if(typeof featuredImage == Array && featuredImage[0]){
+  React.useEffect(() => {
+    if (featuredImage && featuredImage != '') {
+      if (typeof featuredImage == Array && featuredImage[0]) {
         const imgUrl = window.URL.createObjectURL(featuredImage[0]);
         setImage(imgUrl);
       } else {
@@ -39,7 +39,7 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
     }
   }, []);
 
-  const handleSetImage = (e) => {    
+  const handleSetImage = (e) => {
     const imgUrl = window.URL.createObjectURL(e.target.files[0]);
     setImage(imgUrl);
     setFeaturedImage(e.target.files);

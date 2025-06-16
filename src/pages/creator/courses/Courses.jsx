@@ -82,7 +82,7 @@ export default function Courses() {
             const response = await api.get('/courses?sort_by=level_id&category_id=' + category);
 
             if (response.status == 200) {
-                if(response && response.data && response.data.data){
+                if (response && response.data && response.data.data) {
                     setLoading(false);
                     const tmpArr = response.data.data.sort((a, b) => a.level - b.level);
 
@@ -123,7 +123,7 @@ export default function Courses() {
                             onChange={val => filterCategoryByName(val.target.value)}
                             className="peer w-full border-b border-gray-600 bg-transparent pt-4 pb-2 text-sm text-gray-600 focus:outline-none"
                         />
-                        <label className={`absolute ${language && language['dir'] == 'ltr' ? 'left-0':'right-0'} -top-2 text-xs text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all`}>
+                        <label className={`absolute ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} -top-2 text-xs text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all`}>
                             {language && language["search"]}
                         </label>
                     </div>

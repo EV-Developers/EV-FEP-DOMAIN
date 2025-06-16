@@ -33,35 +33,35 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
         getVideo();
     }, []);
 
-    const getVideo = async () => {        
+    const getVideo = async () => {
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
-            fetch(aurl+item.video_path, {
+            fetch(aurl + item.video_path, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            .then(response => {            
-                try {
-                    if (response && !response.ok) {
+                .then(response => {
+                    try {
+                        if (response && !response.ok) {
+                            setVideoError(true)
+                        }
+                        return response.blob();
+                    } catch (error) {
                         setVideoError(true)
+                        return null;
                     }
-                    return response.blob();
-                } catch (error) {
+                })
+                .then(blob => {
+                    const tmpVideoURL = URL.createObjectURL(blob);
+                    setVideoUrl(tmpVideoURL);
+                })
+                .catch(error => {
                     setVideoError(true)
-                    return null;
-                }
-            })
-            .then(blob => {            
-                const tmpVideoURL = URL.createObjectURL(blob);  
-                setVideoUrl(tmpVideoURL);          
-            })
-            .catch(error => {
-                setVideoError(true)
-                //console.error('Error loading video:', error);
-            });
+                    //console.error('Error loading video:', error);
+                });
         } catch (error) {
             setVideoError(true)
             //console.log(error);
@@ -78,12 +78,12 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
         <div className="transition-all px-0">
             <p className="p-2">{item.desc}</p>
             {videoUrl && !videoError && <div className="justify-baseline">
-                <VideoPlayer 
-                    lessonId={item.id} 
-                    courseId={courseId} 
-                    videoData={videoData} 
-                    tmp_vid_url={videoUrl} 
-                    setVideoData={setVideoData} 
+                <VideoPlayer
+                    lessonId={item.id}
+                    courseId={courseId}
+                    videoData={videoData}
+                    tmp_vid_url={videoUrl}
+                    setVideoData={setVideoData}
                     userProgress={userProgress}
                 />
                 <div className="flex">

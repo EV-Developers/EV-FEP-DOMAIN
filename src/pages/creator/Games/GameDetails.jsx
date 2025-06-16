@@ -60,7 +60,7 @@ export default function GameDetails() {
         if (e.target.description.value != "" && e.target.title.value != "") {
             try {
                 const response = await api.put("/games/" + catId, formData);
-    
+
                 if (response.status == 200) {
                     setLoading(false);
                     navigate('/games');
@@ -105,7 +105,7 @@ export default function GameDetails() {
                     </Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/games/"}>{language && language["games"]}</Link>
-                    <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight: faAngleLeft} className="my-4 m-3 text-color" />
+                    <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
                 </div>
                 <hr className="text-gray-200 my-5" />
@@ -125,7 +125,7 @@ export default function GameDetails() {
                 {msg && <div className="p-4 m-2">{msg}</div>}
 
                 <div className="flex flex-row justify-between mt-14">
-                    <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400" type="submit">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["update"]}</span></button>
+                    <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex" type="submit">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["update"]}</span></button>
                     <button onClick={() => setShowModal(true)} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400" type="button">{language && language["delete"]}</button>
                 </div>
             </form>

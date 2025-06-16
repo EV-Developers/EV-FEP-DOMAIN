@@ -61,7 +61,7 @@ export default function EditContent() {
                     <p className="my-3 font-bold">{language && language["content"]}</p>
                     <textarea id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400"></textarea>
                 </label>
-                
+
                 <label htmlFor="name" className="block">
                     <p className="my-3 font-bold">{language && language["content"]} - {language && language["english"]}</p>
                     <textarea id="name" name="name" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400"></textarea>

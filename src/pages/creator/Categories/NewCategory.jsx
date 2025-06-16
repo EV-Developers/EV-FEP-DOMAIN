@@ -40,10 +40,10 @@ export default function NewCategory() {
 
         const formData = new FormData(e.target);
 
-        if (e.target.description.value != "" && e.target.name.value != "" ) {
+        if (e.target.description.value != "" && e.target.name.value != "") {
             try {
                 const response = await api.post("/course-categories", formData);
-    
+
                 if (response.status == 200) {
                     setLoading(false);
                     navigate('/categories');
@@ -67,7 +67,7 @@ export default function NewCategory() {
                 <Link to={"/categories"}>
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                 </Link>
-                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight: faAngleLeft} className="my-4 m-3 text-color" />
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/categories/"}>{language && language["categories"]}</Link>
                 <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <p className="m-3 my-3 text-color">{language && language["new"]}</p>
@@ -86,7 +86,7 @@ export default function NewCategory() {
             {msg && <div className="p-4 m-2">{msg}</div>}
 
             <div className="flex flex-row justify-between mt-8">
-                <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
+                <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
             </div>
         </form>
     </ThemeContainer>)

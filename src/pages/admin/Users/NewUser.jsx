@@ -14,10 +14,10 @@ export default function NewUser() {
     const navigate = useNavigate();
     const [show, setShow] = React.useState(false);
     const [userType, setUserType] = React.useState({
-            id: 'teacher',
-            title: "معلم",
-            title_en: 'Teacher',
-        });
+        id: 'teacher',
+        title: "معلم",
+        title_en: 'Teacher',
+    });
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -119,11 +119,11 @@ export default function NewUser() {
 
                 <div className="relative">
                     <button type="button" className="flex justify-between font-bold bg-color py-2 px-14 mx-3 rounded-xl text-sm" onClick={() => setShow(!show)}>
-                        <span className="mx-2">{userType && language && language['dir'] == 'ltr' ? userType.title_en:userType.title}</span> <FontAwesomeIcon icon={faCaretDown} />
+                        <span className="mx-2">{userType && language && language['dir'] == 'ltr' ? userType.title_en : userType.title}</span> <FontAwesomeIcon icon={faCaretDown} />
                     </button>
                     {show && <div className="bg-color block rounded-xl w-[25%] p-3 absolute z-10">
                         {user_types && user_types.map(item => <button type="button" onClick={() => setUserType(item)} key={item.id} className={`block text-left font-bold rounded-xl w-full mb-3 p-3 ${userType && userType.id == item.id ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
-                            {language && language['dir'] == 'ltr'? item.title_en:item.title}
+                            {language && language['dir'] == 'ltr' ? item.title_en : item.title}
                         </button>)}
                     </div>}
                     <input type="hidden" name="role" value={userType && userType.id} />

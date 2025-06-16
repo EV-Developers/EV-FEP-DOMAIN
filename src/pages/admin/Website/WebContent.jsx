@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import { translation } from '../../../config/translations';
 
-export default function WebContent({}) {
+export default function WebContent({ }) {
   const [language, setLanguage] = React.useState(null);
 
   React.useEffect(() => {
@@ -47,7 +47,7 @@ export default function WebContent({}) {
 
   return (<ThemeContainer role="admin">
     <div className="block mx-auto w-[75%]">
-      {list && list.map(item => <Link key={"content-"+item.id} to={'/dashboard/edit-content/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{language && language[item.title]}</Link>)}
+      {list && list.map(item => <Link key={"content-" + item.id} to={'/dashboard/edit-content/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{language && language[item.title]}</Link>)}
     </div>
   </ThemeContainer>)
 }

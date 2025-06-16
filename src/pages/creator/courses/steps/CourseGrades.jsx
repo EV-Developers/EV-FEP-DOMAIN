@@ -57,7 +57,7 @@ export default function CourseGrades({ handleSteps, level, setLevel, levelNewNam
             level: '4'
         },
     ];
-    
+
     return (
         <div>
             {levels_list && levels_list.map(item => <button key={item.id} className={`py-5 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 ${(level == item.level && levelNewName == '') ? 'bg-[#ffe696] border border-amber-300' : 'bg-color'}`} onClick={() => setLevel(item.level)}>

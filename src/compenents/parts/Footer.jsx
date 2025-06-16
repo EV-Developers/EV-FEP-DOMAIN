@@ -16,11 +16,11 @@ export default function Footer({ role }) {
         if (userRole && userRole != "" && userRole != null) {
             if (userRole == 'teacher') {
                 tmpSlug = '/teachers';
-            } else if(userRole == "student"){
+            } else if (userRole == "student") {
                 tmpSlug = '/students';
-            } else if(userRole == "content_creator"){
+            } else if (userRole == "content_creator") {
                 tmpSlug = '';
-            } else if(userRole == "admin"){
+            } else if (userRole == "admin") {
                 tmpSlug = '/dashboard';
             }
         } else {
@@ -59,11 +59,11 @@ export default function Footer({ role }) {
                         <p><Link to={slug + "/"} className="hover:underline">{language && language['home']}</Link></p>
                         {slug != '/dashboard' && slug != '/students' && <p><Link to={slug + "/courses"} className="hover:underline">{language && language['courses']}</Link></p>}
                         {slug != '/dashboard' && slug != '/students' && <p><Link to={slug + "/categories"} className="hover:underline">{language && language['categories']}</Link></p>}
-                        {slug != '/dashboard' &&  <p><Link to={slug + "/materials"} className="hover:underline">{language && language['materials']}</Link></p>}
-                        {slug != '/dashboard' &&  <p><Link to={slug + "/games"} className="hover:underline">{language && language['games']}</Link></p>}
-                        {slug == '/dashboard' &&  <p><Link to={slug + "/users"} className="hover:underline">{language && language['users']}</Link></p>}
-                        {slug == '/dashboard' &&  <p><Link to={slug + "/subscriptions"} className="hover:underline">{language && language['subscriptions']}</Link></p>}
-                        {slug == '/dashboard' &&  <p><Link to={slug + "/contents"} className="hover:underline">{language && language['contents']}</Link></p>}
+                        {slug != '/dashboard' && <p><Link to={slug + "/materials"} className="hover:underline">{language && language['materials']}</Link></p>}
+                        {slug != '/dashboard' && <p><Link to={slug + "/games"} className="hover:underline">{language && language['games']}</Link></p>}
+                        {slug == '/dashboard' && <p><Link to={slug + "/users"} className="hover:underline">{language && language['users']}</Link></p>}
+                        {slug == '/dashboard' && <p><Link to={slug + "/subscriptions"} className="hover:underline">{language && language['subscriptions']}</Link></p>}
+                        {slug == '/dashboard' && <p><Link to={slug + "/contents"} className="hover:underline">{language && language['contents']}</Link></p>}
                     </div>
                     <div className="mx-14">
                         <p className="font-bold my-4">{language && language['informations']}</p>

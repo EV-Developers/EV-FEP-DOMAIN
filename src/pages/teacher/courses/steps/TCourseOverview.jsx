@@ -48,11 +48,11 @@ export default function TCourseOverview({ handleSteps, description, setDescripti
     * @constant {string} imgUrl create a URL form the HTMLElement image file.
     */
 
-    if(e.target && e.target.files.length != 0){
+    if (e.target && e.target.files.length != 0) {
       const imgUrl = window.URL.createObjectURL(e.target.files[0]);
       ref.current.style.backgroundSize = 'contain';
       ref.current.style.background = `url(${imgUrl}) no-repeat`;
-  
+
       setFeaturedImage(e.target.files);
     }
   }

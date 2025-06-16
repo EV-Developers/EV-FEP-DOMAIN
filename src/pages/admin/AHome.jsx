@@ -78,7 +78,7 @@ export default function AHome() {
       window.localStorage.setItem("language", 'english');
       window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
-    
+
     setData(tmp_data);
     console.log(tmp_data);
   }, []);

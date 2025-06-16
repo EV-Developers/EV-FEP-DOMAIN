@@ -48,10 +48,10 @@ export default function TCourse() {
     async function getData() {
         try {
             const tmpData = await api.get('/courses/' + courseId);
-    
+
             if (tmpData && tmpData.status == 200) {
                 console.log(tmpData.data.data);
-                
+
                 setData(tmpData.data.data)
                 setLessonData(tmpData.data.data.lessons);
                 setAssestmentsData(tmpData.data.data.assignments);

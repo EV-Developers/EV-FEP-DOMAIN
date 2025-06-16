@@ -26,7 +26,7 @@ export default function TResources({ resources_list }) {
 
 
   return (<div>
-    {resources_list && resources_list.map(item => <ResourcesItem key={"res-"+item.id} item={item} language={language} />)}
+    {resources_list && resources_list.map(item => <ResourcesItem key={"res-" + item.id} item={item} language={language} />)}
   </div>
   )
 }

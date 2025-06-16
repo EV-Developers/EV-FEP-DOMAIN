@@ -14,13 +14,13 @@ export default function ContactPage() {
 
     React.useEffect(() => {
         let role = window.localStorage.getItem("z8C2XXEo52uJQj7");
-        
-        if(role && role != "" && role != null){
-            if(role == 'teacher'){
+
+        if (role && role != "" && role != null) {
+            if (role == 'teacher') {
                 role = 'teachers';
-            } else if(role == 'student'){
+            } else if (role == 'student') {
                 role = 'students';
-            } else if(role == 'content_creator'){
+            } else if (role == 'content_creator') {
                 role = '';
             }
         } else {
@@ -28,7 +28,7 @@ export default function ContactPage() {
         }
 
         setUserRole(role);
-        
+
         const lang = window.localStorage.getItem("language");
 
         if (lang && lang != '' && lang != null) {

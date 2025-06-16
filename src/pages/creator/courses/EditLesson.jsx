@@ -38,33 +38,33 @@ export default function EditLesson() {
     }, []);
 
 
-    const getVideo = async (video_path) => {        
+    const getVideo = async (video_path) => {
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
-            fetch(aurl+video_path, {
+            fetch(aurl + video_path, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            .then(response => {            
-                try {
-                    if (response && !response.ok) {
-                        setVideoError(true)
+                .then(response => {
+                    try {
+                        if (response && !response.ok) {
+                            setVideoError(true)
+                        }
+                        return response.blob();
+                    } catch (error) {
+                        return null;
                     }
-                    return response.blob();
-                } catch (error) {
-                    return null;
-                }
-            })
-            .then(blob => {            
-                const tmpVideoURL = URL.createObjectURL(blob);  
-                setVidUrl(tmpVideoURL);
-            })
-            .catch(error => {
-                //console.error('Error loading video:', error);
-            });
+                })
+                .then(blob => {
+                    const tmpVideoURL = URL.createObjectURL(blob);
+                    setVidUrl(tmpVideoURL);
+                })
+                .catch(error => {
+                    //console.error('Error loading video:', error);
+                });
         } catch (error) {
             //console.log(error);
         }
@@ -96,15 +96,15 @@ export default function EditLesson() {
         if (e.target.name.value != "" && e.target.description.value != "") {
             try {
                 //const response = await api.put("/lessons/" + lessonId, formData);
-    
-                const response = await axios.post('https://fep.misk-donate.com/api/lessons/'+lessonId, formData, {
+
+                const response = await axios.post('https://fep.misk-donate.com/api/lessons/' + lessonId, formData, {
                     headers: {
                         'accept': 'application/json',
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${token}`
                     },
                 });
-    
+
                 if (response.status == 200) {
                     setLoading(false);
                     navigate('/courses');
@@ -133,7 +133,7 @@ export default function EditLesson() {
                 <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
             </div>
             <hr className="text-gray-200 my-5" />
-        
+
             <label htmlFor="lessonTitle">
                 <p id="lessonTitle" className="my-3 font-bold">{language && language["title"]}</p>
                 <input type="text" id="lessonTitle" name="title" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400"

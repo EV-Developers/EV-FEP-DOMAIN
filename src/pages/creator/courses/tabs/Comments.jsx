@@ -83,8 +83,8 @@ export default function Comments({ courseId }) {
               <button className='px-3 py-1 mx-2  my-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShowModal(true)}>{language && language["delete"]} <FontAwesomeIcon icon={faTrash} className="primary" /></button>
               <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl flex my-2'><span>{language && language["like"]}</span> <img src="/like.png" className="mx-1 w-4 h-4 cursor-pointer" /></button>
               <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl flex my-2' onClick={() => setShow(!show)}>
-              <span>{language && language["reply"]} </span> 
-              <img src="/prioritylow.png" className="w-3 h-2 mt-2 mx-2" alt="" />  
+                <span>{language && language["reply"]} </span>
+                <img src="/prioritylow.png" className="w-3 h-2 mt-2 mx-2" alt="" />
               </button>
             </div>
             {show && <div>

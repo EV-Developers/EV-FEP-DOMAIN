@@ -5,13 +5,13 @@ export default function Index() {
     const navigate = useNavigate();
     React.useEffect(() => {
         const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
-        
-        if(userRole && userRole != "" && userRole != null){
-            if(userRole == 'teacher'){
+
+        if (userRole && userRole != "" && userRole != null) {
+            if (userRole == 'teacher') {
                 navigate('/teachers');
-            } else if(userRole == 'content_creator') {
+            } else if (userRole == 'content_creator') {
                 navigate('/creators');
-            } else if(userRole == 'admin') {
+            } else if (userRole == 'admin') {
                 navigate('/dashboard');
             } else {
                 navigate('/students');
@@ -21,7 +21,7 @@ export default function Index() {
         }
     }, []);
 
-  return (
-    <div>.</div>
-  )
+    return (
+        <div>.</div>
+    )
 }

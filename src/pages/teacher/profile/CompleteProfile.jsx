@@ -24,6 +24,6 @@ export default function CompleteProfile() {
   }, []);
 
   return (<ThemeContainer role="teacher">
-      <div>CompleteProfile</div>
+    <div>CompleteProfile</div>
   </ThemeContainer>)
 }

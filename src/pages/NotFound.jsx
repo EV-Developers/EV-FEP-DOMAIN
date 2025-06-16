@@ -13,7 +13,7 @@ export default function NotFound() {
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
         const role = window.localStorage.getItem("z8C2XXEo52uJQj7");
-        if(role && role == 'teacher'){
+        if (role && role == 'teacher') {
             setUserRole("teachers");
         } else {
             //setUserRole(role);
@@ -45,7 +45,7 @@ export default function NotFound() {
                 <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <p className="m-3 my-3 text-color">404</p>
             </div>
-            
+
             <hr className="text-gray-200 my-5" />
 
             <div className="text-center my-[15%]">

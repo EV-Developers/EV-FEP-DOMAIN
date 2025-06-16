@@ -44,8 +44,8 @@ export default function CategoryDetails() {
 
     const loadData = async () => {
         try {
-            const response = await api.get('/course-categories/'+catId);
-            
+            const response = await api.get('/course-categories/' + catId);
+
             if (response.status == 200) {
                 setData(response.data);
                 loadCoursesData();
@@ -64,10 +64,10 @@ export default function CategoryDetails() {
 
         const formData = new FormData(e.target);
 
-        if (e.target.description.value != "" && e.target.name.value != "" ) {
+        if (e.target.description.value != "" && e.target.name.value != "") {
             try {
-                const response = await api.put("/course-categories/"+catId, formData);
-        
+                const response = await api.put("/course-categories/" + catId, formData);
+
                 if (response.status == 200) {
                     setLoading(false);
                     navigate('/categories');
@@ -87,7 +87,7 @@ export default function CategoryDetails() {
 
     const handleDelete = async () => {
         try {
-            const response = await api.delete('/course-categories/'+catId);
+            const response = await api.delete('/course-categories/' + catId);
 
             if (response.status == 200) {
                 navigate('/categories')
@@ -101,8 +101,8 @@ export default function CategoryDetails() {
 
     const loadCoursesData = async () => {
         try {
-            const tmpData = await api.get('/courses?sort_by=level_id&category_id='+catId);
-                
+            const tmpData = await api.get('/courses?sort_by=level_id&category_id=' + catId);
+
             if (tmpData.status == 200) {
                 setCoursesData(tmpData.data.data);
             }
@@ -112,7 +112,7 @@ export default function CategoryDetails() {
     }
 
     React.useEffect(() => {
-        if(userSort){
+        if (userSort) {
             setUserSort(false);
             handleSort();
         }
@@ -139,7 +139,7 @@ export default function CategoryDetails() {
     }
     */
 
-    const handleSort = () => {        
+    const handleSort = () => {
         if (userSort) {
             const newIndex = userSort.newIndex;
             const oldIndex = userSort.oldIndex;
@@ -166,7 +166,7 @@ export default function CategoryDetails() {
             }
         }
     }
-    
+
     return (
         <ThemeContainer>
             {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
@@ -175,7 +175,7 @@ export default function CategoryDetails() {
                     <Link to={"/categories"}>
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                     </Link>
-                    <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight: faAngleLeft} className="my-4 m-3 text-color" />
+                    <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/categories/"}>{language && language["categories"]}</Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
@@ -189,7 +189,7 @@ export default function CategoryDetails() {
                     <label htmlFor="description">
                         <p className="my-3 font-bold">{language && language["description"]}</p>
                         <textarea name="description" id="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["description"]} >{data.description}</textarea>
-                    </label>   
+                    </label>
                 </div>
 
                 {msg && <div className="p-4 m-2">{msg}</div>}
@@ -204,9 +204,9 @@ export default function CategoryDetails() {
                 <h3 className="text-l font-bold my-4">{language && language['category_sort']}</h3>
 
                 <ReactSortable list={coursesData} setList={setCoursesData} onUpdate={(data) => setUserSort(data)}>
-                {coursesData.map(item => (
-                    <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
-                ))}
+                    {coursesData.map(item => (
+                        <div key={item.id} className="py-2 px-14 rounded-xl shadow-sm w-full placeholder-gray-400 flex justify-between my-4 hover:bg-[#ffe696] hover:border hover:border-amber-300 cursor-grab">{item.title}</div>
+                    ))}
                 </ReactSortable>
             </div>}
         </ThemeContainer>

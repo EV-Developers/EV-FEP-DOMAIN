@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { translation } from '../../../../config/translations';
 
-export default function TOverview({data, language, totalMinutes}) {
+export default function TOverview({ data, language, totalMinutes }) {
 
   return (
     <div className="p-5">

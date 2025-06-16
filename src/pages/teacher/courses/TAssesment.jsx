@@ -34,7 +34,7 @@ export default function TAssesment({ item }) {
                 <div className="transition-all">
                     <p className="p-2">{language && language["assesment_type"]}: {language && language[item.type]}</p>
 
-                    <Link to={"/teachers/submit-assesment/"+item.id} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold" >{language && language['submit']}</Link>
+                    <Link to={"/teachers/submit-assesment/" + item.id} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold" >{language && language['submit']}</Link>
                 </div>
             </div>
         </div>
