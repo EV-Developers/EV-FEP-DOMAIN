@@ -130,6 +130,5 @@ export default function GameDetails() {
                 </div>
             </form>
         </ThemeContainer>
-
     )
 }

@@ -16,7 +16,9 @@ export default function CategoryDetails() {
     const navigate = useNavigate();
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
+    const [loadingData, setLoadingData] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [loadingCourses, setLoadingCourses] = React.useState(false);
     const [coursesData, setCoursesData] = React.useState(null);
     const [userSort, setUserSort] = React.useState(null);
 
@@ -44,15 +46,19 @@ export default function CategoryDetails() {
 
     const loadData = async () => {
         try {
+            setLoadingData(true);
             const response = await api.get('/course-categories/' + catId);
 
             if (response.status == 200) {
+                setLoadingData(false);
                 setData(response.data);
                 loadCoursesData();
             } else {
+                setLoadingData(false);
                 loadCoursesData();
             }
         } catch (error) {
+            setLoadingData(false);
             loadCoursesData();
         }
     }
@@ -80,6 +86,7 @@ export default function CategoryDetails() {
                 setMsg(language['error_msg']);
             }
         } else {
+            setLoading(false);
             setMsg(language["error_validation_msg"])
         }
 
@@ -101,13 +108,17 @@ export default function CategoryDetails() {
 
     const loadCoursesData = async () => {
         try {
+            setLoadingCourses(true);
             const tmpData = await api.get('/courses?sort_by=level_id&category_id=' + catId);
 
             if (tmpData.status == 200) {
+                setLoadingCourses(false);
                 setCoursesData(tmpData.data.data);
+            } else {
+                setLoadingCourses(false);
             }
         } catch (error) {
-            //console.log(error);
+            setLoadingCourses(false);
         }
     }
 
@@ -170,6 +181,9 @@ export default function CategoryDetails() {
     return (
         <ThemeContainer>
             {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
+            {loadingData && <div className="*:animate-pulse">
+                <div className="bg-gray-300 block rounded-xl p-5 py-2 my-2 w-[75%] h-[45vh] mx-auto"></div>
+            </div>}
             {data && <form method="post" onSubmit={handleUpdate} className="block mx-auto w-[75%] bg-white rounded-xl p-4 mt-3">
                 <div className="flex">
                     <Link to={"/categories"}>
@@ -199,6 +213,10 @@ export default function CategoryDetails() {
                     <button onClick={() => setShowModal(true)} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400" type="button">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["delete"]}</span></button>
                 </div>
             </form>}
+
+            {loadingCourses && <div className="*:animate-pulse">
+                <div className="bg-gray-300 block rounded-xl p-5 py-2 my-2 w-[75%] h-[25vh] mx-auto"></div>
+            </div>}
 
             {coursesData && <div className="block mx-auto w-[75%] bg-white rounded-xl p-4 mt-3">
                 <h3 className="text-l font-bold my-4">{language && language['category_sort']}</h3>

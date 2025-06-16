@@ -92,6 +92,5 @@ export default function AddGame() {
                 </div>
             </form>
         </ThemeContainer>
-
     )
 }
