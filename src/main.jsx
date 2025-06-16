@@ -60,6 +60,7 @@ import EditContent from './pages/admin/Website/EditContent';
 import Membership from './pages/admin/Subscriptions/Membership';
 import NewMembership from './pages/admin/Subscriptions/NewMembership';
 import UserDetails from './pages/admin/Users/UserDetails';
+import TGame from './pages/teacher/Games/TGame';
 
 const router = createBrowserRouter([
   // Creators
@@ -221,6 +222,10 @@ const router = createBrowserRouter([
   {
     path: "/teachers/games",
     element: <TGames />,
+  },
+  {
+    path: "/teachers/games/:gameId",
+    element: <TGame />
   },
   {
     path: "/teachers/generator/:courseId",

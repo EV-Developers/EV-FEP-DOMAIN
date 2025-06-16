@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { translation } from '../../../config/translations';
 
-export default function TAssesment({ courseId, item }) {
+export default function TAssesment({ item }) {
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
@@ -37,7 +37,6 @@ export default function TAssesment({ courseId, item }) {
                     <Link to={"/teachers/submit-assesment/"+item.id} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold" >{language && language['submit']}</Link>
                 </div>
             </div>
-
         </div>
     )
 }
