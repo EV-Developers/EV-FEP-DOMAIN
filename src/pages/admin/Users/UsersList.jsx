@@ -62,7 +62,6 @@ export default function UsersList() {
     const loadData = async () => {
         try {
             const tmpData = await api.get('/users');
-            console.log(tmpData);
 
             if (tmpData.status == 200) {
                 setLoading(false);
@@ -71,7 +70,7 @@ export default function UsersList() {
                 setLoading(false);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 

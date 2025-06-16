@@ -83,7 +83,6 @@ export default function NewUser() {
         } else {
             try {
                 const response = await api.post("/register", formData);
-                console.log(response);
 
                 if (response.status == 200 || response.status == 201) {
                     navigate('/dashboard/users');

@@ -73,7 +73,6 @@ export default function NewMembership() {
         } else {
             try {
                 const response = await api.post("/memebership", formData);
-                console.log(response);
 
                 if (response.status == 200 || response.status == 201) {
                     navigate('/dashboard/subscriptions');

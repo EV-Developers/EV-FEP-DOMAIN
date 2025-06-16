@@ -80,7 +80,6 @@ export default function AHome() {
     }
 
     setData(tmp_data);
-    console.log(tmp_data);
   }, []);
 
   return (<ThemeContainer role="admin">

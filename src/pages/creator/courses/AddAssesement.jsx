@@ -75,8 +75,6 @@ export default function AddAssesement() {
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
-                console.log(error);
-
                 setMsg(language['error_msg']);
                 setLoading(false);
             }

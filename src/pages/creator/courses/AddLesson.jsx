@@ -41,7 +41,6 @@ export default function AddLesson() {
         const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
         setMsg(null);
         setLoading(true);
-        console.log(e.target);
 
         const formData = new FormData(e.target);
         formData.append("course_id", courseId);

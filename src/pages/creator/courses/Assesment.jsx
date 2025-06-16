@@ -49,7 +49,7 @@ export default function Assesment({ item }) {
                 window.location.reload();
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
 
     }

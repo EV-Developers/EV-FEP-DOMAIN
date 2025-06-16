@@ -15,8 +15,8 @@ export default function EditLesson() {
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
     const [tmp_vid_url, setVidUrl] = React.useState(null);
-    const navigate = useNavigate();
     const { courseId, lessonId } = useParams();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -34,7 +34,6 @@ export default function EditLesson() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
     }, []);
 
 

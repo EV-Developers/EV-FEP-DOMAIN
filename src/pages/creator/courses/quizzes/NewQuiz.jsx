@@ -121,8 +121,6 @@ export default function NewQuiz() {
             answers: answers
         });
 
-        console.log(tmpArr);
-
         setQuestions(tmpArr);
         setQuestion("");
         setMark("");

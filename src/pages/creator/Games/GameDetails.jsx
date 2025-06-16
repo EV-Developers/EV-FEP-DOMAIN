@@ -84,8 +84,8 @@ export default function GameDetails() {
             try {
                 const response = await api.delete('/games/' + catId);
 
-                if (response.status == 200) {
-                    navigate('/games')
+                if(response.status == 200) {
+                    navigate('/games');
                 } else {
                     //console.log('error');
                 }

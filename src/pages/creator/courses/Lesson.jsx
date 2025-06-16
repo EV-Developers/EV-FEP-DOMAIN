@@ -64,10 +64,10 @@ export default function Lesson({ courseId, item }) {
                     setVideoUrl(tmpVideoURL);
                 })
                 .catch(error => {
-                    console.error('Error loading video:', error);
+                    //console.error('Error loading video:', error);
                 });
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
