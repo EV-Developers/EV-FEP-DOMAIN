@@ -37,9 +37,11 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
         setImage(featuredImage);
       }
     }
-  });
+  }, []);
 
   const handleSetImage = (e) => {
+    console.log(e.target.files);
+    
     const imgUrl = window.URL.createObjectURL(e.target.files[0]);
     setImage(imgUrl);
     setFeaturedImage(e.target.files);

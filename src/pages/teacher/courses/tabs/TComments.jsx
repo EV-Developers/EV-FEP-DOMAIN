@@ -75,7 +75,7 @@ export default function TComments() {
       </div>
     </div>}
 
-    {comments_list.map(item => <div className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
+    {comments_list.map(item => <div key={`comment-${item.id}`} className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
           <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />
@@ -87,7 +87,7 @@ export default function TComments() {
           </div>
           <div className="flex">
             {/* {stars && stars.map(star => <FontAwesomeIcon icon={faStar} className={`${star <= item.review ? 'primary' : 'text-gray-500'} mx-1`} />)} */}
-            {stars && stars.map(star => star <= item.review ? <img src="/star.png" className="mx-1 w-5 h-5" /> : <img src="/starg.png" className="mx-1 w-5 h-5" />)}
+            {stars && stars.map(star => star <= item.review ? <img key={`star-${star}`} src="/star.png" className="mx-1 w-5 h-5" /> : <img key={`star-${star}`} src="/starg.png" className="mx-1 w-5 h-5" />)}
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ export default function TComments() {
         <div></div>
         <button onClick={() => setOpen(true)} className={`block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold`}>{language && language["publish"]}</button>
       </div>
-      <textarea className="bg-[#00000016] rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]} rows="7" onChange={val => setComment(val.target.value)}>{comment}</textarea>
+      <textarea className="bg-[#00000016] rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]} rows="7" onChange={val => setComment(val.target.value)} value={comment}></textarea>
     </div>
   </div>
   )

@@ -145,7 +145,7 @@ const router = createBrowserRouter([
     element: <AddAssesement />
   },
   {
-    path: "/edit-assesment/:courseId",
+    path: "/edit-assesment/:assesmentId",
     element: <EditAssesement />,
   },
   {
@@ -227,7 +227,7 @@ const router = createBrowserRouter([
     element: <CertificatesGenerator />,
   },
   {
-    path: "/teachers/submit-assesment/:courseId",
+    path: "/teachers/submit-assesment/:assesmentId",
     element: <SubmitAssesment />
   },
   // Studetns

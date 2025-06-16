@@ -15,7 +15,7 @@ export default function AddCourse() {
     const [title, setTitle] = React.useState("");
     const [description, setDescription] = React.useState("");
     const [categoryId, setCategoryId] = React.useState("");
-    const [level, setLevel] = React.useState(0);
+    const [level, setLevel] = React.useState(1);
     const [featuredImage, setFeaturedImage] = React.useState(null);
     const [levelNewName, setLevelNewName] = React.useState('');
     const [categoryName, setCategoryName] = React.useState("");
@@ -64,6 +64,8 @@ export default function AddCourse() {
             formData.append("featured_image", featuredImage[0]);
         }
 
+        console.log(title, description, categoryId, level);
+        
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
                 api.interceptors.request.use((config) => {

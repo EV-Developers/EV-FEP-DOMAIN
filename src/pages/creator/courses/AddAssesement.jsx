@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight, faArrowUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import api from '../../../config/api';
 import { translation } from '../../../config/translations';
@@ -15,8 +15,9 @@ export default function AddAssesement() {
     const [assesementType, setAssesementType] = React.useState("file");
     const [loading, setLoading] = React.useState(false);
     const [msg, setMsg] = React.useState(null);
-    const { courseId } = useParams();
     const assesement_types = ["file", "url", "meeting", "questions"];
+    const { courseId } = useParams();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -42,36 +43,41 @@ export default function AddAssesement() {
         setMsg(null);
         setLoading(true);
         let formData = null;
+        const auth_user = window.localStorage.getItem("DDOj9KHr51qW1xi");
 
         if (assesementType == 'questions') {
             formData = JSON.stringify({
-                "title": "Assignment",
+                "title": e.target.title.value,
                 "course_id": courseId,
                 "type": "questions",
                 "description": e.target.description.value,
                 "questions": questionsList
             })
         } else {
-            formData = new FormData(e.target);
-            formData.append("course_id", courseId);
-            formData.append("createdBy", "2");
+            formData = {
+                "title": e.target.title.value,
+                "course_id": parseInt(courseId),
+                "type": assesementType,
+                "description": e.target.description.value,
+            }
         }
-
-
-        //return false;
 
         if (e.target.title.value != "" && e.target.description.value != "") {
             try {
                 const response = await api.post("/assignments", formData);
-
+                
                 if (response.status == 200) {
                     setLoading(false);
+
                     navigate('/courses/' + courseId);
                 } else {
                     setLoading(false);
                     setMsg(language["error_msg"]);
                 }
             } catch (error) {
+                console.log(error);
+                
+                setMsg(language['error_msg']);
                 setLoading(false);
             }
         } else {
@@ -124,9 +130,14 @@ export default function AddAssesement() {
                     </div>}
                 </div>
 
+                <label htmlFor="title" className="block mb-14">
+                    <p className="my-3 font-bold">{language && language["title"]}</p>
+                    <input type="text" name="title" id="title" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                </label>
+
                 <label htmlFor="description" className="block mb-14">
                     <p className="my-3 font-bold">{language && language["description"]}</p>
-                    <input type="text" id="description" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                    <textarea name="description" id="description" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" rows={3}></textarea>
                 </label>
 
                 {assesementType == 'questions' && <div>
@@ -146,16 +157,6 @@ export default function AddAssesement() {
                         </div>)}
                     </div>}
                 </div>}
-
-                {/* <p className="my-3 font-bold">{language && language["assesment_explenation_video"]} <span className="text-gray-600">({language && language["optional"]})</span></p>
-                <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-color">
-                    <div className="text-center">
-                        <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-                        <p className="text-l font-bold">{language && language["upload_video"]}</p>
-                        <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
-                    </div>
-                    <input type="file" accept="image/jpg,image/png" id="uploadImage" name="uploadImage" className="hidden " />
-                </label> */}
 
                 {msg && <div className="p-4 m-2">
                     {msg}

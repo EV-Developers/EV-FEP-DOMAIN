@@ -30,13 +30,11 @@ export default function TAssesment({ courseId, item }) {
                 <div className="flex justify-between transition-all w-full pb-3">
                     <p className="text-l font-bold">{item.title}</p>
                 </div>
+                <p className="text-xs text-color">{item.description}</p>
                 <div className="transition-all">
-                    <div className="p-2">
-                        <img src="/data/vid-1.webp" className="w-[65%]" alt="" />
-                    </div>
-                    <p className="p-2">{language && language["assesment_type"]}: {item.assesment_type}</p>
+                    <p className="p-2">{language && language["assesment_type"]}: {language && language[item.type]}</p>
 
-                    <Link to={"/teachers/submit-assesment/"+courseId} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold" >{language && language['submit']}</Link>
+                    <Link to={"/teachers/submit-assesment/"+item.id} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold" >{language && language['submit']}</Link>
                 </div>
             </div>
 

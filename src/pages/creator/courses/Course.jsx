@@ -57,10 +57,10 @@ export default function Course() {
     async function getData() {
         try {
             const tmpData = await api.get('/courses/' + courseId);
-            const tmplessonsData = null //await api.get('/lessons/'+courseId);
-            const tmpAssestmentsData = null //await api.get('/assignments');
 
+            
             if (tmpData && tmpData.status == 200) {
+                console.log(tmpData.data.data);
                 setData(tmpData.data.data);
 
                 if (tmpData.data && tmpData.data.data && tmpData.data.data.lessons) {
@@ -72,13 +72,8 @@ export default function Course() {
                         setLessonData([]);
                     }
                 }
-                setAssestmentsData(tmpData.data.data.assignment);
+                setAssestmentsData(tmpData.data.data.assignments);
                 setResources(tmpData.data.data.resources);
-            }
-
-
-            if (tmpAssestmentsData && tmpAssestmentsData.status == 200) {
-                setAssestmentsData(tmpAssestmentsData.data);
             }
         } catch (error) {
             //console.log(error);
@@ -88,6 +83,7 @@ export default function Course() {
     const handleDelete = async () => {
         try {
             const response = await api.delete('/courses/' + courseId);
+            
             if (response.status == 200) {
                 navigate("/courses")
             } else {

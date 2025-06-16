@@ -6,6 +6,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import api from '../../../config/api';
 import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 import { translation } from '../../../config/translations';
+import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
 export default function Assesment({ item }) {
     const [show, setShow] = React.useState(false);
@@ -13,6 +14,9 @@ export default function Assesment({ item }) {
     const [language, setLanguage] = React.useState(null);
     const [courseId, setCourseId] = React.useState(null);
     const [assesmentId, setAssesmentId] = React.useState(null);
+    const [videoData, setVideoData] = React.useState(null);
+    const [videoUrl, setVideoUrl] = React.useState(null);
+    const [videoError, setVideoError] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -37,19 +41,58 @@ export default function Assesment({ item }) {
      * delete assignments by id
      * @param {string} item_id assignments ID
      */
-    const handleDelete = async (item_id) => {
+    const handleDelete = async () => {
         try {
-            const response = await api.delete('/assignments/' + item_id);
+            const response = await api.delete('/assignments/' + item.id);
 
             if (response.status == 200) {
-                navigate("/courses/" + courseId)
-            } else {
-                //console.log('error');
+                window.location.reload();
             }
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
         
+    }
+
+    React.useEffect(() => {
+        if(item && item.video && item.video != ''){
+            getVideo();
+        }
+    }, []);
+
+    const getVideo = async () => {        
+        const aurl = "https://fep.misk-donate.com/api/assignments/download/";
+        const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+
+        try {
+            fetch(aurl+item.video, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            .then(response => {            
+                try {
+                    if (response && !response.ok) {
+                        setVideoError(true);
+                    }
+                    return response.blob();
+                } catch (error) {
+                    setVideoError(true);
+                    return null;
+                }
+            })
+            .then(blob => {            
+                const tmpVideoURL = URL.createObjectURL(blob);  
+                setVideoUrl(tmpVideoURL);          
+            })
+            .catch(error => {
+                //console.error('Error loading video:', error);
+                setVideoError(true);
+            });
+        } catch (error) {
+            //console.log(error);
+            setVideoError(true);
+        }
     }
 
     return (
@@ -61,16 +104,13 @@ export default function Assesment({ item }) {
                     <FontAwesomeIcon icon={!show ? faCaretDown : faCaretUp} className="text-xl" />
                 </button>
                 {show && <div className="transition-all">
-                    <div className="p-2">
-                        <img src="/data/vid-1.webp" alt="" />
-                    </div>
-                    <p className="p-2">{language && language["assesment_type"]}: {item.assesment_type}</p>
+                    <p className="text-sm text-color">{item.description}</p>
+                    {item.video && item.video != '' && <div className="p-2">
+                       {videoUrl && !videoError && <VideoPlayer videoData={videoData} tmp_vid_url={videoUrl} setVideoData={setVideoData}/>} 
+                    </div>}
+                    <p className="p-2">{language && language["assesment_type"]}: {language && language[item.type]}</p>
                     <div className="flex">
-                        <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  " onClick={() => {
-                            setAssesmentId(item.id);
-                            setCourseId(item.course_id);
-                            setShowModal(true);
-                        }}>{language && language["delete"]}</button>
+                        <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  " onClick={() => setShowModal(true)}>{language && language["delete"]}</button>
                         <Link to={"/edit-assesment/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ">{language && language["edit"]}</Link>
                     </div>
                 </div>}

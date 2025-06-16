@@ -12,7 +12,6 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
     const [videoData, setVideoData] = React.useState(null);
     const [videoUrl, setVideoUrl] = React.useState(null);
     const [videoError, setVideoError] = React.useState(null);
-    const [videoURL, setVideoURL] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -51,7 +50,7 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
                     }
                     return response.blob();
                 } catch (error) {
-
+                    setVideoError(true)
                     return null;
                 }
             })
@@ -60,9 +59,11 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
                 setVideoUrl(tmpVideoURL);          
             })
             .catch(error => {
+                setVideoError(true)
                 //console.error('Error loading video:', error);
             });
         } catch (error) {
+            setVideoError(true)
             //console.log(error);
         }
     }

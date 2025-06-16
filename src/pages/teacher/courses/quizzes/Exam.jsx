@@ -242,7 +242,7 @@ export default function Exam() {
             <div className="flex">
                 <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/teachers/courses"}>{language && language["courses"]}</Link><FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={`/teachers/courses/${courseId}/lessons/${lessonId}/`} >{language && language['details']}</Link>
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={`/teachers/courses/${courseId}`} >{language && language['details']}</Link>
                 <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                 <p className="m-3 my-3 text-color">{language && language["lessons_quizzes"]}</p>
             </div>

@@ -178,6 +178,7 @@ export const translation = [
     meeting: "Meeting",
     questions: "Questions",
     best_growth: "Best Growth",
+    due_date: "Due date",
   },
   {
     dir: "rtl",
@@ -357,5 +358,6 @@ export const translation = [
     meeting: "اجتماع",
     questions: "أسئلة",
     best_growth: "أفضل نمو",
+    due_date: "اخر موعد للتسليم",
   },
 ];

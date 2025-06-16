@@ -194,7 +194,7 @@ export default function NewQuiz() {
                         <input type="number" value={mark} onChange={val => setMark(val.target.value)} id="mark" placeholder={language && language["mark"]} className="py-2 px-14 rounded shodow-sm bg-gray-200 w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" />
                     </label>
                 </div>
-                <div className="block relative w-[30%]">
+                <div className="block relative w-[45%]">
                     <button className="flex justify-between font-bold bg-color py-2 px-5 mx-3 rounded-xl text-sm w-[55%] my-4" onClick={() => setShow(!show)}><span>{language && language[quizType]}</span> <FontAwesomeIcon icon={faCaretDown} /></button>
                     {show && <div className="bg-color block rounded-xl p-3 absolute z-10">
                         {quizTypes && quizTypes.map(item => <button onClick={() => setQuizType(item)} key={item} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-3 p-3 ${quizType == item ? 'bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400' : 'bg-white'}`}>
