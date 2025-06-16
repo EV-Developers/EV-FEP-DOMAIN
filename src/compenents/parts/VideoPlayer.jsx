@@ -20,8 +20,6 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
                 currentTime: userProgress,
                 progress: totalTime
             };
-            console.log(payload);
-
 
             setVideoData(payload);
         });

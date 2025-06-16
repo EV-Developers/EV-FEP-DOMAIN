@@ -42,7 +42,7 @@ export default function TGames() {
     return (
         <ThemeContainer role="teachers">
             <div className="block mx-auto w-[75%]">
-                {list && list.map(item => <Link to={'/teachers/games/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
+                {list && list.map(item => <Link key={"game-" + item.id} to={'/teachers/games/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
             </div>
         </ThemeContainer>
     )

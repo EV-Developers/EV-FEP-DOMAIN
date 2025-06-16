@@ -35,7 +35,7 @@ export default function Search() {
 
   React.useEffect(() => {
     loadData();
-  }, [])
+  }, []);
 
   const loadData = async () => {
     try {

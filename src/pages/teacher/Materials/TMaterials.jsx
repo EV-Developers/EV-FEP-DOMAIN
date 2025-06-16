@@ -41,7 +41,7 @@ export default function TMaterials() {
     return (
         <ThemeContainer role="teachers">
             <div className="block mx-auto w-[75%] pt-4">
-                {list && list.map(item => <Link to={'/teachers/materials/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
+                {list && list.map(item => <Link key={"material-"+item.id} to={'/teachers/materials/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
             </div>
         </ThemeContainer>
     )

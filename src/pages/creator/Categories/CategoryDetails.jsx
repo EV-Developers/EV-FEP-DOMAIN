@@ -202,7 +202,7 @@ export default function CategoryDetails() {
                     </label>
                     <label htmlFor="description">
                         <p className="my-3 font-bold">{language && language["description"]}</p>
-                        <textarea name="description" id="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["description"]} >{data.description}</textarea>
+                        <textarea name="description" id="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["description"]} defaultValue={data.description}></textarea>
                     </label>
                 </div>
 

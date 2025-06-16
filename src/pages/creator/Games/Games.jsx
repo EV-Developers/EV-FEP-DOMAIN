@@ -57,7 +57,7 @@ export default function Games() {
                     <Link to="/add-game" className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400   font-bold">{language && language["create"]}</Link>
                 </div>
 
-                {list && list.map(item => <Link to={'/games/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
+                {list && list.map(item => <Link key={"game-"+item.id} to={'/games/' + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 my-2 text-sm'>{item.title}</Link>)}
             </div>
         </ThemeContainer>
     )
