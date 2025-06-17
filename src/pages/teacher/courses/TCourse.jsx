@@ -18,7 +18,7 @@ export default function TCourse() {
     const [tabs, setTabs] = React.useState('content');
     const [data, setData] = React.useState(null);
     const [lessonsData, setLessonData] = React.useState(null);
-    const [assestmentsData, setAssestmentsData] = React.useState([]);
+    const [assestmentsData, setAssignmentsData] = React.useState([]);
     const [resources, setResources] = React.useState([]);
     const [language, setLanguage] = React.useState(null);
     const { courseId } = useParams();
@@ -50,19 +50,22 @@ export default function TCourse() {
             const tmpData = await api.get('/courses/' + courseId);
 
             if (tmpData && tmpData.status == 200) {
-                setData(tmpData.data.data)
-                setLessonData(tmpData.data.data.lessons);
-
-                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.assignments){
-                    setAssestmentsData(tmpData.data.data.assignments);
-                }
-
-                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.resources){
-                    setResources(tmpData.data.data.resources);
+                if(tmpData.data && tmpData.data.data){
+                    setData(tmpData.data.data)
+                    setLessonData(tmpData.data.data.lessons);                    
+                    
+                    if(tmpData.data.data.resources){
+                        setResources(tmpData.data.data.resources);
+                    }
+                    
+                    if(tmpData.data.data.assignments){
+                        setAssignmentsData(tmpData.data.data.assignments);
+                    }
+    
                 }
             }
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
 
     }
@@ -152,7 +155,7 @@ export default function TCourse() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <TLessons courseId={courseId} lessons={lessonsData} assesments={assestmentsData} />
+                    <TLessons courseId={courseId} lessons={lessonsData} assignments={assestmentsData} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>

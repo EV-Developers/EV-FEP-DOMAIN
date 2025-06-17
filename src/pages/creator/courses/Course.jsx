@@ -19,7 +19,7 @@ export default function Course() {
     const [lessonsData, setLessonData] = React.useState(null);
     const [lessonshadowData, setShadowLessonData] = React.useState(null);
     const [resources, setResources] = React.useState(null);
-    const [assesments, setAssestmentsData] = React.useState(null);
+    const [assignments, setAssignmentsData] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
     const { courseId } = useParams();
     const navigate = useNavigate();
@@ -59,26 +59,29 @@ export default function Course() {
             const tmpData = await api.get('/courses/' + courseId);
 
             if (tmpData && tmpData.status == 200) {
-                setData(tmpData.data.data);
 
-                if (tmpData.data && tmpData.data.data && tmpData.data.data.lessons) {
-                    if (tmpData.data.data && tmpData.data.data.lessons.length != 0) {
-                        const tmpArr = tmpData.data.data.lessons.sort((a, b) => a._order - b._order);
-                        setLessonData(tmpArr);
-                        setShadowLessonData(tmpArr);
-                    } else {
-                        setLessonData([]);
+                if(tmpData.data && tmpData.data.data){
+                    setData(tmpData.data.data);
+    
+                    if (tmpData.data.data.lessons) {
+                        if (tmpData.data.data && tmpData.data.data.lessons.length != 0) {
+                            const tmpArr = tmpData.data.data.lessons.sort((a, b) => a._order - b._order);
+                            setLessonData(tmpArr);
+                            setShadowLessonData(tmpArr);
+                        } else {
+                            setLessonData([]);
+                        }
                     }
+                    
+                    if(tmpData.data.data.resources){
+                        setResources(tmpData.data.data.resources);
+                    }
+                    
+                    if(tmpData.data.data.assignments){
+                        setAssignmentsData(tmpData.data.data.assignments);
+                    }
+    
                 }
-                
-                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.assignments){
-                    setAssestmentsData(tmpData.data.data.assignments);
-                }
-
-                if(tmpData.data && tmpData.data.data && tmpData.data && tmpData.data.data.resources){
-                    setResources(tmpData.data.data.resources);
-                }
-
             }
         } catch (error) {
             console.log(error);
@@ -176,7 +179,7 @@ export default function Course() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <Lessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assesments={assesments} handleSort={setUserSort} />
+                    <Lessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assignments={assignments} handleSort={setUserSort} />
                 </div>
                 <div className="w-[25%] relative pb-[5%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>

@@ -8,7 +8,7 @@ import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 import { translation } from '../../../config/translations';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
-export default function Assesment({ item }) {
+export default function Assesment({ assignments }) {
     const [show, setShow] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
@@ -39,11 +39,11 @@ export default function Assesment({ item }) {
 
     /**
      * delete assignments by id
-     * @param {string} item_id assignments ID
+     * @param {string} assignments_id assignments ID
      */
     const handleDelete = async () => {
         try {
-            const response = await api.delete('/assignments/' + item.id);
+            const response = await api.delete('/assignments/' + assignments.id);
 
             if (response.status == 200) {
                 window.location.reload();
@@ -51,11 +51,10 @@ export default function Assesment({ item }) {
         } catch (error) {
             //console.log(error);
         }
-
     }
 
     React.useEffect(() => {
-        if (item && item.video && item.video != '') {
+        if (assignments && assignments.video && assignments.video != '') {
             getVideo();
         }
     }, []);
@@ -65,7 +64,7 @@ export default function Assesment({ item }) {
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
-            fetch(aurl + item.video, {
+            fetch(aurl + assignments.video, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -100,18 +99,18 @@ export default function Assesment({ item }) {
             {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
             <div className="bg-white p-5 m-4 shadow-sm rounded-xl cursor-pointer transition-all">
                 <button className="flex justify-between transition-all cursor-pointer w-full pb-3" onClick={() => setShow(!show)}>
-                    <p className="text-l font-bold">{item.title}</p>
+                    <p className="text-l font-bold">{assignments.title}</p>
                     <FontAwesomeIcon icon={!show ? faCaretDown : faCaretUp} className="text-xl" />
                 </button>
                 {show && <div className="transition-all">
-                    <p className="text-sm text-color">{item.description}</p>
-                    {item.video && item.video != '' && <div className="p-2">
+                    <p className="text-sm text-color">{assignments.description}</p>
+                    {assignments.video && assignments.video != '' && <div className="p-2">
                         {videoUrl && !videoError && <VideoPlayer videoData={videoData} tmp_vid_url={videoUrl} setVideoData={setVideoData} />}
                     </div>}
-                    <p className="p-2">{language && language["assesment_type"]}: {language && language[item.type]}</p>
+                    <p className="p-2">{language && language["assesment_type"]}: {language && language[assignments.type]}</p>
                     <div className="flex">
                         <button className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  " onClick={() => setShowModal(true)}>{language && language["delete"]}</button>
-                        <Link to={"/edit-assesment/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ">{language && language["edit"]}</Link>
+                        <Link to={"/edit-assesment/" + assignments.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 ">{language && language["edit"]}</Link>
                     </div>
                 </div>}
             </div>

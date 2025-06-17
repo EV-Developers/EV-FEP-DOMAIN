@@ -4,7 +4,7 @@ import { translation } from '../../../../config/translations';
 import Lesson from '../TLesson';
 import Assesment from '../TAssesment';
 
-export default function TLessons({ lessons, assesments, courseId }) {
+export default function TLessons({ lessons, assignments, courseId }) {
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
@@ -27,7 +27,7 @@ export default function TLessons({ lessons, assesments, courseId }) {
 
     return (<div>
         <p className="text-2xl m-4">{language && language["course_lessons"]}:</p>
-        {(lessons && typeof assesments == Array) && lessons.map(item => <Lesson courseId={courseId} item={item} key={item.id} />)}
-        {/* {(assesments && typeof assesments == Array) && assesments.map(item => <Assesment courseId={courseId} item={item} key={item.id} />)} */}
+        {lessons && lessons.map(item => <Lesson courseId={courseId} item={item} key={item.id} />)}
+        {assignments && <Assesment courseId={courseId} assignments={assignments} />}
     </div>)
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { translation } from '../../../config/translations';
 
-export default function TAssesment({ item }) {
+export default function TAssesment({ assignments }) {
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
@@ -28,13 +28,13 @@ export default function TAssesment({ item }) {
         <div>
             <div className="p-5 m-4 rounded-xl transition-all">
                 <div className="flex justify-between transition-all w-full pb-3">
-                    <p className="text-l font-bold">{item.title}</p>
+                    <p className="text-l font-bold">{assignments.title}</p>
                 </div>
-                <p className="text-xs text-color">{item.description}</p>
+                <p className="text-xs text-color">{assignments.description}</p>
                 <div className="transition-all">
-                    <p className="p-2">{language && language["assesment_type"]}: {language && language[item.type]}</p>
+                    <p className="p-2">{language && language["assesment_type"]}: {language && language[assignments.type]}</p>
 
-                    <Link to={"/teachers/submit-assesment/" + item.id} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold" >{language && language['submit']}</Link>
+                    <Link to={"/teachers/submit-assesment/" + assignments.id} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-xs hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold" >{language && language['submit']}</Link>
                 </div>
             </div>
         </div>
