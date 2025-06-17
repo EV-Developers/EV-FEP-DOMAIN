@@ -42,6 +42,6 @@ export default function Lessons({ lessons, setLessons, assignments, courseId, ha
         {lessons && <ReactSortable list={lessons} setList={setLessons} onUpdate={(data) => handleSort(data)}>
             {lessons && lessons.map(item => <Lesson courseId={courseId} item={item} key={item.id} />)}
         </ReactSortable>}
-        {assignments && <Assesment assignments={assignments} />}
+        {assignments && assignments.map(item => <Assesment courseId={courseId} assignments={item} key={item.id} />)}
     </div>)
 }

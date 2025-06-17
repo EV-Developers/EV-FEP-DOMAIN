@@ -1,126 +1,110 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-
+import React from 'react';
 import api from '../config/api';
-import ThemeContainer from '../compenents/parts/ThemeContainer'
-import { translation } from '../config/translations';
+import ThemeContainer from '../compenents/parts/ThemeContainer';
+import CourseItem from '../compenents/parts/CourseItem';
 
-export default function Explore() {
-    const [coursesData, setCoursesData] = React.useState(null);
-    const [language, setLanguage] = React.useState(null);
-    const [category, setCategory] = React.useState(null);
+export default function ExploreOverlay({ language, setShow }) {
     const [data, setData] = React.useState(null);
-    const [shadowData, setShadowData] = React.useState(null);
-    const [loading, setLoading] = React.useState(null);
+    const [categoriesData, setCategoriesData] = React.useState(null);
+    const [categoryId, setCategoryId] = React.useState(null);
+    const [categoriesShadowData, setCategoriesShadowData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [loadingCats, setLoadingCats] = React.useState(true);
 
     React.useEffect(() => {
-        const lang = window.localStorage.getItem("language");
+        loadCategoriesData();
+    }, [])
 
-        if (lang && lang != '' && lang != null) {
-            if (lang == 'english') {
-                setLanguage(translation[0]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-            } else {
-                setLanguage(translation[1]);
-                window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+    const loadCategoriesData = async () => {
+        const response = await api.get('/course-categories');
+
+        if (response.status == 200) {
+            setLoadingCats(false);
+            let tmpArr = response.data;
+            setCategoriesData(tmpArr);
+            setCategoriesShadowData(tmpArr);
+            if (tmpArr && tmpArr.length != 0) {
+                setCategoryId(tmpArr[0].id);
             }
         } else {
-            setLanguage(translation[0]);
-            window.localStorage.setItem("language", 'english');
-            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+            setLoadingCats(false);
         }
+    }
 
-        loadData();
-    }, []);
+    React.useEffect(() => {
+        getCoursesByCategory();
+    }, [categoryId]);
 
-    const loadData = async () => {
+    const getCoursesByCategory = async () => {
         setLoading(true);
+        setData(null);
+
         try {
-            const response = await api.get('/course-categories');
+            const response = await api.get('/courses?sort_by=level_id&category_id=' + categoryId);
+
             if (response.status == 200) {
-                setData(response.data);
-                setShadowData(response.data);
-                loadCoursesData()
-            }
-        } catch (error) {
-            //console.log(error);
-        }
-    }
-
-    const loadCoursesData = async () => {
-        try {
-            const tmpData = await api.get('/courses');
-
-            if (tmpData.status == 200) {
                 setLoading(false);
-                setCoursesData(tmpData.data.data);
+                setData(response.data.data);
             } else {
                 setLoading(false);
             }
         } catch (error) {
-            //console.log(error);
-        }
-    }
-
-    const handleCats = (cat_id) => {
-        setCategory(cat_id);
-    }
-
-    const filterCategoryByName = (val) => {
-        if (shadowData && val.length != 0) {
-            let cats = shadowData.filter(item => item.name.toLowerCase().includes(val.toLowerCase()));
-            setData(cats);
-        } else {
-            setData(shadowData);
+            setLoading(false);
         }
     }
 
     return (<ThemeContainer role="teachers">
-        <div className="block mx-auto w-[75%]">
             <div className="flex">
-                <div className="w-full md:w-[25%] flex items-center">
-                    <div>
-                        <div className="block mx-auto relative mb-6">
-                            <input
-                                type="search"
-                                name="search"
-                                placeholder=" "
-                                onChange={(val) => filterCategoryByName(val.target.value)}
-                                className="peer w-full border-b border-gray-600 bg-transparent pt-4 pb-2 text-sm text-gray-600 focus:outline-none"
-                            />
-                            <label className="absolute left-0 -top-2 text-xs text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 transition-all">
-                                {language && language["search"]}
-                            </label>
-                        </div>
-                        {data && data.map(item => <div key={"cat-" + item.id}>
-                            <button onClick={() => handleCats(item.id)} className={`text-gray-400 text-sm px-2 hover:text-gray-600 hover:border-b-gray-600 rounded-xl cursor-pointer text-left w-full ${category == item.id && 'border border-gray-400'}`}>{item.name}</button>
-                        </div>)}
-                    </div>
-                </div>
-                <div className="p-5 w-[75%]">
-                    <div className="flex">
-                        {coursesData && coursesData.map(item => <Link to={"/teachers/courses/" + item.id} key={"item-" + item.id} className="block w-[25%] bg-white rounded-t-xl p-0 mx-2 hover:scale-102">
-                            <img src="/data/vid-1.webp" className="w-full rounded-t-xl" />
-                            <h3 className="text-xs mx-2 my-4 font-bold">{item.title}</h3>
-                        </Link>)}
-                    </div>
+                <div className="w-[25%] px-3 overflow-y-auto h-[100vh]">
 
-                    {!coursesData && loading && <div className="flex animate-pulse">
-                        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
-                            <div className="w-full h-24 bg-gray-300"></div>
-                            <div className="w-full h-2 bg-gray-300 my-4"></div>
-                        </div>
-                        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
-                            <div className="w-full h-24 bg-gray-300"></div>
-                            <div className="w-full h-2 bg-gray-300 my-4"></div>
-                        </div>
-                        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2 ">
-                            <div className="w-full h-24 bg-gray-300"></div>
-                            <div className="w-full h-2 bg-gray-300 my-4"></div>
-                        </div>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['courses']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['my_courses']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['main_title']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['recommanded']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['new_courses']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['top_rated']}</button>
+                    <button className={`my-2 block py-2 cursor-pointer px-3 text-xl ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['popular_courses']}</button>
+
+                    <hr className="text-gray-300 mx-4 my-5 mt-14" />
+
+                    <h3 className="text-2xl my-3">{language && language['categories']}</h3>
+                    {categoriesData && categoriesData.map(item => <div key={item.id}>
+                        <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]' : ''} ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
+                    </div>)}
+                    {!categoriesData && loadingCats && <div className="animate-pulse">
+                        <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>
+                        <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>
+                        <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>
                     </div>}
                 </div>
+                <div className="block mx-auto w-[75%] overflow-y-auto h-[100vh] pb-[10%]">
+                    {(!loadingCats && !data && loading) && <div className="flex flex-wrap animate-pulse">
+                        <div className="shadow block w-[23%] h-[470px] rounded-l p-2 mx-2 my-3">
+                            <div className="w-full h-24 bg-gray-300"></div>
+                            <div className="w-full h-2 bg-gray-300 my-4"></div>
+                            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+                        </div>
+                        <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+                            <div className="w-full h-24 bg-gray-300"></div>
+                            <div className="w-full h-2 bg-gray-300 my-4"></div>
+                            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+                        </div>
+                        <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+                            <div className="w-full h-24 bg-gray-300"></div>
+                            <div className="w-full h-2 bg-gray-300 my-4"></div>
+                            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+                        </div>
+                        <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+                            <div className="w-full h-24 bg-gray-300"></div>
+                            <div className="w-full h-2 bg-gray-300 my-4"></div>
+                            <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
+                        </div>
+                    </div>}
+                    <div className="flex flex-wrap ">
+                        {data && data.map(item => <CourseItem onClick={() => setShow(false)} language={language} link="/teachers/courses/" item={item} />)}
+                    </div>
+                </div>
             </div>
-        </div>
-    </ThemeContainer>)
+        </ThemeContainer>
+    )
 }

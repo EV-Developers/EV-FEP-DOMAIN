@@ -178,7 +178,6 @@ export default function Courses() {
                             </p>
                         </div>
                     </Link>)}
-
                 </div>
             </div>
         </ThemeContainer>

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp" }) {
+export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime }) {
     const [play, setShow] = React.useState(true);
     const [progress, setProgress] = React.useState(0);
     const video = useRef();
@@ -12,6 +12,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             const currentTime = ev.target.currentTime;
             const totalTime = (currentTime / duration) * 100;
             const payload = {
+                id: Date.now(),
                 courseId: courseId,
                 lessonId: lessonId,
                 duration: duration,
@@ -22,6 +23,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             };
 
             setVideoData(payload);
+            setVideosTime(payload);
         });
 
         return document.getElementById('video-' + lessonId).removeEventListener('loadedmetadata', listen);

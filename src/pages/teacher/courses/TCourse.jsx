@@ -21,6 +21,7 @@ export default function TCourse() {
     const [assestmentsData, setAssignmentsData] = React.useState([]);
     const [resources, setResources] = React.useState([]);
     const [language, setLanguage] = React.useState(null);
+    const [totalMinutes, setTotalHourse] = React.useState(null);
     const { courseId } = useParams();
 
     React.useEffect(() => {
@@ -61,13 +62,11 @@ export default function TCourse() {
                     if(tmpData.data.data.assignments){
                         setAssignmentsData(tmpData.data.data.assignments);
                     }
-    
                 }
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
-
     }
 
     const handleCourseCertificateDownload = () => {
@@ -80,7 +79,7 @@ export default function TCourse() {
             // Replace file name spaces with dash
             const file_name = courseTitle.replaceAll(' ', '-') + '-certificate.pdf';
 
-            // add certificate URL as QR Code.
+            // Add certificate URL as QR Code.
             const qr = new QRCode(4, 'L');
             qr.addData('https://fep.misk-donate.com/?c=' + cr_ref);
             qr.make();
@@ -155,7 +154,7 @@ export default function TCourse() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <TLessons courseId={courseId} lessons={lessonsData} assignments={assestmentsData} />
+                    <TLessons courseId={courseId} lessons={lessonsData} assignments={assestmentsData} setTotalHourse={setTotalHourse} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
@@ -170,7 +169,7 @@ export default function TCourse() {
                     </a>)}
                 </div>
             </div>}
-            {tabs == 'overview' && <TOverview data={data} language={language} />}
+            {tabs == 'overview' && <TOverview data={data} totalMinutes={totalMinutes} language={language} />}
             {tabs == 'comments' && <TComments data={data} language={language} />}
             {tabs == 'resources' && <TResources data={data} resources_list={resources} />}
             <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>

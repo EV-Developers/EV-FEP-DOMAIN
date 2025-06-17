@@ -293,7 +293,7 @@ export const translation = [
     confirm: "هل أنت متأكد؟",
     minitus: "دقيقة",
     seconds: "ثواني",
-    total_hours: "الساعات الكلي",
+    total_hours: "ساعات",
     name: "الإسم",
     address: "العنوان",
     informations: "معلومات",

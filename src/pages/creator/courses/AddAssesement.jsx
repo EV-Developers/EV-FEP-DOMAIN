@@ -133,6 +133,11 @@ export default function AddAssesement() {
                     <input type="text" name="title" id="title" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
                 </label>
 
+                {/* <label htmlFor="due_date" className="block mb-14">
+                    <p className="my-3 font-bold">{language && language["due_date"]}</p>
+                    <input type="date" name="due_date" id="due_date" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" />
+                </label> */}
+                
                 <label htmlFor="description" className="block mb-14">
                     <p className="my-3 font-bold">{language && language["description"]}</p>
                     <textarea name="description" id="description" placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-gray-200 w-full placeholder-gray-400" rows={3}></textarea>

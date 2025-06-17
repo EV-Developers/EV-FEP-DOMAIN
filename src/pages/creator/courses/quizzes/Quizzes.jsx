@@ -87,6 +87,8 @@ export default function Quizzes() {
       </div>
       {quizzList && quizzList.map(quiz => quiz.questions && quiz.questions.map(item => <div key={item.id} className="border-t border-t-gray-200 py-5">
         <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
+        {<p className="text-sm p-3 m-2">{language && language["mark"]}: {item.mark}</p>}
+
         {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {language && language[item.question_type]}</p>}
         {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
         {item.answers && item.answers.map(answer => <div key={answer.id} className={`p-3 m-2 rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer_text}</div>)}

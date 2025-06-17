@@ -21,9 +21,9 @@ export default function Course() {
     const [resources, setResources] = React.useState(null);
     const [assignments, setAssignmentsData] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
+    const [userSort, setUserSort] = React.useState(null);
     const { courseId } = useParams();
     const navigate = useNavigate();
-    const [userSort, setUserSort] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -59,10 +59,9 @@ export default function Course() {
             const tmpData = await api.get('/courses/' + courseId);
 
             if (tmpData && tmpData.status == 200) {
-
-                if(tmpData.data && tmpData.data.data){
+                if (tmpData.data && tmpData.data.data) {
                     setData(tmpData.data.data);
-    
+
                     if (tmpData.data.data.lessons) {
                         if (tmpData.data.data && tmpData.data.data.lessons.length != 0) {
                             const tmpArr = tmpData.data.data.lessons.sort((a, b) => a._order - b._order);
@@ -72,19 +71,18 @@ export default function Course() {
                             setLessonData([]);
                         }
                     }
-                    
-                    if(tmpData.data.data.resources){
+
+                    if (tmpData.data.data.resources) {
                         setResources(tmpData.data.data.resources);
                     }
-                    
-                    if(tmpData.data.data.assignments){
+
+                    if (tmpData.data.data.assignments) {
                         setAssignmentsData(tmpData.data.data.assignments);
                     }
-    
                 }
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -132,7 +130,7 @@ export default function Course() {
                     } catch (error) {
                         //console.log(error);
                     }
-                })
+                });
             }
         }
     }
@@ -170,11 +168,14 @@ export default function Course() {
                     <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
                 </button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'overview' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('overview')}>{language && language["overview"]}
-                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span></button>
+                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
+                </button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'comments' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('comments')}>{language && language["comments"]}
-                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span></button>
+                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
+                </button>
                 <button className={`mx-2 cursor-pointer ${tabs == 'resources' && 'border-b-2 border-b-[#fa9600]'} relative group hover:border-none`} onClick={() => setTabs('resources')}>{language && language["resources"]}
-                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span></button>
+                    <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
+                </button>
             </div>
 
             {tabs == 'content' && <div className="flex">

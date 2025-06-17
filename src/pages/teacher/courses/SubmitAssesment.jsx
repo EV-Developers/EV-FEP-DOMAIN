@@ -159,7 +159,7 @@ export default function SubmitAssesment() {
                 <p><input type="text" name={"question-" + item.id} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} /></p>
             </div>)}
 
-            {videoUrl && !videoError && <div className="justify-baseline">
+            {videoUrl && !videoError && <div className="block justify-baseline mx-auto">
                 <VideoPlayer videoData={videoData} tmp_vid_url={videoUrl} setVideoData={setVideoData} />
             </div>}
 

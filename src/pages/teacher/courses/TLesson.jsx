@@ -7,10 +7,10 @@ import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
-export default function TLesson({ item, courseId, userProgress = 0 }) {
+export default function TLesson({ item, courseId, userProgress = 0, videosTime, setVideosTime }) {
     const [language, setLanguage] = React.useState(null);
-    const [videoData, setVideoData] = React.useState(null);
     const [videoUrl, setVideoUrl] = React.useState(null);
+    const [videoData, setVideoData] = React.useState(null);
     const [videoError, setVideoError] = React.useState(null);
 
     React.useEffect(() => {
@@ -84,6 +84,7 @@ export default function TLesson({ item, courseId, userProgress = 0 }) {
                     videoData={videoData}
                     tmp_vid_url={videoUrl}
                     setVideoData={setVideoData}
+                    setVideosTime={setVideosTime}
                     userProgress={userProgress}
                 />
                 <div className="flex">
