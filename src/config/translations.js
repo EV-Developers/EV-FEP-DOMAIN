@@ -179,6 +179,7 @@ export const translation = [
     questions: "Questions",
     best_growth: "Best Growth",
     due_date: "Due date",
+    slideshow: "Home image slide show",
   },
   {
     dir: "rtl",
@@ -359,5 +360,6 @@ export const translation = [
     questions: "أسئلة",
     best_growth: "أفضل نمو",
     due_date: "اخر موعد للتسليم",
+    slideshow: "عارض الصورة للصفحة الرئيسية",
   },
 ];

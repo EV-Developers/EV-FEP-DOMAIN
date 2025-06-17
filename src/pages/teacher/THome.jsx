@@ -83,8 +83,8 @@ export default function THome() {
       </SwiperSlide>)}
     </Swiper>
     <div className="block w-[75%] mx-auto">
-      <h2 className="my-2 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
-      <p className="mb-10 mt-3 text-xl font-medium">{language && language['home_quote']}</p>
+      <h2 className="my-4 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
+      <p className="mb-10 mt-2 text-l font-medium">{language && language['home_quote']}</p>
       <div className="flex flex-wrap ">
         {data && data.map(item => <CourseItem key={'course-'+item.id} language={language} link="/teachers/courses/" item={item} />)}
       </div>

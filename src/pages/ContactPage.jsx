@@ -61,7 +61,7 @@ export default function ContactPage() {
             <div className="flex">
                 <div className="p-5 m-5 w-full md:w-[55%]">
                     <p><FontAwesomeIcon icon={faMapMarkerAlt} className="mx-2" /> Muscat, AL Mawaleh 200 Oman, CA 94110</p>
-                    <p><FontAwesomeIcon icon={faEnvelope} className="mx-2" /> evcentersinfo@outlook.com</p>
+                    <p><FontAwesomeIcon icon={faEnvelope} className="mx-2" /> {'evcentersinfo'+'@'+'outlook.com'}</p>
                     <p><FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faPhoneAlt : faPhone} className="mx-2" /> 1-800-800-2299</p>
 
                     <hr className="my-5 text-gray-300" />

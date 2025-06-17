@@ -50,7 +50,7 @@ export default function Footer({ role }) {
             <div className="flex my-14 mt-5 md:w-[90%] lg:w-[75%] text-sm mx-auto">
                 <div className="text-xs m-14">
                     <p><FontAwesomeIcon icon={faMapMarkerAlt} className="mx-2" /> Muscat, AL Mawaleh 200 Oman, CA 94110</p>
-                    <p><FontAwesomeIcon icon={faEnvelope} className="mx-2" /> evcentersinfo@outlook.com</p>
+                    <p><FontAwesomeIcon icon={faEnvelope} className="mx-2" /> {'evcentersinfo'+'@'+'outlook.com'}</p>
                     <p><FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faPhoneAlt : faPhone} className="mx-2" /> 1-800-800-2299</p>
                 </div>
                 <div className="flex mt-7 text-xs">

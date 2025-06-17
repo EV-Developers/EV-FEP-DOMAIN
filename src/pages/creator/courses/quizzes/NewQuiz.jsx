@@ -47,6 +47,7 @@ export default function NewQuiz() {
         if (quizType == 'Text Input') {
             setAnswers([]);
         }
+
         setShow(false);
     }, [quizType])
 
@@ -113,6 +114,7 @@ export default function NewQuiz() {
         }
 
         let tmpArr = questions;
+        
         tmpArr.push({
             id: Date.now(),
             question_text: question,

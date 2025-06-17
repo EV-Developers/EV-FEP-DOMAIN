@@ -139,9 +139,9 @@ export default function Header({ role }) {
                 window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
             }
         } else {
-            setLanguage(translation[0]);
-            window.localStorage.setItem("language", 'english');
-            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+            setLanguage(translation[1]);
+            window.localStorage.setItem("language", 'arabic');
+            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
         }
 
         window.location.reload();
@@ -157,7 +157,7 @@ export default function Header({ role }) {
         <div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF] border-b border-b-gray-300 relative">
             <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between relative">
                 <div className="flex">
-                    <p className='mx-2'><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-sm" /> <span><a className="hover:underline" href="mailto:evcentersinfo@gmail.com">evcentersinfo@gmail.com</a></span></p>
+                    <p className='mx-2'><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-sm" /> <span><a className="hover:underline" href={"mailto:"+'evcentersinfo'+'@'+'outlook.com'}>{'evcentersinfo'+'@'+'outlook.com'}</a></span></p>
                     <p className='mx-2 text-sm'>
                         <FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faPhoneAlt : faPhone} className="mx-2" /> <span><a className="hover:underline" href="tel:123456789">123456789</a></span>
                     </p>

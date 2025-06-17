@@ -7,7 +7,6 @@ import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
-import axios from 'axios';
 
 export default function AddLesson() {
     const [language, setLanguage] = React.useState(null);
@@ -106,7 +105,6 @@ export default function AddLesson() {
                 </div>
                 <input type="file" id="video_path" accept='video/mp4' name="video_path" onChange={(ev) => setVidUrl(window.URL.createObjectURL(ev.target.files[0]))} className="hidden" />
             </label>
-
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 
