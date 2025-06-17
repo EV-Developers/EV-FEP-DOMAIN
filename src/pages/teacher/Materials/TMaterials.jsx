@@ -36,7 +36,7 @@ export default function TMaterials() {
             id: 'mat-2',
             title: 'Material Two'
         }
-    ]
+    ];
 
     return (
         <ThemeContainer role="teachers">

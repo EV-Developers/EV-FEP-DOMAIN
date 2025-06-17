@@ -31,7 +31,6 @@ export default function Subscriptions() {
       window.localStorage.setItem("language", 'english');
       window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
-
   }, []);
 
   return (<ThemeContainer role="admin">

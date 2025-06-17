@@ -148,7 +148,9 @@ export default function NewMembership() {
                     {msg}
                 </div>}
 
-                <button type="submit" className="block rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{language && language["add"]}</button>
+                <button type="submit" className="block rounded pointer m-2 mt-5 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">
+                    {language && language["add"]}
+                </button>
             </form>
         </ThemeContainer>
     )
