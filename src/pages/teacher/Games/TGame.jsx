@@ -54,7 +54,7 @@ export default function TGame() {
                     <p className="m-3 my-3 text-color">Game Demo</p>
                 </div>
 
-                <iframe className="h-[600px] w-full" seamless allowFullScreen allowTransparency src="https://google.com/" frameborder="0"></iframe>
+                <iframe className="h-[600px] w-full border-none rounded-2xl" seamless allowFullScreen allowTransparency src="https://google.com/"></iframe>
             </div>
         </ThemeContainer>)
 }

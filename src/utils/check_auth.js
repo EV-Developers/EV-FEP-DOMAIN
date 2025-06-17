@@ -15,7 +15,6 @@ export const check_auth = (role) => {
         case 'admin':
             tmpRole = 'admin';
         break;
-
         default:
             tmpRole = user_role;
         break;

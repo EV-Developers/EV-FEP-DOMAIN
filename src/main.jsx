@@ -6,6 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+//Creator
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
@@ -285,7 +286,6 @@ const router = createBrowserRouter([
     path: "/dashboard/new-subscription",
     element: <NewMembership />
   }
-
 ]);
 
 createRoot(document.getElementById('root')).render(
