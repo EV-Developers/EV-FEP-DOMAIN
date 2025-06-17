@@ -14,8 +14,8 @@ export default function Material() {
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const navigate = useNavigate();
     const { catId } = useParams();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -33,11 +33,10 @@ export default function Material() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
     }, []);
 
     React.useEffect(() => {
-        loadData()
+        loadData();
     }, [])
 
     const loadData = async () => {
@@ -107,7 +106,7 @@ export default function Material() {
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                     </Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/materials/"}>{language && language["materials"]}</Link>
+                    <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/materials"}>{language && language["materials"]}</Link>
                     <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
                     <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
                 </div>

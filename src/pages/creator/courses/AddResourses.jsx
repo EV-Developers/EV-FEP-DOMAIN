@@ -41,6 +41,7 @@ export default function AddResourses() {
     if (e.target.files[0]) {
       setResourceName(e.target.files[0].name)
     }
+
     setFile(fileUrl);
   }
 
@@ -109,6 +110,7 @@ export default function AddResourses() {
             <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
             {resoureName && <p className="p-4">{resoureName}</p>}
           </div>
+
           <input type="file" id="file" name="file" className="hidden" onChange={handleSetFile} />
         </label>
 
