@@ -118,6 +118,7 @@ export default function Header({ role }) {
             const response = await api.post("/logout");
 
             if (response.status == 200 || response.status == 201) {
+                window.localStorage.clear();
                 navigate('/login');
             }
         } catch (error) {

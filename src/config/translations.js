@@ -179,6 +179,11 @@ export const translation = [
     best_growth: "Best Growth",
     due_date: "Due date",
     slideshow: "Home image slide show",
+    performance: "Performance",
+    license_status_unvalid: "Your access license has been expired.",
+    question: "Question",
+    you_answered: "لقد اجبت على",
+    out_of: "من اصل",
   },
   {
     dir: "rtl",
@@ -359,5 +364,10 @@ export const translation = [
     best_growth: "أفضل نمو",
     due_date: "اخر موعد للتسليم",
     slideshow: "عارض الصورة للصفحة الرئيسية",
+    performance: "الأداء",
+    license_status_unvalid: "انتهت صلاحية الترخيص الخاص بالمؤسسة.",
+    question: "السؤال",
+    you_answered: "You answered",
+    out_of: "out of",
   },
 ];

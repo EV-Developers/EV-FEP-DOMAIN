@@ -30,17 +30,6 @@ export default function TGame() {
 
     }, []);
 
-    const list = [
-        {
-            id: 'game-1',
-            title: 'Game One'
-        },
-        {
-            id: 'game-2',
-            title: 'Game Two'
-        }
-    ]
-
     return (
         <ThemeContainer role="teachers">
             <div className="block mx-auto w-[75%]">

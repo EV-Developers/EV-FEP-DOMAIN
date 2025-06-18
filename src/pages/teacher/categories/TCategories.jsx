@@ -29,7 +29,7 @@ export default function TCategories() {
     }, []);
 
     React.useEffect(() => {
-        loadData()
+        loadData();
     }, []);
 
     /**
@@ -44,9 +44,21 @@ export default function TCategories() {
     }
 
     return (
-        <ThemeContainer role="teachers">
+        <ThemeContainer role="teachers" customeClasses="w-full">
+            <div className="mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
+                <div className="mx-auto w-[75%] text-center text-blue-950">
+                    <h2 className="text-3xl font-bold p-3 pt-14">{language && language['categories']}</h2>
+                    <h3 className="text-l italic underline mt-4 p-4">* {language && language['exam_note']}</h3>
+                </div>
+            </div>
+
             <div className="block mx-auto w-[75%]">
-                {data && data.map(item => <Link to={'/teachers/categories/' + item.id} key={"cat-" + item.id} className='block hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-2 my-2'>{item.name}</Link>)}
+                <div className="flex flex-wrap my-5">
+                    {data && data.map(item => <Link to={'/teachers/categories/' + item.id} key={"cat-" + item.id} className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-20 my-2 w-[20%] mx-2 text-sm text-center text-white flex flex-col justify-center items-center bg-[url('/imgs/catsbg.png')] bg-cover">
+                    <img src="/imgs/cats.png" alt="" />
+                    <p className="my-3">{item.name}</p>
+                </Link>)}
+                </div>
                 {!data && <div role='status' className='animate-pulse'>
                     <div className='block rounded-xl bg-gray-300 p-5 py-2 my-2 w-full h-8'></div>
                     <div className='block rounded-xl bg-gray-300 p-5 py-2 my-2 w-full h-8'></div>

@@ -57,8 +57,7 @@ export default function TCourseOverview({ handleSteps, description, setDescripti
     }
   }
 
-  return (
-    <div>
+  return (<div>
       <label htmlFor="courseOverview">
         <p className="my-3 font-bold">{language && language["course_overview"]}</p>
         <textarea onChange={val => setDescription(val.target.value)} id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} value={description} ></textarea>
@@ -81,6 +80,5 @@ export default function TCourseOverview({ handleSteps, description, setDescripti
         <button onClick={() => handleSteps('prev')} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["previous"]}</button>
         <button onClick={handleCreateCourse} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
       </div>
-    </div>
-  )
+    </div>)
 }

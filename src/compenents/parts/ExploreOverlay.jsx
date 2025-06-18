@@ -36,6 +36,7 @@ export default function ExploreOverlay({ language, setShow }) {
                 <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['new_courses']}</button>
                 <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['top_rated']}</button>
                 <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['popular_courses']}</button>
+                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['performance']}</button>
 
                 <hr className="text-gray-300 mx-4 my-3 mt-4" />
 
@@ -43,6 +44,7 @@ export default function ExploreOverlay({ language, setShow }) {
                 {categoriesData && categoriesData.map(item => <div key={item.id}>
                     <Link to={"/categories/"+item.id} className={`py-2 text-sm cursor-pointer px-3 ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`} onClick={() => setCategoryId(item.id)}>{item.name}</Link>
                 </div>)}
+
                 {!categoriesData && loadingCats && <div className="animate-pulse">
                     <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>
                     <div className="w-[65%] h-8 bg-gray-300 my-4 rounded-2xl"></div>

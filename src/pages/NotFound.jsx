@@ -48,13 +48,12 @@ export default function NotFound() {
 
             <hr className="text-gray-200 my-5" />
 
-            <div className="text-center my-[15%]">
-                <FontAwesomeIcon icon={faTriangleExclamation} className="text-9xl text-[#fa9600]" />
-                <h2 className="text-3xl my-5"> 404</h2>
-                <p>{language && language['not_found']}</p>
-                <div className="flex">
+            <div className="text-center my-[15%] bg-[#f0f4fa] rounded-3xl p-4 h-[60vh] flex flex-col justify-center items-center">
+                <img src="/imgs/attention.png" alt="" className="block mx-auto w-[25%] mb-10" />
+                <p className="text-color">{language && language['not_found']}</p>
+                {/* <div className="flex text-color">
                     <Link to="/" className="block items-center justify-center gap-2 py-3 rounded-xl text-white text-sm bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:from-amber-700 hover:to-amber-400 transition px-14 mx-auto my-14">{language && language['home']}</Link>
-                </div>
+                </div> */}
             </div>
         </div>
     </ThemeContainer>

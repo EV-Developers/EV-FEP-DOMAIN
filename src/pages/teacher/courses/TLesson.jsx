@@ -12,6 +12,7 @@ export default function TLesson({ item, courseId, userProgress = 0, videosTime, 
     const [videoUrl, setVideoUrl] = React.useState(null);
     const [videoData, setVideoData] = React.useState(null);
     const [videoError, setVideoError] = React.useState(null);
+    const [videoProgress, setVideoProgress] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -28,7 +29,7 @@ export default function TLesson({ item, courseId, userProgress = 0, videosTime, 
             setLanguage(translation[0]);
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-        }
+        }        
 
         getVideo();
     }, []);
@@ -68,6 +69,36 @@ export default function TLesson({ item, courseId, userProgress = 0, videosTime, 
         }
     }
 
+    React.useEffect(()=> {
+        if(videoProgress && videosTime){
+            console.log('times', videosTime.duration, videoProgress, videosTime.duration == videoProgress);
+            
+            try {
+                let completed = false;
+                const pregress = parseInt((videoProgress / videosTime.duration) * 100);
+                // const currentTime = ((videoProgress / videosTime.duration) * 100) / 10;
+                // console.log(pregress, videosTime.duration, videoProgress);
+                
+                if(videosTime.duration == videoProgress){
+                    completed = true;
+                }
+                
+                const lesson_progress = api.post(`/lessons/${item.id}/progress`, {
+                    "video_progress": pregress,
+                    "completed": completed
+                });
+
+                console.log(lesson_progress);
+
+                if (lesson_progress.status == 200) {
+                    console.log('sended.'); 
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }, [videoProgress]);
+
     return (<div id={"lesson-" + item.id} className="px-3 py-5 m-4 rounded-xl transition-all">
         <div className="flex justify-between transition-all w-full pb-3">
             <div className="text-l font-bold flex">
@@ -86,6 +117,7 @@ export default function TLesson({ item, courseId, userProgress = 0, videosTime, 
                     setVideoData={setVideoData}
                     setVideosTime={setVideosTime}
                     userProgress={userProgress}
+                    setVideoProgress={setVideoProgress}
                 />
                 {item.has_quiz && <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>

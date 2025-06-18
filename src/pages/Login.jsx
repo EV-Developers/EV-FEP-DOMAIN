@@ -55,22 +55,55 @@ export default function Login() {
             try {
                 const response = await api.post("/login", formData);
                 if ((response.status === 200 || response.status === 201) && response?.data?.user?.status === "active") {
-                    window.localStorage.setItem("RYnY7KFuRuX2Iut", Date.now());
-                    window.localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
-                    window.localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
-                    window.localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);
-                    window.localStorage.setItem("L5HiP7ZpOyuVnO4", email);
+                    let ok = false;
+                    if(response.data && response.data.user && response.data.user.roles[0].name == "teacher"){
+                        window.localStorage.clear();
+                        ok = true;
+                        //active expire pending
+                        /*
+                        const checkUser = await api.get("/teacher/profile", {
+                            "headers": {
+                                "Authorization": `Bearer ${response.data.token}`
+                            }
+                        });
 
-                    if (response?.data?.user?.roles[0]) {
-                        window.localStorage.setItem("z8C2XXEo52uJQj7", response.data.user.roles[0].name);
-                    }
+                        if(checkUser && checkUser.status == 200){                            
+                            if(checkUser.data && checkUser.data.license_status !== 'valid'){
+                                setLoading(false);
+                                setMsg(language["license_status_unvalid"]);
 
-                    setLoading(false);
-
-                    if (response.data.user.roles[0].name === 'teacher') {
-                        navigate('/teachers');
+                                ok = false;
+                            } else {
+                                ok = true;
+                            }
+                        } else {
+                            setLoading(false);
+                            setMsg(language["error_msg"]);
+                            ok = false;
+                        }
+                            */
                     } else {
-                        navigate('/');
+                        ok = true
+                    }
+                    
+                    if(ok){
+                        window.localStorage.setItem("RYnY7KFuRuX2Iut", Date.now());
+                        window.localStorage.setItem("rJp7E3Qi7r172VD", response.data.token);
+                        window.localStorage.setItem("DDOj9KHr51qW1xi", response.data.user.id);
+                        window.localStorage.setItem("VPHl3hMFGI8w9kq", response.data.user.name);
+                        window.localStorage.setItem("L5HiP7ZpOyuVnO4", email);
+
+                        if (response?.data?.user?.roles[0]) {
+                            window.localStorage.setItem("z8C2XXEo52uJQj7", response.data.user.roles[0].name);
+                        }
+
+                        setLoading(false);
+
+                        if (response.data.user.roles[0].name === 'teacher') {
+                            navigate('/teachers');
+                        } else {
+                            navigate('/');
+                        }
                     }
                 } else {
                     setLoading(false);

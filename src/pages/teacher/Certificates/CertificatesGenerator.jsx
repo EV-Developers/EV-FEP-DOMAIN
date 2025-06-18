@@ -154,7 +154,6 @@ export default function CertificatesGenerator() {
     }
   }
 
-
   /**
    * Function to generate PDF files for each student
    * @param {string} student_name name of the current student

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { translation } from '../../../../config/translations';
@@ -15,92 +15,14 @@ export default function Exam() {
     const [result, setResult] = React.useState(0);
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
-    const [quizzList, setQuizzList] = React.useState("");
+    const [totalQuestions, setTotalQuestions] = React.useState(0);
+    const [step, setStep] = React.useState(0);
+    const [quizzList, setQuizzList] = React.useState(null);
+    const [currentQuestion, setCurentQuestion] = React.useState(null);
+    const [answered, setAnswered] = React.useState(0);
+    const [updated, setUpdated] = React.useState(null);
+    const [progress, setProgress] = React.useState(0);
     const navigate = useNavigate();
-
-    const quzzes_list = [
-        {
-            id: "quiz-1",
-            question_text: "What does HTTP stand for?",
-            question_type: "Single choice",
-            mark: 5,
-            answers: [
-                {
-                    id: 'ans-1',
-                    answer_text: 'HyperText Transfer Protocol',
-                    is_correct: true
-                },
-                {
-                    id: 'ans-2',
-                    answer_text: 'HyperText Transmission Program',
-                    is_correct: false
-                },
-                {
-                    id: 'ans-3',
-                    answer_text: 'Hyperlink Text Transfer Protocol',
-                    is_correct: false
-                },
-            ]
-        },
-        {
-            id: "quiz-2",
-            question_text: "What does CPU stand for?",
-            question_type: "Single choice",
-            mark: 5,
-            answers: [
-                {
-                    id: 'ans2-1',
-                    answer_text: 'Computer Performance Unit',
-                    is_correct: false
-                },
-                {
-                    id: 'ans2-2',
-                    answer_text: 'Central Processing Unit',
-                    is_correct: true
-                },
-                {
-                    id: 'ans2-3',
-                    answer_text: 'Central Programming Unit',
-                    is_correct: false,
-                },
-            ]
-        },
-        {
-            id: "quiz-3",
-            question_text: "Which of the following is considered output hardware?",
-            question_type: "Multi choice",
-            mark: 5,
-            answers: [
-                {
-                    id: 'ans3-1',
-                    answer_text: 'Monitor',
-                    is_correct: true
-                },
-                {
-                    id: 'ans3-2',
-                    answer_text: 'Printer',
-                    is_correct: true
-                },
-                {
-                    id: 'ans3-3',
-                    answer_text: 'Keyboard',
-                    is_correct: false,
-                },
-                {
-                    id: 'ans3-4',
-                    answer_text: 'Speaker',
-                    is_correct: true,
-                },
-            ]
-        },
-        {
-            id: "quiz-4",
-            question_text: "What is the function of a router in a network?",
-            question_type: "Text Input",
-            mark: 5,
-            answers: []
-        }
-    ];
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -119,7 +41,7 @@ export default function Exam() {
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
 
-        setQuestions(quzzes_list);
+        //setQuestions(quzzes_list);
     }, []);
 
     const handleSubmit = (e) => {
@@ -227,7 +149,27 @@ export default function Exam() {
             const response = await api.get('/quizzes?lesson_id=' + lessonId);
             if (response.status == 200) {
                 if (response.data) {
-                    setQuizzList(response.data)
+                    let tmpArr = [];
+                    let index = 0;
+                    
+                    response.data.map((quiz) => {
+                        quiz.questions.map(item => {
+                            tmpArr.push({
+                                index: index,
+                                ...item
+                            });
+                            index++;
+                        });
+                    });
+                    
+                    setQuizzList(tmpArr);
+                    setTotalQuestions(tmpArr.length);
+
+                    if(tmpArr.length != 0){
+                        setCurentQuestion(tmpArr[0]);
+                        setUpdated(Date.now());
+                        console.log(tmpArr[0]);
+                    }
                 }
             } else {
                 //console.log('error');
@@ -237,35 +179,148 @@ export default function Exam() {
         }
     }
 
-    return (<ThemeContainer role="teachers">
-        <form method="POST" onSubmit={handleSubmit} className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]">
-            <div className="flex">
-                <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/teachers/courses"}>{language && language["courses"]}</Link><FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={`/teachers/courses/${courseId}`} >{language && language['details']}</Link>
-                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
-                <p className="m-3 my-3 text-color">{language && language["lessons_quizzes"]}</p>
-            </div>
-            <div className="border-t border-t-gray-200">
+    const handleNext = (op) => {        
+        if(step < quizzList.length){
+            if(op == 'next'){
+                const tmpStep = step + 1;
+                setStep(tmpStep);
+                const cq = quizzList[tmpStep];
+
+                if(progress != 100){
+                    const tmpAnswer = answered == 0 ? answered + 1 : answered;
+                    const tmpProgress = (tmpAnswer / quizzList.length) * 100;
+                    
+                    console.log(cq);
+
+                    setProgress(tmpProgress);
+                }
+                
+                if((step + 1) != answered){
+                    setAnswered(ol => ol + 1);
+                }
+
+                setCurentQuestion(cq);
+                setUpdated(Date.now());
+            } else {
+                const tmpStep = step - 1;
+                const cq = quizzList[tmpStep];
+                console.log(cq);
+
+                setStep(tmpStep);
+                setCurentQuestion(cq);                
+                setUpdated(Date.now());
+            }
+        } else {
+            const tmpStep = step - 1;
+            const cq = quizzList[tmpStep];
+            console.log(cq);
+
+            setStep(tmpStep);
+            setCurentQuestion(cq);
+            setUpdated(Date.now());
+        }
+        
+        handleMarkQuestion();
+    }
+
+    const handleMarkQuestion = () => {
+        let tmpArr = [];
+
+        quizzList.map(item => {
+            if(item.id == currentQuestion.id){
+                item.answered = true;
+                /*
+                item.answers.map(answer => {
+                    const elements = document.getElementsByName("q-"+currentQuestion.id);
+                    console.log(elements);
+                    
+                    elements.map(el => {
+                        if(el.target.value == answer.id){
+                            if(el.target.value.check == answer.is_correct){
+                                item.is_correct = true
+                            }
+                        }
+                    })
+                });
+                */
+            }
+
+            tmpArr.push(item);
+        });
+        
+        setQuizzList(tmpArr);
+        setCurentQuestion(tmpArr[step]);
+    }
+
+    return (<ThemeContainer role="teachers" customeClasses="w-full mt-0 pt-0">
+        <div className="mt-0 h-[250px] w-full bg-green-600 quizbg">
+            <div className="mx-auto w-[75%] text-center text-white">
+                <h2 className="text-3xl font-bold p-3 pt-14">{language && language['lessons_quizzes']}</h2>
                 <h3 className="text-l italic underline mt-4 p-4">* {language && language['exam_note']}</h3>
             </div>
+        </div>
+        
+        <form method="POST" onSubmit={handleSubmit} className="flex bg-white mx-auto m-3 rounded-xl p-5 w-[85%]">
+            <div className="w-[75%]">
+                <div className="flex">
+                    <div className="w-full bg-gray-200 rounded-full h-2.5 my-3">
+                        <div className="bg-green-400 h-2.5 rounded-full" style={{ width: progress+'%' }}></div> 
+                    </div>
+                    <span className="py-2 mx-2 text-sm font-bold">{progress}%</span>
+                </div>
+                {currentQuestion && <div className={`py-5`}>
+                    <h2 className="p-2 m-2 text-l font-bold">{language && language['question']} {(currentQuestion.index + 1)}/{quizzList.length}</h2>
 
-            {quizzList && quizzList.map(quiz => quiz.questions.map(item => <div key={"Q-" + item.id} className={` py-5`}>
-                <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
-                {item.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + item.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + item.id}></textarea>}
-                {item.answers && item.answers.map(answer => <label className={`flex p-3 m-2 rounded-2xl ${inprogress == false ? (item.question_type !== "Text Input" && answer.userAnswer == answer.is_correct) ? 'bg-green-400' : (answer.userAnswer !== undefined && answer.userAnswer != answer.is_correct) ? 'bg-red-400' : '' : ''} ${(!inprogress && answer.userAnswer === undefined && answer.is_correct == true) ? 'bg-green-100' : ''}`} key={"answer-" + answer.id}><input type={item.question_type == "multiple_choice" ? "checkbox" : "radio"} name={"question-" + item.id} value={answer.answer_text} id={"answer-" + answer.id} disabled={!inprogress} className="mx-4 py-5 after:top-3 " /> <span className="block py-3">{answer.answer_text}</span> </label>)}
-            </div>))}
+                    <p className="text-l p-3 m-2 ">{currentQuestion.question_text}</p>
 
-            {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">
-                <h3 className="text-2xl">{language && language['result']}</h3>
-                <p className="text-4xl font-bold my-4">{totalResult + "/" + result}</p>
-                <p className="p-4 text-l text-center italic">{language && language['submitted']}</p>
-            </div>}
+                    {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
 
-            {inprogress && <button className="flex rounded pointer mx-3 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 my-5 font-bold">
-                {loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />}
-                <span>{language && language['submit']}</span>
-            </button>}
+                    {currentQuestion.answers && currentQuestion.answers.map(answer => <div key={"answer-"+answer.id} >
+                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} />
+                        <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs peer-checked:border py-2 peer-checked:border-blue-500 flex`}>
+                            <div className={`peer-checked:bg-blue-950 bg-white rounded-full w-6 h-6`}></div>
+                            <span className="mx-3 py-1">{answer.answer_text}</span>
+                        </label>
+                    </div>)}
+
+                    {/* {item.answers && item.answers.map(answer => <label className={`flex p-3 m-2 rounded-2xl ${inprogress == false ? (item.question_type !== "Text Input" && answer.userAnswer == answer.is_correct) ? 'bg-green-400' : (answer.userAnswer !== undefined && answer.userAnswer != answer.is_correct) ? 'bg-red-400' : '' : ''} ${(!inprogress && answer.userAnswer === undefined && answer.is_correct == true) ? 'bg-green-100' : ''}`} key={"answer-" + answer.id}><input type={item.question_type == "multiple_choice" ? "checkbox" : "radio"} name={"question-" + item.id} value={answer.answer_text} id={"answer-" + answer.id} disabled={!inprogress} className="mx-4 py-5 after:top-3 " /> <span className="block py-3">{answer.answer_text}</span> </label>)} */}
+                </div>}
+
+                {quizzList && <div className="flex justify-between">
+                    {step == 0 && <div></div>}
+                    {step != 0 && <button type="button" className="bg-white border text-sm m-1 hover:bg-blue-600 hover:text-white cursor-pointer border-blue-600 p-2 px-5 rounded" onClick={() => handleNext('previus')}>{language && language['previous']}</button>}
+                    {step !== (quizzList.length - 1) && <button type="button" className="bg-white border text-sm m-1 hover:bg-blue-600 hover:text-white cursor-pointer border-blue-600 p-2 px-5 rounded" onClick={() => handleNext('next')}>{language && language['next']}</button>}
+                    {step == (quizzList.length - 1) && <button className="bg-white border text-sm m-1 hover:bg-blue-600 hover:text-white cursor-pointer border-blue-600 p-2 px-5 rounded">{language && language['submit']}</button>}
+                </div>}
+
+                {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">
+                    <h3 className="text-2xl">{language && language['result']}</h3>
+                    <p className="text-4xl font-bold my-4">{totalResult + "/" + result}</p>
+                    <p className="p-4 text-l text-center italic">{language && language['submitted']}</p>
+                </div>}
+
+                {/* {inprogress && <button className="flex rounded pointer mx-3 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 my-5 font-bold">
+                    {loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />}
+                    <span>{language && language['submit']}</span>
+                </button>} */}
+
+            </div>
+            <div className="w-[25%] p-5">
+                <div className="bg-blue-50 w-full p-4 rounded-xl text-center py-14 mb-14">
+                    <h1 className="text-4xl">83%</h1>
+                    <p className="text-xs text-gray-400">{language && language['you_answered']} {answered} {language && language['out_of']} {quizzList && quizzList.length}</p>
+                </div>
+
+                {quizzList && quizzList.map((item, index) => <div key={"ques-"+index} className={`flex bg-blue-50 p-3 py-2 rounded my-2 ${item.answered && item.is_correct && 'bg-green-200 border-green-500'} ${item.answered && !item.is_correct && 'bg-red-200 border-red-400'}`}>
+                    <div className={`rounded-full w-6 h-6 bg-white text-center ${item.answered && !item.is_correct && 'bg-red-400'} ${item.answered && item.is_correct && 'bg-green-500'}`}>
+                        {item.answered && item.is_correct && <FontAwesomeIcon icon={faCheck} className="text-white text-sm" />}
+                        {item.answered && !item.is_correct && <FontAwesomeIcon icon={faTimes} className="text-white text-sm" />}
+                    </div>
+                    <div className="mx-3 text-xs font-medium py-1">
+                        {language && language['question']} {(index + 1)}
+                    </div>
+                </div>)}
+            </div>
         </form>
     </ThemeContainer>)
 }

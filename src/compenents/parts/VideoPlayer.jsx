@@ -1,9 +1,17 @@
 import React, { useRef } from 'react'
 
-export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime }) {
+export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime, setVideoProgress }) {
     const [play, setShow] = React.useState(true);
     const [progress, setProgress] = React.useState(0);
     const video = useRef();
+
+    React.useEffect(() => {
+        const progress = document.getElementById('video-' + lessonId).addEventListener('pause', (ev) => {            
+            setVideoProgress(ev.target.currentTime);
+        });
+
+        return document.removeEventListener('stop', progress);
+    }, [tmp_vid_url]);
 
     React.useEffect(() => {
         const listen = document.getElementById('video-' + lessonId).addEventListener('loadedmetadata', function (ev) {
@@ -78,6 +86,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             controls={false}
             preload="metadata"
             id={'video-' + lessonId}
+            onContextMenu={() => false}
         >
             <source src={tmp_vid_url} type="video/mp4" />
             {language && language['video_player_error']}

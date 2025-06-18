@@ -43,7 +43,7 @@ body {
 .border-color {
   color: #707070;
 }
-
+/*
 .input-right:after, .input-right:checked:after {
   top: -10px;
   right: -8px;
@@ -66,9 +66,6 @@ input[type='checkbox']:after {
   display: inline-block;
   visibility: visible;
   border: 2px solid white;
-  /* top: 10px; */
-  /* left: -11px; */
-  /* padding: 5px; */
 }
 
 input[type='checkbox']:checked:after {
@@ -82,31 +79,24 @@ input[type='checkbox']:checked:after {
   display: inline-block;
   visibility: visible;
   border: 2px solid #FD9800;
-  /* top: 10px; */
-  /* left: -11px; */
-  /* padding: 5px; */
 }
 
 input[type='radio']:after {
   width: 25px;
   height: 25px;
   border-radius: 15px;
-  /* top: 10px; */
   position: relative;
   background-color: #d1d3d1;
   content: '';
   display: inline-block;
   visibility: visible;
   border: 2px solid white;
-  /* left: -11px; */
-  /* padding: 5px; */
 }
 
 input[type='radio']:checked:after {
   width: 25px;
   height: 25px;
   border-radius: 15px;
-  /* top: 10px; */
   position: relative;
   background-color: #ffa500;
   background: linear-gradient(90deg,#ffefb4 15%, #ffa500 100%);
@@ -114,9 +104,8 @@ input[type='radio']:checked:after {
   display: inline-block;
   visibility: visible;
   border: 2px solid #f97316;
-  /* left: -11px; */
-  /* padding: 5px; */
 }
+*/
 
 .swiper-slide {
   width: 100% !important;
@@ -129,4 +118,10 @@ input[type='radio']:checked:after {
 
 .swiper-pagination-bullet-active {
   background-color: #f97316 !important; 
+}
+
+.quizbg {
+  background: url('/imgs/quizbg.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
