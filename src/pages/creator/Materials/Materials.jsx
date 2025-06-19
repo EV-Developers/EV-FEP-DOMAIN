@@ -1,14 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
-import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
+import api from '../../../config/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
+import { faFile, faFilePdf, faImage, faTrashCan, faVideo } from '@fortawesome/free-solid-svg-icons';
+import ConfrimModal from '../../../compenents/parts/ConfrimModal';
 
 export default function Materials() {
+    const [data, setData] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
+    const [showModal, setShowModal] = React.useState(null);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -27,60 +29,88 @@ export default function Materials() {
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
 
-        getFileExtension('http://google.com/erterer/erterter/file.pdf');
     }, []);
 
-    const list = [
-        {
-            id: 'mat-1',
-            title: 'Material One'
-        },
-        {
-            id: 'mat-2',
-            title: 'Material Two'
-        }
-    ]
 
-    const handleSelectAll = (e) => {
-        const items = document.getElementsByClassName('items');
+    React.useEffect(() => {
+        loadData()
+    }, [])
 
-        for (let index = 0; index < items.length; index++) {
-            const element = items[index];
-
-            element.checked = e.target.checked
+    const loadData = async () => {
+        try {
+            const response = await api.get('/materials');
+            if (response.status == 200) {
+                setData(response.data);
+            }
+        } catch (error) {
+            //console.log(error);
         }
     }
 
-    const fileTypes = [
-        "وثائق",
-        "صور",
-        "مطبوعات",
-    ]
+    const getFileType = (file) => {
+        try {
+            const tmpFile = file.split('.');
+            const extention = tmpFile[tmpFile.length - 1];
+            if (extention.toLowerCase().includes('png', 'jpg', 'jepg', 'webp')) {
+                return faImage;
+            } else if(extention.toLowerCase() == 'pdf'){
+                return faFilePdf;
+            }  else if(extention.toLowerCase() == 'mp4'){
+                return faVideo;
+            } else {
+                return faFile;
+            }
+        } catch (error) {
+            return faFile;
+        }
+    }
 
-    const getFileExtension = (file) => {
-        file = file.split('.');
-        const extention = file[file.length - 1];
+    const handleDelete = async () => {
+        try {
+            const response = await api.delete('/materials/' + showModal);
 
-        return extention;
+            if (response.status == 200) {
+                window.location.reload();
+            } else {
+                setShowModal(null);
+                //console.log('error');
+            }
+        } catch (error) {
+            setShowModal(null);
+            //console.log(error);
+        }
     }
 
     return (
-        <ThemeContainer>
+        <ThemeContainer customeClasses="w-full">
+            {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
+            
+            <div className="mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
+                <div className="mx-auto w-[75%] text-center text-blue-950">
+                    <h2 className="text-5xl font-bold p-3 pt-14">{language && language['materials']}</h2>
+                </div>
+            </div>
+
             <div className="block mx-auto w-[75%]">
-                <div className="flex justify-between">
-                    <div></div>
-                    <Link to="/add-material" className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400   font-bold">{language && language["create"]}</Link>
-                </div>
-
-                <div className="flex">
-                    {fileTypes && fileTypes.map((item, index) => <label key={"type-"+index} htmlFor={"type-"+index} className="bg-[#fa9600] mx-1 rounded-3xl px-4 text-white py-1 text-sm group-checked:bg-amber-700 checked:bg-amber-800 hover:bg-amber-800 cursor-pointer"><input type="radio" name="types" className="hidden " id={"type-"+index} /> {item}</label>)}
-                </div>
-
-                <div className="flex flex-row flex-wrap">
-                    {list && list.map(item => <Link key={"material-"+item.id} to={'/materials/' + item.id} className='block hover:bg-blue-500 hover:border hover:border-gray-200 rounded-xl bg-blue-400 p-5 my-2 text-sm h-[150px] w-[25%] mx-1 text-center items-center justify-center'>
-                        <FontAwesomeIcon icon={faFilePdf} className="text-7xl text-white " />
-                        <p className="py-3 text-sm text-white">{item.title}</p>
-                    </Link>)}
+                <div className="flex flex-wrap my-5 p-2">
+                    <Link to={'/new-category'} className={`hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-20 my-2 w-[17%] mx-2 text-sm text-center text-white flex flex-col justify-center items-center bg-[url('/imgs/catsbg.png')] bg-center transition-all hover:scale-105 ${!data && 'animate-pulse'}`}>
+                        <img src="/imgs/addbtn.png" alt="" />
+                        <p className="my-3">{language && language['add']}</p>
+                    </Link>
+                    {data && data.map(item => <div key={"cat-" + item.id} className="p-5 py-20 my-2 w-[17%] mx-2 text-sm text-center relative">
+                        <button className={`absolute top-0 ${language && language['dir'] == 'ltr' ? 'left-0':'right-0'} m-5 cursor-pointer`} onClick={() => setShowModal(item.id)}><FontAwesomeIcon icon={faTrashCan} className="text-xl" /></button>
+                        <Link Link to={'/categories/' + item.id} className="block  p-4 bg-[#dce5f1] rounded-xl transition-all hover:scale-105 ">
+                            <FontAwesomeIcon icon={getFileType(item.file)} className="text-8xl" />
+                            <p className="my-3">{item.title}</p>
+                            <p className="my-3 text-xs">{item.description}</p>
+                        </Link>
+                    </div>)}
+                    {!data && <>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[17%] h-[340px]'></div>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[17%] h-[340px]'></div>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[17%] h-[340px]'></div>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[17%] h-[340px]'></div>
+                    </>}
                 </div>
             </div>
         </ThemeContainer>

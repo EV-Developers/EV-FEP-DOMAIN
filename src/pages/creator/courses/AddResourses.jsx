@@ -113,6 +113,8 @@ export default function AddResourses() {
 
           <input type="file" id="file" name="file" className="hidden" onChange={handleSetFile} />
         </label>
+        
+        {msg && <div className="p-4 m-2">{msg}</div>}
 
         <div className="flex flex-row justify-between">
           <button type="submit" className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["add"]}</span></button>
