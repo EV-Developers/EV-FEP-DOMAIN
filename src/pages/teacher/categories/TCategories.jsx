@@ -55,7 +55,7 @@ export default function TCategories() {
                 <div className="flex flex-wrap my-5">
                     {data && data.map(item => <Link to={'/teachers/categories/' + item.id} key={"cat-" + item.id} className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-20 my-2 w-[20%] mx-2 text-sm text-center text-white flex flex-col justify-center items-center bg-[url('/imgs/catsbg.png')] bg-cover transition-all hover:scale-105">
                     <img src="/imgs/cats.png" alt="" />
-                    <p className="my-3">{item.name}</p>
+                    <p className="my-3 font-bold">{item.name}</p>
                 </Link>)}
                 </div>
                 {!data && <div role='status' className='animate-pulse flex'>

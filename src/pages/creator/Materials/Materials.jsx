@@ -101,8 +101,8 @@ export default function Materials() {
                         <button className={`absolute top-0 ${language && language['dir'] == 'ltr' ? 'left-0':'right-0'} m-5 cursor-pointer`} onClick={() => setShowModal(item.id)}><FontAwesomeIcon icon={faTrashCan} className="text-xl" /></button>
                         <Link Link to={'/categories/' + item.id} className="block  p-4 bg-[#dce5f1] rounded-xl transition-all hover:scale-105 ">
                             <FontAwesomeIcon icon={getFileType(item.file)} className="text-8xl" />
-                            <p className="my-3">{item.title}</p>
-                            <p className="my-3 text-xs">{item.description}</p>
+                            <p className="my-3 font-bold text-start">{item.title}</p>
+                            <p className="my-3 text-xs text-start">{item.description}</p>
                         </Link>
                     </div>)}
                     {!data && <>

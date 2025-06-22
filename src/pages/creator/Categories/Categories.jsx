@@ -79,11 +79,11 @@ export default function Categories() {
                         <img src="/imgs/addbtn.png" alt="" />
                         <p className="my-3">{language && language['add']}</p>
                     </Link>
-                    {data && data.map(item => <div key={"cat-" + item.id} className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-20 my-2 w-[17%] mx-2 text-sm text-center text-white flex flex-col justify-center items-center bg-[url('/imgs/catsbg.png')] bg-cover transition-all hover:scale-105 relative">
+                    {data && data.map(item => <div key={"cat-" + item.id} className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-20 my-2 w-[17%] mx-2 text-sm text-white flex flex-col justify-center items-center bg-[url('/imgs/catsbg.png')] bg-cover transition-all hover:scale-105 relative">
                         <button className={`absolute top-0 ${language && language['dir'] == 'ltr' ? 'left-0':'right-0'} m-5 cursor-pointer`} onClick={() => setShowModal(item.id)}><FontAwesomeIcon icon={faTrashCan} className="text-xl" /></button>
                         <Link Link to={'/categories/' + item.id}>
                             <img src="/imgs/cats.png" alt="" />
-                            <p className="my-3">{item.name}</p>
+                            <p className="my-3 font-bold">{item.name}</p>
                         </Link>
                     </div>)}
                     {!data && <>

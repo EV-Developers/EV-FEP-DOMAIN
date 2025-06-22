@@ -317,11 +317,11 @@ export default function Exam() {
                     {step == (quizzList.length - 1) && <button className="text-sm m-1 text-white cursor-pointer bg-[#1a31d3] hover:bg-white hover:text-[#1a31d3] border hover:border-[#1a31d3] p-2 px-5 rounded">{language && language['submit']}</button>}
                 </div>}
 
-                {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">
+                {/* {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">
                     <h3 className="text-2xl">{language && language['result']}</h3>
                     <p className="text-4xl font-bold my-4">{totalResult + "/" + result}</p>
                     <p className="p-4 text-l text-center italic">{language && language['submitted']}</p>
-                </div>}
+                </div>} */}
 
             </div>
             <div className="w-[25%] p-5">
