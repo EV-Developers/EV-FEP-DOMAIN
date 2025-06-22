@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { faAngleLeft, faAngleRight, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faArrowLeft, faArrowRight, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { translation } from '../../../../config/translations';
@@ -289,6 +289,9 @@ export default function Exam() {
         
         <form method="POST" onSubmit={handleSubmit} className="flex bg-white mx-auto m-3 rounded-xl p-5 w-[85%]">
             <div className="w-[75%]">
+                <div className="border-b border-b-gray-300 py-4 mb-4">
+                    <Link to={"/teachers/courses/"+courseId} className="my-5 text-l mb-14"><FontAwesomeIcon icon={language && language['dir'] == 'ltr' ? faArrowLeft : faArrowRight} /> {language && language['course']}</Link>
+                </div>
                 <div className="flex">
                     <div className="w-full bg-gray-200 rounded-full h-2.5 my-3">
                         <div className="bg-green-400 h-2.5 rounded-full" style={{ width: progress+'%' }}></div> 

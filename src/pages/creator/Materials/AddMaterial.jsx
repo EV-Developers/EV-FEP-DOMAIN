@@ -47,14 +47,23 @@ export default function AddMaterial() {
     e.preventDefault();
     setMsg(null);
     setLoading(true);
-    const formData = new FormData(e.target);
-    const token = window.localStorage.getItem("rJp7E3Qi7r172VD");
-    console.log(formData.get('file'));
 
+    if (e.target.description.value != "" && e.target.title.value != "" && e.target.file.files.length != 0) {      
+      const formData = new FormData();
+      formData.append("title", e.target.title.value);
+      formData.append("description", e.target.description.value);
+      formData.append("file", e.target.file.files[0]);
+      formData.append("level", "1");
 
-    if (e.target.description.value != "" && e.target.title.value != "") {
+      console.log(formData.get("file"));
+      
+
       try {
-        const response = await api.post("/materials", formData);
+        const response = await api.post("/materials", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
 
         if (response.status == 200) {
           setLoading(false);
