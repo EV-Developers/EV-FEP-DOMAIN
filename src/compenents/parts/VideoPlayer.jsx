@@ -2,8 +2,24 @@ import React, { useRef } from 'react'
 
 export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime, setVideoProgress }) {
     const [play, setShow] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
     const video = useRef();
+
+    React.useEffect(() => {
+        const waiting = document.getElementById('video-' + lessonId).addEventListener('waiting', (ev) => {            
+            setLoading(true);
+        });
+
+        const playing = document.getElementById('video-' + lessonId).addEventListener('playing', (ev) => {            
+            setLoading(false);
+        });
+
+        return () => {
+            document.removeEventListener('waiting', waiting);
+            document.removeEventListener('playing', playing);
+        };
+    }, [tmp_vid_url]);
 
     React.useEffect(() => {
         const progress = document.getElementById('video-' + lessonId).addEventListener('pause', (ev) => {            
@@ -73,9 +89,10 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-0 my-3 h-2 px-0 transition-all w-full"></div>
         <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs"></div>
         <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all"></div>
-        {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 pointer m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
+        {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
             <img src="/play_btn.png" alt="" className="w-full" />
         </button>}
+        {loading && <div className="absolute z-10 flex justify-center items-center"> <img className="animate-spin w-18 h-18 m-2 " src="/loading.png" /></div>}
         <video
             onTimeUpdate={handleProgress}
             onClick={handlePlay}

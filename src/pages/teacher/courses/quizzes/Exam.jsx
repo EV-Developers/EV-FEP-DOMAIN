@@ -179,7 +179,9 @@ export default function Exam() {
         }
     }
 
-    const handleNext = (op) => {        
+    const handleNext = (op) => {     
+        console.log(quizzList);
+           
         if(step < quizzList.length){
             if(op == 'next'){
                 const tmpStep = step + 1;
@@ -190,8 +192,6 @@ export default function Exam() {
                     const tmpAnswer = answered == 0 ? answered + 1 : answered;
                     const tmpProgress = (tmpAnswer / quizzList.length) * 100;
                     
-                    console.log(cq);
-
                     setProgress(tmpProgress);
                 }
                 
@@ -220,7 +220,7 @@ export default function Exam() {
             setUpdated(Date.now());
         }
         
-        handleMarkQuestion();
+        //handleMarkQuestion();
     }
 
     const handleMarkQuestion = () => {
@@ -252,6 +252,33 @@ export default function Exam() {
         setCurentQuestion(tmpArr[step]);
     }
 
+    const handleAnswer = (item) => {
+        const checked = document.getElementById("answer-"+item).checked
+        console.log(item, checked);
+        
+        if(quizzList){
+            let tmpArr = [];
+            quizzList.map((quiz, index) => {
+                if(quiz.id == currentQuestion.id){
+                    quiz.answers.map((answer, aindex) => {
+                        if(answer.id == item){
+                            answer.user_answer = checked;
+                            quiz.answered = true;
+                        } else {
+                            if(currentQuestion.question_type == "single_choice"){
+                                answer.user_answer = false;
+                            }
+                        }
+                    })   
+                }
+                tmpArr.push(quiz);
+            });
+            
+            setQuizzList(tmpArr);
+            //setCurentQuestion(tmpArr[step]);
+        }
+    }
+
     return (<ThemeContainer role="teachers" customeClasses="w-full mt-0 pt-0">
         <div className="mt-0 h-[250px] w-full bg-green-600 quizbg">
             <div className="mx-auto w-[75%] text-center text-white">
@@ -275,22 +302,19 @@ export default function Exam() {
 
                     {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
 
-                    {currentQuestion.answers && currentQuestion.answers.map(answer => <div key={"answer-"+answer.id} >
-                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} />
-                        <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs peer-checked:border py-2 peer-checked:border-blue-500 flex`}>
-                            <div className={`peer-checked:bg-blue-950 bg-white rounded-full w-6 h-6`}></div>
+                    {currentQuestion.answers && currentQuestion.answers.map(answer => <div key={"answer-"+answer.id}>
+                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} onChange={() => handleAnswer(answer.id)} defaultChecked={answer.user_answer} />
+                        <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs py-2 peer-checked:border peer-checked:border-blue-500 flex transition-colors group`}>
+                            {currentQuestion.question_type == "single_choice" && <div className={`bg-white group-peer-checked:bg-[#001f4e] rounded-full w-6 h-6 transition-colors`}></div>}
                             <span className="mx-3 py-1">{answer.answer_text}</span>
                         </label>
                     </div>)}
-
-                    {/* {item.answers && item.answers.map(answer => <label className={`flex p-3 m-2 rounded-2xl ${inprogress == false ? (item.question_type !== "Text Input" && answer.userAnswer == answer.is_correct) ? 'bg-green-400' : (answer.userAnswer !== undefined && answer.userAnswer != answer.is_correct) ? 'bg-red-400' : '' : ''} ${(!inprogress && answer.userAnswer === undefined && answer.is_correct == true) ? 'bg-green-100' : ''}`} key={"answer-" + answer.id}><input type={item.question_type == "multiple_choice" ? "checkbox" : "radio"} name={"question-" + item.id} value={answer.answer_text} id={"answer-" + answer.id} disabled={!inprogress} className="mx-4 py-5 after:top-3 " /> <span className="block py-3">{answer.answer_text}</span> </label>)} */}
                 </div>}
 
-                {quizzList && <div className="flex justify-between">
-                    {step == 0 && <div></div>}
-                    {step != 0 && <button type="button" className="bg-white border text-sm m-1 hover:bg-blue-600 hover:text-white cursor-pointer border-blue-600 p-2 px-5 rounded" onClick={() => handleNext('previus')}>{language && language['previous']}</button>}
-                    {step !== (quizzList.length - 1) && <button type="button" className="bg-white border text-sm m-1 hover:bg-blue-600 hover:text-white cursor-pointer border-blue-600 p-2 px-5 rounded" onClick={() => handleNext('next')}>{language && language['next']}</button>}
-                    {step == (quizzList.length - 1) && <button className="bg-white border text-sm m-1 hover:bg-blue-600 hover:text-white cursor-pointer border-blue-600 p-2 px-5 rounded">{language && language['submit']}</button>}
+                {quizzList && <div className="flex items-center justify-center w-full">
+                    {step != 0 && <button type="button" className="bg-white border text-sm m-1 hover:border-[#1a31d3] hover:bg-[#1a31d3] hover:text-white text-[#1a31d3] cursor-pointer border-[#1a31d3] p-2 px-5 rounded" onClick={() => handleNext('previus')}>{language && language['previous']}</button>}
+                    {step !== (quizzList.length - 1) && <button type="button" className="text-sm m-1 text-white cursor-pointer bg-[#1a31d3] p-2 px-5 rounded hover:bg-white hover:text-[#1a31d3] border hover:border-[#1a31d3]" onClick={() => handleNext('next')}>{language && language['next']}</button>}
+                    {step == (quizzList.length - 1) && <button className="text-sm m-1 text-white cursor-pointer bg-[#1a31d3] hover:bg-white hover:text-[#1a31d3] border hover:border-[#1a31d3] p-2 px-5 rounded">{language && language['submit']}</button>}
                 </div>}
 
                 {!inprogress && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl secandery">
@@ -299,22 +323,17 @@ export default function Exam() {
                     <p className="p-4 text-l text-center italic">{language && language['submitted']}</p>
                 </div>}
 
-                {/* {inprogress && <button className="flex rounded pointer mx-3 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 my-5 font-bold">
-                    {loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />}
-                    <span>{language && language['submit']}</span>
-                </button>} */}
-
             </div>
             <div className="w-[25%] p-5">
                 <div className="bg-blue-50 w-full p-4 rounded-xl text-center py-14 mb-14">
-                    <h1 className="text-4xl">83%</h1>
+                    <h1 className="text-4xl">{progress}%</h1>
                     <p className="text-xs text-gray-400">{language && language['you_answered']} {answered} {language && language['out_of']} {quizzList && quizzList.length}</p>
                 </div>
 
-                {quizzList && quizzList.map((item, index) => <div key={"ques-"+index} className={`flex bg-blue-50 p-3 py-2 rounded my-2 ${item.answered && item.is_correct && 'bg-green-200 border-green-500'} ${item.answered && !item.is_correct && 'bg-red-200 border-red-400'}`}>
-                    <div className={`rounded-full w-6 h-6 bg-white text-center ${item.answered && !item.is_correct && 'bg-red-400'} ${item.answered && item.is_correct && 'bg-green-500'}`}>
-                        {item.answered && item.is_correct && <FontAwesomeIcon icon={faCheck} className="text-white text-sm" />}
-                        {item.answered && !item.is_correct && <FontAwesomeIcon icon={faTimes} className="text-white text-sm" />}
+                {quizzList && quizzList.map((item, index) => <div key={"ques-"+index} className={`flex bg-blue-50 p-3 py-2 rounded my-2 ${item.answered && item.result && item.is_correct && 'bg-green-200 border-green-500'} ${item.answered && item.result && !item.is_correct && 'bg-red-200 border-red-400'}`}>
+                    <div className={`rounded-full w-6 h-6 text-center bg-white ${item.answered && item.result && 'bg-red-400'} ${item.answered && item.result && item.is_correct && 'bg-green-500'}`}>
+                        {item.answered && item.result && item.is_correct && <FontAwesomeIcon icon={faCheck} className="text-white text-sm" />}
+                        {item.answered && item.result && !item.is_correct && <FontAwesomeIcon icon={faTimes} className="text-white text-sm" />}
                     </div>
                     <div className="mx-3 text-xs font-medium py-1">
                         {language && language['question']} {(index + 1)}

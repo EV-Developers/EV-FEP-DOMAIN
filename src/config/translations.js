@@ -182,8 +182,8 @@ export const translation = [
     performance: "Performance",
     license_status_unvalid: "Your access license has been expired.",
     question: "Question",
-    you_answered: "لقد اجبت على",
-    out_of: "من اصل",
+    you_answered: "You answered",
+    out_of: "out of",
   },
   {
     dir: "rtl",
@@ -367,7 +367,7 @@ export const translation = [
     performance: "الأداء",
     license_status_unvalid: "انتهت صلاحية الترخيص الخاص بالمؤسسة.",
     question: "السؤال",
-    you_answered: "You answered",
-    out_of: "out of",
+    you_answered: "لقد اجبت على",
+    out_of: "من اصل",
   },
 ];
