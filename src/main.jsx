@@ -65,6 +65,7 @@ import TGame from './pages/teacher/Games/TGame';
 import TProfile from './pages/teacher/profile/TProfile';
 import TEditProfile from './pages/teacher/profile/TEditProfile';
 import TChangePassword from './pages/teacher/profile/TChangePassword';
+import TPerformance from './pages/teacher/profile/TPerformance';
 
 const router = createBrowserRouter([
   // Creators
@@ -250,6 +251,10 @@ const router = createBrowserRouter([
   {
     path: "/teachers/change-password",
     element: <TChangePassword />
+  },
+  {
+    path: "/teachers/performance",
+    element: <TPerformance />
   },
   // Studetns
   {
