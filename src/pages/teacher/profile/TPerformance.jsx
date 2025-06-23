@@ -1,4 +1,6 @@
 import React from 'react'
+import "chart.js/auto";
+import { Bar, Line } from "react-chartjs-2";
 import ThemeContainer from '../../../compenents/parts/ThemeContainer'
 import { translation } from '../../../config/translations';
 import { Link } from 'react-router-dom';
@@ -76,6 +78,25 @@ export default function TPerformance() {
         title: 'معلم'
     },
   ])
+
+  const tmp_data = {
+    labels: ['test 1', 'test 2', 'test 3', 'test 4'],
+    datasets: [
+      {
+        label: language && language['current_performance'],
+        borderWidth: 2,
+        data: [
+          44,
+          55,
+          66,
+          99
+        ],
+        backgroundColor: ["#FD9800", "#ffa500", "#FFEFB4", "orange"],
+        borderColor: ["#FD9800", "#ffa500", "#FFEFB4", "orange"],
+        //borderWidth: 1,
+      },
+    ],
+  };
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -157,6 +178,7 @@ export default function TPerformance() {
             </div>
         </div>
       </div>
+        {tmp_data && <div className="w-full"><Line data={tmp_data} /></div>}
     </div>
   </ThemeContainer>)
 }
