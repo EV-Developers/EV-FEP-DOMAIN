@@ -12,7 +12,7 @@ export default function Header({ role }) {
     const [loading, setLoading] = React.useState(true);
     const [showProfile, setShowProfile] = React.useState(false);
     const [show, setShow] = React.useState(false);
-    const [data, setData] = React.useState(null);
+    const [userName, setUserNamme] = React.useState(null);
     const [slug, setSlug] = React.useState("");
     const navigate = useNavigate();
     const location = useLocation();
@@ -38,8 +38,9 @@ export default function Header({ role }) {
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
         const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
+        const uName = window.localStorage.getItem("VPHl3hMFGI8w9kq");
         let tmpSlug = '';
-
+        setUserNamme(uName);
         if (userRole && userRole != "" && userRole != null) {
             if (userRole == 'teacher') {
                 tmpSlug = '/teachers';
@@ -167,9 +168,9 @@ export default function Header({ role }) {
                 <div className="flex">
                     <p className="mx-2 transition-all hover:scale-125"><a href="https://instagram.com" target="_blank"><img src="/instagram.svg" className="rounded-2xl w-4" alt="" /></a></p>
                     <p className="mx-2 transition-all hover:scale-125"><a href="https://x.com" target="_blank"><img src="/x.jpg" className="rounded-l w-4" alt="" /></a></p>
-                    <button onClick={handleChangeLanguage} className="block px-5 cursor-pointer font-bold text-xs transition-all hover:scale-125">
+                    {/* <button onClick={handleChangeLanguage} className="block px-5 cursor-pointer font-bold text-xs transition-all hover:scale-125">
                         <span>{language && language['change_langauge']}</span>
-                    </button>
+                    </button> */}
                 </div>
             </div>
             <div className="block md:flex justify-between ml-10">
@@ -216,6 +217,12 @@ export default function Header({ role }) {
                             {language && language['contents']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/Contents') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                         </Link>}
+                        <div className="p-4 group transition-all">
+                            <button className="bg-[#fa9600] transition-all cursor-pointer rounded-2xl py-1 mx-3 px-1 flex" onClick={handleChangeLanguage}>
+                                <div className={`transition-all block px-3 text-sm rounded-2xl ${language && language['dir'] == 'rtl' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>AR</div>
+                                <div className={`block px-3 transition-all text-sm rounded-2xl ${language && language['dir'] == 'ltr' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>EN</div>
+                            </button>
+                        </div>
                     </nav>
 
                     <div className={`hidden md:flex absolute ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'}`}>
@@ -250,10 +257,34 @@ export default function Header({ role }) {
                         </div>
                         <div className="group">
                             <button className="rounded-full mx-2 my-2 w-10 h-10 bg-primary cursor-pointer transition-all hover:scale-110" title={language && language['my_profile']}>
-                                <FontAwesomeIcon icon={faUser} className="text-xl text-white" />
+                                <img src="/usericon.png" alt="" />
+                                {/* <FontAwesomeIcon icon={faUser} className="text-xl text-white" /> */}
                             </button>
-                            <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-50 mx-3 shadow-sm`}>
-                                {/* to={slug+"/profile"}  */}
+                            <div className={`bg-white hidden group-hover:block z-50 mx-3 absolute shadow-sm w-[300px] ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'}`}>
+                                <div className="relative bg-[url('/imgs/profilebg.png')] bg-cover bg-center w-full h-[100px]">
+                                    <Link to="/teachers/profile" className="absolute bottom-[-80px] m-3">
+                                        <img src="/profile.jpeg" alt="" className=" w-[20%] rounded-full  border-white border-4" />
+                                        <p className="text-xl font-bold">{userName}</p>
+                                        {/* <p className="text-xs text-gray-500">Software Engneer</p> */}
+                                    </Link>
+                                </div>
+                                <div className="mx-14 mb-2 flex mt-24 text-center">
+                                    <div>
+                                        <div className="px-5 border-l border-gray-300">
+                                            <img src="/staricon.png" alt="" className="w-24" />
+                                        </div>
+                                        <p className="text-sm font-bold py-4">Positive</p>
+                                    </div>
+                                    <div>
+                                        <div className="px-5">
+                                            <img src="/chaticon.png" alt="" className="w-24" />
+                                        </div>
+                                        <p className="text-sm font-bold py-4">4.9</p>
+                                    </div>
+                                </div>
+                                <button onClick={handleLogout} className="p-2 font-bold text-white mt-4 w-full  text-center bg-gradient-to-br from-[#fa9600] to-[#ff3300] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 cursor-pointer">{language && language['logout']}</button>
+                            </div>
+                            {/* <div className={`hidden group-hover:block bg-white rounded-xl w-[300px] p-2 absolute ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'} z-50 mx-3 shadow-sm`}>
                                 <button onClick={() => setShowProfile(true)} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm`}>
                                     {language && language['my_profile']}
                                 </button>
@@ -263,7 +294,7 @@ export default function Header({ role }) {
                                 <button onClick={handleLogout} className={`block ${language && language['dir'] == 'ltr' ? 'text-left' : 'text-right'} font-bold rounded-xl w-full mb-2 p-2 bg-gradient-to-br hover:from-[#fa9600] hover:to-[#ffe696] text-sm cursor-pointer`}>
                                     {language && language['logout']}
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

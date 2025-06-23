@@ -62,6 +62,9 @@ import Membership from './pages/admin/Subscriptions/Membership';
 import NewMembership from './pages/admin/Subscriptions/NewMembership';
 import UserDetails from './pages/admin/Users/UserDetails';
 import TGame from './pages/teacher/Games/TGame';
+import TProfile from './pages/teacher/profile/TProfile';
+import TEditProfile from './pages/teacher/profile/TEditProfile';
+import TChangePassword from './pages/teacher/profile/TChangePassword';
 
 const router = createBrowserRouter([
   // Creators
@@ -235,6 +238,18 @@ const router = createBrowserRouter([
   {
     path: "/teachers/submit-assesment/:assesmentId",
     element: <SubmitAssesment />
+  },
+  {
+    path: "/teachers/profile",
+    element: <TProfile />
+  },
+  {
+    path: "/teachers/edit-profile",
+    element: <TEditProfile />
+  },
+  {
+    path: "/teachers/change-password",
+    element: <TChangePassword />
   },
   // Studetns
   {

@@ -27,16 +27,15 @@ export default function ExploreOverlay({ language, setShow }) {
     }
 
     return (
-        <div className="fixed z-50 max-h-[87vh] w-[25%] bg-[#F0F4F9] rounded-2xl mt-[7%] mx-14 border-none shadow-xl" onMouseLeave={() => setShow(false)}>
-            <div className="overflow-y-scroll pb-14 mx-5">
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['courses']}</button>
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['my_courses']}</button>
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['main_title']}</button>
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['recommanded']}</button>
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['new_courses']}</button>
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['top_rated']}</button>
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['popular_courses']}</button>
-                <button className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['performance']}</button>
+        <div className="fixed z-50 overflow-y-scroll max-h-[87vh] w-[25%] bg-[#F0F4F9] rounded-2xl mt-[7%] mx-14 border-none shadow-xl" onMouseLeave={() => setShow(false)}>
+            <div className=" pb-14 mx-5">
+                <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['courses']}</Link>
+                <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['my_courses']}</Link>
+                <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['recommanded']}</Link>
+                <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['new_courses']}</Link>
+                <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['top_rated']}</Link>
+                <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['popular_courses']}</Link>
+                <Link to="/teachers/performance" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['performance']}</Link>
 
                 <hr className="text-gray-300 mx-4 my-3 mt-4" />
 
