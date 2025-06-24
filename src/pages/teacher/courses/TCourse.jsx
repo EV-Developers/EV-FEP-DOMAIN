@@ -170,7 +170,7 @@ export default function TCourse() {
                 </div>
             </div>}
             {tabs == 'overview' && <TOverview data={data} totalMinutes={totalMinutes} language={language} />}
-            {tabs == 'comments' && <TComments data={data} language={language} />}
+            {tabs == 'comments' && <TComments courseId={courseId} data={data} language={language} />}
             {tabs == 'resources' && <TResources data={data} resources_list={resources} />}
             <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
         </ThemeContainer>

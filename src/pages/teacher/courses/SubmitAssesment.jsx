@@ -13,9 +13,12 @@ export default function SubmitAssesment() {
     const [loading, setLoading] = React.useState(false);
     const [data, setData] = React.useState(null);
     const [videoData, setVideoData] = React.useState(null);
+    const [msg, setMsg] = React.useState(null);
     const [file, setFile] = React.useState(false);
     const [videoUrl, setVideoUrl] = React.useState(null);
     const [videoError, setVideoError] = React.useState(null);
+    const [submissions, setSubmissions] = React.useState([]);
+    const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
     const { assesmentId } = useParams();
 
     React.useEffect(() => {
@@ -42,10 +45,22 @@ export default function SubmitAssesment() {
 
     const loadData = async () => {
         try {
-            const response = await api.get('/assignments/' + assesmentId);
-
+            const response = await api.get('/assignments/' + assesmentId + "?user_id=5");
+            console.log(response.data);
+            
             if (response.status == 200) {
                 setData(response.data);
+                if(response.data.submissions){
+                    const user_id = parseInt(window.localStorage.getItem("DDOj9KHr51qW1xi"))
+                    const tmpArr = [];
+                    response.data.submissions.map(item => {
+                        if(item.user_id == user_id){
+                            tmpArr.push(item);
+                        }
+                    });
+
+                    setSubmissions(tmpArr)
+                }
             }
         } catch (error) {
             //console.log(error);
@@ -55,34 +70,68 @@ export default function SubmitAssesment() {
     const handleSubmitAssestment = async (ev) => {
         ev.preventDefault();
         //
+        setMsg(null);
+        if(!data){
+            setMsg(language['error_msg']);
+            return false;
+        }
+
         try {
             setLoading(true);
-            if (data && data.type != 'questions') {
-                const file_url = window.URL.createObjectURL(ev.target.file.files[0]);
+            const formData = new FormData();
 
-                const response = await api.get('/assignments/submit', {
-                    "assignment_id": assesmentId,
-                    "file_path": file_url, //"/files/submission.pdf"
-                });
+            switch (data.type) {
+                case "questions":
+                    if (data && data.questions) {
+                        data.questions.map((item, index) => {
+                            let answer = ev.target["question-" + item.id].value
+                            formData.append(`answers[${index}].question_id`, item.id);
+                            formData.append(`answers[${index}].answer_text`, answer);
+                        });
+                    }
+                    break;
 
-                setLoading(false);
+                case "meeting":
+                    formData.append("meeting_requested", '1')
+                    break;
 
-                if (response.status == 200) {
+                case "url":
+                    formData.append("url", ev.target.url.value);
 
-                }
+                    break;
+
+                case "file":
+                    formData.append("file", ev.target.file.files[0]);
+                    break;
+
+                default:
+                    setMsg(language['error_msg']);
+                    return false;
+                    break;
+            }
+
+            //const response = await api.post(`/assignments/${assesmentId}/submit`, formData);
+
+            const response = await fetch(`https://fep.misk-donate.com/api/assignments/${assesmentId}/submit`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            setLoading(false);
+
+            console.log(response);
+            if (response.status == 200) {
+                navigate('/teachers/courses/' + data.course_id);
             } else {
-                const response = await api.get('/assignments/submit', {
-                    "assignment_id": assesmentId,
-                    "file_path": file_url, //"/files/submission.pdf"
-                });
-
-                setLoading(false);
-
-                if (response.status == 200) {
-
-                }
+                setMsg(language['error_msg']);
             }
         } catch (error) {
+            console.log(error);
+
+            setMsg(language['error_msg']);
             setLoading(false);
         }
 
@@ -102,7 +151,6 @@ export default function SubmitAssesment() {
 
     const getVideo = async () => {
         const aurl = "https://fep.misk-donate.com/api/assignments/download/";
-        const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
             fetch(aurl + data.video, {
@@ -135,6 +183,61 @@ export default function SubmitAssesment() {
         }
     }
 
+    /*
+        answers: []
+        assignment_id: 12
+        created_at: "2025-06-23T06:57:34.000000Z"
+        file_path: "Mu1kA78NGBQWp0U5sk5dL7l6we3ZQUEW5XHtSdnu.png"
+        id: 2
+        is_completed: true
+        meeting_link: null
+        meeting_requested: null
+        meeting_time: null
+        submitted_at: "2025-06-23 06:57:34"
+        updated_at: "2025-06-24T10:19:34.000000Z"
+        url: null
+        user_id: 5
+    */
+          
+    const downloadSubmition = async (file) => {
+        const aurl = "https://fep.misk-donate.com/api/assignments/download/";
+        const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+
+        try {
+            fetch(aurl + file, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+                .then(response => {
+                    try {
+                        if (response && !response.ok) {
+                            return false
+                        }
+                        return response.blob();
+                    } catch (error) {
+                        return false;
+                    }
+                })
+                .then(blob => {
+                    const tmpURL = URL.createObjectURL(blob);
+                    const element = document.createElement('a');
+                    element.href = tmpURL;
+                    element.download = file;
+                    document.body.appendChild(element);
+                    element.click();
+                    document.body.removeChild(element);
+                
+                })
+                .catch(error => {
+                    console.error('Error loading video:', error);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     return (<ThemeContainer role="teachers">
         <form method="post" onSubmit={handleSubmitAssestment} encType="multipart/form-data" className="w-[75%] block mx-auto rounded-xl m-5 bg-white p-5">
             <div className="flex">
@@ -154,7 +257,12 @@ export default function SubmitAssesment() {
             {data && data.due_date && data.due_date != '' && <p className="text-sm text-color italic font-bold">{language && language['due_date']}: {data.due_date}</p>}
             <p className="text-sm text-color">{data && data.description}</p>
 
-            {data && data.type == "questions" && data.questions && data.questions.map(item => <div key={"question-" + item.id}>
+            {(data && data.type == "url") && <div>
+                <p>URL</p>
+                <p><input type="text" name="url" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} /></p>
+            </div>}
+
+            {(data && data.type == "questions") && data.questions && data.questions.map(item => <div key={"question-" + item.id}>
                 <p>{item.question_text}</p>
                 <p><input type="text" name={"question-" + item.id} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 " placeholder={language && language["write_here"]} /></p>
             </div>)}
@@ -163,7 +271,7 @@ export default function SubmitAssesment() {
                 <VideoPlayer videoData={videoData} tmp_vid_url={videoUrl} setVideoData={setVideoData} />
             </div>}
 
-            {data && data.type != "questions" && <div>
+            {(data && data.type == "file") && <div>
                 <label htmlFor="file" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-color">
                     <div className="text-center">
                         <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
@@ -175,8 +283,17 @@ export default function SubmitAssesment() {
                 </label>
             </div>}
 
-
-            <button className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && language["submit"]}</button>
+            <button className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && (data && data.type == 'meeting' ? language["request_meeting"] : language["submit"])}</button>
         </form>
+
+        {(data && submissions && submissions.length != 0) && <div className="w-[75%] block mx-auto rounded-xl m-5 bg-white p-5">
+            <h3 className="text font-bold">{language && language['submitions']}</h3>
+            {submissions.map(item => <div key={"sub-"+item.id} className="border-b border-b-gray-400 p-3 tex-sm">
+                {data.type == 'file' && <p><button className="cursor-pointer hover:bg-amber-500 px-3 rounded-2xl" onClick={() => downloadSubmition(item.file_path)}>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['file']}</button></p>}
+                {data.type == 'url' && <p><a href={item.url} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['url']}</a></p>}
+                {data.type == 'meeting' && <p><a href={item.meeting_link} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['time']}: {item.meeting_time ? language['tba']:item.meeting_time}</a></p>}
+                {data.type == 'questions' && <p>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['questions_done']}</p>}
+            </div>)}
+        </div>}
     </ThemeContainer>)
 }

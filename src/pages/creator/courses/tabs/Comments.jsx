@@ -44,7 +44,42 @@ export default function Comments({ courseId }) {
     }
   ]
 
-  const handleDeleteComment = () => {
+  React.useEffect(() => {
+    handleGetComments();
+  }, []);
+
+  const handleGetComments = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get("/comments?course_id="+courseId);
+      console.log(response.data);
+      
+      if(response.status == 200){
+        setLoading(false);
+        setData(response.data);
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleDeleteComment = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get("/comments/"+show);
+      console.log(response.data);
+      
+      if(response.status == 200){
+        setLoading(false);
+        setData(response.data);
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
   }
 
@@ -80,7 +115,7 @@ export default function Comments({ courseId }) {
           <div></div>
           <div className="relative w-[75%]">
             <div className="flex">
-              <button className='px-3 py-1 mx-2  my-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShowModal(true)}>{language && language["delete"]} <FontAwesomeIcon icon={faTrash} className="primary" /></button>
+              <button className='px-3 py-1 mx-2  my-2 cursor-pointer hover:bg-white rounded-2xl' onClick={() => setShowModal(item.id)}>{language && language["delete"]} <FontAwesomeIcon icon={faTrash} className="primary" /></button>
               <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl flex my-2'><span>{language && language["like"]}</span> <img src="/like.png" className="mx-1 w-4 h-4 cursor-pointer" /></button>
               <button className='px-3 py-1 mx-2 cursor-pointer hover:bg-white rounded-2xl flex my-2' onClick={() => setShow(!show)}>
                 <span>{language && language["reply"]} </span>

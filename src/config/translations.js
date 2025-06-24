@@ -193,6 +193,10 @@ export const translation = [
     attendance: "Attendance",
     quiz_performance: "Quiz performance",
     checked_in: "Checked in",
+    request_meeting: "Request meeting",
+    submitions: "Submitions",
+    tba: "TBA",
+    questions_done: "answers submitted",
 
   },
   {
@@ -388,5 +392,10 @@ export const translation = [
     attendance: "الحضور",
     quiz_performance: "أداء الاختبارات",
     checked_in: "اخر وصول",
+    request_meeting: "طلب تحديد موعد اجتماع",
+    submitions: "التسليمات",
+    tba: "لم يحدد بعد",
+    questions_done: "تم تسليم الاجابات",
+
   },
 ];
