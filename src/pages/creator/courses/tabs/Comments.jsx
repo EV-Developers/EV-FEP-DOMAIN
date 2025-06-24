@@ -101,7 +101,7 @@ export default function Comments({ courseId }) {
         <div>
           <div className="flex my-2 mx-3">
             <p className="text-color font-bold">{item.user.name}</p>
-            <p className="text-color mx-4">{item.date.toLocaleDateString('en-GB')}</p>
+            <p className="text-color mx-4">{item.date.toLocaleString('en-GB')}</p>
           </div>
           <div className="flex">
             {stars && stars.map(star => <FontAwesomeIcon icon={faStar} className={`${star <= item.review ? 'primary' : 'text-gray-500'} mx-1`} />)}

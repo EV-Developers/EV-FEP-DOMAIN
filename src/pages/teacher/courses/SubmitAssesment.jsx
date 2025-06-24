@@ -289,9 +289,9 @@ export default function SubmitAssesment() {
         {(data && submissions && submissions.length != 0) && <div className="w-[75%] block mx-auto rounded-xl m-5 bg-white p-5">
             <h3 className="text font-bold">{language && language['submitions']}</h3>
             {submissions.map(item => <div key={"sub-"+item.id} className="border-b border-b-gray-400 p-3 tex-sm">
-                {data.type == 'file' && <p><button className="cursor-pointer hover:bg-amber-500 px-3 rounded-2xl" onClick={() => downloadSubmition(item.file_path)}>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['file']}</button></p>}
-                {data.type == 'url' && <p><a href={item.url} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['url']}</a></p>}
-                {data.type == 'meeting' && <p><a href={item.meeting_link} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['time']}: {item.meeting_time ? language['tba']:item.meeting_time}</a></p>}
+                {data.type == 'file' && <p>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['file']}</p>}
+                {data.type == 'url' && <p><a className="cursor-pointer hover:bg-amber-500 px-3 rounded-2xl" href={item.url} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['url']}</a></p>}
+                {data.type == 'meeting' && <p><a className="cursor-pointer hover:bg-amber-500 px-3 rounded-2xl" href={item.meeting_link} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['time']}: {item.meeting_time ? language['tba']:item.meeting_time}</a></p>}
                 {data.type == 'questions' && <p>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['questions_done']}</p>}
             </div>)}
         </div>}

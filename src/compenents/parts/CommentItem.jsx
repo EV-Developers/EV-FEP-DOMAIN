@@ -12,11 +12,11 @@ export default function CommentItem({language, item}) {
         <div>
           <div className="flex my-2 mx-3">
             <p className="text-color font-bold">{item.user && item.user.name}</p>
-            <p className="text-color mx-4">{new Date(item.created_at).toLocaleDateString('en-GB')}</p>
+            <p className="text-color mx-4 text-sm">{new Date(item.created_at).toLocaleString('en-GB')}</p>
           </div>
-          <div className="flex">
+          <div className="flex mx-6">
             {/* {stars && stars.map(star => <FontAwesomeIcon icon={faStar} className={`${star <= item.review ? 'primary' : 'text-gray-500'} mx-1`} />)} */}
-            {stars && stars.map(star => star <= item.review ? <img key={`star-${star}`} src="/star.png" className="mx-1 w-5 h-5" /> : <img key={`star-${star}`} src="/starg.png" className="mx-1 w-5 h-5" />)}
+            {stars && stars.map(star => star <= item.review ? <img key={`star-${star}`} src="/star.png" className="mx-1 w-4 h-4" /> : <img key={`star-${star}`} src="/starg.png" className="mx-1 w-4 h-4" />)}
           </div>
         </div>
       </div>
