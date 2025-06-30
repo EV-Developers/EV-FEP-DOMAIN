@@ -10,12 +10,12 @@ import api from '../../../../config/api';
 export default function Exam() {
     const { courseId, lessonId } = useParams();
     const [inprogress, setInprogress] = React.useState(true);
-    const [questions, setQuestions] = React.useState(null);
     const [totalResult, setTotalResult] = React.useState(0);
     const [result, setResult] = React.useState(0);
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [totalQuestions, setTotalQuestions] = React.useState(0);
+    const [quizId, setQuizId] = React.useState(0);
     const [step, setStep] = React.useState(0);
     const [quizzList, setQuizzList] = React.useState(null);
     const [currentQuestion, setCurentQuestion] = React.useState(null);
@@ -52,11 +52,9 @@ export default function Exam() {
 
         const answers = [];
 
-        questions.map((item) => {          
-            item.answers.map((answer) => {
-                const element = document.getElementById("answer-" + answer.id);
-
-                if(element.checked){
+        quizzList.map((item) => {          
+            item.answers.map((answer) => {                
+                if(answer.user_answer && answer.is_correct){
                     answers.push({
                         "question_id": item.id,
                         "answer_id": answer.id
@@ -67,12 +65,21 @@ export default function Exam() {
         });
 
         try {
-            const response = api.post(`/quizzes/${lessonId}/complete`, { "answers": answers });
+            console.log(lessonId, courseId);
+
+            console.log(answers);
+            
+            
+            const response = api.post(`/quizzes/${quizId}/complete`, { "answers": answers });
+            
+            console.log(response);
+            
     
             if(response.status == 200){
-                loadQuestions();
+                window.location.reload();
                 //navigate(`/courses/${courseId}/#${lessonId}`)
             } else {
+                window.location.reload();
                 setMsg(language['error_msg'])
             }
         } catch (error) {
@@ -92,11 +99,14 @@ export default function Exam() {
             let totalMarks = 0;
             let userMarks = 0
 
+            
+            
             if (response.status == 200) {
                 if (response.data) {
                     let tmpArr = [];
                     let index = 0;
                     
+                    setQuizId(response.data[0].id);
                     response.data.map((quiz) => {
                         quiz.questions.map(item => {
                             tmpArr.push({
@@ -150,14 +160,12 @@ export default function Exam() {
                 }
 
                 setCurentQuestion(cq);
-                setUpdated(Date.now());
             } else {
                 const tmpStep = step - 1;
                 const cq = quizzList[tmpStep];
 
                 setStep(tmpStep);
                 setCurentQuestion(cq);                
-                setUpdated(Date.now());
             }
         } else {
             const tmpStep = step - 1;
@@ -165,8 +173,8 @@ export default function Exam() {
 
             setStep(tmpStep);
             setCurentQuestion(cq);
-            setUpdated(Date.now());
         }
+        setUpdated(Date.now());
     }
 
     const handleAnswer = (item) => {
@@ -221,7 +229,7 @@ export default function Exam() {
                     {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
 
                     {currentQuestion.answers && currentQuestion.answers.map(answer => <div key={"answer-"+answer.id}>
-                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} onChange={() => handleAnswer(answer.id)} disabled={currentQuestion.answer} defaultChecked={currentQuestion.answer && currentQuestion.answer.answer_id == answer.id} />
+                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} onChange={() => handleAnswer(answer.id)} disabled={currentQuestion.answer} defaultChecked={(currentQuestion.answer && currentQuestion.answer.answer_id == answer.id) || answer.user_answer} />
                         <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs py-2 peer-checked:border peer-checked:border-blue-500 flex transition-colors group`}>
                             {currentQuestion.question_type == "single_choice" && <div className={`bg-white group-peer-checked:bg-[#001f4e] rounded-full w-6 h-6 transition-colors`}></div>}
                             <span className="mx-3 py-1">{answer.answer_text}</span>
@@ -244,10 +252,10 @@ export default function Exam() {
                     <p className="text-xs text-gray-400">{language && language['you_answered']} {(completedQuiz ? quizzList && quizzList.length : answered)} {language && language['out_of']} {quizzList && quizzList.length}</p>
                 </div>
 
-                {quizzList && quizzList.map((item, index) => <div key={"ques-"+index} className={`flex bg-blue-50 p-3 py-2 rounded my-2 ${item.answer.is_completed == 1 && item.answer.score != 0 && 'bg-green-200 border-green-500'} ${item.answer.is_completed == 1 && item.answer.score == 0 && 'bg-red-200 border-red-400'}`}>
+                {quizzList && quizzList.map((item, index) => <div key={"ques-"+index} className={`flex bg-blue-50 p-3 py-2 rounded my-2 ${item.answer && item.answer.is_completed == 1 && item.answer.score != 0 && 'bg-green-200 border-green-500'} ${item.answer && item.answer.is_completed == 1 && item.answer.score == 0 && 'bg-red-200 border-red-400'}`}>
                     <div className={`rounded-full w-6 h-6 text-center bg-white ${item.answered && item.result && 'bg-red-400'} ${item.answered && item.result && item.is_correct && 'bg-green-500'}`}>
-                        {item.answer.is_completed == 1 && item.answer.score != 0 && <FontAwesomeIcon icon={faCheck} className="text-green-500 text-sm" />}
-                        {item.answer.is_completed == 1 && item.answer.score == 0 && <FontAwesomeIcon icon={faTimes} className="text-red-400 text-sm" />}
+                        {item.answer && item.answer.is_completed == 1 && item.answer.score != 0 && <FontAwesomeIcon icon={faCheck} className="text-green-500 text-sm" />}
+                        {item.answer && item.answer.is_completed == 1 && item.answer.score == 0 && <FontAwesomeIcon icon={faTimes} className="text-red-400 text-sm" />}
                     </div>
                     <div className="mx-3 text-xs font-medium py-1">
                         {language && language['question']} {(index + 1)}
@@ -257,12 +265,12 @@ export default function Exam() {
         </form>
 
 
-        <div className="flex bg-white mx-auto m-3 rounded-xl p-5 w-[85%] my-5">
-            {completedQuiz && <div className="block w-[35%] m-auto p-5 text-center rounded-2xl">
+        {completedQuiz && <div className="flex bg-white mx-auto m-3 rounded-xl p-5 w-[85%] my-5">
+            <div className="block w-[35%] m-auto p-5 text-center rounded-2xl">
                 <h3 className="text-2xl font-bold">{language && language['result']}</h3>
                 <p className="text-4xl font-bold my-4">{totalResult + "/" + result}</p>
                 <p className="p-4 text-l text-center italic">{language && language['submitted']}</p>
-            </div>}
-        </div>
+            </div>
+        </div>}
     </ThemeContainer>)
 }
