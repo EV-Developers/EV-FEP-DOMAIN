@@ -101,7 +101,9 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                     } else if(playNext){
                         console.log('next video ', playNext.id);
 
-                        window.location.hash = 'lesson-'+playNext.id;
+                        //window.location.hash = 'lesson-'+playNext.id;
+                        document.getElementById('lesson-'+playNext.id).scrollIntoView({ behavior: 'smooth' });
+
                         window.document.getElementById("video-"+playNext.id).click();
                     }
                 }
