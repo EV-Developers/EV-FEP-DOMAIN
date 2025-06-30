@@ -31,10 +31,13 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
 
     React.useEffect(() => {
         const listen = document.getElementById('video-' + lessonId).addEventListener('loadedmetadata', function (ev) {
-            ev.target.currentTime = userProgress;
-            const duration = ev.target.duration;
             const currentTime = ev.target.currentTime;
+            const duration = ev.target.duration;
             const totalTime = (currentTime / duration) * 100;
+            const userTime = (userProgress * duration) / 100;
+            console.log(currentTime, userTime);
+            ev.target.currentTime = userTime;
+            //video.current.currentTime = parseFloat(userTime.toFixed(6))
             const payload = {
                 id: Date.now(),
                 courseId: courseId,
@@ -42,7 +45,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
                 duration: duration,
                 minutes: Math.floor((duration / 60)),
                 seconds: Math.floor((duration % 60)),
-                currentTime: userProgress,
+                currentTime: userTime,
                 progress: totalTime
             };
 

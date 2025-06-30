@@ -43,7 +43,7 @@ export default function Login() {
         setLoading(true);
 
         const email = e.target.email.value;
-        const password = e.target.password.value;
+        const password = e.target.password.value;        
 
         if (!email && !password) {
             setMsg(language["error_validation_password_msg"]);
@@ -54,6 +54,8 @@ export default function Login() {
         } else {
             try {
                 const response = await api.post("/login", formData);
+                console.log(response.data);
+                
                 if ((response.status === 200 || response.status === 201) && response?.data?.user?.status === "active") {
                     let ok = false;
                     if(response.data && response.data.user && response.data.user.roles[0].name == "teacher"){

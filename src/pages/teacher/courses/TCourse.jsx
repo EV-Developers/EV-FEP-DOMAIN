@@ -50,10 +50,12 @@ export default function TCourse() {
         try {
             const tmpData = await api.get('/courses/' + courseId);
 
+            console.log(tmpData.data.data);
+            
             if (tmpData && tmpData.status == 200) {
                 if(tmpData.data && tmpData.data.data){
                     setData(tmpData.data.data)
-                    setLessonData(tmpData.data.data.lessons);                    
+                    //setLessonData(tmpData.data.data.lessons);                    
                     
                     if(tmpData.data.data.resources){
                         setResources(tmpData.data.data.resources);
@@ -64,9 +66,25 @@ export default function TCourse() {
                     }
                 }
             }
+            getLessons();
         } catch (error) {
             //console.log(error);
         }
+    }
+
+    const getLessons = async () => {
+        try {
+            const user_id = window.localStorage.getItem("DDOj9KHr51qW1xi");
+
+            const tmpData = await api.get(`lessons?user_id=${user_id}&course_id=${courseId}`);
+            
+            if (tmpData && tmpData.status == 200) {
+                setLessonData(tmpData.data);                    
+            }
+        } catch (error) {
+            //console.log(error);
+        }
+
     }
 
     const handleCourseCertificateDownload = () => {
@@ -160,12 +178,12 @@ export default function TCourse() {
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
                     {lessonsData && lessonsData.map((item, index) => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
                         <div className="relative group hover:border-none">
-                            <div className={`inline-block text-xs p-2 w-7 h-7 text-center rounded-full ${index == 0 ? 'bg-amber-500' : 'bg-color'}`}>{item.level}</div>
+                            <div className={`inline-block text-xs p-2 w-7 h-7 text-center rounded-full ${(item.progress && item.progress.completed == 1) ? 'bg-amber-500' : 'bg-color'} text-white`}>{(index + 1)}</div>
                             <p className="inline-block py-4 mx-3">{item.title}</p>
-                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}>{}</span>
                         </div>
-                        {index == 0 && <FontAwesomeIcon icon={faCheck} className="text-amber-500 p-4" />}
-                        {index != 0 && <FontAwesomeIcon icon={faMinus} className="text-amber-500 p-4" />}
+                        {(item.progress && item.progress.completed == 1) && <FontAwesomeIcon icon={faCheck} className="text-amber-500 p-4" />}
+                        {(!item.progress || item.progress.completed == 0) && <FontAwesomeIcon icon={faMinus} className="text-amber-500 p-4" />}
                     </a>)}
                 </div>
             </div>}

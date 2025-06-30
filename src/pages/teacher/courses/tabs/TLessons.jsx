@@ -10,7 +10,7 @@ export default function TLessons({ lessons, assignments, courseId, setTotalHours
     const [videosTime, setVideosTime] = React.useState(null);
     const [videosTimes, setVideosTimes] = React.useState([]);
 
-    React.useEffect(() => {
+    React.useEffect(() => {        
         if(videosTime){
             let tmpTotal = total;
             let tmpArr = videosTimes;
@@ -32,8 +32,6 @@ export default function TLessons({ lessons, assignments, courseId, setTotalHours
                 tmpTotal = tmpTotal.toFixed(2).replace(".", ":");
             }
             
-            //console.log(tmpTotal, tmpArr);
-
             setVideosTimes(tmpArr);
             setTotalHourse(tmpTotal);
             setTotal(tmpTotal);
@@ -60,7 +58,7 @@ export default function TLessons({ lessons, assignments, courseId, setTotalHours
 
     return (<div>
         <p className="text-2xl m-4">{language && language["course_lessons"]}:</p>
-        {lessons && lessons.map(item => <Lesson videosTime={videosTime} setVideosTime={setVideosTime} courseId={courseId} item={item} key={item.id} />)}
+        {lessons && lessons.map((item, index) => <Lesson videosTime={videosTime} setVideosTime={setVideosTime} courseId={courseId} item={item} key={item.id} playNext={lessons[index + 1] && lessons[index + 1]} />)}
         {assignments && assignments.map(item => <Assesment courseId={courseId} assignments={item} key={item.id} />)}
     </div>)
 }

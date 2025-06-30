@@ -268,7 +268,7 @@ export default function SubmitAssesment() {
             </div>)}
 
             {videoUrl && !videoError && <div className="block justify-baseline mx-auto">
-                <VideoPlayer videoData={videoData} tmp_vid_url={videoUrl} setVideoData={setVideoData} />
+                <VideoPlayer videoData={videoData} setVideosTime={null} tmp_vid_url={videoUrl} setVideoData={setVideoData} />
             </div>}
 
             {(data && data.type == "file") && <div>

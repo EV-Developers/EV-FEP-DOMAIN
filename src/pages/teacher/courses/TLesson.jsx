@@ -1,20 +1,23 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 
 import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
-export default function TLesson({ item, courseId, userProgress = 0, videosTime, setVideosTime }) {
+export default function TLesson({ item, courseId, videosTime, setVideosTime, playNext }) {
     const [language, setLanguage] = React.useState(null);
     const [videoUrl, setVideoUrl] = React.useState(null);
     const [videoData, setVideoData] = React.useState(null);
     const [videoError, setVideoError] = React.useState(null);
     const [videoProgress, setVideoProgress] = React.useState(null);
+    const navigate = useNavigate();
 
-    React.useEffect(() => {
+    React.useEffect(() => {    
+        console.log(item.progress ? item.progress.completed == 1 ? 100 : item.progress.video_progress : 0);
+            
         const lang = window.localStorage.getItem("language");
 
         if (lang && lang != '' && lang != null) {
@@ -33,7 +36,7 @@ export default function TLesson({ item, courseId, userProgress = 0, videosTime, 
 
         getVideo();
     }, []);
-
+    
     const getVideo = async () => {
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
@@ -70,28 +73,51 @@ export default function TLesson({ item, courseId, userProgress = 0, videosTime, 
     }
 
     React.useEffect(()=> {
-        if(videoProgress && videosTime){
-            console.log('times', videosTime.duration, videoProgress, videosTime.duration == videoProgress);
-            
+        if(videoProgress && videosTime){            
             try {
                 let completed = false;
+                let lock = true;
                 const pregress = parseInt((videoProgress / videosTime.duration) * 100);
-                // const currentTime = ((videoProgress / videosTime.duration) * 100) / 10;
-                // console.log(pregress, videosTime.duration, videoProgress);
                 
                 if(videosTime.duration == videoProgress){
                     completed = true;
                 }
+
+                console.log(item.progress, item.progress.completed);
                 
-                const lesson_progress = api.post(`/lessons/${item.id}/progress`, {
-                    "video_progress": pregress,
-                    "completed": completed
-                });
+                
+                if(item.progress && item.progress.completed == 1){
+                    lock = false;
+                    completed = true;
+                }
+                
+                console.log(pregress, videosTime.duration, videoProgress);
+                if(completed && pregress == 100){
+                    
+                    if(item.has_quiz){
+                        console.log('next quiz');
+                        
+                        navigate(`/teachers/courses/${courseId}/quiz/${item.id}`);
+                    } else if(playNext){
+                        console.log('next video ', playNext.id);
 
-                console.log(lesson_progress);
+                        window.location.hash = 'lesson-'+playNext.id;
+                        window.document.getElementById("video-"+playNext.id).click();
+                    }
+                }
 
-                if (lesson_progress.status == 200) {
-                    console.log('sended.'); 
+                if(lock == true){
+                    const lesson_progress = api.post(`/lessons/${item.id}/progress`, {
+                        "video_progress": pregress,
+                        "completed": completed
+                    });
+
+                    console.log(lesson_progress);
+                    
+                    
+                    if (lesson_progress.status == 200) {
+                        console.log('sended.'); 
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -116,8 +142,9 @@ export default function TLesson({ item, courseId, userProgress = 0, videosTime, 
                     tmp_vid_url={videoUrl}
                     setVideoData={setVideoData}
                     setVideosTime={setVideosTime}
-                    userProgress={userProgress}
+                    userProgress={item.progress ? item.progress.completed == 1 ? 100 : item.progress.video_progress : 0}
                     setVideoProgress={setVideoProgress}
+                    playNext={playNext}
                 />
                 {item.has_quiz && <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>
