@@ -42,8 +42,8 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             const userTime = (userProgress * duration) / 100;
             let minutes = Math.floor((duration / 60));
             let seconds = Math.floor((duration % 60));
-            minutes = minutes == NaN ? 0 : minutes;
-            seconds = seconds == NaN ? 0 : seconds;
+            minutes = isNaN(minutes) ? 0 : minutes;
+            seconds = isNaN(seconds) ? 0 : seconds;
 
             ev.target.currentTime = userTime;
 
