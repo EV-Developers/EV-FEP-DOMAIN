@@ -67,9 +67,9 @@ export default function Header({ role }) {
                 window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
             }
         } else {
-            setLanguage(translation[0]);
-            window.localStorage.setItem("language", 'english');
-            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+            window.localStorage.setItem("language", 'arabic');
+            setLanguage(translation[1]);
+            window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
         }
     }, []);
 

@@ -93,11 +93,11 @@ export default function Lesson({ courseId, item }) {
         <button className="flex justify-between transition-all cursor-pointer w-full pb-3" onClick={() => setShow(!show)}>
             <div className="text-l font-bold flex">
                 <div>{item.title}</div>
-                {show && <div className="text-sm text-gray-500 font-light mx-3"> <span>-</span> <FontAwesomeIcon icon={faClock} /> <span> {videoData && videoData.minutes} {language && language["minitus"]}, {videoData && videoData.seconds} {language && language["seconds"]}</span></div>}
+                {show && !loading && <div className="text-sm text-gray-500 font-light mx-3"> <span>-</span> <FontAwesomeIcon icon={faClock} /> <span> {videoData && videoData.minutes} {language && language["minitus"]}, {videoData && videoData.seconds} {language && language["seconds"]}</span></div>}
             </div>
             <FontAwesomeIcon icon={!show ? faCaretDown : faCaretUp} className="text-xl" />
         </button>
-        {show && <div className="transition-all px-0">
+        {show && !loading && <div className="transition-all px-0">
             <p className="p-2">{item.description}</p>
             {!videoError && <VideoPlayer language={language} tmp_vid_url={videoUrl} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />}
             <div className="flex">
@@ -107,10 +107,10 @@ export default function Lesson({ courseId, item }) {
             </div>
         </div>}
 
-        {loading && <div className="flex flex-wrap animate-pulse">
+        {show && loading && <div className="flex flex-wrap animate-pulse">
             <div className="shadow w-[75%] h-[400px] bg-gray-200 rounded-xl p-2 mx-2 my-3 flex justify-center items-center">
                 <div className="relative">
-                    <div class="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
+                    <div className="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
                     <div className="bg-gray-300 w-20 h-20 rounded-full"></div>
                 </div>
             </div>

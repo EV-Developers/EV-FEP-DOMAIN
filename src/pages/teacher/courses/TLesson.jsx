@@ -157,7 +157,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
             {loading && <div className="flex flex-wrap animate-pulse">
                 <div className="shadow w-[75%] h-[400px] bg-gray-200 rounded-xl p-2 mx-2 my-3 flex justify-center items-center">
                     <div className="relative">
-                        <div class="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
+                        <div className="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
                         <div className="bg-gray-300 w-20 h-20 rounded-full"></div>
                     </div>
                 </div>
