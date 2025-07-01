@@ -30,9 +30,9 @@ export default function Login() {
                 document.documentElement.setAttribute('dir', 'rtl');
             }
         } else {
-            setLanguage(translation[0]);
-            window.localStorage.setItem("language", 'english');
-            document.documentElement.setAttribute('dir', 'ltr');
+            setLanguage(translation[1]);
+            window.localStorage.setItem("language", 'arabic');
+            document.documentElement.setAttribute('dir', 'rtl');
         }
     }, []);
 

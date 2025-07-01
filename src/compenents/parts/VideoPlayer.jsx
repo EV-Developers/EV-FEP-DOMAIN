@@ -1,7 +1,10 @@
+import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef } from 'react'
 
 export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime, setVideoProgress }) {
     const [play, setShow] = React.useState(true);
+    const [fullScreen, setFullScreen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
     const video = useRef();
@@ -22,8 +25,10 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
     }, [tmp_vid_url]);
 
     React.useEffect(() => {
-        const progress = document.getElementById('video-' + lessonId).addEventListener('pause', (ev) => {            
-            setVideoProgress(ev.target.currentTime);
+        const progress = document.getElementById('video-' + lessonId).addEventListener('pause', (ev) => {    
+            if(setVideoProgress){
+                setVideoProgress(ev.target.currentTime);
+            }        
         });
 
         return document.removeEventListener('stop', progress);
@@ -35,22 +40,28 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             const duration = ev.target.duration;
             const totalTime = (currentTime / duration) * 100;
             const userTime = (userProgress * duration) / 100;
-            console.log(currentTime, userTime);
+            let minutes = Math.floor((duration / 60));
+            let seconds = Math.floor((duration % 60));
+            minutes = minutes == NaN ? 0 : minutes;
+            seconds = seconds == NaN ? 0 : seconds;
+
             ev.target.currentTime = userTime;
-            //video.current.currentTime = parseFloat(userTime.toFixed(6))
+
             const payload = {
                 id: Date.now(),
                 courseId: courseId,
                 lessonId: lessonId,
                 duration: duration,
-                minutes: Math.floor((duration / 60)),
-                seconds: Math.floor((duration % 60)),
+                minutes: minutes,
+                seconds: seconds,
                 currentTime: userTime,
                 progress: totalTime
             };
 
             setVideoData(payload);
-            setVideosTime(payload);
+            if(setVideosTime){
+                setVideosTime(payload);
+            }
         });
 
         return document.getElementById('video-' + lessonId).removeEventListener('loadedmetadata', listen);
@@ -70,12 +81,17 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         const duration = e.target.duration;
         const currentTime = e.target.currentTime;
         const totalTime = (currentTime / duration) * 100;
+        let minutes = Math.floor((duration / 60));
+        let seconds = Math.floor((duration % 60));
+        minutes = isNaN(minutes) ? 0 : minutes;
+        seconds = isNaN(seconds) ? 0 : seconds;
+
         const payload = {
             courseId: courseId,
             lessonId: lessonId,
             duration: duration,
-            minutes: parseInt((duration / 60)),
-            seconds: parseInt((duration % 60)),
+            minutes: minutes,
+            seconds: seconds,
             currentTime: currentTime,
             progress: totalTime
         };
@@ -88,10 +104,61 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         }
     }
 
-    return (<div className="w-full md:w-[75%] flex justify-center items-center relative px-0">
-        <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-0 my-3 h-2 px-0 transition-all w-full"></div>
-        <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs"></div>
-        <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all"></div>
+    React.useEffect(() => {
+        const handleFullscreenChange = () => {
+            const isFullscreen = !!document.fullscreenElement;
+            document.getElementById("player").classList.toggle('is-fullscreen', fullScreen);
+        };
+
+        const handleExitFullScreen = (ev) => {
+            console.log(ev.target);
+            
+            if(ev.target.key == "ESC" || ev.target.key == "esc"){
+                setFullScreen(!fullScreen);
+            }
+        }
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        };
+    }, []);
+
+    const toggleFullScreen = () => {        
+        if(fullScreen || document.fullscreenElement){
+            document.exitFullscreen();
+        } 
+
+        if(fullScreen == false || document.fullscreenElement == false) {
+            //video.current.requestFullscreen()
+            document.getElementById("player").requestFullscreen();
+        }
+
+        setFullScreen(!fullScreen);
+    }
+
+    const handleVideoProgress = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const width = rect.width;
+        const percent = (clickX / width) * 100;
+
+        console.log(percent);
+        
+        // Seek video
+        if (video.current?.duration) {
+            video.current.currentTime = (percent / 100) * video.current.duration;
+        }
+    }
+
+    return (<div id="player" className="w-full md:w-[75%] flex justify-center items-center relative px-0 player">
+        <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-0 my-3 h-2 px-0 transition-all w-full" onClick={handleVideoProgress}></div>
+        <div id="progress" style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs pointer-events-none cursor-progress" ></div>
+        <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all pointer-events-none" ></div>
+        <button className="bottom-0 right-0 m-5 mb-10 absolute z-30 cursor-pointer" onClick={toggleFullScreen}>
+            <FontAwesomeIcon icon={fullScreen ? faCompress : faExpand} className="text-sm text-amber-500" />
+        </button>
         {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
             <img src="/play_btn.png" alt="" className="w-full" />
         </button>}
@@ -101,7 +168,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             onClick={handlePlay}
             ref={video}
             height="440"
-            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl"
+            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl object-cover is-fullscreen-vid"
             //poster={poster}
             controls={false}
             preload="metadata"
@@ -111,5 +178,6 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             <source src={tmp_vid_url} type="video/mp4" />
             {language && language['video_player_error']}
         </video>
+    {/* </div> */}
     </div>)
 }

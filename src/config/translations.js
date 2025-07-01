@@ -237,7 +237,7 @@ export const translation = [
     upload: "رفع",
     drag_drop: "جر وإسحب",
     add: "إضافة",
-    delete: "حذق",
+    delete: "حذف",
     reply: "رد",
     like: "إعجاب",
     new_assesment: "إضافة تقدير",

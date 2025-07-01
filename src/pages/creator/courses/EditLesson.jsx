@@ -16,6 +16,7 @@ export default function EditLesson() {
     const [language, setLanguage] = React.useState(null);
     const [tmp_vid_url, setVidUrl] = React.useState(null);
     const { courseId, lessonId } = useParams();
+    const [uploadProgress, setUploadProgress] = React.useState(0);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -102,7 +103,20 @@ export default function EditLesson() {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${token}`
                     },
+                    onUploadProgress: (progressEvent) => {
+                        const percent = (progressEvent.loaded / progressEvent.total) * 100;
+                        setUploadProgress(percent.toFixed(2));
+                        console.log('Progress:', percent.toFixed(2) + '%');
+                    }
                 });
+
+                /*, {
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                },
+            });*/
 
                 if (response.status == 200) {
                     setLoading(false);
@@ -147,14 +161,24 @@ export default function EditLesson() {
 
             {tmp_vid_url && <VideoPlayer tmp_vid_url={tmp_vid_url} />}
 
-            <label htmlFor="uploadVideo" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-color mb-14">
-                <div className="text-center">
-                    <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-                    <p className="text-l font-bold">{language && language["upload_video"]}</p>
-                    <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+            <div className="block relative">
+                <div
+                    className="inset-0 rounded-xl p-[2px] h-[300px] my-4"
+                    style={{
+                        background: `conic-gradient(#fa9600 ${uploadProgress}%, #ccc ${uploadProgress}% 100%)`,
+                    }}
+                >
+                    <label htmlFor="video_path" className="h-full p-14 w-full flex items-center justify-center rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat">
+                        <div className="text-center">
+                            <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
+                            <p className="text-l font-bold">{language && language["upload_video"]}</p>
+                            <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+                        </div>
+
+                        <input type="file" id="video_path" name="video_path" className="hidden" onChange={(ev) => setVidUrl(window.URL.createObjectURL(ev.target.files[0]))} />
+                    </label>
                 </div>
-                <input type="file" id="uploadVideo" name="video_path" className="hidden" />
-            </label>
+            </div>
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 

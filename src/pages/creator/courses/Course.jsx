@@ -96,7 +96,7 @@ export default function Course() {
                 //console.log('error');
             }
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
     }
 

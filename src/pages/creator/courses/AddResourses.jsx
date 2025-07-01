@@ -14,6 +14,8 @@ export default function AddResourses() {
   const [file, setFile] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [resoureName, setResourceName] = React.useState(null);
+  const [uploadProgress, setUploadProgress] = React.useState(0);
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -53,14 +55,25 @@ export default function AddResourses() {
     if (ev.target.title != "" && ev.target.description != "") {
       setLoading(true);
       try {
+        /*
         api.interceptors.request.use((config) => {
           config.headers['accept'] = 'application/json';
           config.headers['Content-Type'] = 'multipart/form-data';
 
           return config;
         });
+        */
 
-        const response = await api.post('/resources', form);
+        const response = await api.post('/resources', form, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress: (progressEvent) => {
+            const percent = (progressEvent.loaded / progressEvent.total) * 100;
+            setUploadProgress(percent.toFixed(2));
+            console.log('Progress:', percent.toFixed(2) + '%');
+          }
+        });
 
         if (response.status == 200) {
           setLoading(false);
@@ -103,16 +116,25 @@ export default function AddResourses() {
           <input type="text" id="description" name="description" placeholder={language && language["write_here"]} className="py-2 px-14 inset-shadow-sm inset-gray-indigo-800 rounded shodow-sm bg-color w-full placeholder-gray-400" />
         </label>
 
-        <label htmlFor="file" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat">
-          <div className="text-center">
-            <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-            <p className="text-l font-bold">{language && language["upload"]}</p>
-            <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
-            {resoureName && <p className="p-4">{resoureName}</p>}
-          </div>
+        <div className="block relative">
+          <div
+            className="inset-0 rounded-xl p-[2px] h-[300px] my-4"
+            style={{
+              background: `conic-gradient(#fa9600 ${uploadProgress}%, #ccc ${uploadProgress}% 100%)`,
+            }}
+          >
+            <label htmlFor="file" className="h-full p-14 w-full flex items-center justify-center rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat">
+              <div className="text-center">
+                <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
+                <p className="text-l font-bold">{language && language["upload"]}</p>
+                <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+                {resoureName && <p className="p-4">{resoureName}</p>}
+              </div>
 
-          <input type="file" id="file" name="file" className="hidden" onChange={handleSetFile} />
-        </label>
+              <input type="file" id="file" name="file" className="hidden" onChange={handleSetFile} />
+            </label>
+          </div>
+        </div>
         
         {msg && <div className="p-4 m-2">{msg}</div>}
 

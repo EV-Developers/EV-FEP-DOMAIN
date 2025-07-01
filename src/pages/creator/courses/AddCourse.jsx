@@ -25,6 +25,7 @@ export default function AddCourse() {
     const [coursesData, setCoursesData] = React.useState(null);
     const [msg, setMsg] = React.useState(null);
     const [language, setLanguage] = React.useState(null);
+    const [uploadProgress, setUploadProgress] = React.useState(0);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -66,14 +67,25 @@ export default function AddCourse() {
 
         if (title != "" && description != "" && categoryId != "" && level != "") {
             try {
+                /*
                 api.interceptors.request.use((config) => {
                     config.headers['accept'] = 'application/json';
                     config.headers['Content-Type'] = 'multipart/form-data';
 
                     return config;
                 });
+                */
 
-                const response = await api.post("/courses", formData);
+                const response = await api.post("/courses", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    onUploadProgress: (progressEvent) => {
+                        const percent = (progressEvent.loaded / progressEvent.total) * 100;
+                        setUploadProgress(percent.toFixed(2));
+                        console.log('Progress:', percent.toFixed(2) + '%');
+                    }
+                });
 
                 if (response.status == 200 || response.status == 201) {
                     setLoading(false)
@@ -205,7 +217,7 @@ export default function AddCourse() {
                 <hr className="text-gray-200 my-5" />
                 {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} handleSort={setUserSort} />}
                 {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />} */}
-                {step == 2 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
+                {step == 2 && <CourseOverview uploadProgress={uploadProgress} handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
             </div>
         </ThemeContainer>
     )

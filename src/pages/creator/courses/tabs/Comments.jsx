@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { translation } from '../../../../config/translations';
+import api from '../../../../config/api';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
 
 export default function Comments({ courseId }) {
   const [show, setShow] = React.useState(false)
   const stars = [1, 2, 3, 4, 5];
   const [language, setLanguage] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
 
   React.useEffect(() => {
@@ -93,7 +95,7 @@ export default function Comments({ courseId }) {
 
   return (<div>
     {showModal && <ConfrimModal message={language && language['confirm']} action={handleDeleteComment} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
-    {comments_list.map(item => <div className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
+    {comments_list.map(item => <div key={"comment-"+item.id} className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
           <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />

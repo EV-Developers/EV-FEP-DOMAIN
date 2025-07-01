@@ -14,6 +14,7 @@ export default function AddLesson() {
     const [tmp_vid_url, setVidUrl] = React.useState(null);
     const { courseId } = useParams();
     const [msg, setMsg] = React.useState(null);
+    const [uploadProgress, setUploadProgress] = React.useState(0);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -49,14 +50,25 @@ export default function AddLesson() {
 
         if (e.target.title.value != "" && e.target.description.value != "") {
             try {
+                /*
                 api.interceptors.request.use((config) => {
                     config.headers['accept'] = 'application/json';
                     config.headers['Content-Type'] = 'multipart/form-data';
 
                     return config;
                 });
+                */
 
-                const response = await api.post('/lessons', formData);
+                const response = await api.post('/lessons', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    onUploadProgress: (progressEvent) => {
+                        const percent = (progressEvent.loaded / progressEvent.total) * 100;
+                        setUploadProgress(percent.toFixed(2));
+                        console.log('Progress:', percent.toFixed(2) + '%');
+                    }
+                });
 
                 if (response.status == 200) {
                     setLoading(false);
@@ -97,14 +109,25 @@ export default function AddLesson() {
             <textarea id="addSection" name="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} ></textarea>
 
             {tmp_vid_url && <VideoPlayer tmp_vid_url={tmp_vid_url} />}
-            <label htmlFor="video_path" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl bg-color border border-gray-300 mb-14 inset-shadow-sm inset-gray-indigo-800">
-                <div className="text-center">
-                    <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-                    <p className="text-l font-bold">{language && language["upload_video"]}</p>
-                    <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+
+            <div className="block relative">
+                <div
+                    className="inset-0 rounded-xl p-[2px] h-[300px] my-4"
+                    style={{
+                    background: `conic-gradient(#fa9600 ${uploadProgress}%, #ccc ${uploadProgress}% 100%)`,
+                    }}
+                >
+                    <label htmlFor="video_path" className="h-full p-14 w-full flex items-center justify-center rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat">
+                    <div className="text-center">
+                        <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
+                        <p className="text-l font-bold">{language && language["upload_video"]}</p>
+                        <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+                    </div>
+
+                    <input type="file" id="video_path" name="video_path" className="hidden" onChange={(ev) => setVidUrl(window.URL.createObjectURL(ev.target.files[0]))} />
+                    </label>
                 </div>
-                <input type="file" id="video_path" accept='video/mp4' name="video_path" onChange={(ev) => setVidUrl(window.URL.createObjectURL(ev.target.files[0]))} className="hidden" />
-            </label>
+            </div>
 
             {msg && <div className="p-4 m-2">{msg}</div>}
 

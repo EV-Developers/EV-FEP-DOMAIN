@@ -4,7 +4,7 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 import { translation } from '../../../../config/translations';
 
-export default function CourseOverview({ handleSteps, description, setDescription, featuredImage, setFeaturedImage, handleCreateCourse, msg, loading }) {
+export default function CourseOverview({ uploadProgress, handleSteps, description, setDescription, featuredImage, setFeaturedImage, handleCreateCourse, msg, loading }) {
   const [language, setLanguage] = React.useState(null);
   const [image, setImage] = React.useState(null);
   const ref = React.useRef();
@@ -52,15 +52,24 @@ export default function CourseOverview({ handleSteps, description, setDescriptio
         <textarea onChange={val => setDescription(val.target.value)} id="courseOverview" name="course-overview" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} value={description} ></textarea>
       </label>
 
-      <label htmlFor="uploadImage" className="p-14 h-[300px] w-full flex items-center justify-center my-4 rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat " ref={ref}>
-        {image && <img src={image} className="flex m-auto w-[25%] align-middle self-center " />}
-        {!image && <div className="text-center">
-          <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
-          <p className="text-l font-bold">{language && language["upload"]} PNG/JPG</p>
-          <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
-        </div>}
-        <input type="file" accept="image/jpg,image/png,image/jepg,image/webp" id="uploadImage" name="uploadImage" className="hidden" onChange={handleSetImage} />
-      </label>
+      <div className="block relative">
+        <div
+          className="inset-0 rounded-xl p-[2px] h-[300px] my-4"
+          style={{
+            background: `conic-gradient(#fa9600 ${uploadProgress}%, #ccc ${uploadProgress}% 100%)`,
+          }}
+        >
+          <label htmlFor="uploadImage" className="h-full p-14 w-full flex items-center justify-center rounded-xl border border-gray-300 inset-shadow-sm inset-gray-indigo-800 bg-color bg-cover bg-no-repeat" ref={ref}>
+            {image && <img src={image} className="flex m-auto w-[25%] align-middle self-center " />}
+            {!image && <div className="text-center">
+              <FontAwesomeIcon icon={faArrowUp} className="text-3xl rounded-xl bg-gradient-to-b from-[#fa9600] to-[#ffe696] p-3 px-4 text-gray-100" />
+              <p className="text-l font-bold">{language && language["upload"]} PNG/JPG</p>
+              <p className="text-sm text-gray-400">{language && language["drag_drop"]}</p>
+            </div>}
+            <input type="file" accept="image/jpg,image/png,image/jepg,image/webp" id="uploadImage" name="uploadImage" className="hidden" onChange={handleSetImage} />
+          </label>
+        </div>
+      </div>
 
       {msg && <div className="p-4 m-2">
         {msg}

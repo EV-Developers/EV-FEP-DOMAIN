@@ -124,7 +124,7 @@ export default function Materials() {
         <ThemeContainer customeClasses="w-full">
             {showModal && <ConfrimModal message={language && language['confirm']} action={handleDelete} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
             
-            <div className="mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
+            <div className="mt-0 h-[300px] w-full bg-[url(/imgs/catsbanner.png)] bg-cover ">
                 <div className="mx-auto w-[75%] text-center text-blue-950">
                     <h2 className="text-5xl font-bold p-3 pt-14">{language && language['materials']}</h2>
                 </div>

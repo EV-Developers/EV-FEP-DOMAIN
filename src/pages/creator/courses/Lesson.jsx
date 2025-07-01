@@ -17,6 +17,8 @@ export default function Lesson({ courseId, item }) {
     const [language, setLanguage] = React.useState(null);
 
     React.useEffect(() => {
+        console.log(item);
+        
         const lang = window.localStorage.getItem("language");
 
         if (lang && lang != '' && lang != null) {

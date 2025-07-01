@@ -25,6 +25,7 @@ export default function EditCourse() {
     const [msg, setMsg] = React.useState(null);
     const { courseId } = useParams();
     const [userSort, setUserSort] = React.useState(null);
+    const [uploadProgress, setUploadProgress] = React.useState(0);
     const navigate = useNavigate();
 
     const [language, setLanguage] = React.useState(null);
@@ -241,7 +242,7 @@ export default function EditCourse() {
                 <hr className="text-gray-200 my-5" />
                 {step == 1 && <CourseDetails handleSteps={handleSteps} title={title} setTitle={setTitle} categoryId={categoryId} setCategoryId={setCategoryId} categories={categories} categoryName={categoryName} setCategoryName={setCategoryName} levelNewName={levelNewName} setLevelNewName={setLevelNewName} level={level} setLevel={setLevel} coursesData={coursesData} setCoursesData={setCoursesData} handleSort={setUserSort} />}
                 {/* {step == 2 && <CourseGrades levelNewName={levelNewName} setLevelNewName={setLevelNewName} handleSteps={handleSteps} level={level} setLevel={setLevel} />} */}
-                {step == 2 && <CourseOverview handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
+                {step == 2 && <CourseOverview uploadProgress={uploadProgress} handleSteps={handleSteps} description={description} setDescription={setDescription} setFeaturedImage={setFeaturedImage} featuredImage={featuredImage} handleCreateCourse={handleCreateCourse} msg={msg} loading={loading} />}
             </div>
         </ThemeContainer>
     )

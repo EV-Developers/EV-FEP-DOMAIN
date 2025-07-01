@@ -125,3 +125,27 @@ input[type='radio']:checked:after {
   background-repeat: no-repeat;
   background-size: 100%;
 }
+
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+.is-fullscreen {
+  display: block !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 10000 !important;
+  position: absolute !important;
+}
+
+/* #player .is-fullscreen video {
+  width: 100vh !important;
+  height: 100vh !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+} */
+
+.is-fullscreen video {
+  border-radius: 0 !important;
+  object-fit: cover !important; /* Optional */
+}
