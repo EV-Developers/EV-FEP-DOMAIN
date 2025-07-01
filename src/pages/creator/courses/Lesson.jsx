@@ -18,8 +18,6 @@ export default function Lesson({ courseId, item }) {
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
-        console.log(item);
-        
         const lang = window.localStorage.getItem("language");
 
         if (lang && lang != '' && lang != null) {
@@ -37,7 +35,6 @@ export default function Lesson({ courseId, item }) {
         }
 
         getVideo();
-
     }, []);
 
     const getVideo = async () => {
@@ -65,11 +62,14 @@ export default function Lesson({ courseId, item }) {
                 .then(blob => {
                     const tmpVideoURL = URL.createObjectURL(blob);
                     setVideoUrl(tmpVideoURL);
+                    setLoading(false);
                 })
                 .catch(error => {
+                    setLoading(false);
                     //console.error('Error loading video:', error);
                 });
         } catch (error) {
+            setLoading(false);
             //console.log(error);
         }
     }
@@ -104,6 +104,15 @@ export default function Lesson({ courseId, item }) {
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>
                 <Link to={"/lessons/quizzes/" + courseId + "/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["lesson_quizzes"]}</Link>
+            </div>
+        </div>}
+
+        {loading && <div className="flex flex-wrap animate-pulse">
+            <div className="shadow w-[75%] h-[400px] bg-gray-200 rounded-xl p-2 mx-2 my-3 flex justify-center items-center">
+                <div className="relative">
+                    <div class="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
+                    <div className="bg-gray-300 w-20 h-20 rounded-full"></div>
+                </div>
             </div>
         </div>}
     </div>)
