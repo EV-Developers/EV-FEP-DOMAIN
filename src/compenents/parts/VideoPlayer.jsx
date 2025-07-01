@@ -157,7 +157,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         <div id="progress" style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs pointer-events-none cursor-progress" ></div>
         <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all pointer-events-none" ></div>
         <button className="bottom-0 right-0 m-5 mb-10 absolute z-30 cursor-pointer" onClick={toggleFullScreen}>
-            <FontAwesomeIcon icon={fullScreen ? faCompress : faExpand} className="text-sm text-amber-500" />
+            <FontAwesomeIcon icon={fullScreen ? faCompress : faExpand} className="text-xl font-bold text-amber-300" />
         </button>
         {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
             <img src="/play_btn.png" alt="" className="w-full" />
