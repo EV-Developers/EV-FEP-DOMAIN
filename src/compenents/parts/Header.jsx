@@ -222,9 +222,9 @@ export default function Header({ role }) {
                             <input type="checkbox" value="" checked={language && language['rtl'] == 'rtl'} className="sr-only peer" onChange={handleChangeLanguage} />
                             <div className="relative w-11 h-6 bg-[#fa9600] peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-[#fa9600] ">AR</div>
                             </label> */}
-                            <button className="bg-[#fa9600] transition-all cursor-pointer rounded-2xl py-1 mx-1 px-1 flex text-sm " onClick={handleChangeLanguage}>
-                                <div className={`transition-all block px-3 text-sm rounded-2xl ${language && language['dir'] == 'rtl' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>AR</div>
-                                <div className={`block px-3 transition-all text-sm rounded-2xl ${language && language['dir'] == 'ltr' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>EN</div>
+                            <button className="bg-[#fa9600] transition-all cursor-pointer rounded-2xl py-1 mx-1 px-1 flex text-xs " onClick={handleChangeLanguage}>
+                                <div className={`transition-all block px-1 text-xs rounded-2xl ${language && language['dir'] == 'rtl' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>AR</div>
+                                <div className={`block px-1 transition-all text-xs rounded-2xl ${language && language['dir'] == 'ltr' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>EN</div>
                             </button>
                         </div>
                     </nav>

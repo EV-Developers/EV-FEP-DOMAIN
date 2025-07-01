@@ -168,7 +168,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             onClick={handlePlay}
             ref={video}
             height="440"
-            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl object-cover is-fullscreen-vid"
+            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl object-cover"
             //poster={poster}
             controls={false}
             preload="metadata"
