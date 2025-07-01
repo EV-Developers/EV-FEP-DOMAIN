@@ -107,7 +107,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
     React.useEffect(() => {
         const handleFullscreenChange = () => {
             const isFullscreen = !!document.fullscreenElement;
-            document.getElementById("player").classList.toggle('is-fullscreen', fullScreen);
+            document.getElementById("player"+lessonId).classList.toggle('is-fullscreen', fullScreen);
         };
 
         const handleExitFullScreen = (ev) => {
@@ -132,7 +132,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
 
         if(fullScreen == false || document.fullscreenElement == false) {
             //video.current.requestFullscreen()
-            document.getElementById("player").requestFullscreen();
+            document.getElementById("player"+lessonId).requestFullscreen();
         }
 
         setFullScreen(!fullScreen);
@@ -152,7 +152,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         }
     }
 
-    return (<div id="player" className="w-full md:w-[75%] flex justify-center items-center relative px-0 player">
+    return (<div id={"player"+lessonId} className="w-full md:w-[75%] flex justify-center items-center relative px-0 player">
         <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-0 my-3 h-2 px-0 transition-all w-full" onClick={handleVideoProgress}></div>
         <div id="progress" style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs pointer-events-none cursor-progress" ></div>
         <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all pointer-events-none" ></div>
