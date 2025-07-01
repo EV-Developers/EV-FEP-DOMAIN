@@ -13,6 +13,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
     const [videoData, setVideoData] = React.useState(null);
     const [videoError, setVideoError] = React.useState(null);
     const [videoProgress, setVideoProgress] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
     const navigate = useNavigate();
 
     React.useEffect(() => {    
@@ -61,13 +62,16 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                 .then(blob => {
                     const tmpVideoURL = URL.createObjectURL(blob);
                     setVideoUrl(tmpVideoURL);
+                    setLoading(false);
                 })
                 .catch(error => {
-                    setVideoError(true)
+                    setVideoError(true);
+                    setLoading(false);
                     //console.error('Error loading video:', error);
                 });
         } catch (error) {
-            setVideoError(true)
+            setVideoError(true);
+            setLoading(false);
             //console.log(error);
         }
     }
@@ -81,17 +85,14 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                 
                 if(videosTime.duration == videoProgress){
                     completed = true;
-                }
-
-                console.log(item.progress, item.progress.completed);
+                }                
                 
-                
-                if(item.progress && item.progress.completed == 1){
+                if(item.progress && item.progress.completed && item.progress.completed == 1){
                     lock = false;
                     completed = true;
                 }
                 
-                console.log(pregress, videosTime.duration, videoProgress);
+
                 if(completed && pregress == 100){
                     
                     if(item.has_quiz){
@@ -151,6 +152,15 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                 {item.has_quiz && <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>
                 </div>}
+            </div>}
+
+            {<div className="flex flex-wrap animate-pulse">
+                <div className="shadow w-[75%] h-[400px] bg-gray-200 rounded-xl p-2 mx-2 my-3 flex justify-center items-center">
+                    <div className="relative">
+                        <div class="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
+                        <div className="bg-gray-300 w-20 h-20 rounded-full"></div>
+                    </div>
+                </div>
             </div>}
         </div>
     </div>)

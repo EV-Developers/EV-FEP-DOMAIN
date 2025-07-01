@@ -15,6 +15,7 @@ export default function Lesson({ courseId, item }) {
     const [videoError, setVideoError] = React.useState(null);
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         console.log(item);
