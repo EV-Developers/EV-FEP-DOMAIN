@@ -99,7 +99,7 @@ export default function Lesson({ courseId, item }) {
         </button>
         {show && !loading && <div className="transition-all px-0">
             <p className="p-2">{item.description}</p>
-            {!videoError && <VideoPlayer language={language} tmp_vid_url={videoUrl} courseId={courseId} lessonId={item.lessonId} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />}
+            {!videoError && <VideoPlayer language={language} tmp_vid_url={videoUrl} courseId={courseId} lessonId={item.id} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />}
             <div className="flex">
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>

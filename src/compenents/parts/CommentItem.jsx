@@ -23,7 +23,7 @@ export default function CommentItem({language, item}) {
       <div className="py-4">
         <p className="text-sm text-color ml-14 ">{item.text}</p>
 
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <div></div>
           <div className="relative w-[75%]">
             <div className="flex">
@@ -38,7 +38,7 @@ export default function CommentItem({language, item}) {
               <textarea className="bg-white rounded-2xl w-full p-2 px-4 pr-20 placeholder:text-gray-400 shadow-inner" placeholder={language && language["write_here"]}></textarea>
             </div>}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>)
 }

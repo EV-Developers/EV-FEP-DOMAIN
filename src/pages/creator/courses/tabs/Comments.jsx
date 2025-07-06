@@ -5,6 +5,7 @@ import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { translation } from '../../../../config/translations';
 import api from '../../../../config/api';
 import ConfrimModal from '../../../../compenents/parts/ConfrimModal';
+import CommentItem from '../../../../compenents/parts/CommentItem';
 
 export default function Comments({ courseId }) {
   const [show, setShow] = React.useState(false)
@@ -12,6 +13,7 @@ export default function Comments({ courseId }) {
   const [language, setLanguage] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
+  const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -95,25 +97,26 @@ export default function Comments({ courseId }) {
 
   return (<div>
     {showModal && <ConfrimModal message={language && language['confirm']} action={handleDeleteComment} title={language && language['delete']} language={language} open={showModal} setOpen={setShowModal} />}
-    {comments_list.map(item => <div key={"comment-"+item.id} className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
+    {data && data.map(item => <div key={"comment-"+item.id} className="bg-[#00000016] my-5 rounded-2xl m-3 p-3">
       <div className="flex">
         <div>
-          <img src={item.user.avatar} alt="" className="rounded-full w-14 bg-white" />
+          <img src={item.user ? item.user.avatar : "/profile.jpeg"} alt="" className="rounded-full w-14 bg-white" />
         </div>
         <div>
           <div className="flex my-2 mx-3">
-            <p className="text-color font-bold">{item.user.name}</p>
-            <p className="text-color mx-4">{item.date.toLocaleString('en-GB')}</p>
+            <p className="text-color font-bold">{item.user && item.user.name}</p>
+            <p className="text-color mx-4 text-sm">{new Date(item.created_at).toLocaleString('en-GB')}</p>
           </div>
-          <div className="flex">
-            {stars && stars.map(star => <FontAwesomeIcon icon={faStar} className={`${star <= item.review ? 'primary' : 'text-gray-500'} mx-1`} />)}
+          <div className="flex mx-6">
+            {/* {stars && stars.map(star => <FontAwesomeIcon icon={faStar} className={`${star <= item.review ? 'primary' : 'text-gray-500'} mx-1`} />)} */}
+            {stars && stars.map(star => star <= item.review ? <img key={`star-${star}`} src="/star.png" className="mx-1 w-4 h-4" /> : <img key={`star-${star}`} src="/starg.png" className="mx-1 w-4 h-4" />)}
           </div>
         </div>
       </div>
       <div className="py-4">
-        <p className="text-sm text-color ml-14 ">{item.comment}</p>
+        <p className="text-sm text-color ml-14 ">{item.text}</p>
 
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <div></div>
           <div className="relative w-[75%]">
             <div className="flex">
@@ -129,9 +132,12 @@ export default function Comments({ courseId }) {
               <textarea className="bg-white rounded-2xl w-full p-2 px-4 pr-20" placeholder={language && language["write_here"]}></textarea>
             </div>}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>)}
+
+    {data && data.map(item => <CommentItem key={"c-"+item.id} language={language} item={item} />)}
+    
   </div>
   )
 }

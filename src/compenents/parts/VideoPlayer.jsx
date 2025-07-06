@@ -110,20 +110,21 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         }
     }
 
-    React.useEffect(() => {
-        const handleFullscreenChange = () => {
-            const isFullscreen = !!document.fullscreenElement;
-            document.getElementById("player"+lessonId).classList.toggle('is-fullscreen', fullScreen);
-        };
+    const handleFullscreenChange = () => {
+        const isFullscreen = !!document.fullscreenElement;
+        //console.log(isFullscreen);
+        
+        document.getElementById("player"+lessonId).classList.toggle('is-fullscreen', fullScreen);
+    };
 
-        const handleExitFullScreen = (ev) => {
-            console.log(ev.target);
-            
-            if(ev.target.key == "ESC" || ev.target.key == "esc"){
-                setFullScreen(!fullScreen);
-            }
+    const handleExitFullScreen = (ev) => {        
+        if(ev.target.key == "ESC" || ev.target.key == "esc"){
+            setFullScreen(false);
+            handleFullscreenChange()
         }
+    }
 
+    React.useEffect(() => {
         document.addEventListener('fullscreenchange', handleFullscreenChange);
 
         return () => {
@@ -135,9 +136,10 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         if(fullScreen || document.fullscreenElement){
             document.exitFullscreen();
         } 
+        console.log("player"+lessonId);
+        
 
         if(fullScreen == false || document.fullscreenElement == false) {
-            //video.current.requestFullscreen()
             document.getElementById("player"+lessonId).requestFullscreen();
         }
 
@@ -169,8 +171,8 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             <p className="italic">{has_quiz ? language && language["lesson_quizzes"] : playNext.title}</p>
         </div>}
         <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-0 my-3 h-2 px-0 transition-all w-full" onClick={handleVideoProgress}></div>
-        <div id="progress" style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs pointer-events-none cursor-progress" ></div>
-        <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all pointer-events-none" ></div>
+        <div id="progress" style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs pointer-events-none cursor-pointer" ></div>
+        <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all pointer-events-none cursor-pointer" ></div>
         <button title={language && language['fullscreen']} className="bottom-0 right-0 m-5 mb-10 absolute z-30 cursor-pointer" onClick={toggleFullScreen}>
             <FontAwesomeIcon icon={fullScreen ? faCompress : faExpand} className="text-xl font-bold text-amber-300" />
         </button>
@@ -183,12 +185,13 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             onClick={handlePlay}
             ref={video}
             height="440"
-            className="w-full max-h-[430px] my-7 px-0 overflow-x-hidden rounded-t-2xl object-cover"
+            className={`w-full max-h-[430px] my-7 px-0 overflow-x-hidden ${!fullScreen && 'rounded-t-2xl'} object-cover cursor-auto`}
             //poster={poster}
             controls={false}
             preload="metadata"
             id={'video-' + lessonId}
             onContextMenu={(e) => e.preventDefault()}
+            onDoubleClick={toggleFullScreen}
         >
             <source src={tmp_vid_url} type="video/mp4" />
             {language && language['video_player_error']}
