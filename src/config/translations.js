@@ -197,6 +197,7 @@ export const translation = [
     submitions: "Submitions",
     tba: "TBA",
     questions_done: "answers submitted",
+    fullscreen: "Fullscreen",
 
   },
   {
@@ -396,6 +397,7 @@ export const translation = [
     submitions: "التسليمات",
     tba: "لم يحدد بعد",
     questions_done: "تم تسليم الاجابات",
+    fullscreen: "شاشة كامله",
 
   },
 ];

@@ -95,7 +95,7 @@ export default function NewQuiz() {
     const handleAddQuestion = () => {
         setMsg(null);
 
-        if (!answers) {
+        if (!answers || mark == "") {
             setMsg(language["error_validation_msg"]);
             return false;
         }
@@ -121,7 +121,7 @@ export default function NewQuiz() {
             question_type: quizType,
             mark: mark,
             answers: answers
-        });
+        });        
 
         setQuestions(tmpArr);
         setQuestion("");
@@ -139,34 +139,24 @@ export default function NewQuiz() {
         }
 
         if (ok) {
-            const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
-
             const payload = {
                 "lesson_id": lessonId,
                 "title": "Quiz",
                 "questions": questions
-            };
+            };             
 
             try {
-                fetch('https://fep.misk-donate.com/api/quizzes', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(payload)
-                })
-                    .then(j => j.json())
-                    .then(res => {
-                        setLoading(false);
-                        navigate('/lessons/quizzes/' + courseId + '/' + lessonId);
-                    })
-                    .catch(err => {
-                        setLoading(false);
-                    });
+                const response = await api.post("https://fep.misk-donate.com/api/quizzes", payload);
 
-                return false;
+                if(response.status == 200){
+                    setLoading(false);
+                    navigate('/lessons/quizzes/' + courseId + '/' + lessonId);
+                } else {
+                    setLoading(false);
+                }
             } catch (error) {
+                console.log(error);
+                
                 setLoading(false);
                 setMsg(language['error-msg']);
             }
@@ -230,6 +220,7 @@ export default function NewQuiz() {
 
             {questions && questions.map((item, index) => <div key={"question-" + index} className="border-t border-t-gray-200 py-5">
                 <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
+                {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["mark"]}: {language && language[item.mark]}</p>}
                 {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {language && language[item.question_type]}</p>}
                 {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
                 {item.answers && item.answers.map((answer, aindex) => <div key={"question" + index + "-answers-" + aindex} className={`p-3 m-2 rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer_text}</div>)}

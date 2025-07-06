@@ -46,7 +46,7 @@ export default function Exam() {
         //setQuestions(quzzes_list);
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setInprogress(false);
 
@@ -58,29 +58,19 @@ export default function Exam() {
                     answers.push({
                         "question_id": item.id,
                         "answer_id": answer.id
-                });
+                    });
                 }
-
             })
         });
 
         try {
-            console.log(lessonId, courseId);
-
-            console.log(answers);
-            
-            
-            const response = api.post(`/quizzes/${quizId}/complete`, { "answers": answers });
-            
-            console.log(response);
-            
-    
+            const response = await api.post(`/quizzes/${quizId}/complete`, { "answers": answers });
+                        
             if(response.status == 200){
                 window.location.reload();
                 //navigate(`/courses/${courseId}/#${lessonId}`)
             } else {
                 window.location.reload();
-                setMsg(language['error_msg'])
             }
         } catch (error) {
             console.log(error);
@@ -98,11 +88,11 @@ export default function Exam() {
             let completed_quiz = false;
             let totalMarks = 0;
             let userMarks = 0
-
-            
             
             if (response.status == 200) {
                 if (response.data) {
+                    console.log(response.data);
+                    
                     let tmpArr = [];
                     let index = 0;
                     

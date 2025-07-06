@@ -77,36 +77,27 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
     }
 
     React.useEffect(()=> {
-        if(videoProgress && videosTime){            
+        if(videoProgress && videoData){  
             try {
                 let completed = false;
                 let lock = true;
-                const pregress = parseInt((videoProgress / videosTime.duration) * 100);
+                const pregress = parseInt((videoProgress / videoData.duration) * 100);
                 
-                if(videosTime.duration == videoProgress){
+                if(videoData.duration == videoProgress){
                     completed = true;
-                }                
-                
-                if(item.progress && item.progress.completed && item.progress.completed == 1){
-                    lock = false;
-                    completed = true;
-                }
-                
-
-                if(completed && pregress == 100){
-                    
                     if(item.has_quiz){
-                        console.log('next quiz');
-                        
                         navigate(`/teachers/courses/${courseId}/quiz/${item.id}`);
                     } else if(playNext){
-                        console.log('next video ', playNext.id);
-
                         //window.location.hash = 'lesson-'+playNext.id;
                         document.getElementById('lesson-'+playNext.id).scrollIntoView({ behavior: 'smooth' });
 
                         window.document.getElementById("video-"+playNext.id).click();
                     }
+                }                
+                
+                if(item.progress && item.progress.completed){
+                    lock = false;
+                    completed = true;
                 }
 
                 if(lock == true){
@@ -114,12 +105,10 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                         "video_progress": pregress,
                         "completed": completed
                     });
-
-                    console.log(lesson_progress);
                     
                     
                     if (lesson_progress.status == 200) {
-                        console.log('sended.'); 
+                        //console.log('sended.'); 
                     }
                 }
             } catch (error) {
@@ -139,6 +128,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
             <p className="p-2">{item.desc}</p>
             {videoUrl && !videoError && <div className="justify-baseline">
                 <VideoPlayer
+                    language={language}
                     lessonId={item.id}
                     courseId={courseId}
                     videoData={videoData}
@@ -148,6 +138,8 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                     userProgress={item.progress ? item.progress.completed == 1 ? 100 : item.progress.video_progress : 0}
                     setVideoProgress={setVideoProgress}
                     playNext={playNext}
+                    has_quiz={item.has_quiz}
+                    completed={item.progress && item.progress.completed}
                 />
                 {item.has_quiz && <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>

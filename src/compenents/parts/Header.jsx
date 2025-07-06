@@ -154,7 +154,7 @@ export default function Header({ role }) {
 
         {showProfile && <UserProfile open={showProfile} setOpen={setShowProfile} language={language} />}
 
-        {showExplore && <ExploreOverlay language={language} setShow={setShowExplore} />}
+        {/* {showExplore && <ExploreOverlay language={language} setShow={setShowExplore} />} */}
 
         <div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF] border-b border-b-gray-300 relative">
             <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between relative">
@@ -181,7 +181,15 @@ export default function Header({ role }) {
                     <Link className="w-[300px] md:w-[45%]" to="/">
                         <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                     </Link>
-                    {slug == '/teachers' && <button onMouseOver={() => setShowExplore(true)} className={`block p-3 text-[#fa9600] font-bold rounded-t group-hover:shadow-l transition-all hover:bg-[#F0F4F9] ${showExplore && 'bg-[#F0F4F9]'}`}>{language && language['explore']}</button>}
+                    {slug == '/teachers' && <div className="group">
+                        <button 
+                            //onMouseOver={() => setShowExplore(true)} 
+                            className={`block p-3 text-[#fa9600] font-bold rounded-t group-hover:shadow-l transition-all hover:bg-[#F0F4F9] group-hover:bg-[#F0F4F9] ${showExplore && 'bg-[#F0F4F9]'}`}
+                            >{language && language['explore']}</button>
+                        <div className="hidden group-hover:block">
+                            <ExploreOverlay language={language} setShow={setShowExplore} />
+                        </div>
+                    </div>}
                 </div>
                 <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0 mt-2">
                     <nav className="flex mr-5">
