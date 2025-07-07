@@ -52,17 +52,23 @@ export default function Exam() {
 
         const answers = [];
 
-        quizzList.map((item) => {          
+        quizzList.map((item) => {  
+            let answer_ids = [];
             item.answers.map((answer) => {                
-                if(answer.user_answer && answer.is_correct){
-                    answers.push({
-                        "question_id": item.id,
-                        "answer_id": answer.id
-                    });
+                if(answer.user_answer){
+                    answer_ids.push(answer.id)
                 }
+            });
+            answers.push({
+                "question_id": item.id,
+                "answer_ids": answer_ids
             })
         });
 
+        console.log(answers);
+        
+        //return 0;
+        
         try {
             const response = await api.post(`/quizzes/${quizId}/complete`, { "answers": answers });
                         
@@ -214,7 +220,8 @@ export default function Exam() {
                 {currentQuestion && <div className={`py-5`}>
                     <h2 className="p-2 m-2 text-l font-bold">{language && language['question']} {(currentQuestion.index + 1)}/{quizzList.length}</h2>
 
-                    <p className="text-l p-3 m-2 ">{currentQuestion.question_text}</p>
+                    <p className="text-l p-3 m-2 flex justify-between">
+                        <span>{currentQuestion.question_text}</span> <span className="text-xs">({language && language['mark']} {currentQuestion.mark})</span> </p>
 
                     {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
 
