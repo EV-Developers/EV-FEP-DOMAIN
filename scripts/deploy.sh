@@ -1,31 +1,49 @@
 #!/bin/bash
 
-#old: "deploy": "npm run build && cd dist && cp -R . ../../build/dist && cd ../ && rm -rfv dist && git add . && git commit -m 'upload new update' && git push && echo 'Deploying success'",
-
 # Stop script on error
 set -e
 
-# Build project
-echo "Building project..."
+# Color variables
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# Functions for printing with color
+info() {
+  echo -e "${BLUE}[INFO] $1${NC}"
+}
+
+success() {
+  echo -e "${GREEN}[SUCCESS] $1${NC}"
+}
+
+warn() {
+  echo -e "${YELLOW}[WARNING] $1${NC}"
+}
+
+error() {
+  echo -e "${RED}[ERROR] $1${NC}"
+}
+
+# Script starts
+info "Building project..."
 npm run build
 
-# Copy to destination
-echo "Copying files to build/dist..."
+info "Copying files to ../build/dist..."
 cp -R ./dist/* ../build/dist
 
-# Clean up
-echo "Cleaning up dist folder..."
+info "Cleaning up dist folder..."
 rm -rfv dist
 
-# Git actions
-echo "Staging changes..."
+info "Staging changes for Git..."
 git add .
 
-echo "Committing changes..."
+info "Committing changes..."
 git commit -m "upload new update"
 
-echo "Pushing to remote..."
+info "Pushing to remote..."
 git push
 
-# Final success message
-echo "Deploying successful!"
+success "Deployment completed successfully!"
