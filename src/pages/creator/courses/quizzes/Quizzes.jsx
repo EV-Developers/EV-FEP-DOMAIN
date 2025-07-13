@@ -86,12 +86,16 @@ export default function Quizzes() {
         <p className="m-3 my-3 text-color">{language && language["lessons_quizzes"]}</p>
       </div>
       {quizzList && quizzList.map(quiz => quiz.questions && quiz.questions.map(item => <div key={item.id} className="border-t border-t-gray-200 py-5">
+        {item.question_image && <img src={"https://fep.misk-donate.com/"+item.question_image} className="w-[45%]" />}
         <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
         {<p className="text-sm p-3 m-2">{language && language["mark"]}: {item.mark}</p>}
 
         {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {language && language[item.question_type]}</p>}
         {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
-        {item.answers && item.answers.map(answer => <div key={answer.id} className={`p-3 m-2 rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>{answer.answer_text}</div>)}
+        {item.answers && item.answers.map(answer => <div key={answer.id} className={`p-3 m-2 rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'} ${answer.answer_image ? 'inline-block w-[25%]':'block'}`}>
+          {answer.answer_image && <img src={"https://fep.misk-donate.com/"+answer.answer_image} className="w-full" />}
+          <p className={`p-3 m-2  ${answer.answer_image ? 'text-xs text-center' : 'text-sm'}`}>{answer.answer_text}</p>
+        </div>)}
         <div className="flex justify-between">
           <Link to={`/quizzes/${courseId}/${lessonId}/${quiz.id}/${item.id}`} className="block rounded text-sm pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["edit"]}</Link>
           <button onClick={() => {
