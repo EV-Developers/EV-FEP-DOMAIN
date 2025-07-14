@@ -24,6 +24,7 @@ export default function Exam() {
     const [progress, setProgress] = React.useState(0);
     const [msg, setMsg] = React.useState(null);
     const [completedQuiz, setCompletedQuiz] = React.useState(false);
+    const url = "https://fep.misk-donate.com/storage/";
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -213,15 +214,18 @@ export default function Exam() {
                 </div>
                 <div className="flex">
                     <div className="w-full bg-gray-200 rounded-full h-2.5 my-3">
-                        <div className="bg-green-400 h-2.5 rounded-full" style={{ width: completedQuiz ? "100%" : progress+'%' }}></div> 
+                        <div className="bg-green-400 h-2.5 rounded-full" style={{ width: completedQuiz ? "100%" : parseInt(progress)+'%' }}></div> 
                     </div>
-                    <span className="py-2 mx-2 text-sm font-bold">{completedQuiz ? 100 : progress}%</span>
+                    <span className="py-2 mx-2 text-sm font-bold">{completedQuiz ? 100 : parseInt(progress)}%</span>
                 </div>
                 {currentQuestion && <div className={`py-5`}>
                     <h2 className="p-2 m-2 text-l font-bold">{language && language['question']} {(currentQuestion.index + 1)}/{quizzList.length}</h2>
 
                     <p className="text-l p-3 m-2 flex justify-between">
-                        <span>{currentQuestion.question_text}</span> <span className="text-xs">({language && language['mark']} {currentQuestion.mark})</span> </p>
+                        <span>{currentQuestion.question_text}</span> <span className="text-xs">({language && language['mark']} {currentQuestion.mark})</span> 
+                    </p>
+
+                    {currentQuestion.question_image && <img src={url+currentQuestion.question_image} className="w-[45%] rounded m-2" />}
 
                     {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
 
@@ -230,7 +234,7 @@ export default function Exam() {
                         <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs py-2 peer-checked:border peer-checked:border-blue-500 flex transition-colors group`}>
                             {currentQuestion.question_type == "single_choice" && <div className={`bg-white group-peer-checked:bg-[#001f4e] rounded-full w-6 h-6 transition-colors`}></div>}
                             <span className="mx-3 py-1">
-                                {answer.answer_image && <img src={"https://fep.misk-donate.com/storage/"+answer.answer_image} className="w-full rounded " />}
+                                {answer.answer_image && <img src={url+answer.answer_image} className="w-full rounded " />}
                                 <p className={answer.answer_image ? 'text-xs' : ''}>{answer.answer_text}</p>
                             </span>
                         </label>
@@ -248,7 +252,7 @@ export default function Exam() {
             </div>
             <div className="w-[25%] p-5">
                 <div className="bg-blue-50 w-full p-4 rounded-xl text-center py-14 mb-14">
-                    <h1 className="text-4xl">{completedQuiz ? "100" : progress}%</h1>
+                    <h1 className="text-4xl">{completedQuiz ? "100" : parseInt(progress)}%</h1>
                     <p className="text-xs text-gray-400">{language && language['you_answered']} {(completedQuiz ? quizzList && quizzList.length : answered)} {language && language['out_of']} {quizzList && quizzList.length}</p>
                 </div>
 
