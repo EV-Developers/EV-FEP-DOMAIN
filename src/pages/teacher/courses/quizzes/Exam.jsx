@@ -230,7 +230,7 @@ export default function Exam() {
                         <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs py-2 peer-checked:border peer-checked:border-blue-500 flex transition-colors group`}>
                             {currentQuestion.question_type == "single_choice" && <div className={`bg-white group-peer-checked:bg-[#001f4e] rounded-full w-6 h-6 transition-colors`}></div>}
                             <span className="mx-3 py-1">
-                                {answer.answer_image && <img src={"https://fep.misk-donate.com/"+answer.answer_image} className="w-full rounded " />}
+                                {answer.answer_image && <img src={"https://fep.misk-donate.com/storage/"+answer.answer_image} className="w-full rounded " />}
                                 <p className={answer.answer_image ? 'text-xs' : ''}>{answer.answer_text}</p>
                             </span>
                         </label>

@@ -167,8 +167,6 @@ export default function NewQuiz() {
                     if(a.answer_image){
                         formData.append(`questions[${n}][answers][${i}][answer_image]`, a.answer_image);
                     }
-
-                    console.log(a.is_correct);
                     
                     formData.append(`questions[${n}][answers][${i}][is_correct]`, a.is_correct ? 1 : 0);
                 });
