@@ -199,6 +199,7 @@ export const translation = [
     tba: "TBA",
     questions_done: "answers submitted",
     fullscreen: "Fullscreen",
+    review: "Review",
 
   },
   {
@@ -400,6 +401,7 @@ export const translation = [
     tba: "لم يحدد بعد",
     questions_done: "تم تسليم الاجابات",
     fullscreen: "شاشة كامله",
+    review: "مراجعه",
 
   },
 ];

@@ -11,6 +11,7 @@ import api from '../../../../config/api';
 export default function Quizzes() {
   const [language, setLanguage] = React.useState(null);
   const [quizzId, setQuizzId] = React.useState(null);
+  const [lessonQuizzId, setLessonQuizzId] = React.useState(null);
   const [quizzList, setQuizzList] = React.useState("");
   const [showModal, setShowModal] = React.useState(false);
   const { courseId, lessonId } = useParams();
@@ -59,8 +60,10 @@ export default function Quizzes() {
     try {
       const response = await api.get('/quizzes?lesson_id=' + lessonId);
       if (response.status == 200) {
-        if (response.data) {
-          setQuizzList(response.data)
+        if (response.data && response.data.length != 0) {
+          console.log(response.data[0].id);
+          setQuizzList(response.data);
+          setLessonQuizzId(response.data[0].id);
         }
       } else {
         //console.log('error');
@@ -76,7 +79,7 @@ export default function Quizzes() {
     <div className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]">
       <div className="flex justify-between">
         <div></div>
-        <Link to={`/quizzes/${courseId}/${lessonId}/new-quiz`} className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["create"]}</Link>
+        <Link to={lessonQuizzId ? `/quizzes/${courseId}/${lessonId}/${lessonQuizzId}/0` : `/quizzes/${courseId}/${lessonId}/new-quiz`} className="block rounded pointer m-4 py-3 px-10 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["create"]}</Link>
       </div>
       <div className="flex">
         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />

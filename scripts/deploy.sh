@@ -38,6 +38,7 @@ info "Cleaning up dist folder..."
 rm -rfv dist
 
 info "Staging changes for Git..."
+cd ../build/dist
 git add .
 
 info "Committing changes..."
