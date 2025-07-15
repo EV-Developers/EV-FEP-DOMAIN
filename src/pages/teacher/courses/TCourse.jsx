@@ -145,8 +145,10 @@ export default function TCourse() {
             <div className="flex justify-between">
                 <div></div>
                 <div className="flex">
+                    {data && data.progressPercentage == 100 && <>
                     <Link to={'/teachers/generator/' + courseId} className="block rounded py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-2 font-bold">{language && language["certificates_generator"]}</Link>
                     <button onClick={handleCourseCertificateDownload} className="block rounded pointer px-5 py-1 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
+                    </>}
                 </div>
             </div>
             <div className="flex">
@@ -190,7 +192,7 @@ export default function TCourse() {
             {tabs == 'overview' && <TOverview data={data} totalMinutes={totalMinutes} language={language} />}
             {tabs == 'comments' && <TComments courseId={courseId} data={data} language={language} />}
             {tabs == 'resources' && <TResources data={data} resources_list={resources} />}
-            <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
+            {data && data.progressPercentage == 100 && <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>}
         </ThemeContainer>
     )
 }

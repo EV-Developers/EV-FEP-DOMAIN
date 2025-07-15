@@ -227,10 +227,10 @@ export default function Exam() {
 
                     {currentQuestion.question_image && <img src={url+currentQuestion.question_image} className="w-[45%] rounded m-2" />}
 
-                    {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
+                    {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress ? true : false} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
 
                     {currentQuestion.answers && currentQuestion.answers.map(answer => <div key={"answer-"+answer.id} className={`${answer.answer_image ? 'inline-block w-[25%] mx-2' : 'block'}`}>
-                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} onChange={() => handleAnswer(answer.id)} disabled={currentQuestion.answer} defaultChecked={(currentQuestion.answer && currentQuestion.answer.answer_id == answer.id) || answer.user_answer} />
+                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} onChange={() => handleAnswer(answer.id)} disabled={currentQuestion.answer.length != 0} defaultChecked={(currentQuestion.answer && currentQuestion.answer.answer_id == answer.id) || answer.user_answer} />
                         <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs py-2 peer-checked:border peer-checked:border-blue-500 flex transition-colors group`}>
                             {currentQuestion.question_type == "single_choice" && <div className={`bg-white group-peer-checked:bg-[#001f4e] rounded-full w-6 h-6 transition-colors`}></div>}
                             <span className="mx-3 py-1">

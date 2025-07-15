@@ -77,6 +77,8 @@ export default function TCourses() {
             const response = await api.get('/courses?sort_by=level_id&category_id=' + categoryId);
 
             if (response.status == 200) {
+                console.log(response.data.data);
+                
                 setLoading(false);
                 setData(response.data.data);
             } else {
@@ -125,7 +127,7 @@ export default function TCourses() {
                         </div>
                     </div>}
                     <div className="flex flex-wrap ">
-                        {data && data.map(item => <CourseItem language={language} link="/teachers/courses/" item={item} />)}
+                        {data && data.map(item => <CourseItem key={"course"+item.id} language={language} link="/teachers/courses/" item={item} />)}
                     </div>
                 </div>
             </div>
