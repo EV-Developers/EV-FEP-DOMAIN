@@ -49,12 +49,12 @@ export default function TCourse() {
     async function getData() {
         try {
             const tmpData = await api.get('/courses/' + courseId);
-
-            console.log(tmpData.data.data);
             
             if (tmpData && tmpData.status == 200) {
+                
                 if(tmpData.data && tmpData.data.data){
-                    setData(tmpData.data.data)
+                    let tmpList = tmpData.data.data.sort((a, b) => b.progressPercentage - a.progressPercentage)
+                    setData(tmpList);
                     //setLessonData(tmpData.data.data.lessons);                    
                     
                     if(tmpData.data.data.resources){
