@@ -53,8 +53,7 @@ export default function TCourse() {
             if (tmpData && tmpData.status == 200) {
                 
                 if(tmpData.data && tmpData.data.data){
-                    let tmpList = tmpData.data.data.sort((a, b) => b.progressPercentage - a.progressPercentage)
-                    setData(tmpList);
+                    setData(tmpData.data.data);
                     //setLessonData(tmpData.data.data.lessons);                    
                     
                     if(tmpData.data.data.resources){
@@ -68,7 +67,7 @@ export default function TCourse() {
             }
             getLessons();
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
     }
 
