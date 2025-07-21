@@ -4,7 +4,7 @@ import { translation } from '../../../../config/translations';
 import Lesson from '../TLesson';
 import Assesment from '../TAssesment';
 
-export default function TLessons({ lessons, assignments, courseId, setTotalHourse }) {
+export default function TLessons({ lessons, assignments, courseId, setTotalHourse, setIsPlayed }) {
     const [language, setLanguage] = React.useState(null);
     const [total, setTotal] = React.useState(0);
     const [videosTime, setVideosTime] = React.useState(null);
@@ -58,7 +58,7 @@ export default function TLessons({ lessons, assignments, courseId, setTotalHours
 
     return (<div>
         <p className="text-2xl m-4">{language && language["course_lessons"]}:</p>
-        {lessons && lessons.map((item, index) => <Lesson videosTime={videosTime} setVideosTime={setVideosTime} courseId={courseId} item={item} key={item.id} playNext={lessons[index + 1] && lessons[index + 1]} />)}
+        {lessons && lessons.map((item, index) => <Lesson videosTime={videosTime} setVideosTime={setVideosTime} courseId={courseId} item={item} key={item.id} playNext={lessons[index + 1] && lessons[index + 1]} setIsPlayed={setIsPlayed} />)}
         {assignments && assignments.map(item => <Assesment courseId={courseId} assignments={item} key={item.id} />)}
     </div>)
 }

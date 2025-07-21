@@ -45,7 +45,7 @@ export default function TCategories() {
 
     return (
         <ThemeContainer role="teachers" customeClasses="w-full">
-            <div className="mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
+            <div className="2xl:w-[75%] mx-auto mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
                 <div className="mx-auto w-[75%] text-center text-blue-950">
                     <h2 className="text-5xl font-bold p-3 pt-14">{language && language['categories']}</h2>
                 </div>

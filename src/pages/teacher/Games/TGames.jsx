@@ -41,15 +41,15 @@ export default function TGames() {
 
     return (
         <ThemeContainer role="teachers" customeClasses="w-full">
-            <div className="mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
+            <div className="2xl:w-[75%] mx-auto mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
                 <div className="mx-auto w-[75%] text-center text-blue-950">
-                    <h2 className="text-5xl font-bold p-3 pt-14">{language && language['materials']}</h2>
+                    <h2 className="text-5xl font-bold p-3 pt-14">{language && language['games']}</h2>
                 </div>
             </div>
 
             <div className="block mx-auto w-[75%]">
                 <div className="flex flex-wrap my-5 p-2">
-                    {list && list.map(item => <Link Link to={'/categories/' + item.id} key={"cat-" + item.id} className="block p-4 py-5 my-2 w-[22%] mx-1 text-sm text-center bg-[#1a31d3] rounded-xl">
+                    {list && list.map(item => <Link Link to={'/teachers/games/' + item.id} key={"cat-" + item.id} className="block p-4 py-5 my-2 w-[22%] mx-1 text-sm text-center bg-[#1a31d3] rounded-xl">
                         <div className="p-4  transition-all hover:scale-105 text-center text-white">
                             <img src="/imgs/gameicon.png" alt="" className="mx-auto" />
                             <p className="my-3 font-bold">{item.title}</p>

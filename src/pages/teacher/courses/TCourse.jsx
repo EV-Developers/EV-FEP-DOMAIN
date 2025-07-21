@@ -22,6 +22,8 @@ export default function TCourse() {
     const [resources, setResources] = React.useState([]);
     const [language, setLanguage] = React.useState(null);
     const [totalMinutes, setTotalHourse] = React.useState(null);
+    const [nextIsPlayed, setIsPlayed] = React.useState(null);
+    const [updated, setUpdated] = React.useState(null);
     const { courseId } = useParams();
 
     React.useEffect(() => {
@@ -67,7 +69,7 @@ export default function TCourse() {
             }
             getLessons();
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -78,13 +80,46 @@ export default function TCourse() {
             const tmpData = await api.get(`lessons?user_id=${user_id}&course_id=${courseId}`);
             
             if (tmpData && tmpData.status == 200) {
-                setLessonData(tmpData.data);                    
+                if(tmpData.data && tmpData.data.length != 0){                    
+                    let tmpArr = [];
+                    let locked = false;
+                    tmpData.data.map((item, index) => {                        
+                        if(index != 0 && (!tmpData.data[index - 1].progress || (tmpData.data[index - 1].progress && tmpData.data[index - 1].progress.completed != 1))){
+                            locked = true
+                        }
+
+                        tmpArr.push({
+                            locked: locked,
+                            ...item
+                        });
+
+                        locked = false;
+                    });
+
+                    console.log(tmpArr);
+                    
+                    setLessonData(tmpArr);                    
+                }
             }
         } catch (error) {
             //console.log(error);
         }
-
     }
+
+    React.useEffect(() => {
+        console.log(nextIsPlayed);
+        
+        if(nextIsPlayed){
+            let tmpArr = lessonsData;
+            lessonsData.map((item, index) => {
+                if(item.id == nextIsPlayed.id){
+                    tmpArr[index].locked = false;
+                }
+            });            
+            setLessonData(tmpArr);
+            setUpdated(Date.now());
+        }
+    }, [nextIsPlayed])
 
     const handleCourseCertificateDownload = () => {
         const username = window.localStorage.getItem("VPHl3hMFGI8w9kq");
@@ -132,6 +167,7 @@ export default function TCourse() {
 
     return (
         <ThemeContainer role="teachers">
+            <div className="2xl:w-[80%] mx-auto">
             {!data && <div className="*:animate-pulse mt-4">
                 <div className="bg-gray-300 h-4 w-[65%] p-5"></div>
                 <div className="bg-gray-300 h-2 py-2 mt-2 w-[45%] p-3"></div>
@@ -173,7 +209,7 @@ export default function TCourse() {
 
             {tabs == 'content' && <div className="flex">
                 <div className="w-[75%]">
-                    <TLessons courseId={courseId} lessons={lessonsData} assignments={assestmentsData} setTotalHourse={setTotalHourse} />
+                    <TLessons courseId={courseId} lessons={lessonsData} assignments={assestmentsData} setTotalHourse={setTotalHourse} setIsPlayed={setIsPlayed} />
                 </div>
                 <div className="w-[25%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
@@ -192,6 +228,7 @@ export default function TCourse() {
             {tabs == 'comments' && <TComments courseId={courseId} data={data} language={language} />}
             {tabs == 'resources' && <TResources data={data} resources_list={resources} />}
             {data && data.progressPercentage == 100 && <button onClick={handleCourseCertificateDownload} className="block rounded pointer my-3 p-5 py-2 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>}
+            </div>
         </ThemeContainer>
     )
 }

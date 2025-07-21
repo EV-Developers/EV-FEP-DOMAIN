@@ -106,16 +106,33 @@ export default function Exam() {
                     setQuizId(response.data[0].id);
                     response.data.map((quiz) => {
                         quiz.questions.map(item => {
+                            totalMarks += item.mark;
+                            if(item.answer.length != 0){
+                                completed_quiz = true;
+                                item.answer.map(a => {
+                                    userMarks += a.score;
+                                })
+                            }
+                            let score = 0;
+                            item.answers.map((answer, aindex) => {
+                                item.answer.map(a => {
+                                    if(a.answer_id == answer.id){
+                                        item.answers[aindex].user_answer = true;
+                                        score += a.score;
+                                    }
+                                });
+                            });
+
+                            item.score = score;
+
                             tmpArr.push({
                                 index: index,
                                 ...item
                             });
                             index++;
-                            totalMarks += item.mark;
-                            if(item.answer.length != 0){
-                                completed_quiz = true;
-                                userMarks += item.answer.score;
-                            }
+
+                            console.log(tmpArr);
+                            
                         });
                     });
                     
@@ -230,7 +247,7 @@ export default function Exam() {
                     {currentQuestion.question_type == "Text Input" && <textarea placeholder={language && language['write_here']} id={"text-answer-" + currentQuestion.id} disabled={!inprogress ? true : false} className="py-2 px-4 rounded shodow-sm bg-gray-200 w-[75%] placeholder-gray-400 m-5" name={"question-" + currentQuestion.id}></textarea>}
 
                     {currentQuestion.answers && currentQuestion.answers.map(answer => <div key={"answer-"+answer.id} className={`${answer.answer_image ? 'inline-block w-[25%] mx-2' : 'block'}`}>
-                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} onChange={() => handleAnswer(answer.id)} disabled={currentQuestion.answer.length != 0} defaultChecked={(currentQuestion.answer && currentQuestion.answer.answer_id == answer.id) || answer.user_answer} />
+                        <input id={"answer-"+answer.id} value={answer.id} className="hidden peer" type={currentQuestion.question_type == "single_choice" ? "radio" : "checkbox"} name={"q-"+currentQuestion.id} onChange={() => handleAnswer(answer.id)} disabled={currentQuestion.answer.length != 0} defaultChecked={answer.user_answer} />
                         <label htmlFor={"answer-"+answer.id} className={`bg-blue-50 rounded p-3 my-2 peer-checked:text-blue-500 font-bold text-xs py-2 peer-checked:border peer-checked:border-blue-500 flex transition-colors group`}>
                             {currentQuestion.question_type == "single_choice" && <div className={`bg-white group-peer-checked:bg-[#001f4e] rounded-full w-6 h-6 transition-colors`}></div>}
                             <span className="mx-3 py-1">
@@ -256,10 +273,10 @@ export default function Exam() {
                     <p className="text-xs text-gray-400">{language && language['you_answered']} {(completedQuiz ? quizzList && quizzList.length : answered)} {language && language['out_of']} {quizzList && quizzList.length}</p>
                 </div>
 
-                {quizzList && quizzList.map((item, index) => <div key={"ques-"+index} className={`flex bg-blue-50 p-3 py-2 rounded my-2 ${item.answer && item.answer.is_completed == 1 && item.answer.score != 0 && 'bg-green-200 border-green-500'} ${item.answer && item.answer.is_completed == 1 && item.answer.score == 0 && 'bg-red-200 border-red-400'}`}>
-                    <div className={`rounded-full w-6 h-6 text-center bg-white ${item.answered && item.result && 'bg-red-400'} ${item.answered && item.result && item.is_correct && 'bg-green-500'}`}>
-                        {item.answer && item.answer.is_completed == 1 && item.answer.score != 0 && <FontAwesomeIcon icon={faCheck} className="text-green-500 text-sm" />}
-                        {item.answer && item.answer.is_completed == 1 && item.answer.score == 0 && <FontAwesomeIcon icon={faTimes} className="text-red-400 text-sm" />}
+                {quizzList && quizzList.map((item, index) => <div key={"ques-"+index} className={`flex bg-blue-50 p-3 py-2 rounded my-2 ${item.score && item.score != 0 && 'bg-green-200 border-green-500'} ${item.score && item.score == 0 && 'bg-red-200 border-red-400'}`}>
+                    <div className={`rounded-full w-6 h-6 text-center bg-white ${item.score && item.score == 0 && 'bg-red-400'} ${item.score && item.score != 0 && 'bg-green-500'}`}>
+                        {item.score && item.score != 0 && <FontAwesomeIcon icon={faCheck} className="text-green-500 text-sm" />}
+                        {item.score && item.score == 0 && <FontAwesomeIcon icon={faTimes} className="text-red-400 text-sm" />}
                     </div>
                     <div className="mx-3 text-xs font-medium py-1">
                         {language && language['question']} {(index + 1)}

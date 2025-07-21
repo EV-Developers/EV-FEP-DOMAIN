@@ -7,7 +7,7 @@ import api from '../../../config/api';
 import { translation } from '../../../config/translations';
 import VideoPlayer from '../../../compenents/parts/VideoPlayer';
 
-export default function TLesson({ item, courseId, videosTime, setVideosTime, playNext }) {
+export default function TLesson({ item, courseId, videosTime, setVideosTime, playNext, setIsPlayed }) {
     const [language, setLanguage] = React.useState(null);
     const [videoUrl, setVideoUrl] = React.useState(null);
     const [videoData, setVideoData] = React.useState(null);
@@ -16,9 +16,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
     const [loading, setLoading] = React.useState(true);
     const navigate = useNavigate();
 
-    React.useEffect(() => {    
-        console.log(item.progress ? item.progress.completed == 1 ? 100 : item.progress.video_progress : 0);
-            
+    React.useEffect(() => {                
         const lang = window.localStorage.getItem("language");
 
         if (lang && lang != '' && lang != null) {
@@ -92,6 +90,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                         document.getElementById('lesson-'+playNext.id).scrollIntoView({ behavior: 'smooth' });
 
                         window.document.getElementById("video-"+playNext.id).click();
+                        setIsPlayed(playNext);                        
                     }
                 }                
                 
@@ -112,7 +111,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                     }
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         }
     }, [videoProgress]);
@@ -140,8 +139,9 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                     playNext={playNext}
                     has_quiz={item.has_quiz}
                     completed={item.progress && item.progress.completed}
+                    locked={item.locked}
                 />
-                {item.has_quiz && <div className="flex">
+                {item.has_quiz && item.progress && item.progress.completed == 1 && <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>
                 </div>}
             </div>}

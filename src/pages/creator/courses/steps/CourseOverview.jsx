@@ -4,7 +4,7 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 import { translation } from '../../../../config/translations';
 
-export default function CourseOverview({ uploadProgress, handleSteps, description, setDescription, featuredImage, setFeaturedImage, handleCreateCourse, msg, loading }) {
+export default function CourseOverview({ uploadProgress, handleSteps, description, setDescription, featuredImage, setFeaturedImage, handleCreateCourse, msg, loading, newCourse = false }) {
   const [language, setLanguage] = React.useState(null);
   const [image, setImage] = React.useState(null);
   const ref = React.useRef();
@@ -77,7 +77,7 @@ export default function CourseOverview({ uploadProgress, handleSteps, descriptio
 
       <div className="flex flex-row justify-between">
         <button onClick={() => handleSteps('prev')} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400">{language && language["previous"]}</button>
-        <button onClick={handleCreateCourse} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["update"]}</span></button>
+        <button onClick={handleCreateCourse} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{newCourse ? language && language['add'] : language && language["update"]}</span></button>
       </div>
     </div>
   )

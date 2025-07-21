@@ -77,10 +77,10 @@ export default function TCourses() {
             const response = await api.get('/courses?sort_by=level_id&category_id=' + categoryId);
 
             if (response.status == 200) {
-                console.log(response.data.data);
+                const tmpList = response.data.data.sort((a, b) => a.progressPercentage - b.progressPercentage)
                 
                 setLoading(false);
-                setData(response.data.data);
+                setData(tmpList);
             } else {
                 setLoading(false);
             }
@@ -91,7 +91,7 @@ export default function TCourses() {
 
     return (
         <ThemeContainer role="teachers">
-            <div className="flex">
+            <div className="flex 2xl:w-[80%] mx-auto">
                 <div className="w-[25%]">
                     <h3 className="text-2xl my-3">{language && language['categories']}</h3>
                     {categoriesData && categoriesData.map(item => <div key={item.id}>

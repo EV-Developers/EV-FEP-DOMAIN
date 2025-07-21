@@ -2,7 +2,7 @@ import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef } from 'react'
 
-export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime, setVideoProgress, completed=false, playNext, has_quiz }) {
+export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime, setVideoProgress, completed=false, playNext, has_quiz, locked=false }) {
     const [play, setShow] = React.useState(true);
     const [fullScreen, setFullScreen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -69,6 +69,9 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
     }, [tmp_vid_url]);
 
     const handlePlay = () => {
+        if(locked && (play && completed != 1)){
+            return false;
+        }
         if (play) {
             video.current.play()
         } else {
@@ -112,7 +115,6 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
 
     const handleFullscreenChange = () => {
         const isFullscreen = !!document.fullscreenElement;
-        //console.log(isFullscreen);
         
         document.getElementById("player"+lessonId).classList.toggle('is-fullscreen', fullScreen);
     };
@@ -135,9 +137,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
     const toggleFullScreen = () => {        
         if(fullScreen || document.fullscreenElement){
             document.exitFullscreen();
-        } 
-        console.log("player"+lessonId);
-        
+        }        
 
         if(fullScreen == false || document.fullscreenElement == false) {
             document.getElementById("player"+lessonId).requestFullscreen();
@@ -177,7 +177,8 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             <FontAwesomeIcon icon={fullScreen ? faCompress : faExpand} className="text-xl font-bold text-amber-300" />
         </button>
         {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
-            <img src="/play_btn.png" alt="" className="w-full" />
+            {(!locked || completed == 1) && <img src="/play_btn.png" alt="" className="w-full" />}
+            {locked && completed != 1 && <img src="/lock_btn.png" alt="" className="w-full" />}
         </button>}
         {loading && <div className="absolute z-10 flex justify-center items-center"> <img className="animate-spin w-18 h-18 m-2 " src="/loading.png" /></div>}
         <video
