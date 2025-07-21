@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, useParams } from 'react-router-dom';
+import { faAngleLeft, faAngleRight, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
@@ -20,8 +20,8 @@ export default function EditQuiz() {
     const [answers, setAnswers] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
-    const [questionImage, setQuestionImage] = React.useState({url: null, file: null});
-    const [answerImage, setAnswerImage] = React.useState({url: null, file: null});
+    const [questionImage, setQuestionImage] = React.useState({ url: null, file: null });
+    const [answerImage, setAnswerImage] = React.useState({ url: null, file: null });
     const { courseId, lessonId, quizzId, questionId } = useParams();
     const navigate = useNavigate();
 
@@ -57,8 +57,8 @@ export default function EditQuiz() {
             const tmpData = await api.get('/quizzes/' + quizzId);
 
             console.log(tmpData.data);
-            
-            
+
+
             if (tmpData.status == 200) {
                 setQuestions(tmpData.data.questions);
             }
@@ -88,7 +88,7 @@ export default function EditQuiz() {
 
             setAnswers(tmpAnswers);
             setAnswerText("");
-            setAnswerImage({url: null, file: null});
+            setAnswerImage({ url: null, file: null });
         }
     }
 
@@ -141,7 +141,7 @@ export default function EditQuiz() {
         }
 
         let tmpArr = questions;
-        
+
         tmpArr.push({
             id: Date.now(),
             question_text: question,
@@ -150,14 +150,14 @@ export default function EditQuiz() {
             question_image_preview: questionImage.url,
             mark: mark,
             answers: answers
-        });        
+        });
 
         setQuestions(tmpArr);
         setQuestion("");
         setMark("");
         setAnswers([]);
         setUpdated(Date.now());
-        setQuestionImage({url: null, file: null});
+        setQuestionImage({ url: null, file: null });
     }
 
     const handleAddQuiz = async () => {
@@ -177,45 +177,45 @@ export default function EditQuiz() {
                 formData.append(`questions[${n}][question_text]`, q.question_text);
                 formData.append(`questions[${n}][question_type]`, q.question_type);
 
-                if(q.question_image){
+                if (q.question_image) {
                     formData.append(`questions[${n}][question_image]`, q.question_image);
                 }
 
                 formData.append(`questions[${n}][mark]`, q.mark);
-                
+
                 q.answers.map((a, i) => {
                     formData.append(`questions[${n}][answers][${i}][answer_text]`, a.answer_text);
 
-                    if(a.answer_image){
+                    if (a.answer_image) {
                         formData.append(`questions[${n}][answers][${i}][answer_image]`, a.answer_image);
                     }
-                    
+
                     formData.append(`questions[${n}][answers][${i}][is_correct]`, a.is_correct ? 1 : 0);
                 });
             });
-            
+
             /*
             const payload = {
                 "lesson_id": lessonId,
                 "title": "Quiz",
                 "questions": questions
             };
-            */      
+            */
 
             try {
-                const response = await api.post("https://fep.misk-donate.com/api/quizzes/"+quizzId, formData, {
+                const response = await api.post("https://fep.misk-donate.com/api/quizzes/" + quizzId, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     }
                 });
-                
-                if(response.status == 200){
+
+                if (response.status == 200) {
                     setLoading(false);
                     navigate('/lessons/quizzes/' + courseId + '/' + lessonId);
                 } else {
                     setLoading(false);
                 }
-            } catch (error) {      
+            } catch (error) {
                 console.log(error);
                 setLoading(false);
                 setMsg(language['error-msg']);
@@ -234,16 +234,24 @@ export default function EditQuiz() {
 
     const handlePreview = (img, file) => {
         let url = window.URL.createObjectURL(file);
-        if(img == 'qimg'){
-            setQuestionImage({url: url, file: file});
+        if (img == 'qimg') {
+            setQuestionImage({ url: url, file: file });
         } else {
-            setAnswerImage({url: url, file: file});
+            setAnswerImage({ url: url, file: file });
         }
     }
 
     return (<ThemeContainer>
         <div className="w-[75%] bg-white mx-auto block p-5 rounded-xl">
-            <p className="my-5 font-bold">{language && language["new_question"]}</p>
+            <div className="flex">
+                <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>{language && language["courses"]}</Link><FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + courseId}>{language && language['course']}</Link>
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={`/lessons/quizzes/${courseId}/${lessonId}`}>{language && language['lessons_quizzes']}</Link>
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <p className="m-3 my-3 text-color">{language && language["edit"]}</p>
+            </div>
             <div className="flex my-4">
                 <div className="w-[70%]">
                     <label htmlFor="question" className="block my-4">
@@ -264,7 +272,7 @@ export default function EditQuiz() {
                         <span className="mx-3 my-2">{language && language['upload_image']}</span>
                         <img src={questionImage && questionImage.url ? questionImage.url : "/default.png"} className="w-10 h-10 rounded shodow-sm mx-3 my-2 placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800 cursor-pointer" alt="" title={language && language['upload_image']} />
 
-                        {questionImage && questionImage.url && <img src={questionImage && questionImage.url ? questionImage.url : "/default.png"} className="w-full rounded shodow-sm mx-3 placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800 absolute z-10 hidden group-hover:block border-2 border-amber-100 shadow-2xl my-14" alt=""  />}
+                        {questionImage && questionImage.url && <img src={questionImage && questionImage.url ? questionImage.url : "/default.png"} className="w-full rounded shodow-sm mx-3 placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800 absolute z-10 hidden group-hover:block border-2 border-amber-100 shadow-2xl my-14" alt="" />}
 
                         <input type="file" onChange={val => handlePreview('qimg', val.target.files[0])} id="qimg" placeholder={language && language["image"]} className="hidden" />
                     </label>
@@ -300,9 +308,9 @@ export default function EditQuiz() {
             <button onClick={handleAddQuestion} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mt-10">{language && language["add_to_quizzes"]}</button>
 
             {questions && questions.map((item, index) => <div key={"question-" + index} className="border-t border-t-gray-200 py-5">
-                {(item.question_image_preview || item.question_image) && <img src={item.question_image_preview ? item.question_image_preview : "https://fep.misk-donate.com/storage/"+item.question_image} className="w-[25%]" />}
+                {(item.question_image_preview || item.question_image) && <img src={item.question_image_preview ? item.question_image_preview : "https://fep.misk-donate.com/storage/" + item.question_image} className="w-[25%]" />}
                 <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
-                {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["mark"]}: {language && language[item.mark]}</p>}
+                {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["mark"]}: {item.mark}</p>}
                 {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {language && language[item.question_type]}</p>}
                 {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
                 {item.answers && item.answers.map((answer, aindex) => <div key={"question" + index + "-answers-" + aindex} className={`p-3 m-2 flex rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>

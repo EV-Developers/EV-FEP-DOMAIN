@@ -56,6 +56,8 @@ export default function TCourse() {
                 
                 if(tmpData.data && tmpData.data.data){
                     setData(tmpData.data.data);
+                    console.log(tmpData.data.data);
+                    
                     //setLessonData(tmpData.data.data.lessons);                    
                     
                     if(tmpData.data.data.resources){
@@ -94,10 +96,7 @@ export default function TCourse() {
                         });
 
                         locked = false;
-                    });
-
-                    console.log(tmpArr);
-                    
+                    });                    
                     setLessonData(tmpArr);                    
                 }
             }
@@ -106,9 +105,7 @@ export default function TCourse() {
         }
     }
 
-    React.useEffect(() => {
-        console.log(nextIsPlayed);
-        
+    React.useEffect(() => {        
         if(nextIsPlayed){
             let tmpArr = lessonsData;
             lessonsData.map((item, index) => {

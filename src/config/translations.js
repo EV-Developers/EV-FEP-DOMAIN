@@ -200,6 +200,7 @@ export const translation = [
     questions_done: "answers submitted",
     fullscreen: "Fullscreen",
     review: "Review",
+    assignment_error: "You must complete the course before submitting the assignment",
 
   },
   {
@@ -402,6 +403,7 @@ export const translation = [
     questions_done: "تم تسليم الاجابات",
     fullscreen: "شاشة كامله",
     review: "مراجعه",
+    assignment_error: "يجب اكمال الدورة قبل رفع الواجب الدراسي.",
 
   },
 ];

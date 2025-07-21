@@ -121,18 +121,17 @@ export default function SubmitAssesment() {
             });
 
             setLoading(false);
-
-            console.log(response);
+            
             if (response.status == 200) {
                 navigate('/teachers/courses/' + data.course_id);
+            } else if(response.status == 422){
+                setMsg(language["assignment_error"]);
             } else {
                 setMsg(language['error_msg']);
             }
         } catch (error) {
-            console.log(error);
-
-            setMsg(language['error_msg']);
             setLoading(false);
+            setMsg(language['error_msg']);
         }
 
     }
@@ -145,11 +144,11 @@ export default function SubmitAssesment() {
 
     React.useEffect(() => {
         if (data && data.video) {
-            getVideo();
+            getAssesment();
         }
     }, [data]);
 
-    const getVideo = async () => {
+    const getAssesment = async () => {
         const aurl = "https://fep.misk-donate.com/api/assignments/download/";
 
         try {
@@ -230,10 +229,10 @@ export default function SubmitAssesment() {
                 
                 })
                 .catch(error => {
-                    console.error('Error loading video:', error);
+                    //console.error('Error loading video:', error);
                 });
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -283,13 +282,15 @@ export default function SubmitAssesment() {
                 </label>
             </div>}
 
+            {msg && <p className="text-red-500 p-5 my-3 text-center text-sm">{msg}</p>}
+
             <button className="flex rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} {language && (data && data.type == 'meeting' ? language["request_meeting"] : language["submit"])}</button>
         </form>
 
         {(data && submissions && submissions.length != 0) && <div className="w-[75%] block mx-auto rounded-xl m-5 bg-white p-5">
             <h3 className="text font-bold">{language && language['submitions']}</h3>
             {submissions.map(item => <div key={"sub-"+item.id} className="border-b border-b-gray-400 p-3 tex-sm">
-                {data.type == 'file' && <p>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['file']}</p>}
+                {data.type == 'file' && <p><span>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['file']}</span> <button className="px-4 py-1 text-sm bg-amber-600 hover:bg-amber-500 rounded-xl" onClick={() => downloadSubmition(item.file)}>{language && language['download']}</button></p>}
                 {data.type == 'url' && <p><a className="cursor-pointer hover:bg-amber-500 px-3 rounded-2xl" href={item.url} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['url']}</a></p>}
                 {data.type == 'meeting' && <p><a className="cursor-pointer hover:bg-amber-500 px-3 rounded-2xl" href={item.meeting_link} target="_blank">{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['time']}: {item.meeting_time ? language['tba']:item.meeting_time}</a></p>}
                 {data.type == 'questions' && <p>{new Date(item.submitted_at).toLocaleString("en-GB")} - {language && language['questions_done']}</p>}

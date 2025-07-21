@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, useParams } from 'react-router-dom';
+import { faAngleLeft, faAngleRight, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { translation } from '../../../../config/translations';
 import ThemeContainer from '../../../../compenents/parts/ThemeContainer';
@@ -221,7 +221,15 @@ export default function NewQuiz() {
 
     return (<ThemeContainer>
         <div className="w-[75%] bg-white mx-auto block p-5 rounded-xl">
-            <p className="my-5 font-bold">{language && language["new_question"]}</p>
+            <div className="flex">
+                <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" /> <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses"}>{language && language["courses"]}</Link><FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={"/courses/" + courseId}>{language && language['course']}</Link>
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <Link className="m-2 my-3 hover:text-[#4b4b4b]" to={`/lessons/quizzes/${courseId}/${lessonId}`}>{language && language['lessons_quizzes']}</Link>
+                <FontAwesomeIcon icon={language && language["dir"] == 'ltr' ? faAngleRight : faAngleLeft} className="my-4 m-3 text-color" />
+                <p className="m-3 my-3 text-color">{language && language["new_question"]}</p>
+            </div>
             <div className="flex my-4">
                 <div className="w-[70%]">
                     <label htmlFor="question" className="block my-4">
@@ -280,7 +288,7 @@ export default function NewQuiz() {
             {questions && questions.map((item, index) => <div key={"question-" + index} className="border-t border-t-gray-200 py-5">
                 {item.question_image_preview && <img src={item.question_image_preview} className="w-[25%]" />}
                 <p className="text-xl p-3 m-2 font-bold">{item.question_text}</p>
-                {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["mark"]}: {language && language[item.mark]}</p>}
+                {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["mark"]}: {item.mark}</p>}
                 {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["question_type"]}: {language && language[item.question_type]}</p>}
                 {item.answers && item.answers.length != 0 && <p className="text-sm p-3 m-2">{language && language["answers_list"]}:</p>}
                 {item.answers && item.answers.map((answer, aindex) => <div key={"question" + index + "-answers-" + aindex} className={`p-3 m-2 flex rounded-2xl ${answer.is_correct ? 'bg-green-200' : 'bg-white'}`}>
