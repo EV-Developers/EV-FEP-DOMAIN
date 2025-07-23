@@ -2,7 +2,7 @@ import React from 'react'
 import ThemeContainer from '../../../compenents/parts/ThemeContainer'
 import { translation } from '../../../config/translations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import api from '../../../config/api';
 
@@ -11,9 +11,11 @@ export default function TEditProfile() {
   const [name, setName] = React.useState("");
   const [bio, setBio] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
   const [photo, setPhoto] = React.useState("/profile.jpeg");
   const [msg, setMsg] = React.useState(null);
   const [language, setLanguage] = React.useState(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -31,26 +33,28 @@ export default function TEditProfile() {
       window.localStorage.setItem("language", 'english');
       window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
     }
+    getUserProfile();
   }, []);
 
   const getUserProfile = async () => {
-    // teacher/profile
-    // student/profile
-    const user_id = window.localStorage.getItem("DDOj9KHr51qW1xi");
-    const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
 
     try {
-      const tmpData = await api.get(`/${userRole}/profile/`);
+      const tmpData = await api.get(`/teacher/profile`);
 
       if (tmpData.status == 200) {
-        setName(tmpData.data.name);
-        setBio(tmpData.data.bio);
-        setEmail(tmpData.data.email);
-        setPhoto(tmpData.data.photo);
+        console.log(tmpData.data);
+        
+        if(tmpData.data){
+          setName(tmpData.data.user.name);
+          setEmail(tmpData.data.user.email);
+          setPhone(tmpData.data.profile.phone)
+          setBio(tmpData.data.profile.bio);
+          setPhoto(tmpData.data.profile.photo);
+        }
       }
 
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
 
@@ -63,26 +67,43 @@ export default function TEditProfile() {
     }
   }
 
-  const handleUpdateUserProfile = (e) => {
+  const handleUpdateUserProfile = async (e) => {
     e.preventDefault();
     const authUser = window.localStorage.getItem("DDOj9KHr51qW1xi");
     const formData = new FormData(e.target);
     formData.append('user_id', authUser);
-    const name = e.target.name.value;
+    //const name = e.target.name.value;
     const bio = e.target.bio.value;
     const email = e.target.email.value;
+    const phone = e.target.phone.value;
 
-    if (name == "" || bio == "" || email == "") {
+    if (bio == "" || email == "" || phone == "") {
       setMsg(language['error_validation_msg']);
       setLoading(false);
       return false;
+    }
+
+    try {
+      const request = await api.post('/teacher/profile', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+  
+      if(request.status == 200){
+        navigate('/teachers/profile');
+      } else {
+        setMsg(language['error_msg']);
+      }
+    } catch (error) {
+      setMsg(language['error_msg']);
     }
   }
 
   return (<ThemeContainer role="teachers">
 
     <div className="w-[75%] mx-auto">
-      <form method="post" onSubmit={handleUpdateUserProfile} className="bg-white mx-auto m-3 rounded-xl p-5">
+      <form method="post" encType="multipart/form-data" onSubmit={handleUpdateUserProfile} className="bg-white mx-auto m-3 rounded-xl p-5">
         <div className="flex">
           <Link to="/teachers">
             <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
@@ -97,13 +118,17 @@ export default function TEditProfile() {
           <img src={photo} className="rounded-full m-4 w-26 h-26 mx-auto block" />
           <input type="file" id="photo" name="photo" className="hidden" onChange={handlePhotoChange} />
         </label>
-        <label htmlFor="name">
+        {/* <label htmlFor="name">
           <p id="name" className="my-3 font-bold">{language && language["name"]}</p>
           <input type="text" id="name" name="name" placeholder={language && language["write_here"]} defaultValue={name} onChange={val => setName(val.target.value)} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
-        </label>
+        </label> */}
         <label htmlFor="bio">
           <p id="bio" className="my-3 font-bold">{language && language["bio"]}</p>
           <textarea type="text" id="bio" name="bio" defaultValue={bio} onChange={val => setBio(val.target.value)} placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400"></textarea>
+        </label>
+        <label htmlFor="phone">
+          <p id="phone" className="my-3 font-bold">{language && language["phone"]}</p>
+          <input type="tel" id="phone" name="phone" defaultValue={phone} onChange={val => setPhone(val.target.value)} placeholder={language && language["write_here"]} className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400" />
         </label>
         <label htmlFor="email">
           <p id="email" className="my-3 font-bold">{language && language["email"]}</p>
