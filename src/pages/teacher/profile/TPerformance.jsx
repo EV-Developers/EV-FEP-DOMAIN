@@ -218,7 +218,7 @@ export default function TPerformance() {
             <p className="text-xl font-bold py-3">{language && language['current_top_goals']}</p>
             <div className="w-[98%] bg-blue-50 border border-gray-300 p-3 rounded m-0">
             {data && data.profile.user.course_progresses.map(item => <div className="mx-2 border-b border-b-gray-300 py-4" key={"rank-"+item.id}>
-                <p className="text-l">{language && language['complete']} {item.completed == 1 ? language && language['completed']:language && language['ongoing']} {item.start_date}</p>
+                <p className="text-l">{item.completed == 1 ? language && language['complete']:language && language['ongoing']} {item.start_date}</p>
                 <p className="text-sm text-gray-400">{language && language['start']}: {item.start_date} {item.end_date && language && " ~ " + language['complete'] + ":"} {item.end_date}</p>
             </div>)}
             </div>

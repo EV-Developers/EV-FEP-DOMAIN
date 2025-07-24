@@ -39,7 +39,7 @@ export default function Search() {
 
   const loadData = async () => {
     try {
-      const tmpData = await api.get('/teachers/courses/q=' + query);
+      const tmpData = await api.get('/courses?search=' + query);
       if (tmpData.status == 200) {
         setData(tmpData.data.data);
         setLoading(false);
