@@ -63,12 +63,14 @@ export default function TMaterials() {
         }
     }
 
-    const handleGetMatrial = async (file) => {
-        const aurl = "https://fep.misk-donate.com/api/materials/download/";
+    const handleGetMatrial = async (item_id) => {
+        console.log(item_id);
+        
+        const aurl = `https://fep.misk-donate.com/api/materials/${item_id}/download`;
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
 
         try {
-            fetch(aurl + file, {
+            fetch(aurl, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -87,17 +89,16 @@ export default function TMaterials() {
                     const tmpURL = URL.createObjectURL(blob);
                     const element = document.createElement('a');
                     element.href = tmpURL;
-                    element.download = file;
+                    element.download = Date.now().toString();
                     document.body.appendChild(element);
                     element.click();
                     document.body.removeChild(element);
-                
                 })
                 .catch(error => {
-                    console.error('Error loading video:', error);
+                    //console.error('Error loading video:', error);
                 });
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -111,7 +112,7 @@ export default function TMaterials() {
 
             <div className="block mx-auto w-[75%]">
                 <div className="flex flex-wrap my-5 p-2">
-                    {list && list.map(item => <button onClick={() => handleGetMatrial(item.file)} Link to={'/categories/' + item.id}  key={"cat-" + item.id} className="block p-4 py-5 my-2 w-[22%] mx-1 text-sm text-center cursor-pointer">
+                    {list && list.map(item => <button onClick={() => handleGetMatrial(item.id)} Link to={'/categories/' + item.id}  key={"cat-" + item.id} className="block p-4 py-5 my-2 w-[22%] mx-1 text-sm text-center cursor-pointer">
                         <div className="p-4 bg-[#dce5f1] rounded-xl transition-all hover:scale-105">
                             <FontAwesomeIcon icon={getFileType(item.file)} className="text-8xl text-[#1a31d3]" />
                             <p className="my-3 font-bold text-start">{item.title}</p>

@@ -11,70 +11,7 @@ export default function TPerformance() {
   const [chart, setChart] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [language, setLanguage] = React.useState(null);
-
   const [leaderboard, setLeaderboard] = React.useState(null);
-
-  const [ranking, setRanking] = React.useState([
-    {
-        id: 1,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-    {
-        id: 2,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-    {
-        id: 3,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-    {
-        id: 4,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-    {
-        id: 5,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-    {
-        id: 6,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-    {
-        id: 7,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-    {
-        id: 8,
-        img: '/profile.jpeg',
-        title: 'معلم'
-    },
-  ])
-
-  const tmp_data = {
-    labels: ['test 1', 'test 2', 'test 3', 'test 4'],
-    datasets: [
-      {
-        label: language && language['current_performance'],
-        borderWidth: 2,
-        data: [
-          44,
-          55,
-          66,
-          99
-        ],
-        backgroundColor: ["#FD9800", "#ffa500", "#FFEFB4", "orange"],
-        borderColor: ["#FD9800", "#ffa500", "#FFEFB4", "orange"],
-        //borderWidth: 1,
-      },
-    ],
-  };
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
@@ -138,10 +75,7 @@ export default function TPerformance() {
             ],
           }
 
-          console.log(tmpArr);
-          
           setChart(tmpArr);
-
     }
   }, [language, data])
 
@@ -149,12 +83,11 @@ export default function TPerformance() {
     try {
       const topLeads = await api.get('/leaderboard/teachers');
   
-      console.log(topLeads);
       if(topLeads.status == 200){
         setLeaderboard(topLeads.data);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 

@@ -66,6 +66,7 @@ import TProfile from './pages/teacher/profile/TProfile';
 import TEditProfile from './pages/teacher/profile/TEditProfile';
 import TChangePassword from './pages/teacher/profile/TChangePassword';
 import TPerformance from './pages/teacher/profile/TPerformance';
+import TCertificates from './pages/teacher/profile/TCertificates';
 
 const router = createBrowserRouter([
   // Creators
@@ -195,6 +196,10 @@ const router = createBrowserRouter([
   {
     path: "/teachers/courses",
     element: <TCourses />
+  },
+  {
+    path: "/teachers/certificates",
+    element: <TCertificates />
   },
   {
     path: "/teachers/explore",

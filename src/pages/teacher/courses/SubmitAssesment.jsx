@@ -2,6 +2,8 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { jsPDF } from "jspdf";
+import { QRCode } from '@liquid-js/qrcode-generator';
 
 import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
@@ -14,6 +16,8 @@ export default function SubmitAssesment() {
     const [loadingFile, setLoadingFile] = React.useState(false);
     const [data, setData] = React.useState(null);
     const [videoData, setVideoData] = React.useState(null);
+    const [course, setCourse] = React.useState(null);
+    const [courses, setCourses] = React.useState(null);
     const [msg, setMsg] = React.useState(null);
     const [file, setFile] = React.useState(false);
     const [videoUrl, setVideoUrl] = React.useState(null);
@@ -38,29 +42,37 @@ export default function SubmitAssesment() {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-    }, []);
 
-    React.useEffect(() => {
         loadData();
     }, []);
 
     const loadData = async () => {
+        const user_id = window.localStorage.getItem("DDOj9KHr51qW1xi");
+
         try {
-            const response = await api.get('/assignments/' + assesmentId + "?user_id=5");
-            console.log(response.data);
+            const response = await api.get('/assignments/' + assesmentId + "?user_id="+user_id);
 
             if (response.status == 200) {
-                setData(response.data);
-                if (response.data.submissions) {
-                    const user_id = parseInt(window.localStorage.getItem("DDOj9KHr51qW1xi"))
-                    const tmpArr = [];
-                    response.data.submissions.map(item => {
-                        if (item.user_id == user_id) {
-                            tmpArr.push(item);
-                        }
-                    });
+                if(response.data){
 
-                    setSubmissions(tmpArr)
+                    setData(response.data);
+                    if (response.data.submissions) {
+                        const user_id = parseInt(window.localStorage.getItem("DDOj9KHr51qW1xi"))
+                        const tmpArr = [];
+                        response.data.submissions.map(item => {
+                            if (item.user_id == user_id) {
+                                tmpArr.push(item);
+                            }
+                        });
+    
+                        setSubmissions(tmpArr)
+                    }
+
+                    const course_response = await api.get('/courses/' + response.data.course_id);
+                    if (course_response.status == 200) {
+                        setCourse(course_response.data.data);
+                        getCoursesByCategory(course_response.data.data.category.id);
+                    }
                 }
             }
         } catch (error) {
@@ -68,9 +80,22 @@ export default function SubmitAssesment() {
         }
     }
 
+    
+    const getCoursesByCategory = async (categoryId) => {
+        try {
+            const response = await api.get('/courses?sort_by=level_id&category_id=' + categoryId);
+
+            if (response.status == 200) {                
+                setCourses(response.data.data);
+            }
+        } catch (error) {
+            //
+        }
+    }
+
     const handleSubmitAssestment = async (ev) => {
         ev.preventDefault();
-        //
+        
         setMsg(null);
         if (!data) {
             setMsg(language['error_msg']);
@@ -124,7 +149,8 @@ export default function SubmitAssesment() {
             setLoading(false);
 
             if (response.status == 200) {
-                navigate('/teachers/courses/' + data.course_id);
+                createCertificte();
+                //navigate('/teachers/courses/' + data.course_id);
             } else if (response.status == 422) {
                 setMsg(language["assignment_error"]);
             } else {
@@ -240,6 +266,88 @@ export default function SubmitAssesment() {
         }
     }
 
+    const createCertificte = async () => {
+        if(courses){
+            const completed = courses.filter(item => item.courseProgress && item.courseProgress.completed && item.courseProgress.completed === 1);
+
+            if(completed.length == courses.length){
+                try {
+                    const user_id = window.localStorage.getItem("DDOj9KHr51qW1xi");
+                    const form = new FormData();
+                    form.append("category_id", "");
+                    form.append("user_id", user_id);
+                    form.append("certificate", getCertificatePdf());
+            
+                    const response = await api.post('/certificates', form, {
+                        headers: {
+                            "Content-Type": "multipart/form-data"
+                        }
+                    });
+            
+                    if(response.status == 200){
+                        navigate('/teachers/courses/' + data.course_id);
+                    } else {
+                        setMsg(language['error-msg']);
+                    }
+                } catch (error) {
+                    setMsg(language['error-msg']);
+                }
+            } else {
+                navigate('/teachers/courses/' + data.course_id);
+            }
+        } else {
+            navigate('/teachers/courses/' + data.course_id);
+        }
+    }
+
+    const getCertificatePdf = () => {        
+        if(course){
+            const username = window.localStorage.getItem("VPHl3hMFGI8w9kq");
+            const courseTitle = course.category.name;
+            const date = new Date().toLocaleDateString('en-GB');
+
+            if (username != null && username != '') {
+                const cr_ref = String(Date.now());
+                // Replace file name spaces with dash
+                const file_name = courseTitle.replaceAll(' ', '-') + '-certificate.pdf';
+
+                // Add certificate URL as QR Code.
+                const qr = new QRCode(4, 'L');
+                qr.addData('https://fep.misk-donate.com/?c=' + cr_ref);
+                qr.make();
+                const qr_image = qr.toDataURL();
+
+                let logo = "/logo/Logo.png";
+                let bgcer = "/cerbg.png";
+
+                // creating certificate PDF
+                const doc = new jsPDF('landscape', 'pt', 'a4');
+                const centerX = doc.internal.pageSize.getWidth() / 2;
+                // get font name from 'Amiri-Regular-normal.js'
+                doc.setFont('Amiri-Regular');
+                doc.setTextColor('#212121');
+                doc.setFontSize(26);
+                doc.addImage(bgcer, 'png', 0, 0, 850, 600);
+                doc.addImage(logo, 'png', centerX - 70, 180, 142, 54);
+                doc.addImage(qr_image, 'png', centerX + 200, 450, 100, 100);
+                doc.setFontSize(32);
+                doc.text(username, centerX, 310, { align: 'center', dir: language['dir'] });
+                doc.setFontSize(18);
+
+                // if user UI language is arabic or english this will effect the certificate language.
+                if (language['dir'] == 'ltr') {
+                    doc.text("In " + course.category.name + " on " + date, centerX, 350, { align: 'center', dir: 'ltr' });
+                } else {
+                    doc.text("في برنامج " + course.category.name + " بتاريخ " + date, centerX, 350, { align: 'center', dir: 'rtl' });
+                }
+
+                //doc.save(file_name);
+                const pdfBlob = doc.output("blob", {filename: file_name});
+                
+                return pdfBlob;
+            }
+        }
+    }
 
     return (<ThemeContainer role="teachers">
         <form method="post" onSubmit={handleSubmitAssestment} encType="multipart/form-data" className="w-[75%] block mx-auto rounded-xl m-5 bg-white p-5">

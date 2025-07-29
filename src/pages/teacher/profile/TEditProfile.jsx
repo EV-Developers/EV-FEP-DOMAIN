@@ -41,15 +41,14 @@ export default function TEditProfile() {
     try {
       const tmpData = await api.get(`/teacher/profile`);
 
-      if (tmpData.status == 200) {
-        console.log(tmpData.data);
-        
+      if (tmpData.status == 200) {        
         if(tmpData.data){
           setName(tmpData.data.user.name);
           setEmail(tmpData.data.user.email);
           setPhone(tmpData.data.profile.phone)
           setBio(tmpData.data.profile.bio);
-          setPhoto(tmpData.data.profile.photo);
+          getTeacherPhoto()
+          //setPhoto(tmpData.data.profile.photo);
         }
       }
 
@@ -97,6 +96,42 @@ export default function TEditProfile() {
       }
     } catch (error) {
       setMsg(language['error_msg']);
+    }
+  }
+
+  const getTeacherPhoto = async () => {
+    const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+    const aurl = "https://fep.misk-donate.com/api/teacher/profile/download";
+
+    try {
+      fetch(aurl, {
+          headers: {
+            'Accept': "*",
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+      })
+        .then(response => {
+          try {
+            if (response && !response.ok) {
+              return null
+            }
+            return response.blob();
+          } catch (error) {
+            return null;
+          }
+        })
+        .then(blob => {
+          if (blob) {
+            const tmpPotoURL = URL.createObjectURL(blob);
+            setPhoto(tmpPotoURL);
+          }
+        })
+        .catch(error => {
+          //console.log(error);
+        });
+    } catch (error) {
+      //console.log(error);
     }
   }
 

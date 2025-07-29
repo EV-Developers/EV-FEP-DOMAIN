@@ -146,6 +146,7 @@ export const translation = [
       "Answers all questions, some question may have multiple answers.",
     result: "Result",
     mark: "Mark",
+    certificates: "Certificates",
     certificates_generator: "Certificates Generator",
     certificates_generator_note:
       "Upload students names list as a CSV Exel file and click on generate button.",
@@ -351,6 +352,7 @@ export const translation = [
     exam_note: "أجب على جميع الأسئلة، بعض الأسئلة قد تحتوى على اجابات متعددة.",
     result: "النتيجة",
     mark: "الدرجة",
+    certificates: "الشهادات",
     certificates_generator: "مُنشأ الشهادات",
     certificates_generator_note:
       "قم برفع ملف اكسل CSV به قائمة أسماء الطلاب واضغط زر الانشاء.",

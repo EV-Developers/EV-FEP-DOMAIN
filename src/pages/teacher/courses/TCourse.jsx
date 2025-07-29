@@ -55,9 +55,7 @@ export default function TCourse() {
             if (tmpData && tmpData.status == 200) {
                 
                 if(tmpData.data && tmpData.data.data){
-                    setData(tmpData.data.data);
-                    console.log(tmpData.data.data);
-                    
+                    setData(tmpData.data.data);                    
                     //setLessonData(tmpData.data.data.lessons);                    
                     
                     if(tmpData.data.data.resources){
@@ -174,7 +172,7 @@ export default function TCourse() {
                 <span className="mx-2"><strong className="text-bold primary-text">{data && data.category.name}</strong></span>
             </p>
 
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
                 <div></div>
                 <div className="flex">
                     {data && data.progressPercentage == 100 && <>
@@ -182,7 +180,7 @@ export default function TCourse() {
                     <button onClick={handleCourseCertificateDownload} className="block rounded pointer px-5 py-1 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 mx-auto font-bold cursor-pointer">{language && language['download_cerificate']}</button>
                     </>}
                 </div>
-            </div>
+            </div> */}
             <div className="flex">
                 <Link to="/courses">
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />

@@ -16,6 +16,7 @@ export default function Header({ role }) {
     const [slug, setSlug] = React.useState("");
     const navigate = useNavigate();
     const location = useLocation();
+    const [photo, setPhoto] = React.useState("/profile.jpeg");
     const ref = React.useRef();
     const [language, setLanguage] = React.useState(null);
     const [showExplore, setShowExplore] = React.useState(null);
@@ -71,6 +72,7 @@ export default function Header({ role }) {
             setLanguage(translation[1]);
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
         }
+        getTeacherPhoto();
     }, []);
 
     const handleSearch = () => {
@@ -148,6 +150,43 @@ export default function Header({ role }) {
 
         window.location.reload();
     }
+
+  const getTeacherPhoto = async () => {
+    const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
+    const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+    const aurl = "https://fep.misk-donate.com/api/teacher/profile/download";
+
+    try {
+      fetch(aurl, {
+          headers: {
+            'Accept': "*",
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+      })
+        .then(response => {
+          try {
+            if (response && !response.ok) {
+              return null
+            }
+            return response.blob();
+          } catch (error) {
+            return null;
+          }
+        })
+        .then(blob => {
+          if (blob) {
+            const tmpPotoURL = URL.createObjectURL(blob);
+            setPhoto(tmpPotoURL);
+          }
+        })
+        .catch(error => {
+          //console.log(error);
+        });
+    } catch (error) {
+      //console.log(error);
+    }
+  }
 
     return (<>
         {show && <ChangPassword open={show} setOpen={setShow} language={language} />}
@@ -275,7 +314,7 @@ export default function Header({ role }) {
                             <div className={`bg-white hidden group-hover:block z-50 mx-3 absolute shadow-sm w-[300px] ${language && language['dir'] == 'ltr' ? 'right-0' : 'left-0'}`}>
                                 <div className="relative bg-[url('/imgs/profilebg.png')] bg-cover bg-center w-full h-[100px]">
                                     <Link to="/teachers/profile" className="absolute bottom-[-80px] m-3">
-                                        <img src="/profile.jpeg" alt="" className=" w-[20%] rounded-full  border-white border-4" />
+                                        <img src={photo} alt="" className="h-[90px] w-[90px] object-cover rounded-full  border-[#000]  border" />
                                         <p className="text-xl font-bold">{userName}</p>
                                         {/* <p className="text-xs text-gray-500">Software Engneer</p> */}
                                     </Link>

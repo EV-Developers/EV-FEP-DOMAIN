@@ -34,30 +34,29 @@ export default function TProfile() {
   const loadData = async () => {
     try {
       const response = await api.get('/teacher/profile');
-      console.log(response.data);
 
       if (response.status == 200) {
         if(response.data && response.data.profile){
           setData(response.data);
-          getTeacherPhoto(response.data.profile.photo);
+          getTeacherPhoto();
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
-  const getTeacherPhoto = async (profile_photo) => {
+  const getTeacherPhoto = async () => {
     const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
-    const aurl = "https://fep.misk-donate.com/api/teacher/profile/download"+profile_photo;
+    const aurl = "https://fep.misk-donate.com/api/teacher/profile/download";
 
-    console.log(profile_photo);
-    
     try {
       fetch(aurl, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        }
+          headers: {
+            'Accept': "*",
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
       })
         .then(response => {
           try {
@@ -73,22 +72,20 @@ export default function TProfile() {
           if (blob) {
             const tmpPotoURL = URL.createObjectURL(blob);
             setPhoto(tmpPotoURL);
-
-            return tmpPotoURL;
           }
         })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
         });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
   return (<ThemeContainer role="teachers" customeClasses="w-full">
     <div className="mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/profilebg.png)] bg-cover relative">
       <div className="absolute bottom-[-70px] m-4 mx-14 p-5">
-        <img src={photo} alt="" className=" w-[35%] rounded-full  border-white border-4" />
+        <img src={photo} alt="" className=" w-[200px] h-[200px] object-cover rounded-full  border-white border-4" />
       </div>
     </div>
     <div className="w-[85%] mx-auto mt-14">
@@ -96,9 +93,13 @@ export default function TProfile() {
         <h2 className="text-xl font-bold">{data && data.user.name}</h2>
         <p className="text-sm text-gray-400">{data && data.user.email}</p>
       </div>
-      <div className="flex">
-        <Link to="/teachers/edit-profile" className="bg-blue-950 hover:bg-blue-200 px-7 py-2 my-4 text-sm text-white hover:text-blue-950 rounded-2xl border border-blue-950">{language && language['edit']}</Link>
-        <Link to="/teachers/change-password" className="bg-blue-100 hover:bg-blue-950 border border-blue-950 px-7 py-2 my-4 mx-2 text-sm text-blue-950 hover:text-white rounded-2xl">{language && language['change_password']}</Link>
+      <div className="flex justify-between">
+        <div className="flex">
+          <Link to="/teachers/edit-profile" className="bg-blue-950 hover:bg-blue-200 px-7 py-2 my-4 text-sm text-white hover:text-blue-950 rounded-2xl border border-blue-950">{language && language['edit']}</Link>
+          <Link to="/teachers/change-password" className="bg-blue-100 hover:bg-blue-950 border border-blue-950 px-7 py-2 my-4 mx-2 text-sm text-blue-950 hover:text-white rounded-2xl">{language && language['change_password']}</Link>
+        </div>
+
+        <Link to="/teachers/certificates" className="bg-blue-100 hover:bg-blue-950 border border-blue-950 px-7 py-2 my-4 mx-2 text-sm text-blue-950 hover:text-white rounded-2xl">{language && language['certificates']}</Link>
       </div>
       <div>
         <p className="text-xl font-bold">{language && language['bio']}</p>
