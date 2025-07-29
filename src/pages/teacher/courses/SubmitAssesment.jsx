@@ -274,15 +274,10 @@ export default function SubmitAssesment() {
                 try {
                     const user_id = window.localStorage.getItem("DDOj9KHr51qW1xi");
                     const form = new FormData();
-                    form.append("category_id", "");
+                    form.append("category_id", course.category.id);
                     form.append("user_id", user_id);
-                    form.append("certificate", getCertificatePdf());
             
-                    const response = await api.post('/certificates', form, {
-                        headers: {
-                            "Content-Type": "multipart/form-data"
-                        }
-                    });
+                    const response = await api.post('/certificates', form);
             
                     if(response.status == 200){
                         navigate('/teachers/courses/' + data.course_id);
