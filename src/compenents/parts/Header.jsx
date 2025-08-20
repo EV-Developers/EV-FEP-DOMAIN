@@ -252,17 +252,17 @@ export default function Header({ role }) {
                             {language && language['games']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/games') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                         </Link>}
-                        {slug == '/dashboard' && <Link to={slug + "/users"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/users') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
-                            {language && language['users']}
-                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/users') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        {slug == '/dashboard' && <Link to={slug + "/about"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/about') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
+                            {language && language['about']}
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/about') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                         </Link>}
-                        {slug == '/dashboard' && <Link to={slug + "/subscriptions"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/subscriptions') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
-                            {language && language['subscriptions']}
-                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/subscriptions') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        {slug == '/dashboard' && <Link to={slug + "/courses"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/courses') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
+                            {language && language['courses']}
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/courses') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                         </Link>}
-                        {slug == '/dashboard' && <Link to={slug + "/contents"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/contents') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
-                            {language && language['contents']}
-                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/Contents') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
+                        {slug == '/dashboard' && <Link to={slug + "/contact"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/contact') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
+                            {language && language['contact']}
+                            <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/contact') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                         </Link>}
                         <div className="p-4 group transition-all">
                             {/* <label className="inline-flex items-center cursor-pointer">
