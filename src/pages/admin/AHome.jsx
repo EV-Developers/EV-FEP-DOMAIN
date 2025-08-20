@@ -6,40 +6,11 @@ import ThemeContainer from '../../compenents/parts/ThemeContainer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChildren, faUserGraduate, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { translation } from '../../config/translations';
+import Sidebar from '../../compenents/parts/Sidebar';
 
 export default function AHome() {
   const [data, setData] = React.useState(null);
   const [language, setLanguage] = React.useState(null);
-  const [username, setUsername] = React.useState("");
-  const statics = [
-    {
-      id: 1,
-      title: "Subscriptions",
-      total: 200,
-      number: 117,
-      icon: faUsers,
-      state: 'Renewed',
-      precintage: ((200 - 117) * 100) / 100
-    },
-    {
-      id: 2,
-      title: "Teachers",
-      total: 200,
-      number: 117,
-      state: "activated",
-      icon: faUserGraduate,
-      precintage: ((200 - 117) * 100) / 100
-    },
-    {
-      id: 3,
-      title: "Students",
-      total: 200,
-      number: 117,
-      state: "activated",
-      icon: faChildren,
-      precintage: ((200 - 117) * 100) / 100
-    },
-  ];
 
   const tmp_data = {
     labels: ['test 1', 'test 2', 'test 3', 'test 4'],
@@ -62,8 +33,6 @@ export default function AHome() {
 
   React.useEffect(() => {
     const lang = window.localStorage.getItem("language");
-    const user_name = window.localStorage.getItem("VPHl3hMFGI8w9kq");
-    setUsername(user_name);
 
     if (lang && lang != '' && lang != null) {
       if (lang == 'english') {
@@ -83,22 +52,35 @@ export default function AHome() {
   }, []);
 
   return (<ThemeContainer role="admin">
-    <div className="block w-[75%] mx-auto">
-      <h2 className="py-5 my-5 text-2xl font-bold border-b border-b-gray-200">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
-      <div className="flex w-full flex-wrap">
-        {statics && statics.map(item => <div key={"stat-" + item.id} className="flex items-center gap-5 rounded-xl bg-white p-4 shadow-lg ring-1 ring-black/5 w-[30%] m-3">
-          <div className="grid grid-cols-1 grid-rows-1">
-            <FontAwesomeIcon icon={item.icon} />
+    <div className="mt-0 h-[300px] w-full bg-gray-600 bg-[url(/imgs/aminbg.png)] bg-cover flex items-center justify-center text-center ">
+      <h2 className="text-5xl font-bold p-3 text-white ">{language && language['dashboard']}</h2>
+    </div>
+    <div className="mx-auto flex">
+      <Sidebar page="dashboard" />
+      <div className="w-[80%]">
+        <h2 className="px-3 py-5 my-5 text-2xl font-bold ">{language && language['dashboard']}</h2>
+        
+        {data && <div className="w-full bg-white rounded p-2"><Line data={data} /></div>}
+
+        <div className="grid grid-cols-4 text-center font-bold text-2xl">
+          <div className="items-center justify-center bg-white rounded my-3 py-7">
+            <h3>64</h3>
+            <p>{language && language['courses']}</p>
           </div>
-          <div className="w-0 flex-1 text-sm text-gray-950">
-            <p className="font-medium">{item.title} - {item.precintage}% {item.state}</p>
-            <p className="mt-1 text-gray-500 "><span className="font-medium">{item.number} </span> out of {item.total}</p>
+          <div className="items-center justify-center bg-white rounded m-3 py-7">
+            <h3>64</h3>
+            <p>{language && language['success_stroies']}</p>
           </div>
-        </div>)}
-      </div>
-      <div className="flex my-5">
-        {data && <div className="w-full md:w-[50%]"><Bar data={data} /></div>}
-        {data && <div className="w-full md:w-[50%]"><Line data={data} /></div>}
+          <div className="items-center justify-center bg-white rounded m-3 py-7">
+            <h3>64</h3>
+            <p>{language && language['teachers']}</p>
+          </div>
+          <div className="items-center justify-center bg-white rounded my-3 py-7">
+            <h3>64</h3>
+            <p>{language && language['schools']}</p>
+          </div>
+        </div>
+
       </div>
     </div>
 

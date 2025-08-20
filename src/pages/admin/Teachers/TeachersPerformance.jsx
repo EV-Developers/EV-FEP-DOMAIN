@@ -8,31 +8,11 @@ import { translation } from '../../../config/translations';
 import ThemeContainer from '../../../compenents/parts/ThemeContainer';
 import Sidebar from '../../../compenents/parts/Sidebar';
 
-export default function UsersList() {
+export default function TeachersPerformance() {
     const [data, setData] = React.useState(null);
-    const [tab, setTab] = React.useState("supervisors");
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const navigate = useNavigate();
-
-    const usersTypes = [
-        {
-            id: 1,
-            name: "Admins",
-        },
-        {
-            id: 2,
-            name: "Teachers",
-        },
-        {
-            id: 3,
-            name: "Content Creators",
-        },
-        {
-            id: 4,
-            name: "Students",
-        },
-    ];
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -82,35 +62,15 @@ export default function UsersList() {
     return (
         <ThemeContainer role="admin">
             <div className="mt-0 h-[300px] w-full bg-gray-600 bg-[url(/imgs/aminbg.png)] bg-cover flex items-center justify-center text-center ">
-                <h2 className="text-5xl font-bold p-3 text-white ">{language && language['dashboard']}</h2>
+            <h2 className="text-5xl font-bold p-3 text-white ">{language && language['dashboard']}</h2>
             </div>
             <div className="mx-auto 2xl:w-[75%] flex">
-                <Sidebar page="users_management" />
+                <Sidebar page="teachers" />
                 <div className="block w-[80%] p-2">
-                    <h2 className="block text-2xl my-5 mx-2">{language && language['users_management']}</h2>
+                    <h2 className="block text-2xl my-5 mx-2">{language && language['teachers_performances']}</h2>
 
                     <div className="bg-white rounded-2xl">
-                        <div className="flex justify-between">
-                            <Link to="/dashboard/new-user" className="rounded pointer m-2 py-2 px-10 bg-gradient-to-br from-[#ffffff] to-[#3600ff] text-sm hover:bg-gradient-to-br hover:from-[#cec0ff] hover:to-[#2d00ce]   font-bold flex text-white">
-                                <img src="/icons/storieswhite.png" className="w-6" alt="" />
-                                <span className="mx-2">{language && language["new-user"]}</span>
-                            </Link>
-                        </div>
 
-                        <div className="inline-flex bg-[#f0f4fa] rounded-xl mx-3 my-4">
-                            <button onClick={() => setTab("supervisors")} className="py-2 px-14 text-center rtl:border-l rtl:border-l-[#000000] ltr:border-r ltr:border-r-[#000000] relative items-center cursor-pointer">
-                                <span>{language && language['supervisors']}</span>
-                                {tab == "supervisors" && <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-br from-[#ffffff] to-[#3600ff] mx-auto"></div>}
-                            </button>
-                            <button onClick={() => setTab("content-creators")} className="py-2 px-14 text-center rtl:border-l rtl:border-l-[#000000] ltr:border-r ltr:border-r-[#000000] relative items-center cursor-pointer">
-                                <span>{language && language['content-creators']}</span>
-                                {tab == "content-creators" && <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-br from-[#ffffff] to-[#3600ff] mx-auto"></div>}
-                            </button>
-                            <button onClick={() => setTab("teachers")} className="py-2 px-14 text-center relative items-center cursor-pointer">
-                                <span>{language && language['teachers']}</span>
-                                {tab == "teachers" && <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-br from-[#ffffff] to-[#3600ff] mx-auto"></div>}
-                            </button>
-                        </div>
                         <div className="block my-2">
                             <div className="*:animate-pulse">
                                 {(!data && loading) && <>

@@ -30,7 +30,10 @@ export default function Membership() {
     }, []);
 
     return (<ThemeContainer role="admin">
-        <div className="block mx-auto w-[75%]">
+        <div className="mt-0 h-[300px] w-full bg-gray-600 bg-[url(/imgs/aminbg.png)] bg-cover flex items-center justify-center text-center ">
+            <h2 className="text-5xl font-bold p-3 text-white ">{language && language['dashboard']}</h2>
+        </div>
+        <div className="mx-auto 2xl:w-[75%]">
             <div className="flex">
                 <Link to={"/dashboard"}>
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />

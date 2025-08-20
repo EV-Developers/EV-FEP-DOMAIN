@@ -171,11 +171,11 @@ export default function Courses() {
                         <img src={item.featured_image_url ? item.featured_image_url : '/data/sale-5.webp'} alt="" className="w-[25%] h-[200px] object-cover rounded-xl group-hover:scale-105 transition-all" />
                         <div className="mx-4">
                             <h2 className="text-2xl">{item.title}</h2>
-                            <p className="text-color py-2 flex">
+                            {/* <p className="text-color py-2 flex">
                                 <span className="mx-2">{language && language["course_by"]} </span>
                                 <strong className="text-bold primary-text">Mohammed Razi </strong>
                                 <span>, Electronic Trainer and Developer</span>
-                            </p>
+                            </p> */}
                         </div>
                     </Link>)}
                 </div>

@@ -164,7 +164,7 @@ export default function Login() {
 
                     <button
                         type="submit"
-                        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white text-sm bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:from-amber-700 hover:to-amber-400 transition"
+                        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white text-sm bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:from-amber-700 hover:to-amber-400 transition cursor-pointer"
                     >
                         {loading && <img src="/loading_white.png" className="w-4 h-4 animate-spin" />}
                         <span>{language && language["login"]}</span>

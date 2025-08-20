@@ -67,6 +67,10 @@ import TEditProfile from './pages/teacher/profile/TEditProfile';
 import TChangePassword from './pages/teacher/profile/TChangePassword';
 import TPerformance from './pages/teacher/profile/TPerformance';
 import TCertificates from './pages/teacher/profile/TCertificates';
+import TeachersPerformance from './pages/admin/Teachers/TeachersPerformance';
+import Acourses from './pages/admin/Courses/ACoursces';
+import SuccessStories from './pages/admin/SuccessStories/SuccessStories';
+import ACertificates from './pages/admin/Certificates/ACertificates';
 
 const router = createBrowserRouter([
   // Creators
@@ -292,8 +296,24 @@ const router = createBrowserRouter([
     element: <UserDetails />,
   },
   {
-    path: "/dashboard/subscriptions",
+    path: "/dashboard/schools",
     element: <Subscriptions />
+  },
+  {
+    path: "/dashboard/teachers",
+    element: <TeachersPerformance />
+  },
+  {
+    path: "/dashboard/courses",
+    element: <Acourses />
+  },
+  {
+    path: "/dashboard/success-stroies",
+    element: <SuccessStories />
+  },
+  {
+    path: "/dashboard/certifications-issue-orders",
+    element: <ACertificates />
   },
   {
     path: "/dashboard/contents",
