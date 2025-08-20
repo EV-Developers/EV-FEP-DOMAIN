@@ -426,7 +426,7 @@ export const translation = [
     users_management: "إدارة المستخدمين",
     schools: "المدارس",
     teachers_performances: "أداء المعلمين",
-    success_stroies: "لقصص الناجحة",
+    success_stroies: "القصص الناجحة",
     certifications_issue_orders: "طلبات إصدار الشهادات",
     "new-user": "إضافة مستخدم",
     teachers: "المعلمون",
