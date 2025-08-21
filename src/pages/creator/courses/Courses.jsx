@@ -168,9 +168,9 @@ export default function Courses() {
                         </>}
                     </div>
                     {data && data.map(item => <Link to={'/courses/' + item.id} key={"cat-" + item.id} className="p-5 py-2 my-2 text-sm flex border-b border-b-[#aba9a9a7] group hover:bg-[#f0efef9e]">
-                        <img src={item.featured_image_url ? item.featured_image_url : '/data/sale-5.webp'} alt="" className="w-[25%] h-[200px] object-cover rounded-xl group-hover:scale-105 transition-all" />
+                        <img src={item.featured_image_url ? item.featured_image_url : '/data/sale-5.webp'} alt="" className="w-[25%] h-[200px] object-contain rounded-xl group-hover:scale-105 transition-all" />
                         <div className="mx-4">
-                            <h2 className="text-2xl">{item.title}</h2>
+                            <h2 className="text-2xl my-3">{item.title}</h2>
                             {/* <p className="text-color py-2 flex">
                                 <span className="mx-2">{language && language["course_by"]} </span>
                                 <strong className="text-bold primary-text">Mohammed Razi </strong>

@@ -1,6 +1,6 @@
 import { faCompress, faExpand } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useRef } from 'react'
+import React from 'react'
 
 export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId, videoData, setVideoData, userProgress = 0, poster = "/data/vid-1.webp", setVideosTime, setVideoProgress, completed=false, playNext, has_quiz, locked=false }) {
     const [play, setShow] = React.useState(true);
@@ -8,7 +8,12 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
     const [loading, setLoading] = React.useState(false);
     const [showNext, setShowNext] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
-    const video = useRef();
+    const [currentVideoTime, setCurrentVideoTime] = React.useState("00:00");
+    const [hoverTimeVisible, setHoverTimeVisible] = React.useState(false);
+    const [hoverTimePosition, setHoverTimePosition] = React.useState(0);
+      const [hoverTime, setHoverTime] = React.useState('00:00');
+    const progressRef = React.useRef(null);
+    const video = React.useRef();
 
     React.useEffect(() => {
         const waiting = document.getElementById('video-' + lessonId).addEventListener('waiting', (ev) => {            
@@ -90,6 +95,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         minutes = isNaN(minutes) ? 0 : minutes;
         seconds = isNaN(seconds) ? 0 : seconds;
         const remaining = duration - currentTime;
+        const formatedTime = `${(Math.floor(currentTime / 60)).toString().padStart(2, '0')}:${(Math.floor(currentTime % 60)).toString().padStart(2, '0')}`
 
         const payload = {
             courseId: courseId,
@@ -103,7 +109,9 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
 
         setProgress(totalTime);
         setVideoData(payload);
-
+        
+        setCurrentVideoTime(formatedTime);
+        
         if (totalTime == 100) {
             setShow(true);
         }        
@@ -165,17 +173,51 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
         }
     }
 
+    const handleMouseMove = (e) => {
+       const progressRect = progressRef.current.getBoundingClientRect();
+        const offsetX = e.clientX - progressRect.left;
+        const clampedX = Math.max(0, Math.min(offsetX, progressRect.width));
+        setHoverTimePosition(clampedX);
+
+        const videoRef = video.current;
+        if (videoRef && videoRef.duration) {
+            const percent = clampedX / progressRect.width;
+            const time = percent * videoRef.duration;
+
+            setHoverTime(formatTime(time));
+        }
+        
+    };
+
+    const handleMouseEnter = () => {
+        setHoverTimeVisible(true);
+    };
+
+    const handleMouseLeave = () => {
+        setHoverTimeVisible(false);
+    };
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
     return (<div id={"player"+lessonId} className="w-full md:w-[75%] flex justify-center items-center relative px-0 player">
         {playNext && showNext && <div className={`absolute z-10 bottom-20 bg-[#fa9600a0] rounded-sm px-4 text-white mx-3 text-xs ${language && language['dir'] == 'rtl' ? 'right-0':'left-0'} md:w-[35%] xl:w-[25%] py-1 transition-opacity duration-700 ease-in ${showNext ? 'opacity-100' : 'opacity-0'}`}>
             <h2 className="font-bold italic">{language && language['next']}: </h2>
             <p className="italic">{has_quiz ? language && language["lesson_quizzes"] : playNext.title}</p>
         </div>}
-        <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-0 my-3 h-2 px-0 transition-all w-full" onClick={handleVideoProgress}></div>
-        <div id="progress" style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs pointer-events-none cursor-pointer" ></div>
-        <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all pointer-events-none cursor-pointer" ></div>
-        <button title={language && language['fullscreen']} className="bottom-0 right-0 m-5 mb-10 absolute z-30 cursor-pointer" onClick={toggleFullScreen}>
-            <FontAwesomeIcon icon={fullScreen ? faCompress : faExpand} className="text-xl font-bold text-amber-300" />
-        </button>
+        {hoverTimeVisible && <div id="time" style={{ left: hoverTimePosition }} className="absolute bg-amber-600 rounded-2xl p-1 z-50 text-white text-xs bottom-9">{hoverTime}</div>}
+        <div className="text-amber-600 bg-[#CFCFCD] absolute bottom-4 z-10 mx-0 left-0 my-3 h-2 px-0 transition-all w-full" ref={progressRef} onClick={handleVideoProgress} onMouseMove={handleMouseMove} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}></div>
+        <div id="progress" style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all blur-xs pointer-events-none cursor-pointer"></div>
+        <div style={{ width: (parseInt(progress) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-4 z-20 mx-0 left-0 my-3 h-2 px-0 transition-all pointer-events-none cursor-pointer"></div>
+        <div className="flex justify-between bottom-0 right-0 m-5 mb-10 absolute z-30 w-[95%]">    
+            <button title={language && language['fullscreen']} className="cursor-pointer" onClick={toggleFullScreen}>
+                <FontAwesomeIcon icon={fullScreen ? faCompress : faExpand} className="text-xl font-bold text-amber-300" />
+            </button>
+            <div className="text-sm text-amber-300 font-bold">{currentVideoTime}</div>
+        </div>
         {play && <button onClick={handlePlay} className="rounded-full w-28 h-28 m-2 py-1 px-5 text-sm absolute z-10 flex justify-center items-center cursor-pointer">
             {(!locked || completed == 1) && <img src="/play_btn.png" alt="" className="w-full" />}
             {locked && completed != 1 && <img src="/lock_btn.png" alt="" className="w-full" />}

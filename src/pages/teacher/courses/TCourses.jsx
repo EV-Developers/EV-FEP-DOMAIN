@@ -17,7 +17,12 @@ export default function TCourses() {
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
-
+        const catId = window.localStorage.getItem("categoryId");
+        if(catId && catId != "" && catId != null){
+            console.log(catId, typeof catId);
+            
+            setCategoryId(Number(catId));
+        }
         if (lang && lang != '' && lang != null) {
             if (lang == 'english') {
                 setLanguage(translation[0]);
@@ -58,7 +63,10 @@ export default function TCourses() {
             setCategoriesData(tmpArr);
             setCategoriesShadowData(tmpArr);
             if (tmpArr && tmpArr.length != 0) {
-                setCategoryId(tmpArr[0].id);
+                const catId = window.localStorage.getItem("categoryId");
+                if(!catId || catId == "" || catId == null){
+                    setCategoryId(tmpArr[0].id);
+                }
             }
         } else {
             setLoadingCats(false);
@@ -66,18 +74,32 @@ export default function TCourses() {
     }
 
     React.useEffect(() => {
-        getCoursesByCategory();
+        if(categoryId){
+            window.localStorage.setItem("categoryId", categoryId);
+            getCoursesByCategory();
+        } else {
+            getCoursesByCategory();
+        }
+        console.log(categoryId, typeof categoryId);
+        
     }, [categoryId]);
 
     const getCoursesByCategory = async () => {
         setLoading(true);
         setData(null);
-
+        let cat_id = 0;
+        const catId = window.localStorage.getItem("categoryId");
+        
+        if(catId && catId != "" && catId != null){
+            cat_id = catId;
+        } else {
+            cat_id = categoryId
+        }
         try {
-            const response = await api.get('/courses?sort_by=level_id&category_id=' + categoryId);
+            const response = await api.get('/courses?sort_by=level_id&category_id=' + cat_id);
 
             if (response.status == 200) {
-                const tmpList = response.data.data.sort((a, b) => a.progressPercentage - b.progressPercentage)
+                const tmpList = response.data.data.sort((a, b) => a.level - b.level)
                 
                 setLoading(false);
                 setData(tmpList);
@@ -126,7 +148,7 @@ export default function TCourses() {
                             <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
                         </div>
                     </div>}
-                    <div className="flex flex-wrap ">
+                    <div className="flex flex-wrap items-stretch">
                         {data && data.map(item => <CourseItem key={"course"+item.id} language={language} link="/teachers/courses/" item={item} />)}
                     </div>
                 </div>

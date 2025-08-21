@@ -37,7 +37,9 @@ export default function TCategoryDetails() {
 
         if (tmpData.status == 200) {
             setLoading(false);
-            setData(tmpData.data.data);
+            const tmpList = tmpData.data.data.sort((a, b) => a.level - b.level)
+            
+            setData(tmpList);
         } else {
             setLoading(false);
         }

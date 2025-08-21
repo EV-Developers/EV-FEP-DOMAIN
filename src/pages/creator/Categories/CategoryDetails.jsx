@@ -113,7 +113,8 @@ export default function CategoryDetails() {
 
             if (tmpData.status == 200) {
                 setLoadingCourses(false);
-                setCoursesData(tmpData.data.data);
+                const tmpArr = tmpData.data.data.sort((a, b) => a.level - b.level);
+                setCoursesData(tmpArr);
             } else {
                 setLoadingCourses(false);
             }
@@ -209,8 +210,8 @@ export default function CategoryDetails() {
                 {msg && <div className="p-4 m-2">{msg}</div>}
 
                 <div className="flex flex-row justify-between mt-14">
-                    <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400" type="submit">{language && language["update"]}</button>
-                    <button onClick={() => setShowModal(true)} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400" type="button">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />} <span>{language && language["delete"]}</span></button>
+                    <button className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex" type="submit">{loading && <img className="animate-spin w-4 h-4 m-1" src="/loading_white.png" />}  {language && language["update"]}</button>
+                    <button role="button" onClick={() => setShowModal(true)} className="rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 flex" type="button"><span>{language && language["delete"]}</span></button>
                 </div>
             </form>}
 

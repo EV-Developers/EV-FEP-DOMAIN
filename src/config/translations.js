@@ -299,7 +299,7 @@ export const translation = [
     upload_material: "رفع المورد",
     important_resources: "الموارد المهمة",
     hello: "مرحبا ",
-    to_dashboard: "الي لوحة تحكم برنامج مهندسي المستقبل",
+    to_dashboard: "الى لوحة تحكم برنامج مهندسي المستقبل",
     recently_added: "اضيفت مؤخراً",
     upload_material: "رفع مورد",
     wrong_email_password: "البريد الالكتروني او كلمة المرور خاطئة..",

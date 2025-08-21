@@ -58,7 +58,8 @@ export default function THome() {
 
     if (list.status == 200) {
       if (list.data.data) {
-        setData(list.data.data);
+        const tmpArr = list.data.data.sort((a, b) => a.level - b.level);
+        setData(tmpArr);
         setLoading(false);
       } else {
         setLoading(false);
@@ -85,7 +86,7 @@ export default function THome() {
     <div className="block w-[75%] mx-auto">
       <h2 className="py-5 my-5 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
 
-      <div className="flex flex-wrap ">
+      <div className="flex flex-wrap items-stretch">
         {data && data.map(item => <CourseItem key={'course-'+item.id} language={language} link="/courses/" item={item} creator={true} />)}
       </div>
 
