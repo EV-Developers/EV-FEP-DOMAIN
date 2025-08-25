@@ -111,20 +111,21 @@ export default function TMaterials() {
             </div>
 
             <div className="block mx-auto w-[75%]">
-                <div className="flex flex-wrap my-5 p-2">
-                    {list && list.map(item => <button onClick={() => handleGetMatrial(item.id)} Link to={'/categories/' + item.id}  key={"cat-" + item.id} className="block p-4 py-5 my-2 w-[22%] mx-1 text-sm text-center cursor-pointer">
+                <div className="md:flex flex-wrap my-5 p-2">
+                    {list && list.map(item => <button onClick={() => handleGetMatrial(item.id)} Link to={'/categories/' + item.id}  key={"cat-" + item.id} className="block p-4 py-5 my-2 w-full md:w-[22%] mx-1 text-sm text-center cursor-pointer">
                         <div className="p-4 bg-[#dce5f1] rounded-xl transition-all hover:scale-105">
                             <FontAwesomeIcon icon={getFileType(item.file)} className="text-8xl text-[#1a31d3]" />
                             <p className="my-3 font-bold text-start">{item.title}</p>
                             <p className="my-3 text-xs text-start">{item.description}</p>
                         </div>
                     </button>)}
-                    {!list && <>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                    </>}
+                    
+                    {!list && <div role='status' className='animate-pulse md:flex p-5 md:p-auto w-full'>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                    </div>}
                 </div>
             </div>
         </ThemeContainer>

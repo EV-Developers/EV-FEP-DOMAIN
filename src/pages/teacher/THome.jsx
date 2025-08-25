@@ -82,25 +82,25 @@ export default function THome() {
         />
       </SwiperSlide>)}
     </Swiper>
-    <div className="block w-[75%] mx-auto">
+    <div className="block w-full md:w-[75%] mx-auto px-2">
       <h2 className="my-4 text-2xl font-bold">{language && language['hello']} {username}, {language && language['to_dashboard']}</h2>
       <p className="mb-10 mt-2 text-l font-medium">{language && language['home_quote']}</p>
       <div className="flex flex-wrap ">
         {data && data.map(item => <CourseItem key={'course-' + item.id} language={language} link="/teachers/courses/" item={item} />)}
       </div>
 
-      {!data && loading && <div className="flex animate-pulse">
-        <div className="shadow block w-[25%] rounded-l p-2 mx-2">
+      {!data && loading && <div className="md:flex animate-pulse">
+        <div className="shadow block w-full md:w-[25%] rounded-l p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
           <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
-        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
+        <div className="shadow block w-full md:w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
           <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
         </div>
-        <div className="shadow block w-[25%] rounded-2xl p-2 mx-2">
+        <div className="shadow block w-full md:w-[25%] rounded-2xl p-2 mx-2">
           <div className="w-full h-24 bg-gray-300"></div>
           <div className="w-full h-2 bg-gray-300 my-4"></div>
           <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
@@ -108,7 +108,7 @@ export default function THome() {
       </div>}
     </div>
 
-    <Link to="/teachers/courses" className="block mx-auto p-3 bg-[#fa9600] hover:bg-[#ffe696] w-[30%] text-center rounded-2xl my-7 transition-all">{language && language['see_more']}</Link>
+    <Link to="/teachers/courses" className="block mx-5 md:mx-auto p-3 bg-[#fa9600] hover:bg-[#ffe696] md:w-[30%] text-center rounded-2xl my-7 transition-all">{language && language['see_more']}</Link>
 
   </ThemeContainer>)
 }

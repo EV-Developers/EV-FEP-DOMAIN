@@ -202,11 +202,11 @@ export default function TCourse() {
                     <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span></button>
             </div>
 
-            {tabs == 'content' && <div className="flex">
-                <div className="w-[75%]">
+            {tabs == 'content' && <div className="md:flex">
+                <div className="md:w-[75%]">
                     <TLessons courseId={courseId} lessons={lessonsData} assignments={assestmentsData} setTotalHourse={setTotalHourse} setIsPlayed={setIsPlayed} />
                 </div>
-                <div className="w-[25%]">
+                <div className="md:w-[25%] hidden md:block">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
                     {lessonsData && lessonsData.map((item, index) => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
                         <div className="relative group hover:border-none">

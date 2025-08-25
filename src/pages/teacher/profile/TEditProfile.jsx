@@ -139,7 +139,7 @@ export default function TEditProfile() {
 
     <div className="w-[75%] mx-auto">
       <form method="post" encType="multipart/form-data" onSubmit={handleUpdateUserProfile} className="bg-white mx-auto m-3 rounded-xl p-5">
-        <div className="flex">
+        <div className="hidden md:flex">
           <Link to="/teachers">
             <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
           </Link>

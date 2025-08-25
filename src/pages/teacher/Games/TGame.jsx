@@ -32,7 +32,7 @@ export default function TGame() {
 
     return (
         <ThemeContainer role="teachers">
-            <div className="block mx-auto w-[75%]">
+            <div className="block mx-auto md:w-[75%]">
                 <div className="flex">
                     <Link to="/courses">
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />

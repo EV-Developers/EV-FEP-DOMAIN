@@ -47,13 +47,13 @@ export default function Footer({ role }) {
 
     return (
         <div className="mt-[90px] bg-[#FFEFB4]">
-            <div className="flex my-14 mt-5 md:w-[90%] lg:w-[75%] text-sm mx-auto">
+            <div className="md:flex py-14 mt-5 md:w-[90%] lg:w-[75%] text-sm mx-auto">
                 <div className="text-xs m-14">
                     <p><FontAwesomeIcon icon={faMapMarkerAlt} className="mx-2" /> Muscat, AL Mawaleh 200 Oman, CA 94110</p>
                     <p><FontAwesomeIcon icon={faEnvelope} className="mx-2" /> {'evcentersinfo'+'@'+'outlook.com'}</p>
                     <p><FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faPhoneAlt : faPhone} className="mx-2" /> 1-800-800-2299</p>
                 </div>
-                <div className="flex mt-7 text-xs">
+                <div className="md:flex mt-7 text-xs">
                     <div className="mx-14">
                         <p className="font-bold my-4">{language && language['main_title']}</p>
                         <p><Link to={slug + "/"} className="hover:underline">{language && language['home']}</Link></p>

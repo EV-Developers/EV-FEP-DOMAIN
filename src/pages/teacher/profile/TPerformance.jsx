@@ -98,12 +98,12 @@ export default function TPerformance() {
       </div>
     </div>
     <div className="w-[85%] mx-auto mt-14">
-      <div className="flex justify-between">
+      <div className="md:flex justify-between">
         <h2 className="text-xl font-bold">{data && data.user.name}</h2>
         <p className="text-sm text-gray-400">{data && data.user.email}</p>
       </div>
-      <div className="flex">
-        <div className="p-4 w-[30%]">
+      <div className="md:flex">
+        <div className="p-4 md:w-[30%]">
             <p className="text-xl font-bold py-3">{language && language['current_performance']}</p>
             <div className="flex ">
                 <div className="w-[50%] bg-blue-50 border border-gray-300 p-3 rounded text-center">
@@ -122,7 +122,7 @@ export default function TPerformance() {
                 </div>
             </div>
             <p className="text-xl font-bold py-3">{language && language['lifetime_activity']}</p>
-            <div className="flex items-center w-[98%] bg-blue-50 border border-gray-300 p-3 rounded text-center m-0">
+            <div className="md:flex items-center w-[98%] bg-blue-50 border border-gray-300 p-3 rounded text-center m-0">
                 <img src="/imgs/eye.png" className="w-10 mx-2" alt="" />
                 <span className="mx-2">{language && language['performance']}</span>
                 <span>{data && data.performance.performance_score}%</span>
@@ -147,7 +147,7 @@ export default function TPerformance() {
             </div>)}
             </div> */}
         </div>
-        <div className="p-4 w-[70%]">
+        <div className="p-4 md:w-[70%]">
             <p className="text-xl font-bold py-3">{language && language['current_top_goals']}</p>
             <div className="w-[98%] bg-blue-50 border border-gray-300 p-3 rounded m-0">
             {data && data.profile.user.course_progresses.map(item => <div className="mx-2 border-b border-b-gray-300 py-4" key={"rank-"+item.id}>

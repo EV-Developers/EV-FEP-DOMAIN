@@ -117,12 +117,12 @@ export default function Header({ role }) {
     }, [ref]);
 
     const handleLogout = async () => {
+        navigate('/login');
         try {
             const response = await api.post("/logout");
-
+            
             if (response.status == 200 || response.status == 201) {
                 window.localStorage.clear();
-                navigate('/login');
             }
         } catch (error) {
             //console.log(error);
@@ -198,15 +198,15 @@ export default function Header({ role }) {
         <div className="w-full 2xl:mx-auto 2xl:w-[75%] bg-[#E8EBEF] border-b border-b-gray-300 relative">
             <div className="bg-gradient-to-br from-[#fa9600] to-[#ffe696] hover:bg-gradient-to-br p-2 m-0 flex text-sm rounded-bl-2xl rounded-br-2xl justify-between relative">
                 <div className="flex">
-                    <p className='mx-2'><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-sm" /> <span><a className="hover:underline" href={"mailto:"+'evcentersinfo'+'@'+'outlook.com'}>{'evcentersinfo'+'@'+'outlook.com'}</a></span></p>
-                    <p className='mx-2 text-sm'>
+                    <p className='mx-2 flex '><FontAwesomeIcon icon={faEnvelope} className="mx-2 text-xs md:text-sm" /> <span><a className="hover:underline" href={"mailto:"+'evcentersinfo'+'@'+'outlook.com'}>{'evcentersinfo'+'@'+'outlook.com'}</a></span></p>
+                    <p className='mx-2 text-xs md:text-sm flex'>
                         <FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faPhoneAlt : faPhone} className="mx-2" /> <span><a className="hover:underline" href="tel:123456789">123456789</a></span>
                     </p>
                 </div>
 
-                <div className="flex">
+                <div className="hidden md:flex text-sm">
                     <p className="mx-2 transition-all hover:scale-125"><a href="https://instagram.com" target="_blank"><img src="/instagram.svg" className="rounded-2xl w-4" alt="" /></a></p>
-                    <p className="mx-2 transition-all hover:scale-125"><a href="https://x.com" target="_blank"><img src="/x.jpg" className="rounded-l w-4" alt="" /></a></p>
+                    <p className="mx-2 transition-all hover:scale-125"><a href="https://x.com" target="_blank"><img src="/x.jpg" className="rounded-l md:w-4" alt="" /></a></p>
                     {/* <button onClick={handleChangeLanguage} className="block px-5 cursor-pointer font-bold text-xs transition-all hover:scale-125">
                         <span>{language && language['change_langauge']}</span>
                     </button> */}
@@ -220,17 +220,28 @@ export default function Header({ role }) {
                     <Link className="w-[300px] md:w-[45%]" to="/">
                         <img src="/logo/Logo.png" className="w-full border-r border-r-gray-400" alt="" />
                     </Link>
-                    {slug == '/teachers' && <div className="group">
+                    {slug == '/teachers' && <div className="md:block hidden group">
                         <button 
-                            //onMouseOver={() => setShowExplore(true)} 
-                            className={`block p-3 text-[#fa9600] font-bold rounded-t group-hover:shadow-l transition-all hover:bg-[#F0F4F9] group-hover:bg-[#F0F4F9] ${showExplore && 'bg-[#F0F4F9]'}`}
+                            className="block p-3 text-[#fa9600] font-bold rounded-t group-hover:shadow-l transition-all hover:bg-[#F0F4F9] group-hover:bg-[#F0F4F9]"
                             >{language && language['explore']}</button>
                         <div className="hidden group-hover:block">
-                            <ExploreOverlay language={language} setShow={setShowExplore} />
+                            <ExploreOverlay language={language} />
                         </div>
                     </div>}
+                    <div className="md:hidden p-0 m-0 flex items-center justify-center">
+                        <button className="bg-[#fa9600] transition-all cursor-pointer rounded-2xl py-1 mx-1 px-1 flex text-xs " onClick={handleChangeLanguage}>
+                            <div className={`transition-all block px-1 text-xs rounded-2xl ${language && language['dir'] == 'rtl' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>AR</div>
+                            <div className={`block px-1 transition-all text-xs rounded-2xl ${language && language['dir'] == 'ltr' ? 'bg-white group-hover:bg-[#fa9600]':'group-hover:bg-white'} `}>EN</div>
+                        </button>
+                    </div>
+                    <div className="md:hidden group p-0 m-0 flex items-center justify-center">
+                        <Link to="/teachers/profile" className="rounded-full mx-2 bg-primary cursor-pointer transition-all hover:scale-110" title={language && language['my_profile']}>
+                            <img src="/usericon.png" className="w-18" alt="" />
+                        </Link>
+                    </div>
+                    
                 </div>
-                <div className="md:flex w-full md:w-[75%] lg:w-[70%] mx-0 mt-2">
+                <div className="md:flex w-full md:w-[85%] lg:w-[75%] mx-0 mt-2">
                     <nav className="flex mr-5">
                         <Link to={slug + "/"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
                             {language && language['home']}
@@ -264,7 +275,7 @@ export default function Header({ role }) {
                             {language && language['contact']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/contact') ? 'w-full h-[0.3px]' : 'w-0 transition-all duration-300 group-hover:w-full'}`}></span>
                         </Link>}
-                        <div className="p-4 group transition-all">
+                        <div className="p-4 group transition-all hidden md:block">
                             {/* <label className="inline-flex items-center cursor-pointer">
                             <input type="checkbox" value="" checked={language && language['rtl'] == 'rtl'} className="sr-only peer" onChange={handleChangeLanguage} />
                             <div className="relative w-11 h-6 bg-[#fa9600] peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-[#fa9600] ">AR</div>

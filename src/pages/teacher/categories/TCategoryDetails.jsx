@@ -51,7 +51,7 @@ export default function TCategoryDetails() {
 
     return (
         <ThemeContainer role="teachers">
-            <div className="block mx-auto w-[75%]">
+            <div className="block mx-auto w-[90%] md:w-[75%]">
                 <div className="flex">
                     <Link to="/courses">
                         <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
@@ -86,15 +86,15 @@ export default function TCategoryDetails() {
                         </div>
                     </>}
                 </div>
-                {data && data.map(item => <Link to={'/teachers/courses/' + item.id} key={"cat-" + item.id} className="p-5 py-2 my-2 text-sm flex border-b border-b-[#aba9a9a7] group hover:bg-[#f0efef9e]">
-                    <img src={item.featured_image_url ? item.featured_image_url : '/data/sale-5.webp'} alt="" className="w-[25%] rounded-xl group-hover:scale-105 transition-all" />
+                {data && data.map(item => <Link to={'/teachers/courses/' + item.id} key={"cat-" + item.id} className="p-5 py-2 my-2 text-sm md:flex border-b border-b-[#aba9a9a7] group hover:bg-[#f0efef9e]">
+                    <img src={item.featured_image_url ? item.featured_image_url : '/data/sale-5.webp'} alt="" className="w-full md:w-[25%] rounded-xl group-hover:scale-105 transition-all" />
                     <div className="mx-4">
                         <h2 className="text-2xl">{item.title}</h2>
-                        <div className="text-color py-2 flex">
+                        {/* <div className="text-color py-2 md:flex">
                             <span className="mx-2">{language && language["course_by"]} </span>
                             <strong className="text-bold primary-text">mohammed razi </strong>
                             <span>, electronic trainer and developer</span>
-                        </div>
+                        </div> */}
                     </div>
                 </Link>)}
             </div>

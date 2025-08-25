@@ -113,42 +113,42 @@ export default function TCourses() {
 
     return (
         <ThemeContainer role="teachers">
-            <div className="flex 2xl:w-[80%] mx-auto">
-                <div className="w-[25%]">
+            <div className="md:flex 2xl:w-[80%] mx-auto">
+                <div className="md:w-[25%] p-5 md:p-auto">
                     <h3 className="text-2xl my-3">{language && language['categories']}</h3>
                     {categoriesData && categoriesData.map(item => <div key={item.id}>
                         <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]' : ''}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
                     </div>)}
                     {!categoriesData && loadingCats && <div className="animate-pulse">
-                        <div className="w-[65%] h-8 bg-gray-300 my-4"></div>
-                        <div className="w-[65%] h-8 bg-gray-300 my-4"></div>
-                        <div className="w-[65%] h-8 bg-gray-300 my-4"></div>
+                        <div className="md:w-[65%] w-full h-8 bg-gray-300 my-4"></div>
+                        <div className="md:w-[65%] w-full h-8 bg-gray-300 my-4"></div>
+                        <div className="md:w-[65%] w-full h-8 bg-gray-300 my-4"></div>
                     </div>}
                 </div>
-                <div className="block mx-auto w-[75%]">
+                <div className="block mx-auto md:w-[75%]">
                     {(!loadingCats && !data && loading) && <div className="flex flex-wrap animate-pulse">
-                        <div className="shadow block w-[23%] h-[470px] rounded-l p-2 mx-2 my-3">
+                        <div className="shadow block w-full md:w-[23%] h-[470px] rounded-l p-2 mx-2 my-3">
                             <div className="w-full h-24 bg-gray-300"></div>
                             <div className="w-full h-2 bg-gray-300 my-4"></div>
                             <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
                         </div>
-                        <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+                        <div className="shadow block w-full md:w-[23%] rounded-2xl p-2 mx-2">
                             <div className="w-full h-24 bg-gray-300"></div>
                             <div className="w-full h-2 bg-gray-300 my-4"></div>
                             <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
                         </div>
-                        <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+                        <div className="shadow block w-full md:w-[23%] rounded-2xl p-2 mx-2">
                             <div className="w-full h-24 bg-gray-300"></div>
                             <div className="w-full h-2 bg-gray-300 my-4"></div>
                             <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
                         </div>
-                        <div className="shadow block w-[23%] rounded-2xl p-2 mx-2">
+                        <div className="shadow block w-full md:w-[23%] rounded-2xl p-2 mx-2">
                             <div className="w-full h-24 bg-gray-300"></div>
                             <div className="w-full h-2 bg-gray-300 my-4"></div>
                             <div className="w-full h-6 bg-gray-300 mt-4 rounded"></div>
                         </div>
                     </div>}
-                    <div className="flex flex-wrap items-stretch">
+                    <div className="md:flex p-5 md:p-auto flex-wrap items-stretch">
                         {data && data.map(item => <CourseItem key={"course"+item.id} language={language} link="/teachers/courses/" item={item} />)}
                     </div>
                 </div>

@@ -48,20 +48,20 @@ export default function TGames() {
             </div>
 
             <div className="block mx-auto w-[75%]">
-                <div className="flex flex-wrap my-5 p-2">
-                    {list && list.map(item => <Link Link to={'/teachers/games/' + item.id} key={"cat-" + item.id} className="block p-4 py-5 my-2 w-[22%] mx-1 text-sm text-center bg-[#1a31d3] rounded-xl">
+                <div className="md:flex flex-wrap my-5 p-2">
+                    {list && list.map(item => <Link Link to={'/teachers/games/' + item.id} key={"cat-" + item.id} className="block p-4 py-5 my-2 w-full md:w-[22%] mx-1 text-sm text-center bg-[#1a31d3] rounded-xl">
                         <div className="p-4  transition-all hover:scale-105 text-center text-white">
                             <img src="/imgs/gameicon.png" alt="" className="mx-auto" />
                             <p className="my-3 font-bold">{item.title}</p>
                             <p className="my-3 text-xs">{item.description}</p>
                         </div>
                     </Link>)}
-                    {!list && <>
-                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[22%] h-[200px]'></div>
-                    </>}
+                    {!list && <div role='status' className='animate-pulse md:flex p-5 md:p-auto'>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                        <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                    </div>}
                 </div>
             </div>
         </ThemeContainer>

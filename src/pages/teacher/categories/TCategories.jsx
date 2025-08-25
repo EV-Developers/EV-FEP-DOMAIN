@@ -46,23 +46,23 @@ export default function TCategories() {
     return (
         <ThemeContainer role="teachers" customeClasses="w-full">
             <div className="2xl:w-[75%] mx-auto mt-0 h-[300px] w-full bg-green-600 bg-[url(/imgs/catsbanner.png)] bg-cover ">
-                <div className="mx-auto w-[75%] text-center text-blue-950">
+                <div className="mx-auto md:w-[75%] text-center text-blue-950">
                     <h2 className="text-5xl font-bold p-3 pt-14">{language && language['categories']}</h2>
                 </div>
             </div>
 
-            <div className="block mx-auto w-[75%]">
-                <div className="flex flex-wrap my-5">
-                    {data && data.map(item => <Link to={'/teachers/categories/' + item.id} key={"cat-" + item.id} className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-20 my-2 w-[20%] mx-2 text-sm text-center text-white flex flex-col justify-center items-center bg-[url('/imgs/catsbg.png')] bg-cover transition-all hover:scale-105">
+            <div className="block mx-auto md:w-[75%]">
+                <div className="md:flex flex-wrap my-5 p-5 md:p-auto">
+                    {data && data.map(item => <Link to={'/teachers/categories/' + item.id} key={"cat-" + item.id} className="hover:bg-gray-100 hover:border hover:border-gray-200 rounded-xl bg-white p-5 py-20 my-2 w-full md:w-[20%] mx-2 text-sm text-center text-white flex flex-col justify-center items-center bg-[url('/imgs/catsbg.png')] bg-cover transition-all hover:scale-105">
                     <img src="/imgs/cats.png" alt="" />
                     <p className="my-3 font-bold">{item.name}</p>
                 </Link>)}
                 </div>
-                {!data && <div role='status' className='animate-pulse flex'>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[20%] h-[200px]'></div>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[20%] h-[200px]'></div>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[20%] h-[200px]'></div>
-                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-[20%] h-[200px]'></div>
+                {!data && <div role='status' className='animate-pulse md:flex p-5 md:p-auto w-full'>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
+                    <div className='rounded-xl bg-gray-300 p-5 py-2 my-2 mx-3 w-full md:w-[20%] h-[200px]'></div>
                 </div>}
             </div>
         </ThemeContainer>

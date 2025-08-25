@@ -2,7 +2,7 @@ import React from 'react';
 import api from '../../config/api';
 import { Link } from 'react-router-dom';
 
-export default function ExploreOverlay({ language, setShow }) {
+export default function ExploreOverlay({ language }) {
     const [categoriesData, setCategoriesData] = React.useState(null);
     const [categoryId, setCategoryId] = React.useState(null);
     const [loadingCats, setLoadingCats] = React.useState(true);
@@ -27,7 +27,7 @@ export default function ExploreOverlay({ language, setShow }) {
     }
 
     return (
-        <div className="z-50 mt-0 absolute overflow-y-scroll h-[70vh] max-h-[90vh] w-[25%] bg-[#F0F4F9] border-none shadow-xl" onMouseLeave={() => setShow(false)}>
+        <div className="z-50 mt-0 absolute md:overflow-y-scroll md:h-[70vh] md:max-h-[90vh] md:w-[25%] bg-[#F0F4F9] border-none shadow-xl block m-0">
             <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['courses']}</Link>
             <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['my_courses']}</Link>
             <Link to="/teachers/courses" className={`my-2 block py-2 cursor-pointer px-3 text-sm ${language && language['dir'] == 'ltr' ? 'hover:border-l-2 border-l-[#fa9600]' : 'hover:border-r-2 border-r-[#fa9600]'}`}>{language && language['recommanded']}</Link>

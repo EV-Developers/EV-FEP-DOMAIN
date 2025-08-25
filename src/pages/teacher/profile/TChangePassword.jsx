@@ -53,7 +53,7 @@ export default function TChangePassword() {
 
     <div className="w-[75%] mx-auto">
       <form method="post" onSubmit={handleUpdatePassword} className="bg-white mx-auto m-3 rounded-xl p-5">
-            <div className="flex">
+            <div className="hidden md:flex">
                 <Link to="/teachers">
                     <img src="/logo/course-logo.png" alt="" className="w-10 h-10 my-1" />
                 </Link>

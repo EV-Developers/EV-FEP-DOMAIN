@@ -9,7 +9,7 @@ export default function CourseItem({ language, link, item, continue_course, crea
         return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
     };
 
-    return (<Link to={link + item.id} key={"item-" + item.id} className="flex flex-col justify-between 2xl:w-[15%] md:w-[23%] bg-white p-0 mx-2 my-3 hover:scale-102 font-bold rounded-xl shadow group">
+    return (<Link to={link + item.id} key={"item-" + item.id} className="flex flex-col justify-between 2xl:w-[15%] md:w-[23%] w-full bg-white p-0 mx-2 my-3 hover:scale-102 font-bold rounded-xl shadow group">
         <div>
             <div className="relative p-0 mx-0 w-full flex items-center justify-center">
                 {!creator && <div id="progress" style={{ width: (parseInt(item.progressPercentage) - 0.7) + '%' }} className="text-amber-600 bg-amber-500 absolute bottom-0 z-20 mx-0 left-0 h-2 px-0 transition-all blur-xs pointer-events-none cursor-pointer" ></div>}
