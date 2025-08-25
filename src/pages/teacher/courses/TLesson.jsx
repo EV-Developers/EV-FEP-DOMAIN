@@ -14,7 +14,16 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
     const [videoError, setVideoError] = React.useState(null);
     const [videoProgress, setVideoProgress] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
+    const [token, setToken] = React.useState(null);
+    const url = "https://fep.misk-donate.com/api/";
+
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        const tmpToken = window.localStorage.getItem("rJp7E3Qi7r172VD");
+        
+        setToken(tmpToken);
+    }, []);  
 
     React.useEffect(() => {                
         const lang = window.localStorage.getItem("language");
@@ -31,11 +40,10 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
             setLanguage(translation[0]);
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
-        }        
-
-        getVideo();
+        }
     }, []);
     
+    /*
     const getVideo = async () => {
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
@@ -73,6 +81,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
             //console.log(error);
         }
     }
+    */
 
     React.useEffect(()=> {
         if(videoProgress && videoData){  
@@ -125,13 +134,13 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
         </div>
         <div className="transition-all px-0">
             <p className="p-2">{item.desc}</p>
-            {videoUrl && !videoError && <div className="justify-baseline">
-                <VideoPlayer
+            <div className="justify-baseline">
+                {token && <VideoPlayer
                     language={language}
                     lessonId={item.id}
                     courseId={courseId}
                     videoData={videoData}
-                    tmp_vid_url={videoUrl}
+                    tmp_vid_url={url + "lessons/stream/" + item.video_path + "?token=" + token}
                     setVideoData={setVideoData}
                     setVideosTime={setVideosTime}
                     userProgress={item.progress ? item.progress.completed == 1 ? 100 : item.progress.video_progress : 0}
@@ -140,20 +149,20 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                     has_quiz={item.has_quiz}
                     completed={item.progress && item.progress.completed}
                     locked={item.locked}
-                />
+                />}
                 {item.has_quiz && item.progress && item.progress.completed == 1 && <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>
                 </div>}
-            </div>}
+            </div>
 
-            {loading && <div className="flex flex-wrap animate-pulse">
+            {/* {loading && <div className="flex flex-wrap animate-pulse">
                 <div className="shadow w-full md:w-[75%] h-[400px] bg-gray-200 rounded-xl p-2 mx-2 my-3 flex justify-center items-center">
                     <div className="relative">
                         <div className="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
                         <div className="bg-gray-300 w-20 h-20 rounded-full"></div>
                     </div>
                 </div>
-            </div>}
+            </div>} */}
         </div>
     </div>)
 }

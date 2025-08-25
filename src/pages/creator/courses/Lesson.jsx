@@ -16,6 +16,14 @@ export default function Lesson({ courseId, item }) {
     const [showModal, setShowModal] = React.useState(false);
     const [language, setLanguage] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
+    const [token, setToken] = React.useState(null);
+    const url = "https://fep.misk-donate.com/api/";
+
+    React.useEffect(() => {
+        const tmpToken = window.localStorage.getItem("rJp7E3Qi7r172VD");
+        
+        setToken(tmpToken);
+    }, []);
 
     React.useEffect(() => {
         const lang = window.localStorage.getItem("language");
@@ -33,10 +41,9 @@ export default function Lesson({ courseId, item }) {
             window.localStorage.setItem("language", 'english');
             window.document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
         }
-
-        getVideo();
     }, []);
 
+    /*
     const getVideo = async () => {
         const aurl = "https://fep.misk-donate.com/api/lessons/download/";
         const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
@@ -73,6 +80,7 @@ export default function Lesson({ courseId, item }) {
             //console.log(error);
         }
     }
+    */
 
     const handleDeleteLesson = async () => {
         try {
@@ -99,15 +107,15 @@ export default function Lesson({ courseId, item }) {
         </button>
         {show && <div className="transition-all px-0">
             <p className="p-2">{item.description}</p>
-            {loading && <div className="flex flex-wrap animate-pulse">
+            {/* {loading && <div className="flex flex-wrap animate-pulse">
                 <div className="shadow w-[75%] h-[400px] bg-gray-200 rounded-xl p-2 mx-2 my-3 flex justify-center items-center">
                     <div className="relative">
                         <div className="w-0 h-0 border-t-14 border-b-14 border-l-14 border-t-transparent border-b-transparent border-l-gray-400 absolute right-7 bottom-0 top-7 z-10"></div>
                         <div className="bg-gray-300 w-20 h-20 rounded-full"></div>
                     </div>
                 </div>
-            </div>}
-            {!loading && !videoError && <VideoPlayer language={language} tmp_vid_url={videoUrl} courseId={courseId} lessonId={item.id} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />}
+            </div>} */}
+            {token && <VideoPlayer language={language} tmp_vid_url={url + "lessons/stream/" + item.video_path + "?token=" + token} courseId={courseId} lessonId={item.id} videoData={videoData} setVideoData={setVideoData} userProgress={0} poster="/data/vid-1.webp" />}
             <div className="flex">
                 <Link to={"/lessons/" + item.id} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["edit"]}</Link>
                 <button onClick={() => setShowModal(true)} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400  ">{language && language["delete"]}</button>

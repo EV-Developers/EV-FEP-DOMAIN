@@ -112,7 +112,6 @@ export default function Login() {
                     setMsg(language["wrong_email_password"]);
                 }
             } catch (error) {
-                console.error(error);
                 setLoading(false);
                 setMsg(language["error_msg"]);
             }

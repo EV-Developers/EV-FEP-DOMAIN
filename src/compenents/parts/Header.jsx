@@ -153,38 +153,40 @@ export default function Header({ role }) {
 
   const getTeacherPhoto = async () => {
     const userRole = window.localStorage.getItem("z8C2XXEo52uJQj7");
-    const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
-    const aurl = "https://fep.misk-donate.com/api/teacher/profile/download";
-
-    try {
-      fetch(aurl, {
-          headers: {
-            'Accept': "*",
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-      })
-        .then(response => {
-          try {
-            if (response && !response.ok) {
-              return null
+    if(userRole == 'teacher'){
+        const token = window.localStorage.getItem('rJp7E3Qi7r172VD');
+        const aurl = "https://fep.misk-donate.com/api/teacher/profile/download";
+        
+        try {
+        fetch(aurl, {
+            headers: {
+                'Accept': "*",
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
-            return response.blob();
-          } catch (error) {
-            return null;
-          }
         })
-        .then(blob => {
-          if (blob) {
-            const tmpPotoURL = URL.createObjectURL(blob);
-            setPhoto(tmpPotoURL);
-          }
-        })
-        .catch(error => {
-          //console.log(error);
-        });
-    } catch (error) {
-      //console.log(error);
+            .then(response => {
+            try {
+                if (response && !response.ok) {
+                return null
+                }
+                return response.blob();
+            } catch (error) {
+                return null;
+            }
+            })
+            .then(blob => {
+            if (blob) {
+                const tmpPotoURL = URL.createObjectURL(blob);
+                setPhoto(tmpPotoURL);
+            }
+            })
+            .catch(error => {
+            //console.log(error);
+            });
+        } catch (error) {
+        //console.log(error);
+        }
     }
   }
 
@@ -241,7 +243,7 @@ export default function Header({ role }) {
                     </div>
                     
                 </div>
-                <div className="md:flex w-full md:w-[85%] lg:w-[75%] mx-0 mt-2">
+                <div className="md:flex w-full justify-between md:w-[85%] lg:w-[75%] mx-0 mt-2">
                     <nav className="flex mr-5">
                         <Link to={slug + "/"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
                             {language && language['home']}
@@ -287,12 +289,12 @@ export default function Header({ role }) {
                         </div>
                     </nav>
 
-                    <div className={`hidden md:flex absolute ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'}`}>
+                    <div className={`hidden md:flex`}>
                         {slug && slug != '/students' && slug != '/dashboard' && <div className="relative m-0">
-                            <button onClick={handleSearch} className={`absolute z-10 m-4 ${language && language['dir'] == 'ltr' ? 'right-2' : 'left-2'} `}>
+                            <button onClick={handleSearch} className="absolute ltr:right-0 rtl:left-0 z-10 my-4">
                                 <FontAwesomeIcon icon={faSearch} className="text-xl" />
                             </button>
-                            <input type="text" placeholder={language && language['search']} id="query" name="query" className="rounded-2xl py-2 my-2 p-4 mx-3 bg-white text-sm" ref={ref} />
+                            <input type="text" placeholder={language && language['search']} id="query" name="query" className="rounded-2xl py-2 my-2 p-4 mx-3 bg-white text-sm w-full" ref={ref} />
                         </div>}
 
                         <div className="group">

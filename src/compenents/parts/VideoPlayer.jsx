@@ -42,6 +42,7 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
 
     React.useEffect(() => {
         const listen = document.getElementById('video-' + lessonId).addEventListener('loadedmetadata', function (ev) {
+            ev.target.disablePictureInPicture = true;
             const currentTime = ev.target.currentTime;
             const duration = ev.target.duration;
             const totalTime = (currentTime / duration) * 100;
@@ -235,6 +236,8 @@ export default function VideoPlayer({ language, tmp_vid_url, courseId, lessonId,
             id={'video-' + lessonId}
             onContextMenu={(e) => e.preventDefault()}
             onDoubleClick={toggleFullScreen}
+            disablePictureInPicture={true}
+            controlslist="nopictureinpicture"
         >
             <source src={tmp_vid_url} type="video/mp4" />
             {language && language['video_player_error']}
