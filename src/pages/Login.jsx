@@ -54,7 +54,6 @@ export default function Login() {
         } else {
             try {
                 const response = await api.post("/login", formData);
-                console.log(response.data);
                 
                 if ((response.status === 200 || response.status === 201) && response?.data?.user?.status === "active") {
                     let ok = false;
