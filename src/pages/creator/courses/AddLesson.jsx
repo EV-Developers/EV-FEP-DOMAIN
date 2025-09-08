@@ -87,6 +87,11 @@ export default function AddLesson() {
         }
     }
 
+    const handleRemoveVid = () => {
+        setVidUrl(null);
+        document.getElementById("video_path").value = "";
+    }
+
     return (<ThemeContainer>
         <form method="post" encType="multipart/form-data" className="bg-white mx-auto m-3 rounded-xl p-5 w-[75%]" onSubmit={handleCreateSection}>
             <div className="flex">
@@ -108,7 +113,10 @@ export default function AddLesson() {
             <p className="my-3 font-bold">{language && language["content"]}</p>
             <textarea id="addSection" name="description" className="py-2 px-14  rounded shodow-sm bg-color w-full placeholder-gray-400 inset-shadow-sm inset-gray-indigo-800" placeholder={language && language["write_here"]} ></textarea>
 
-            {tmp_vid_url && <VideoPlayer tmp_vid_url={tmp_vid_url} />}
+            {tmp_vid_url && <div className="relative">
+                <button className="px-3 py-1 m-10 rounded-full bg-white text-amber-800 absolute text-l z-10 cursor-pointer" onClick={handleRemoveVid}>&times;</button>
+                <VideoPlayer tmp_vid_url={tmp_vid_url} />
+            </div>}
 
             <div className="block relative">
                 <div

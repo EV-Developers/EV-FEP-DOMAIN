@@ -35,7 +35,6 @@ import Games from './pages/creator/Games/Games';
 import AddGame from './pages/creator/Games/AddGame';
 import GameDetails from './pages/creator/Games/GameDetails';
 import PagesContent from './pages/PagesContent';
-import THome from './pages/teacher/THome';
 import SignUp from './pages/SignUp';
 //Teachers
 import TCourses from './pages/teacher/courses/TCourses';
@@ -71,6 +70,7 @@ import TeachersPerformance from './pages/admin/Teachers/TeachersPerformance';
 import Acourses from './pages/admin/Courses/ACoursces';
 import SuccessStories from './pages/admin/SuccessStories/SuccessStories';
 import ACertificates from './pages/admin/Certificates/ACertificates';
+import THome from './pages/teacher/THome';
 
 const router = createBrowserRouter([
   // Creators

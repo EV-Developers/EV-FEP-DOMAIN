@@ -182,12 +182,12 @@ export default function Course() {
                 <div className="w-[75%]">
                     <Lessons courseId={courseId} lessons={lessonsData} setLessons={setLessonData} assignments={assignments} handleSort={setUserSort} />
                 </div>
-                <div className="w-[25%] relative pb-[5%]">
+                <div className="w-[35%] relative pb-[5%]">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
                     {lessonsData && lessonsData.map(item => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
                         <div className="relative group hover:border-none">
                             <div className="inline-block text-xs w-7 h-7 text-center bg-amber-500 p-2 rounded-full">{item.level}</div>
-                            <p className="inline-block py-4 mx-3">{item.title}</p>
+                            <p className="inline-block py-4 mx-3 text-sm">{item.title}</p>
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}></span>
                         </div>
                         {/* <FontAwesomeIcon icon={language && language['dir'] == 'rtl' ? faArrowLeft : faArrowRight} className="text-amber-500 p-4" /> */}

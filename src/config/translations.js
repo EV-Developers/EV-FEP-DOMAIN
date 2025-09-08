@@ -235,7 +235,7 @@ export const translation = [
     home_quote: "تعلم مع مدربينا ما تحتاجه",
     courses: "الدورات",
     categories: "المسارات",
-    games: "الالعاب",
+    games: "الألعاب",
     explore: "إكتشف",
     materials: "الموارد",
     notifications: "التنبيهات",

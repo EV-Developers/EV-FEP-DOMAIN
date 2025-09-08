@@ -206,12 +206,12 @@ export default function TCourse() {
                 <div className="md:w-[75%]">
                     <TLessons courseId={courseId} lessons={lessonsData} assignments={assestmentsData} setTotalHourse={setTotalHourse} setIsPlayed={setIsPlayed} />
                 </div>
-                <div className="md:w-[25%] hidden md:block">
+                <div className="md:w-[35%] hidden md:block">
                     <h2 className="text-xl py-7">{language && language["course_summary"]}</h2>
                     {lessonsData && lessonsData.map((item, index) => <a href={"#lesson-" + item.id} key={item.id} className="flex justify-between cursor-pointer w-full">
                         <div className="relative group hover:border-none">
                             <div className={`inline-block text-xs p-2 w-7 h-7 text-center rounded-full ${(item.progress && item.progress.completed == 1) ? 'bg-amber-500' : 'bg-color'} text-white`}>{(index + 1)}</div>
-                            <p className="inline-block py-4 mx-3">{item.title}</p>
+                            <p className="inline-block py-4 mx-3 text-sm">{item.title}</p>
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] w-0 transition-all duration-300 group-hover:w-full`}>{}</span>
                         </div>
                         {(item.progress && item.progress.completed == 1) && <FontAwesomeIcon icon={faCheck} className="text-amber-500 p-4" />}

@@ -253,7 +253,7 @@ export default function Header({ role }) {
                             {language && language['courses']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/courses') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                         </Link>}
-                        {slug != '/dashboard' && slug != '/students' && <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
+                        {slug != '/dashboard' && slug != '/students' && slug != '/teachers' && <Link to={slug + "/categories"} className={`block p-4 hover:text-[#fa9600] font-bold relative group h-12 ${getCurrentPath(slug + '/categories') && 'border-b-2 border-b-[#fa9600]'} text-sm`}>
                             {language && language['categories']}
                             <span className={`absolute bottom-0 ${language && language['dir'] == 'ltr' ? 'left-0' : 'right-0'} h-0.5 bg-[#fa9600] ${getCurrentPath(slug + '/categories') ? 'w-full h-[0.3px]' : 'w-0'} transition-all duration-300 group-hover:w-full`}></span>
                         </Link>}

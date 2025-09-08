@@ -117,7 +117,7 @@ export default function TCourses() {
                 <div className="md:w-[25%] p-5 md:p-auto">
                     <h3 className="text-2xl my-3">{language && language['categories']}</h3>
                     {categoriesData && categoriesData.map(item => <div key={item.id}>
-                        <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600]' : ''}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
+                        <button className={`py-2 cursor-pointer px-3 ${categoryId == item.id ? language && language['dir'] == 'ltr' ? 'border-l-2 border-l-[#fa9600]' : 'border-r-2 border-r-[#fa9600] bg-amber-100 scale-110' : ''}`} onClick={() => setCategoryId(item.id)}>{item.name}</button>
                     </div>)}
                     {!categoriesData && loadingCats && <div className="animate-pulse">
                         <div className="md:w-[65%] w-full h-8 bg-gray-300 my-4"></div>
