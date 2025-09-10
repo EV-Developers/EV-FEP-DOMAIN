@@ -150,6 +150,7 @@ export default function TLesson({ item, courseId, videosTime, setVideosTime, pla
                     completed={item.progress && item.progress.completed}
                     locked={item.locked}
                 />}
+                <div className="text-sm py-2">{item.description}</div>
                 {item.has_quiz && item.progress && item.progress.completed == 1 && <div className="flex">
                     <Link to={`/teachers/courses/${courseId}/quiz/${item.id}`} className="block rounded pointer m-2 py-1 px-5 bg-gradient-to-br from-[#fa9600] to-[#ffe696] text-sm hover:bg-gradient-to-br hover:from-amber-700 hover:to-amber-400 font-bold">{language && language["lesson_quizzes"]}</Link>
                 </div>}

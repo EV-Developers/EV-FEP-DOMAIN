@@ -130,7 +130,7 @@ export default function CategoryDetails() {
         }
     }, [coursesData]);
 
-    /*
+    
     const handleSort = () => {        
         if(coursesData){
             coursesData.map(async (item, index) => {
@@ -141,7 +141,7 @@ export default function CategoryDetails() {
                     });
                     
                     if (tmpData.status == 200) {
-                        console.log(tmpData);
+                        //console.log(tmpData);
                     }
                 } catch (error) {
                     console.log(error);
@@ -149,9 +149,9 @@ export default function CategoryDetails() {
             })
         }
     }
-    */
+        
 
-    const handleSort = () => {
+    const handleSorts = () => {
         if (userSort) {
             const newIndex = userSort.newIndex;
             const oldIndex = userSort.oldIndex;
